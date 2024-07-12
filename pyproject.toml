@@ -1,0 +1,17 @@
+[build-system]
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "luxcore26"
+version = "0.0.1"
+
+[tool.scikit-build]
+cmake.verbose = true
+logging.level = "INFO"
+build-dir = "/home/vincent/tmp/luxcore26"
+cmake.source-dir = "./LuxCore"
+wheel.cmake = true
+
+[tool.scikit-build.cmake.define]
+OpenGL_GL_PREFERENCE= "LEGACY"
