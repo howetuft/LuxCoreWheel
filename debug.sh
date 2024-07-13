@@ -1,1 +1,2 @@
-act --matrix os:ubuntu-latest --matrix python-minor:'7' --action-offline-mode
+export CIBW_DEBUG_KEEP_CONTAINER=TRUE
+act --action-offline-mode --matrix os:ubuntu-latest --matrix python-minor:'7'

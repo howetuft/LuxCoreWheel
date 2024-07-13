@@ -26,13 +26,15 @@ jobs:
         # to supply options, put them in 'env', like:
         env:
           CIBW_BUILD: "cp38-*"  # TODO
-          #CIBW_BEFORE_BUILD: "python -m pip install scikit_build_core ninja"  # TODO
           CIBW_BEFORE_ALL_LINUX: |
+            _pypath=$(python -c "from sysconfig import get_path; print(get_path('include'))")
+            ls -R /opt/python/cp38-cp38 | grep cmake
+            echo $_pypath
             dnf -y install wget almalinux-release-devel
             dnf config-manager --set-enabled powertools
 
             # Embree
-            export EMBREE_VERSION=3.8.0  # Last version with rpm (Apr 7, 2020)
+            EMBREE_VERSION=3.8.0  # Last version with rpm (Apr 7, 2020)
             if wget -q "https://github.com/RenderKit/embree/releases/download/v${EMBREE_VERSION}/embree-${EMBREE_VERSION}.x86_64.rpm.tar.gz"
             then
               tar -xvzf embree-${EMBREE_VERSION}.x86_64.rpm.tar.gz -C .
@@ -43,7 +45,7 @@ jobs:
             fi
 
             # OIDN
-            export OIDN_VERSION=1.3.0  # See release-notes
+            OIDN_VERSION=1.3.0  # See release-notes
             if wget -q "https://github.com/RenderKit/oidn/releases/download/v${OIDN_VERSION}/oidn-${OIDN_VERSION}.x86_64.linux.tar.gz"
             then
               export OIDN_DIR=oidn-${OIDN_VERSION}.x86_64.linux
@@ -53,15 +55,13 @@ jobs:
               cp ${OIDN_DIR}/doc/* /usr/share/doc/OpenImageDenoise
               cp -r ${OIDN_DIR}/include/OpenImageDenoise /usr/include
               cp -r ${OIDN_DIR}/lib/* /usr/lib
-              ls /usr/lib
             else
               echo "Failed"
             fi
             dnf -y install epel-release && /usr/bin/crb enable
-            dnf -y install libtiff-devel libjpeg-devel libpng-devel gtk3-devel OpenImageIO-devel OpenEXR-devel boost-static flex tbb-devel blosc-devel blosc
+            dnf -y install libtiff-devel libjpeg-devel libpng-devel gtk3-devel OpenImageIO-devel OpenEXR-devel boost-static flex tbb-devel blosc-devel blosc platform-python-devel
 
           CIBW_BUILD_FRONTEND: "build"
-          #CIBW_BUILD_FRONTEND: "pip; args: --no-build-isolation --config-settings=editable.rebuild=true -Cbuild-dir=build -ve."  # TODO
           CIBW_BUILD_VERBOSITY: 1
           CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
 
