@@ -18,3 +18,6 @@ OpenGL_GL_PREFERENCE= "LEGACY"
 [[tool.scikit-build.overrides]]
 if.platform-system = "linux"
 cmake.args = ["-DLUXRAYS_CUSTOM_CONFIG=Config_Linux-Static", "-DPYTHON_V=3", "-DEMBREE_SEARCH_PATH=/usr/lib64"]
+
+[tool.cibuildwheel]
+build = "cp38-*"
