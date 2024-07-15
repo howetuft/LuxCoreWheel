@@ -26,4 +26,4 @@ build = "cp38-*"  # TODO
 manylinux-x86_64-image = "manylinux_2_28"
 
 [tool.cibuildwheel.linux]
-before-all = "/project/scripts/before_all_linux.sh"
+before-all = "echo 'BEFORE_ALL' && source /project/scripts/before_all_linux.sh"
