@@ -1,4 +1,4 @@
 [submodule "LuxCore"]
 	path = LuxCore
 	url = https://github.com/LuxCoreRender/LuxCore.git
-	branch = luxcorerender_v2.6
+	branch = wheel
