@@ -28,7 +28,6 @@ jobs:
           CIBW_BUILD: "cp38-*"  # TODO
           CIBW_BEFORE_ALL_LINUX: |
             dnf -y install wget almalinux-release-devel
-            dnf config-manager --set-enabled powertools
 
             # Embree
             EMBREE_VERSION=3.8.0  # Last version with rpm (Apr 7, 2020)
@@ -56,7 +55,7 @@ jobs:
               echo "Failed"
             fi
             dnf -y install epel-release && /usr/bin/crb enable
-            dnf -y install libtiff-devel libjpeg-devel libpng-devel gtk3-devel OpenImageIO-devel OpenEXR-devel boost-static flex tbb-devel blosc-devel
+            dnf -y install libtiff-devel libjpeg-devel libpng-devel gtk3-devel OpenImageIO-devel OpenEXR-devel boost-devel boost-python3-devel boost-numpy3 flex tbb-devel blosc-devel
 
           CIBW_BUILD_FRONTEND: "build"
           CIBW_BUILD_VERBOSITY: 1
