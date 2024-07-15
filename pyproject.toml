@@ -20,4 +20,10 @@ if.platform-system = "linux"
 cmake.args = ["-DLUXRAYS_CUSTOM_CONFIG=Config_Linux-Static", "-DPYTHON_V=3", "-DEMBREE_SEARCH_PATH=/usr/lib64"]
 
 [tool.cibuildwheel]
-build = "cp38-*"
+build-frontend = "build"
+build-verbosity = 1
+build = "cp38-*"  # TODO
+manylinux-x86_64-image = "manylinux_2_28"
+
+[tool.cibuildwheel.linux]
+before-all = "/project/scripts/before_all_linux.sh"
