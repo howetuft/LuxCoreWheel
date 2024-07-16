@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# TODO Add AUTHORS
+
 [build-system]
 requires = ["scikit-build-core"]
 build-backend = "scikit_build_core.build"
@@ -9,6 +11,7 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "pyluxcore"
 version = "2.9.alpha1"
+wheel.py-api = "py3"
 
 [tool.scikit-build]
 cmake.verbose = true
