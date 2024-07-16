@@ -1,10 +1,14 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
 [build-system]
 requires = ["scikit-build-core"]
 build-backend = "scikit_build_core.build"
 
 [project]
-name = "luxcore26"
-version = "0.0.1"
+name = "pyluxcore"
+version = "2.9.alpha1"
 
 [tool.scikit-build]
 cmake.verbose = true
@@ -26,4 +30,4 @@ build = "cp38-*"  # TODO
 manylinux-x86_64-image = "manylinux_2_28"
 
 [tool.cibuildwheel.linux]
-before-all = "echo 'BEFORE_ALL' && source /project/scripts/before_all_linux.sh"
+before-all = "source /project/scripts/before_all_linux.sh"

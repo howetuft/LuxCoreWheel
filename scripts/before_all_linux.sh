@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2024 Howetuft
 #
-# SPDX-License-Identifier: LGPL-3.0-or-later
-
+# SPDX-License-Identifier: Apache-2.0
 
 # TODO Pre-download tar.gz (when it is fully established the version are OK)
 # Move everything to a script
