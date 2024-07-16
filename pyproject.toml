@@ -24,7 +24,7 @@ OpenGL_GL_PREFERENCE= "LEGACY"
 
 [[tool.scikit-build.overrides]]
 if.platform-system = "linux"
-cmake.args = ["-DLUXRAYS_CUSTOM_CONFIG=Config_Linux-Static", "-DPYTHON_V=3", "-DEMBREE_SEARCH_PATH=/usr/lib64"]
+cmake.args = ["-DLUXRAYS_CUSTOM_CONFIG=Config_Linux-Static", "-DPYTHON_V=3", "-DEMBREE_SEARCH_PATH=/usr/lib64", "-DCMAKE_C_COMPILER_LAUNCHER=sccache", "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"]
 
 [tool.cibuildwheel]
 build-frontend = "build"

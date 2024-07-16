@@ -6,6 +6,10 @@ name: Build
 
 on: [push, pull_request]
 
+permissions:
+  id-token: write # Important for at least docker gha cache
+  contents: read
+
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -15,12 +19,24 @@ jobs:
       matrix:
         python-minor: ['7', '8', '9', '10', '11', '12']
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+    env:
+      SCCACHE_GHA_ENABLED: "true"
 
     steps:
       - name: Checkout repository and submodule(s)
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      - name: Configure sccache
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: Set up sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
 
       # Used to host cibuildwheel
       - uses: actions/setup-python@v5
@@ -31,6 +47,8 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         # to supply options, put them in 'env', like: env:
+        env:
+          CIBW_ENVIRONMENT_PASS_LINUX: "ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN SCCACHE_PATH"
 
       - uses: actions/upload-artifact@v4
         with:
