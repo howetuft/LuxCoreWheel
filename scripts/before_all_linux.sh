@@ -4,15 +4,9 @@
 
 echo "BEFORE ALL LINUX"
 
-echo $ACTIONS_CACHE_URL
-echo $ACTIONS_RUNTIME_TOKEN
-
 # sccache
 tar -xvzf /project/externals/linux/sccache-v0.8.1-x86_64-unknown-linux-musl.tar.gz -C .
 mv sccache-v0.8.1-x86_64-unknown-linux-musl/sccache /usr/bin
-export SCCACHE_DIRECT=1
-export SCCACHE_GHA_ENABLED=1
-sccache --show-stats
 
 # Embree
 EMBREE_VERSION=3.8.0  # Last version with rpm (Apr 7, 2020)

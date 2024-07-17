@@ -34,6 +34,8 @@ jobs:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+      - uses: peaceiris/actions-export-envs@v1.1.0
+        id: envs
 
       - name: Set up sccache
         uses: mozilla-actions/sccache-action@v0.0.5
@@ -49,6 +51,9 @@ jobs:
         # to supply options, put them in 'env', like: env:
         env:
           CIBW_ENVIRONMENT_PASS_LINUX: "ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN"
+          CIBW_ENVIRONMENT_LINUX: "SCCACHE_GHA_ENABLED=1 SCCACHE_DIRECT=1"
+          CIBW_BEFORE_BUILD:
+            sccache --show-stats
 
       - uses: actions/upload-artifact@v4
         with:
