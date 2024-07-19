@@ -14,13 +14,16 @@ version = "2.9.alpha1"
 wheel.py-api = "py3"
 
 [tool.scikit-build]
+logging.level = "DEBUG"
 cmake.verbose = true
-logging.level = "INFO"
 cmake.source-dir = "./LuxCore"
+cmake.targets = ["pyluxcore"]
+cmake.build-type = "Release"
 wheel.cmake = true
+wheel.packages = ["./LuxCore/pywheel"]
 
 [tool.scikit-build.cmake.define]
-OpenGL_GL_PREFERENCE= "LEGACY"
+OpenGL_GL_PREFERENCE = "LEGACY"
 
 [[tool.scikit-build.overrides]]
 if.platform-system = "linux"
