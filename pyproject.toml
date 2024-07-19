@@ -11,7 +11,6 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "pyluxcore"
 version = "2.9.alpha1"
-wheel.py-api = "py3"
 
 [tool.scikit-build]
 logging.level = "DEBUG"
@@ -31,7 +30,7 @@ cmake.args = ["-DLUXRAYS_CUSTOM_CONFIG=Config_Linux-Static", "-DPYTHON_V=3", "-D
 
 [tool.cibuildwheel]
 build-frontend = "build"
-build-verbosity = 2
+build-verbosity = 1
 manylinux-x86_64-image = "manylinux_2_28"
 
 [tool.cibuildwheel.linux]
