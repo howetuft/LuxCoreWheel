@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-minor: ['8', '9', '10', '11', '12']
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
     env:
       SCCACHE_GHA_ENABLED: "true"
@@ -26,7 +26,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.version }}
+          node-version: ${{ matrix.python-minor }}
 
       - name: Checkout repository and submodule(s)
         uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
       # Used to host cibuildwheel
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies
 
       - name: Install cibuildwheel
@@ -56,7 +56,7 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         # to supply options, put them in 'env', like: env:
         env:
-          CIBW_BUILD: "cp${{ matrix.python-version }}-*"
+          CIBW_BUILD: "cp3${{ matrix.python-minor }}-*"
           CIBW_ARCHS: "auto64"
           CIBW_ENVIRONMENT_PASS_LINUX: "ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN"
           CIBW_ENVIRONMENT_LINUX: SCCACHE_GHA_ENABLED=1 SCCACHE_DIRECT=1
