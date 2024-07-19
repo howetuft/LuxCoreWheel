@@ -9,5 +9,5 @@
 act \
   --action-offline-mode \
   -s GITHUB_TOKEN="$(gh auth token)" \
-  --matrix os:ubuntu-latest --matrix python-minor:'7' \
+  --matrix os:ubuntu-latest --matrix python-version:'3.8' \
   --artifact-server-path /tmp/artifacts
