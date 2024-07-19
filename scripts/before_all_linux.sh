@@ -4,6 +4,9 @@
 
 echo "BEFORE ALL LINUX"
 
+# dnf configuration
+echo "cachedir = /host/home/runner/cache/dnf" >> /etc/dnf/dnf.conf
+
 # sccache
 echo "Installing sccache"
 tar -xzf /project/externals/linux/sccache-v0.8.1-x86_64-unknown-linux-musl.tar.gz -C .
