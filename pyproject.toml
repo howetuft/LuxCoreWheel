@@ -32,7 +32,6 @@ cmake.args = ["-DLUXRAYS_CUSTOM_CONFIG=Config_Linux-Static", "-DPYTHON_V=3", "-D
 [tool.cibuildwheel]
 build-frontend = "build"
 build-verbosity = 2
-build = "cp38-manylinux_x86_64"
 manylinux-x86_64-image = "manylinux_2_28"
 
 [tool.cibuildwheel.linux]
