@@ -23,6 +23,11 @@ jobs:
       SCCACHE_GHA_ENABLED: "true"
 
     steps:
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.version }}
+
       - name: Checkout repository and submodule(s)
         uses: actions/checkout@v4
         with:
@@ -41,6 +46,7 @@ jobs:
       # Used to host cibuildwheel
       - uses: actions/setup-python@v5
         with:
+          python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies
 
       - name: Install cibuildwheel
