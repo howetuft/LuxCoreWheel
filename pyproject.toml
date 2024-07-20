@@ -28,10 +28,4 @@ OpenGL_GL_PREFERENCE = "LEGACY"
 if.platform-system = "linux"
 cmake.args = ["-DLUXRAYS_CUSTOM_CONFIG=Config_Linux-Static", "-DPYTHON_V=3", "-DEMBREE_SEARCH_PATH=/usr/lib64", "-DCMAKE_C_COMPILER_LAUNCHER=sccache", "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"]
 
-[tool.cibuildwheel]
-build-frontend = "build"
-build-verbosity = 1
-manylinux-x86_64-image = "manylinux_2_28"
-
-[tool.cibuildwheel.linux]
-before-all = "source /project/scripts/before_all_linux.sh"
+# For convenience, all cibuildwheel settings are to be found in github workflow

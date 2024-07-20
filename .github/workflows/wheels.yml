@@ -26,7 +26,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.python-minor }}
+          node-version: 20
 
       - name: Checkout repository and submodule(s)
         uses: actions/checkout@v4
@@ -56,10 +56,16 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         # to supply options, put them in 'env', like: env:
         env:
-          CIBW_BUILD: "cp3${{ matrix.python-minor }}-*"
-          CIBW_ARCHS: "auto64"
-          CIBW_ENVIRONMENT_PASS_LINUX: "ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN"
+          CIBW_BUILD_FRONTEND: build
+          CIBW_BUILD_VERBOSITY: 1
+          CIBW_ARCH: auto64
+          CIBW_BUILD: cp3${{ matrix.python-minor }}-*
+          CIBW_SKIP: "*musllinux*"
+          CIBW_ARCHS: auto64
+          CIBW_ENVIRONMENT_PASS_LINUX: ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN
           CIBW_ENVIRONMENT_LINUX: SCCACHE_GHA_ENABLED=1 SCCACHE_DIRECT=1
+          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+          CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
 
       - uses: actions/upload-artifact@v4
         with:
