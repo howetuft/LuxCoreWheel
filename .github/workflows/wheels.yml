@@ -17,8 +17,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: ['8', '9', '10', '11', '12']
-        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        python-minor: ['8', '9', '10', '11', '12', '13']
+        # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        os: [ubuntu-latest]
     env:
       SCCACHE_GHA_ENABLED: "true"
 
