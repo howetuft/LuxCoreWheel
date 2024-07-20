@@ -40,6 +40,8 @@ jobs:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+            core.exportVariable('SCCACHE_GHA_ENABLED', 'on');
+            core.exportVariable('SCCACHE_DIRECT', 'on');
 
       - name: Set up sccache
         uses: mozilla-actions/sccache-action@v0.0.5
@@ -62,8 +64,11 @@ jobs:
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
-          CIBW_ENVIRONMENT_PASS_LINUX: ACTIONS_CACHE_URL ACTIONS_RUNTIME_TOKEN
-          CIBW_ENVIRONMENT_LINUX: SCCACHE_GHA_ENABLED=1 SCCACHE_DIRECT=1
+          CIBW_ENVIRONMENT_PASS_LINUX: |
+            SCCACHE_GHA_ENABLED
+            SCCACHE_DIRECT
+            ACTIONS_CACHE_URL
+            ACTIONS_RUNTIME_TOKEN
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
 
