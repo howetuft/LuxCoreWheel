@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# TODO Add AUTHORS
-
 [build-system]
 requires = ["scikit-build-core"]
 build-backend = "scikit_build_core.build"
@@ -11,6 +9,31 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "pyluxcore"
 version = "2.9.alpha1"
+dependencies = ["numpy<2"]
+requires-python = ">=3.8"
+license = {text = "Apache-2.0"}
+authors = [{name="Howetuft"}]
+# See https://pypi.org/classifiers/
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Development Status :: 7 - Inactive",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Multimedia :: Graphics :: 3D Rendering",
+]
+readme = "./LuxCore/README.md"
+keywords = ["raytracing", "ray tracing", "rendering", "pbr", "path tracing"]
+
+[project.urls]
+Homepage = "https://luxcorerender.org/"
+Repository = "https://github.com/LuxCoreRender/LuxCore"
 
 [tool.scikit-build]
 logging.level = "DEBUG"
@@ -19,7 +42,9 @@ cmake.source-dir = "./LuxCore"
 cmake.targets = ["pyluxcore"]
 cmake.build-type = "Release"
 wheel.cmake = true
-wheel.packages = ["./LuxCore/pywheel"]
+wheel.packages = [
+  "./LuxCore/pywheel",
+]
 
 [tool.scikit-build.cmake.define]
 OpenGL_GL_PREFERENCE = "LEGACY"
