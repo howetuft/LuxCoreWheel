@@ -71,7 +71,13 @@ jobs:
             ACTIONS_RUNTIME_TOKEN
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
-          CIBW_BEFORE_BUILD_WINDOWS: "%GITHUB_WORKSPACE%\\scripts\\before_all_windows.bat"
+          # CIBW_BEFORE_BUILD_WINDOWS: "%GITHUB_WORKSPACE%\\scripts\\before_all_windows.bat"
+          CIBW_ENVIRONMENT_WINDOWS: >
+            CMAKE_INCLUDE_PATH="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\include"
+            CMAKE_LIBRARY_PATH="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
+            CMAKE_PREFIX_PATH="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps"
+            OPENIMAGEIO_ROOT_DIR="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps"
+
 
       - uses: actions/upload-artifact@v4
         with:
