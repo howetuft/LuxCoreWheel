@@ -64,6 +64,8 @@ if.platform-system = "win32"
 cmake.args = [
   "-DLUXRAYS_CUSTOM_CONFIG=Config_Windows",
   "-DCMAKE_VERBOSE_MAKEFILE=ON",
+  "%CMAKE_OPTS%",
+  "%LUXCORE_ROOT%",
 ]
 
 # For convenience, all cibuildwheel settings are located in github workflow
