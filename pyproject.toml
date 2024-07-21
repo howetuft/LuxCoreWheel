@@ -59,4 +59,11 @@ cmake.args = [
   "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
 ]
 
+[[tool.scikit-build.overrides]]
+if.platform-system = "win32"
+cmake.args = [
+  "-DLUXRAYS_CUSTOM_CONFIG=Config_Windows",
+  "-DCMAKE_VERBOSE_MAKEFILE=ON",
+]
+
 # For convenience, all cibuildwheel settings are located in github workflow

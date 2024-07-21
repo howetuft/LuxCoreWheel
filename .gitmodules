@@ -1,3 +1,9 @@
 [submodule "LuxCore"]
 	path = LuxCore
 	url = https://github.com/howetuft/LuxCore.git
+[submodule "WindowsCompile"]
+	path = WindowsCompile
+	url = https://github.com/LuxCoreRender/WindowsCompile.git
+[submodule "WindowsCompileDeps"]
+	path = WindowsCompileDeps
+	url = https://github.com/LuxCoreRender/WindowsCompileDeps.git
