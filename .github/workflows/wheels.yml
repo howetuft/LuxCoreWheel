@@ -76,7 +76,7 @@ jobs:
             CMAKE_INCLUDE_PATH="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\include"
             CMAKE_LIBRARY_PATH="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
             CMAKE_PREFIX_PATH="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps"
-            OPENIMAGEIO_ROOT_DIR="D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps"
+            PYTHON_V="3.${{ matrix.python-minor }}"
 
 
       - uses: actions/upload-artifact@v4

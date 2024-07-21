@@ -62,8 +62,8 @@ if.platform-system = "win32"
 inherit.cmake.define = "append"
 cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Windows"
 cmake.define.PYTHON_LIBRARY = "D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
-cmake.define.PYTHON_V = "3.10"
-cmake.define.PYTHON_INCLUDE_DIR = "D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\include\\Python3.10"
+cmake.define.PYTHON_V = {env="PYTHON_V", default="3.6"}
+cmake.define.PYTHON_INCLUDE_DIR = "D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\include\\Python${PYTHON_V}"
 cmake.define.BUILD_LUXCORE_DLL = "1"
 cmake.args = ["-A x64", "-T v142,host=x64"]
 
