@@ -60,12 +60,12 @@ cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Linux-Wheel"
 [[tool.scikit-build.overrides]]
 if.platform-system = "win32"
 cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Windows"
-cmake.define.CMAKE_INCLUDE_PATH="D:\a\LuxCoreWheel\WindowsCompileDeps\include"
-cmake.define.CMAKE_LIBRARY_PATH="D:\a\LuxCoreWheel\WindowsCompileDeps\x64\Release\lib"
-cmake.define.PYTHON_LIBRARY="D:\a\LuxCoreWheel\WindowsCompileDeps\x64\Release\lib"
+cmake.define.CMAKE_INCLUDE_PATH="D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\include"
+cmake.define.CMAKE_LIBRARY_PATH="D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
+cmake.define.PYTHON_LIBRARY="D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
 cmake.define.PYTHON_V="3.10"
-cmake.define.PYTHON_INCLUDE_DIR="D:\a\LuxCoreWheel\WindowsCompileDeps\include\Python3.10"
+cmake.define.PYTHON_INCLUDE_DIR="D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\include\\Python3.10"
 cmake.define.BUILD_LUXCORE_DLL=1
-cmake.args="-G "Visual Studio 16 2019" -A x64 -T v142,host=x64  D:\a\LuxCoreWheel\LuxCore"
+cmake.args="-G 'Visual Studio 16 2019' -A x64 -T v142,host=x64  D:\\a\\LuxCoreWheel\\LuxCore"
 
 # For convenience, all cibuildwheel settings are located in github workflow
