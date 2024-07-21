@@ -59,13 +59,12 @@ cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Linux-Wheel"
 
 [[tool.scikit-build.overrides]]
 if.platform-system = "win32"
+inherit.cmake.define = "append"
 cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Windows"
-cmake.define.CMAKE_INCLUDE_PATH = "D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\include"
-cmake.define.CMAKE_LIBRARY_PATH = "D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
-cmake.define.PYTHON_LIBRARY = "D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
+cmake.define.PYTHON_LIBRARY = "D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Release\\lib"
 cmake.define.PYTHON_V = "3.10"
-cmake.define.PYTHON_INCLUDE_DIR = "D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\include\\Python3.10"
+cmake.define.PYTHON_INCLUDE_DIR = "D:\\a\\LuxCoreWheel\\LuxCoreWheel\\WindowsCompileDeps\\include\\Python3.10"
 cmake.define.BUILD_LUXCORE_DLL = "1"
-build.tool-args = ["-A x64", "-T v142,host=x64", "--trace"]
+cmake.args = ["-A x64", "-T v142,host=x64"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
