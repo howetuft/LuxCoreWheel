@@ -4,7 +4,7 @@
 
 @echo off
 
-cd /project
+cd %GITHUB_WORKSPACE%
 
 SETLOCAL ENABLEEXTENSIONS
 
