@@ -66,6 +66,6 @@ cmake.define.PYTHON_LIBRARY = "D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\x64\\Rel
 cmake.define.PYTHON_V = "3.10"
 cmake.define.PYTHON_INCLUDE_DIR = "D:\\a\\LuxCoreWheel\\WindowsCompileDeps\\include\\Python3.10"
 cmake.define.BUILD_LUXCORE_DLL = "1"
-cmake.args=["-A x64", "-T v142,host=x64"]
+cmake.args=["-A x64", "-T v142,host=x64", "--trace"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
