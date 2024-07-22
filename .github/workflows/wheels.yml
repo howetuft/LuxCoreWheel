@@ -80,7 +80,7 @@ jobs:
         if: ${{ matrix.os }} = "windows-latest"
         with:
           version: 1.78.0
-          libraries: python numpy
+          libraries: python
           platform: x64
           configuration: Release
           static: 1
