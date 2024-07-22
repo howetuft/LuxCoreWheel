@@ -61,13 +61,9 @@ jobs:
             # A list of supported versions can be found here:
             # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
             boost_version: 1.78.0
-            # OPTIONAL: Specify a custon install location
-            boost_install_dir: ${GITHUB_WORKSPACE}\\Boost
-            # OPTIONAL: Specify a platform version
             platform_version: 2022
-            # OPTIONAL: Specify a toolset
             toolset: msvc
-        
+            link: static
             # NOTE: If a boost version matching all requirements cannot be found,
             # this build step will fail
 
@@ -95,6 +91,9 @@ jobs:
             CMAKE_LIBRARY_PATH="${GITHUB_WORKSPACE}\\WindowsCompileDeps\\x64\\Release\\lib"
             CMAKE_PREFIX_PATH="${GITHUB_WORKSPACE}\\WindowsCompileDeps"
             PYTHON_V="3.${{ matrix.python-minor }}"
+            Boost_INCLUDE_DIR=${{steps.install-boost.outputs.BOOST_ROOT}}\\include
+            Boost_LIBRARY_DIRS=${{steps.install-boost.outputs.BOOST_ROOT}}\\lib
+            BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}:w
 
 
       - uses: actions/upload-artifact@v4
