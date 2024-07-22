@@ -52,6 +52,25 @@ jobs:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies
 
+      - name: Install boost
+        uses: MarkusJx/install-boost@v2.4.5
+        id: install-boost
+        if: ${{ matrix.os }} = "windows-latest"
+        with:
+            # REQUIRED: Specify the required boost version
+            # A list of supported versions can be found here:
+            # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
+            boost_version: 1.78.0
+            # OPTIONAL: Specify a custon install location
+            boost_install_dir: ${GITHUB_WORKSPACE}\\Boost
+            # OPTIONAL: Specify a platform version
+            platform_version: 2022
+            # OPTIONAL: Specify a toolset
+            toolset: msvc
+        
+            # NOTE: If a boost version matching all requirements cannot be found,
+            # this build step will fail
+
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.19.2
 
