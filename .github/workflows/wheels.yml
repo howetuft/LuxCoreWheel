@@ -54,7 +54,6 @@ jobs:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies
       
-          
       # Build boost python and numpy
       - name: Cache Boost
         uses: actions/cache@v2
@@ -82,7 +81,6 @@ jobs:
           printf 'Libraries can be found here: %s\n' '${{ steps.boost.outputs.librarydir }}'
         shell: bash
 
-
       # Install Boost libs, except python and numpy
       - name: Install boost
         uses: MarkusJx/install-boost@v2.4.5
@@ -99,9 +97,6 @@ jobs:
             # NOTE: If a boost version matching all requirements cannot be found,
             # this build step will fail
             
-
- 
-
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.19.2
 
@@ -123,12 +118,11 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS: >
             CMAKE_INCLUDE_PATH=${{ github.workspace }}\WindowsCompileDeps\include
             CMAKE_LIBRARY_PATH=${{ github.workspace }}\WindowsCompileDeps\x64\Release\lib
-            CMAKE_PREFIX_PATH=${{ github.workspace }}\WindowsCompileDeps"
+            CMAKE_PREFIX_PATH=${{ github.workspace }}\WindowsCompileDeps
             PYTHON_V="3.${{ matrix.python-minor }}"
             Boost_INCLUDE_DIR=${{steps.install-boost.outputs.BOOST_ROOT}}\include
             Boost_LIBRARY_DIRS=${{steps.install-boost.outputs.BOOST_ROOT}}\lib
             BOOST_ROOT=${{ steps.install-boost.outputs.BOOST_ROOT }}
-
 
       - uses: actions/upload-artifact@v4
         with:
