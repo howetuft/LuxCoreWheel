@@ -93,7 +93,7 @@ jobs:
             PYTHON_V="3.${{ matrix.python-minor }}"
             Boost_INCLUDE_DIR=${{steps.install-boost.outputs.BOOST_ROOT}}\\include
             Boost_LIBRARY_DIRS=${{steps.install-boost.outputs.BOOST_ROOT}}\\lib
-            BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}:w
+            BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
 
 
       - uses: actions/upload-artifact@v4
