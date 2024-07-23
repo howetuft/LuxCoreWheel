@@ -66,6 +66,7 @@ cmake.define.PYTHON_V = {env="PYTHON_V", default="3.6"}
 cmake.define.PYTHON_INCLUDE_DIR = "{project}\\WindowsCompileDeps\\include\\Python${PYTHON_V}"
 cmake.define.BUILD_LUXCORE_DLL = "1"
 cmake.define.CMAKE_POLICY_DEFAULT_CMP0074="NEW"
+cmake.define.BOOST_NO_CXX11_SCOPED_ENUMS="1"
 cmake.args = ["-A x64", "-T v143,host=x64"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
