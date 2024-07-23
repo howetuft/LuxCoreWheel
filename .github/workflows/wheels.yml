@@ -21,7 +21,8 @@ jobs:
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         os: [windows-latest]
     env:
-      SCCACHE_GHA_ENABLED: "true"
+      SCCACHE_GHA_ENABLED: on
+      SCCACHE_DIRECT: on
       boost_version: 1.78.0
 
     steps:
@@ -51,8 +52,6 @@ jobs:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
-            core.exportVariable('SCCACHE_GHA_ENABLED', 'on');
-            core.exportVariable('SCCACHE_DIRECT', 'on');
 
 
 
