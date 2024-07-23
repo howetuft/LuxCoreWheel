@@ -73,7 +73,7 @@ jobs:
         if: ${{ matrix.os }} = "windows-latest"
         with:
           version: ${{ env.boost_version }}
-          libraries: python
+          libraries: python program_options
           platform: x64
           configuration: Release
           static: 1
@@ -128,8 +128,9 @@ jobs:
             CMAKE_PREFIX_PATH='${{ github.workspace }}\WindowsCompileDeps'
             PYTHON_V='3.${{ matrix.python-minor }}'
             #BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-            BOOST_ROOT='${{github.workspace}}\boost\boost'
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.librarydir }}
+            BOOST_ROOT='${{ steps.boost.outputs.root }}'
+            BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir}}'
+          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }}
 
       - uses: actions/upload-artifact@v4
         with:
