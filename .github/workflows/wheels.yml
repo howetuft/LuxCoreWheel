@@ -60,7 +60,7 @@ jobs:
   
       # Build boost python and numpy (for Windows)
       - name: Create dir
-        if: ${{ matrix.os }} = "windows-latest"
+        if: ${{ runner.os }} == "Windows"
         run: |
           mkdir '${{github.workspace}}\boost'
 
@@ -73,7 +73,7 @@ jobs:
       - name: Build Boost
         id: boost
         uses: egor-tensin/build-boost@v1
-        if: ${{ matrix.os }} = "windows-latest"
+        if: ${{ runner.os }} == "Windows"
         with:
           version: ${{ env.boost_version }}
           libraries: python program_options thread filesystem serialization iostreams regex system chrono serialization
@@ -84,28 +84,11 @@ jobs:
           directory: '${{github.workspace}}\boost\boost'
           
       - name: Show build Boost paths
-        if: ${{ matrix.os }} = "windows-latest"
+        if: ${{ runner.os }} = "Windows"
         run: |
           printf 'Boost has been unpacked to: %s\n' '${{ steps.boost.outputs.root }}'
           printf 'Libraries can be found here: %s\n' '${{ steps.boost.outputs.librarydir }}'
         shell: bash
-
-      # Install Boost libs, except python and numpy
-      #- name: Install boost
-      #  uses: MarkusJx/install-boost@v2.4.5
-      #  id: install-boost
-      #  if: ${{ matrix.os }} = "windows-latest"
-      #  with:
-      #      # REQUIRED: Specify the required boost version
-      #      # A list of supported versions can be found here:
-      #      # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-      #      boost_version: 1.78.0
-      #      platform_version: 2022
-      #      toolset: msvc
-      #      link: static
-      #      boost_install_dir: ${{ github.workspace }}
-      #      # NOTE: If a boost version matching all requirements cannot be found,
-      #      # this build step will fail
             
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.19.2
@@ -113,6 +96,7 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
+          SCCACHE_GHA_ENABLED: "true"
           CIBW_BUILD_FRONTEND: build
           CIBW_BUILD_VERBOSITY: 1
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
@@ -132,10 +116,11 @@ jobs:
             PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
-            SCCACHE_GHA_ENABLED='on'
-            SCCACHE_DIRECT='on'
+            CXXFLAGS="-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=4"
+            SCCACHE_GHA_ENABLED="true"
+            SCCACHE_DIRECT="true"
             CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }}
+          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
 
       - uses: actions/upload-artifact@v4
         with:
