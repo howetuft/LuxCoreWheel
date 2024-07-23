@@ -76,7 +76,7 @@ jobs:
           configuration: Release
           static: 1
           toolset: vs2022
-          directory: '${{github.workspace}}\boost\boost'
+          directory: '${{github.workspace}}\boost\boost_build'
           
       - name: Show build Boost paths
         if: ${{ matrix.os }} = "windows-latest"
