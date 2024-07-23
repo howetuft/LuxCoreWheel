@@ -117,11 +117,11 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
           CIBW_ENVIRONMENT_WINDOWS: >-
             CMAKE_INCLUDE_PATH='${{ github.workspace }}\WindowsCompileDeps\include'
-            CMAKE_LIBRARY_PATH='${{ github.workspace }}\WindowsCompileDeps\x64\Release\lib'
+            CMAKE_LIBRARY_PATH='${{ github.workspace }}\WindowsCompileDeps\x64\Release\lib:${{ steps.boost.outputs.librarydir }}'
             CMAKE_PREFIX_PATH='${{ github.workspace }}\WindowsCompileDeps'
             PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-          CIBW_BEFORE_BUILD_WINDOWS: echo %BOOST_ROOT% && dir %BOOST_ROOT%
+          CIBW_BEFORE_BUILD_WINDOWS: echo ${{ steps.boost.outputs.librarydir }} && dir ${{ steps.boost.outputs.librarydir }}
 
       - uses: actions/upload-artifact@v4
         with:
