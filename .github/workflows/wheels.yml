@@ -57,7 +57,7 @@ jobs:
       - name: Create dir
         if: ${{ matrix.os }} = "windows-latest"
         run: |
-          mkdir '${{github.workspace}}\boost\boost'
+          mkdir '${{github.workspace}}\boost' && mkdir '${{github.workspace}}\boost\boost'
 
       - name: Cache Boost
         uses: actions/cache@v2
