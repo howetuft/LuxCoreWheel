@@ -132,8 +132,8 @@ jobs:
             PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
-            SCCACHE_GHA_ENABLED="true"
-            CXXFLAGS="-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=4"
+            SCCACHE_GHA_ENABLED=on
+            CXXFLAGS="-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3"
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }}
 
       - uses: actions/upload-artifact@v4
