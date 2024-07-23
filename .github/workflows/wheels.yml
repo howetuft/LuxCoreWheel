@@ -68,7 +68,7 @@ jobs:
       - name: Cache Boost
         uses: actions/cache@v2
         with:
-          path: '${{ runner.workspace }}/boost_*.tar.gz'
+          path: '${{ runner.workspace }}\boost_*.tar.gz'
           key: 'boost-${{env.boost_version}}'
       
       - name: Build Boost
