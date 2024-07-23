@@ -54,6 +54,11 @@ jobs:
           cache: 'pip'  # Caching pip dependencies
       
       # Build boost python and numpy (for Windows)
+      - name: Create dir
+        if: ${{ matrix.os }} = "windows-latest"
+        run: |
+          mkdir '${{github.workspace}}\boost\boost'
+
       - name: Cache Boost
         uses: actions/cache@v2
         with:
