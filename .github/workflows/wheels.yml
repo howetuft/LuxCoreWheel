@@ -73,7 +73,7 @@ jobs:
         if: ${{ matrix.os }} = "windows-latest"
         with:
           version: ${{ env.boost_version }}
-          libraries: python program_options
+          libraries: python program_options thread filesystem serialization iostreams regex system chrono serialization
           platform: x64
           configuration: Release
           static: 1
