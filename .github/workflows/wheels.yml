@@ -43,6 +43,8 @@ jobs:
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
             core.exportVariable('SCCACHE_GHA_ENABLED', 'on');
             core.exportVariable('SCCACHE_DIRECT', 'on');
+            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', 'sccache');
+            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', 'sccache');
 
       - name: Set up sccache
         uses: mozilla-actions/sccache-action@v0.0.5
@@ -76,7 +78,7 @@ jobs:
           configuration: Release
           static: 1
           toolset: vs2022
-          directory: '${{github.workspace}}\boost\boost_build'
+          directory: '${{github.workspace}}\boost\boost'
           
       - name: Show build Boost paths
         if: ${{ matrix.os }} = "windows-latest"
@@ -86,21 +88,21 @@ jobs:
         shell: bash
 
       # Install Boost libs, except python and numpy
-      - name: Install boost
-        uses: MarkusJx/install-boost@v2.4.5
-        id: install-boost
-        if: ${{ matrix.os }} = "windows-latest"
-        with:
-            # REQUIRED: Specify the required boost version
-            # A list of supported versions can be found here:
-            # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-            boost_version: 1.78.0
-            platform_version: 2022
-            toolset: msvc
-            link: static
-            boost_install_dir: ${{ github.workspace }}
-            # NOTE: If a boost version matching all requirements cannot be found,
-            # this build step will fail
+      #- name: Install boost
+      #  uses: MarkusJx/install-boost@v2.4.5
+      #  id: install-boost
+      #  if: ${{ matrix.os }} = "windows-latest"
+      #  with:
+      #      # REQUIRED: Specify the required boost version
+      #      # A list of supported versions can be found here:
+      #      # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
+      #      boost_version: 1.78.0
+      #      platform_version: 2022
+      #      toolset: msvc
+      #      link: static
+      #      boost_install_dir: ${{ github.workspace }}
+      #      # NOTE: If a boost version matching all requirements cannot be found,
+      #      # this build step will fail
             
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.19.2
@@ -126,7 +128,7 @@ jobs:
             CMAKE_PREFIX_PATH='${{ github.workspace }}\WindowsCompileDeps'
             PYTHON_V='3.${{ matrix.python-minor }}'
             #BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-            BOOST_ROOT='${{github.workspace}}\boost'
+            BOOST_ROOT='${{github.workspace}}\boost\boost'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.librarydir }}
 
       - uses: actions/upload-artifact@v4
