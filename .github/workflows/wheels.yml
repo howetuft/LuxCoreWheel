@@ -21,8 +21,9 @@ jobs:
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         os: [windows-latest]
     env:
-      SCCACHE_GHA_ENABLED: "true"
-      boost_dir: ${{github.workspace}}\boost
+      SCCACHE_GHA_ENABLED: on
+      SCCACHE_DIRECT: on
+      WINDOWS_DEPS: ${{ github.workspace }}\WindowsCompileDeps
       boost_version: 1.78.0
 
     steps:
@@ -36,73 +37,88 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Configure sccache
-        uses: actions/github-script@v7
-        with:
-          script: |
-            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
-            core.exportVariable('SCCACHE_GHA_ENABLED', 'on');
-            core.exportVariable('SCCACHE_DIRECT', 'on');
-
-      - name: Set up sccache
-        uses: mozilla-actions/sccache-action@v0.0.5
-      
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.${{ matrix.python-minor }}
-          cache: 'pip'  # Caching pip dependencies
+          cache: 'pip'  # Caching pip dependencies      
+            
+      - name: Set up sccache
+        id: sccache
+        uses: mozilla-actions/sccache-action@v0.0.5
       
-      # Build boost python and numpy
-      - name: Cache Boost
-        uses: actions/cache@v2
+      - name: Configure sccache
+        uses: actions/github-script@v6
         with:
-          path: '${{ runner.workspace }}/boost_*.tar.gz'
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: Clean Windows dependencies (Boost)
+        if: ${{ runner.os }} == "Windows"
+        working-directory: ${{ env.WINDOWS_DEPS }}
+        run: |
+          rm -rf include/boost && rm x64/Release/lib/libboost*.lib
+        shell: bash
+
+      - name: Install numpy
+        if: ${{ runner.os }} == "Windows"
+        run: python -m pip install numpy<2
+  
+      # Build boost python and numpy (for Windows)
+      - name: Create dir
+        if: ${{ runner.os }} == "Windows"
+        run: |
+          mkdir '${{github.workspace}}\boost'
+
+      - name: Restore Cache Boost
+        uses: actions/cache@v4
+        with:
+          path: '${{ runner.workspace }}\boost_*.tar.gz'  # D:\a\LuxCoreWheel\boost_1_78_0.tar.gz
           key: 'boost-${{env.boost_version}}'
       
       - name: Build Boost
         id: boost
         uses: egor-tensin/build-boost@v1
-        if: ${{ matrix.os }} = "windows-latest"
+        if: ${{ runner.os }} == "Windows"
         with:
           version: ${{ env.boost_version }}
-          libraries: python
+          libraries: python program_options thread filesystem serialization iostreams regex system chrono serialization
           platform: x64
           configuration: Release
           static: 1
           toolset: vs2022
-          directory: ${{ env.boost_dir }}
-          
+          directory: '${{github.workspace}}\boost\boost'
+      
+      - name: Save Cache Boost
+        uses: actions/cache/save@v4
+        with:
+          path: '${{ runner.workspace }}\boost_*.tar.gz'
+          key: 'boost-${{env.boost_version}}'
+
       - name: Show build Boost paths
-        if: ${{ matrix.os }} = "windows-latest"
+        if: ${{ runner.os }} = "Windows"
         run: |
           printf 'Boost has been unpacked to: %s\n' '${{ steps.boost.outputs.root }}'
           printf 'Libraries can be found here: %s\n' '${{ steps.boost.outputs.librarydir }}'
         shell: bash
-
-      # Install Boost libs, except python and numpy
-      - name: Install boost
-        uses: MarkusJx/install-boost@v2.4.5
-        id: install-boost
-        if: ${{ matrix.os }} = "windows-latest"
-        with:
-            # REQUIRED: Specify the required boost version
-            # A list of supported versions can be found here:
-            # https://github.com/MarkusJx/prebuilt-boost/blob/main/versions-manifest.json
-            boost_version: 1.78.0
-            platform_version: 2022
-            toolset: msvc
-            link: static
-            # NOTE: If a boost version matching all requirements cannot be found,
-            # this build step will fail
             
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.19.2
 
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+      
+      - name: Setup msvc  
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          arch: x64
+
+
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
+          SCCACHE_GHA_ENABLED: "true"
           CIBW_BUILD_FRONTEND: build
           CIBW_BUILD_VERBOSITY: 1
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
@@ -116,12 +132,16 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
           CIBW_ENVIRONMENT_WINDOWS: >-
-            CMAKE_INCLUDE_PATH='${{ github.workspace }}\WindowsCompileDeps\include'
-            CMAKE_LIBRARY_PATH='${{ github.workspace }}\WindowsCompileDeps\x64\Release\lib'
-            CMAKE_PREFIX_PATH='${{ github.workspace }}\WindowsCompileDeps'
+            CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
+            CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
+            CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             PYTHON_V='3.${{ matrix.python-minor }}'
-            BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
-          CIBW_BEFORE_BUILD_WINDOWS: echo %BOOST_ROOT% && dir %BOOST_ROOT%
+            BOOST_ROOT='${{ steps.boost.outputs.root }}'
+            BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
+            CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3 -DSPDLOG_FMT_EXTERNAL=ON'
+            CMAKE_CXX_COMPILER_LAUNCHER=sccache
+            CMAKE_C_COMPILER_LAUNCHER=sccache
+          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
 
       - uses: actions/upload-artifact@v4
         with:
