@@ -22,7 +22,6 @@ jobs:
         os: [windows-latest]
     env:
       SCCACHE_GHA_ENABLED: "true"
-      boost_dir: ${{github.workspace}}\boost
       boost_version: 1.78.0
 
     steps:
@@ -54,7 +53,7 @@ jobs:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies
       
-      # Build boost python and numpy
+      # Build boost python and numpy (for Windows)
       - name: Cache Boost
         uses: actions/cache@v2
         with:
@@ -72,7 +71,7 @@ jobs:
           configuration: Release
           static: 1
           toolset: vs2022
-          directory: ${{ env.boost_dir }}
+          directory: '${{github.workspace}}\boost\boost'
           
       - name: Show build Boost paths
         if: ${{ matrix.os }} = "windows-latest"
@@ -94,6 +93,7 @@ jobs:
             platform_version: 2022
             toolset: msvc
             link: static
+            boost_install_dir: ${{ github.workspace }}
             # NOTE: If a boost version matching all requirements cannot be found,
             # this build step will fail
             
