@@ -40,7 +40,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.${{ matrix.python-minor }}
-          cache: 'pip'  # Caching pip dependencies     
+          cache: 'pip'  # Caching pip dependencies      
             
       - name: Set up sccache
         id: sccache
