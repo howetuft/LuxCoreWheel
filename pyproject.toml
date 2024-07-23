@@ -68,6 +68,8 @@ cmake.define.BUILD_LUXCORE_DLL = "1"
 cmake.define.CMAKE_POLICY_DEFAULT_CMP0074="NEW"
 cmake.define.BOOST_NO_CXX11_SCOPED_ENUMS="1"
 cmake.define.BOOST_FILESYSTEM_VERSION="4"
+cmake.define.CMAKE_MSVC_DEBUG_INFORMATION_FORMAT="Embedded"
+cmake.define.CMAKE_POLICY_CMP0141="NEW"
 cmake.args = ["-A x64", "-T v143,host=x64", "--trace"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
