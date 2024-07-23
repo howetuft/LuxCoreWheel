@@ -65,6 +65,7 @@ cmake.define.PYTHON_LIBRARY = "{project}\\WindowsCompileDeps\\x64\\Release\\lib"
 cmake.define.PYTHON_V = {env="PYTHON_V", default="3.6"}
 cmake.define.PYTHON_INCLUDE_DIR = "{project}\\WindowsCompileDeps\\include\\Python${PYTHON_V}"
 cmake.define.BUILD_LUXCORE_DLL = "1"
+cmake.define.CMAKE_MINIMUM_REQUIRED_VERSION = "3.29"
 cmake.args = ["-A x64", "-T v143,host=x64"]
 
 # For convenience, all cibuildwheel settings are located in github workflow

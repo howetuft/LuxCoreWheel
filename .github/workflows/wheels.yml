@@ -128,7 +128,7 @@ jobs:
             CMAKE_PREFIX_PATH='${{ github.workspace }}\WindowsCompileDeps'
             PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
-            BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir}}'
+            BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }}
 
       - uses: actions/upload-artifact@v4
