@@ -65,11 +65,13 @@ cmake.define.PYTHON_LIBRARY = "{project}\\WindowsCompileDeps\\x64\\Release\\lib"
 cmake.define.PYTHON_V = {env="PYTHON_V", default="3.6"}
 cmake.define.PYTHON_INCLUDE_DIR = "{project}\\WindowsCompileDeps\\include\\Python${PYTHON_V}"
 cmake.define.BUILD_LUXCORE_DLL = "1"
-cmake.define.CMAKE_POLICY_DEFAULT_CMP0074="NEW"
+cmake.define.CMAKE_POLICY_DEFAULT_CMP0074=NEW
 cmake.define.BOOST_NO_CXX11_SCOPED_ENUMS="1"
 cmake.define.BOOST_FILESYSTEM_VERSION="4"
-cmake.define.CMAKE_MSVC_DEBUG_INFORMATION_FORMAT="Embedded"
-cmake.define.CMAKE_POLICY_CMP0141="NEW"
+cmake.define.CMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded
+cmake.define.CMAKE_POLICY_CMP0141=NEW
+cmake.define.CMAKE_POLICY_CMP0128=NEW
+cmake.define.CMAKE_POLICY_CMP0156=NEW
 cmake.args = ["-A x64", "-T v143,host=x64", "--trace"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
