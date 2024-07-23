@@ -54,7 +54,10 @@ jobs:
         with:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies
-      
+
+      - name: Install numpy
+        run: python -m pip install numpy<2
+  
       # Build boost python and numpy (for Windows)
       - name: Create dir
         if: ${{ matrix.os }} = "windows-latest"
@@ -73,7 +76,7 @@ jobs:
         if: ${{ matrix.os }} = "windows-latest"
         with:
           version: ${{ env.boost_version }}
-          libraries: python numpy program_options thread filesystem serialization iostreams regex system chrono serialization
+          libraries: python program_options thread filesystem serialization iostreams regex system chrono serialization
           platform: x64
           configuration: Release
           static: 1
