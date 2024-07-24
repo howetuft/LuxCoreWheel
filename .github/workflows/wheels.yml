@@ -71,10 +71,10 @@ jobs:
         run: |
           mkdir '${{github.workspace}}\boost'
 
-      - name: Cache Boost
+      - name: Restore Cache Boost
         uses: actions/cache@v4
         with:
-          path: '${{ runner.workspace }}\LuxCoreWheel\boost_*.tar.gz'
+          path: '${{ runner.workspace }}/boost_${{env.boost_version}}.tar.gz'
           key: 'boost-${{env.boost_version}}'
       
       - name: Build Boost
@@ -89,7 +89,13 @@ jobs:
           static: 1
           toolset: vs2022
           directory: '${{github.workspace}}\boost\boost'
-          
+      
+      - name: Save Cache Boost
+        uses: actions/cache/save@v4
+        with:
+          path: '${{ runner.workspace }}/boost_${{env.boost_version}}.tar.gz'
+          key: 'boost-${{env.boost_version}}'
+
       - name: Show build Boost paths
         if: ${{ runner.os }} = "Windows"
         run: |
