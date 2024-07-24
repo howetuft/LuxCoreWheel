@@ -139,8 +139,8 @@ jobs:
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
             CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3 -DSPDLOG_FMT_EXTERNAL=ON'
-            CMAKE_CXX_COMPILER_LAUNCHER=${{ env.SCCACHE_PATH }}
-            CMAKE_C_COMPILER_LAUNCHER=${{ env.SCCACHE_PATH }}
+            CMAKE_CXX_COMPILER_LAUNCHER=sccache
+            CMAKE_C_COMPILER_LAUNCHER=sccache
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
 
       - uses: actions/upload-artifact@v4
