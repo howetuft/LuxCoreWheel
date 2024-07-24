@@ -75,6 +75,8 @@ cmake.define.CMAKE_POLICY_CMP0156="NEW"
 cmake.define.SPDLOG_FMT_EXTERNAL="ON"
 cmake.define.CMAKE_C_COMPILER="cl.exe"
 cmake.define.CMAKE_CXX_COMPILER="cl.exe"
-cmake.args = ["-G Ninja", "-A x64", "-T v143,host=x64"]
+cmake.define.MSVC_TOOLSET_VERSION="143"
+#cmake.args = ["-G Ninja", "-A x64", "-T v143,host=x64"]
+cmake.args = ["-G Ninja"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
