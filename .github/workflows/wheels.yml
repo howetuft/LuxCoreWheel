@@ -56,8 +56,9 @@ jobs:
 
       - name: Clean Windows dependencies (Boost)
         if: ${{ runner.os }} == "Windows"
+        working-directory: ${{ env.WINDOWS_DEPS }}
         run: |
-          rm -rf ${{ env.WINDOWS_DEPS }}\include\boost /s /q && rm ${{ env.WINDOWS_DEPS }}\x64\Release\lib\libboost*.lib
+          rm -rf include/boost && rm x64/Release/lib/libboost*.lib
         shell: bash
 
       - name: Install numpy
