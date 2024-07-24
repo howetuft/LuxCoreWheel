@@ -68,7 +68,6 @@ cmake.define.BUILD_LUXCORE_DLL = "1"
 cmake.define.CMAKE_POLICY_DEFAULT_CMP0074="NEW"
 cmake.define.BOOST_NO_CXX11_SCOPED_ENUMS="1"
 cmake.define.BOOST_FILESYSTEM_VERSION="4"
-cmake.define.CMAKE_MSVC_DEBUG_INFORMATION_FORMAT="Embedded"
 cmake.define.CMAKE_POLICY_CMP0141="NEW"
 cmake.define.CMAKE_POLICY_CMP0128="NEW"
 cmake.define.CMAKE_POLICY_CMP0156="NEW"
@@ -76,7 +75,8 @@ cmake.define.SPDLOG_FMT_EXTERNAL="ON"
 cmake.define.CMAKE_C_COMPILER="cl.exe"
 cmake.define.CMAKE_CXX_COMPILER="cl.exe"
 cmake.define.MSVC_TOOLSET_VERSION="143"
+cmake.define.CMAKE_BUILD_TYPE="Release"
 #cmake.args = ["-G Ninja", "-A x64", "-T v143,host=x64"]
-cmake.args = ["-G Ninja"]
+cmake.args = ["-G Ninja", "-A x64"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
