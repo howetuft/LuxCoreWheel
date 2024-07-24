@@ -23,6 +23,7 @@ jobs:
     env:
       SCCACHE_GHA_ENABLED: on
       SCCACHE_DIRECT: on
+      WINDOWS_DEPS: ${{ github.workspace }}\WindowsCompileDeps
       boost_version: 1.78.0
 
     steps:
@@ -53,9 +54,12 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-
+      - name: Clean Windows dependencies (Boost)
+        if: ${{ runner.os }} == "Windows"
+        run: rmdir ${{ env.WINDOWS_DEP }}\include\boost /s /q && rm ${{ env.WINDOWS_DEP }}\x64\Release\lib\libboost*.lib
 
       - name: Install numpy
+        if: ${{ runner.os }} == "Windows"
         run: python -m pip install numpy<2
   
       # Build boost python and numpy (for Windows)
@@ -110,15 +114,12 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
           CIBW_ENVIRONMENT_WINDOWS: >-
-            CMAKE_INCLUDE_PATH='${{ github.workspace }}\WindowsCompileDeps\include'
-            CMAKE_LIBRARY_PATH='${{ github.workspace }}\WindowsCompileDeps\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
-            CMAKE_PREFIX_PATH='${{ github.workspace }}\WindowsCompileDeps'
+            CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
+            CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
+            CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
-            CXXFLAGS="-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=4"
-            SCCACHE_GHA_ENABLED="true"
-            SCCACHE_DIRECT="true"
             CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
             CMAKE_CXX_COMPILER_LAUNCHER=${{ env.SCCACHE_PATH }}
             CMAKE_C_COMPILER_LAUNCHER=${{ env.SCCACHE_PATH }}
