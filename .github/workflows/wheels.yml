@@ -74,7 +74,7 @@ jobs:
       - name: Cache Boost
         uses: actions/cache@v4
         with:
-          path: '${{ runner.workspace }}\boost_*.tar.gz'
+          path: '${{ runner.workspace }}\LuxCoreWheel\boost_*.tar.gz'
           key: 'boost-${{env.boost_version}}'
       
       - name: Build Boost
