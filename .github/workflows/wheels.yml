@@ -58,6 +58,7 @@ jobs:
         if: ${{ runner.os }} == "Windows"
         run: |
           rmdir ${{ env.WINDOWS_DEPS }}\include\boost /s /q && rm ${{ env.WINDOWS_DEPS }}\x64\Release\lib\libboost*.lib
+        shell: cmd
 
       - name: Install numpy
         if: ${{ runner.os }} == "Windows"
