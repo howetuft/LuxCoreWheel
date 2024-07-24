@@ -74,7 +74,7 @@ jobs:
       - name: Restore Cache Boost
         uses: actions/cache@v4
         with:
-          path: '${{ runner.workspace }}/boost_${{env.boost_version}}.tar.gz'
+          path: '${{ runner.workspace }}\boost_*.tar.gz'  # D:\a\LuxCoreWheel\boost_1_78_0.tar.gz
           key: 'boost-${{env.boost_version}}'
       
       - name: Build Boost
@@ -93,7 +93,7 @@ jobs:
       - name: Save Cache Boost
         uses: actions/cache/save@v4
         with:
-          path: '${{ runner.workspace }}/boost_${{env.boost_version}}.tar.gz'
+          path: '${{ runner.workspace }}\boost_*.tar.gz'
           key: 'boost-${{env.boost_version}}'
 
       - name: Show build Boost paths
@@ -129,7 +129,7 @@ jobs:
             PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
-            CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
+            CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3 -DSPDLOG_FMT_EXTERNAL=ON'
             CMAKE_CXX_COMPILER_LAUNCHER=${{ env.SCCACHE_PATH }}
             CMAKE_C_COMPILER_LAUNCHER=${{ env.SCCACHE_PATH }}
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
