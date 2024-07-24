@@ -111,6 +111,10 @@ jobs:
       
       - name: Setup msvc  
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          toolset: 14.3
+
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
