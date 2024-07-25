@@ -41,6 +41,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-      
 
+
+
+      - name: Checkout repository and submodule(s)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
       - name: Install spdlog
         uses: johnwason/vcpkg-action@v6
         id: vcpkg
@@ -49,12 +56,7 @@ jobs:
           triplet: x64-windows-release
           token: ${{ github.token }}
           github-binarycache: true
-
-      - name: Checkout repository and submodule(s)
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
+      
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
