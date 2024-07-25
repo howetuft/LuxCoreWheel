@@ -122,6 +122,13 @@ jobs:
         with:
           arch: x64
 
+      - name: Install FMT
+        uses: maximeverreault/setup-fmt@v1.0.0
+        id: install_fmt
+        with:
+          version: latest
+          toolset: Ninja
+          directory: ${{ runner.temp }}/fmt
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
