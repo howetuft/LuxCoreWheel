@@ -78,7 +78,6 @@ cmake.define.MSVC_TOOLSET_VERSION="143"
 cmake.define.CMAKE_BUILD_TYPE="Release"
 cmake.define.XML_STATIC="ON"
 cmake.define.CMAKE_USE_RELATIVE_PATHS="FALSE"
-cmake.define.CMAKE_TOOLCHAIN_FILE=${project}\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake
 cmake.define.VCPKG_TARGET_TRIPLET="x64-windows-release"
 cmake.define.VCPKG_MANIFEST_MODE="OFF"
 cmake.args = ["-G Ninja"]
