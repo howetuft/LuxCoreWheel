@@ -161,9 +161,9 @@ jobs:
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
-            CMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
-            VCPKG_TARGET_TRIPLET=x64-windows-release
-            VCPKG_MANIFEST_MODE=OFF
+            CMAKE_TOOLCHAIN_FILE='${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake'
+            VCPKG_TARGET_TRIPLET='x64-windows-release'
+            VCPKG_MANIFEST_MODE='OFF'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
 
       - uses: actions/upload-artifact@v4
