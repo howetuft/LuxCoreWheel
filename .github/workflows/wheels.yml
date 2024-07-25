@@ -25,6 +25,7 @@ jobs:
       SCCACHE_DIRECT: on
       WINDOWS_DEPS: ${{ github.workspace }}\WindowsCompileDeps
       boost_version: 1.78.0
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - name: Setup node
@@ -32,23 +33,42 @@ jobs:
         with:
           node-version: 20
 
+      # Cache pip
+      - uses: actions/cache@v3
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-      
+
+
+
       - name: Checkout repository and submodule(s)
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
+      - name: Install spdlog
+        uses: johnwason/vcpkg-action@v6
+        id: vcpkg
+        with:
+          pkgs: spdlog
+          triplet: x64-windows-release
+          token: ${{ github.token }}
+          github-binarycache: true
+      
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies      
             
-      - name: Set up sccache
+      - name: Setup sccache
         id: sccache
         uses: mozilla-actions/sccache-action@v0.0.5
       
-      - name: Configure sccache
-        uses: actions/github-script@v6
+        # Configure sccache
+      - uses: actions/github-script@v6
         with:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
@@ -136,13 +156,15 @@ jobs:
             CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
             CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             PYTHON_V='3.${{ matrix.python-minor }}'
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
-            CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3 -DSPDLOG_FMT_EXTERNAL=ON -DXML_STATIC'
+            CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
+
+          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       - uses: actions/upload-artifact@v4
         with:
