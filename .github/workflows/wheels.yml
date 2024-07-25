@@ -33,15 +33,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: vcpkg build
-        uses: johnwason/vcpkg-action@v6
-        id: vcpkg
-        with:
-          triplet: x64-windows-release
-          pkgs: openimageio
-          token: ${{ github.token }}
-          github-binarycache: true
-  
       # Cache pip
       - uses: actions/cache@v3
         with:
@@ -49,6 +40,15 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-      
+
+      - name: vcpkg build
+        uses: johnwason/vcpkg-action@v6
+        id: vcpkg
+        with:
+          pkgs: spdlog
+          triplet: x64-windows-release
+          token: ${{ github.token }}
+          github-binarycache: true
 
       - name: Checkout repository and submodule(s)
         uses: actions/checkout@v4
@@ -132,14 +132,6 @@ jobs:
         with:
           arch: x64
 
-      - name: Install FMT
-        uses: maximeverreault/setup-fmt@v1.0.0
-        id: install_fmt
-        with:
-          version: 7.1.3
-          toolset: Ninja
-          directory: ${{ runner.temp }}/fmt
-
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
@@ -169,7 +161,7 @@ jobs:
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
+          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && dir ${{ github.workspace }}\vcpkg\installed\x64-windows-release && echo %SCCACHE_GHA_ENABLED%
 
       - uses: actions/upload-artifact@v4
         with:
