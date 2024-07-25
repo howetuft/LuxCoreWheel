@@ -127,7 +127,7 @@ jobs:
         uses: maximeverreault/setup-fmt@v1.0.0
         id: install_fmt
         with:
-          version: latest
+          version: 10.2.1
           toolset: Ninja
           directory: ${{ runner.temp }}/fmt
 
