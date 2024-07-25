@@ -161,7 +161,7 @@ jobs:
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && dir ${{ github.workspace }}\vcpkg\installed\x64-windows-release && echo %SCCACHE_GHA_ENABLED%
+          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED%
 
       - uses: actions/upload-artifact@v4
         with:
