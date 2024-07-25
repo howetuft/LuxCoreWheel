@@ -164,7 +164,7 @@ jobs:
             CMAKE_TOOLCHAIN_FILE='${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake'
             VCPKG_TARGET_TRIPLET='x64-windows-release'
             VCPKG_MANIFEST_MODE='OFF'
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg
+          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       - uses: actions/upload-artifact@v4
         with:
