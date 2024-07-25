@@ -37,8 +37,8 @@ jobs:
         uses: johnwason/vcpkg-action@v6
         id: vcpkg
         with:
-          triplet: windows-latest
-          pkgs: x64-windows-release
+          triplet: x64-windows-release
+          pkgs: openimageio
           token: ${{ github.token }}
           github-binarycache: true
   
