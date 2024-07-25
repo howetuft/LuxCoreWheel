@@ -127,7 +127,7 @@ jobs:
         uses: maximeverreault/setup-fmt@v1.0.0
         id: install_fmt
         with:
-          version: 10.2.1
+          version: 9.1.0
           toolset: Ninja
           directory: ${{ runner.temp }}/fmt
 
@@ -152,6 +152,7 @@ jobs:
             CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
             CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             PYTHON_V='3.${{ matrix.python-minor }}'
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
             CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
