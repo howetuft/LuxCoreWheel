@@ -53,7 +53,7 @@ jobs:
         working-directory:  ${{ github.workspace }}
         run: |
           curl https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.tar.gz
-          tar -xzf v1.14.1.tar.gz -C .
+          tar -xzf spdlog-1.14.1.tar.gz -C .
           cd ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
           rm -rf include && cp ${{ github.workspace }}/spdlog/include include 
         shell: bash
