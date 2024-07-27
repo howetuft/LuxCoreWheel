@@ -48,37 +48,51 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install spdlog
-        uses: johnwason/vcpkg-action@v6
-        id: vcpkg
-        with:
-          pkgs: spdlog
-          triplet: x64-windows-release
-          token: ${{ github.token }}
-          github-binarycache: true
+      - name: Install last spdlog version
+        if: ${{ runner.os }} == "Windows"
+        working-directory:  ${{ github.workspace }}
+        run: |
+          curl https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.tar.gz
+          tar -xzf v1.14.1.tar.gz -C .
+          cd ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
+          rm -rf include && cp ${{ github.workspace }}/spdlog/include include 
+        shell: bash
+      
+      
+      #- name: Install spdlog
+      #  uses: johnwason/vcpkg-action@v6
+      #  id: vcpkg
+      #  with:
+      #    pkgs: spdlog
+      #    triplet: x64-windows-release
+      #    token: ${{ github.token }}
+      #    github-binarycache: true
     
       #- name: Setup tmate session
       #  uses: mxschmitt/action-tmate@v3
 
-      #- name: Copy spdlog to LuxCore tree
-      #  if: ${{ runner.os }} == "Windows"
-      #  working-directory:  ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
-      #  run: |
-      #    rm -rf include && cp spdlog/include 
-      #  shell: bash
+      - name: Copy spdlog to LuxCore tree
+        if: ${{ runner.os }} == "Windows"
+        working-directory:  ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
+        run: |
+          rm -rf include && cp ${{steps.vcpkg.outputs.spdlog.directory}}/include include 
+        shell: bash
 
       - name: Setup Python
+        if: ${{ runner.os }} == "Windows"
         uses: actions/setup-python@v5
         with:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies      
             
       - name: Setup sccache
+        if: ${{ runner.os }} == "Windows"
         id: sccache
         uses: mozilla-actions/sccache-action@v0.0.5
       
         # Configure sccache
       - uses: actions/github-script@v6
+        if: ${{ runner.os }} == "Windows"
         with:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
