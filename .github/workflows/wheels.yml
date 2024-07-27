@@ -57,15 +57,15 @@ jobs:
           token: ${{ github.token }}
           github-binarycache: true
     
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
-      - name: Copy spdlog to LuxCore tree
-        if: ${{ runner.os }} == "Windows"
-        working-directory:  ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
-        run: |
-          rm -rf include && cp spdlog/include 
-        shell: bash
+      #- name: Copy spdlog to LuxCore tree
+      #  if: ${{ runner.os }} == "Windows"
+      #  working-directory:  ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
+      #  run: |
+      #    rm -rf include && cp spdlog/include 
+      #  shell: bash
 
       - name: Setup Python
         uses: actions/setup-python@v5
