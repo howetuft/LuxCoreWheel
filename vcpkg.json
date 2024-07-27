@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "dependencies": [
+    "openimageio",
+    "openexr",
+    "boost-python",
+    "boost-program-options",
+    "boost-serialization",
+    "boost-iostreams",
+    "embree3"
+  ],
+  "vcpkg-configuration": {
+    "overlay-ports": ["../boost/boost/stage", "../oidn"]
+  }
+}

@@ -1,0 +1,31 @@
+{
+    "version": 8,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 30,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "windows",
+            "displayName": "Windows",
+            "description": "Configure with vcpkg toolchain and generate Ninja project files",
+            "binaryDir": "${sourceDir}/builds/${presetName}",
+            "generator": "Ninja",
+            "toolchainFile": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "VCPKG_TARGET_TRIPLET": "x64-windows-release",
+                "VCPKG_TRACE_FIND_PACKAGE": "ON"
+            },
+            "toolset": {
+                "strategy": "external"
+            },
+            "architecture": {
+                "strategy": "external"
+            },
+            "trace": {
+                "mode": "off"
+            }
+        }
+    ]
+}
