@@ -59,7 +59,7 @@ jobs:
           tar -xzf spdlog.tar.gz -C .
           cd ${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0
           rm -rf include && cp ${{ github.workspace }}\spdlog\include include 
-      
+        shell: bash
       
       #- name: Install spdlog
       #  uses: johnwason/vcpkg-action@v6
