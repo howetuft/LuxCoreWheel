@@ -58,7 +58,7 @@ jobs:
           curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.zip
           unzip spdlog.zip
           cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
-          rmdir /S /Q include && cp '${{ github.workspace }}\spdlog\include' include 
+          @RD /S /Q include && cp '${{ github.workspace }}\spdlog-1.14.1\include' include
       
       
       #- name: Install spdlog
