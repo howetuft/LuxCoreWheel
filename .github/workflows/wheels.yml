@@ -52,7 +52,7 @@ jobs:
         if: ${{ runner.os }} == "Windows"
         working-directory:  ${{ github.workspace }}
         run: |
-          if curl -L https://github.com/gabime/spdlog/archive/refs/tags/spdlog/v1.14.1.zip -o spdlog.zip; then
+          if curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/spdlog/v1.14.1.zip; then
             unzip spdlog.zip
             cd ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
             rm -rf include && cp ${{ github.workspace }}/spdlog/include include 
