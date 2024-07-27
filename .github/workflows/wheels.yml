@@ -64,26 +64,6 @@ jobs:
           Remove-Item -Recurse -Force include
           cp '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' include
       
-      
-      #- name: Install spdlog
-      #  uses: johnwason/vcpkg-action@v6
-      #  id: vcpkg
-      #  with:
-      #    pkgs: spdlog
-      #    triplet: x64-windows-release
-      #    token: ${{ github.token }}
-      #    github-binarycache: true
-    
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
-
-      - name: Copy spdlog to LuxCore tree
-        if: ${{ runner.os }} == "Windows"
-        working-directory:  ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
-        run: |
-          rm -rf include && cp ${{steps.vcpkg.outputs.spdlog.directory}}/include include 
-        shell: bash
-
       - name: Setup Python
         if: ${{ runner.os }} == "Windows"
         uses: actions/setup-python@v5
@@ -193,7 +173,6 @@ jobs:
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
-            CMAKE_TOOLCHAIN_FILE='${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       - uses: actions/upload-artifact@v4
