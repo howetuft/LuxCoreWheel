@@ -62,7 +62,7 @@ jobs:
           dir
           cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
           Remove-Item -Recurse -Force include
-          cp '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' include
+          Copy-Item -Path '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' -Destination 'include' -Recurse
       
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
