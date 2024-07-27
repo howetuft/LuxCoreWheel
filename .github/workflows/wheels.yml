@@ -52,7 +52,7 @@ jobs:
         if: ${{ runner.os }} == "Windows"
         working-directory:  ${{ github.workspace }}
         run: |
-          curl -L https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.tar.gz
+          curl https://github.com/gabime/spdlog/archive/refs/tags/spdlog/v1.14.1.tar.gz
           echo "Untar spdlog"
           tar -xzf spdlog-1.14.1.tar.gz -C .
           cd ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
