@@ -28,10 +28,10 @@ jobs:
       GH_TOKEN: ${{ github.token }}
 
     steps:
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      #- name: Setup node
+      #  uses: actions/setup-node@v4
+      #  with:
+      #    node-version: 20
 
       # Cache pip
       - uses: actions/cache@v3
@@ -64,8 +64,8 @@ jobs:
           Remove-Item -Recurse -Force include
           Copy-Item -Path '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' -Destination 'include' -Recurse
       
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
       - name: Setup Python
         if: ${{ runner.os }} == "Windows"
