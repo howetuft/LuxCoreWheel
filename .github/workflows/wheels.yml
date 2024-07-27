@@ -64,6 +64,9 @@ jobs:
           Remove-Item -Recurse -Force include
           cp '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' include
       
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Setup Python
         if: ${{ runner.os }} == "Windows"
         uses: actions/setup-python@v5
