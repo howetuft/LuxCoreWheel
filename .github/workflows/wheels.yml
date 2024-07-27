@@ -48,18 +48,17 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
       - name: Install last spdlog version
         if: ${{ runner.os }} == "Windows"
         working-directory:  ${{ runner.workspace }}
         run: |
-          curl -X GET -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/spdlog/v1.14.1.zip;
-          unzip spdlog.zip
+          curl -o spdlog.tar.gz -L https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.tar.gz
+          tar -xzf spdlog.tar.gz -C .
           cd ${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0
           rm -rf include && cp ${{ github.workspace }}\spdlog\include include 
-        
       
       
       #- name: Install spdlog
