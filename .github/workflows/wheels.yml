@@ -55,10 +55,10 @@ jobs:
         if: ${{ runner.os }} == "Windows"
         working-directory:  ${{ runner.workspace }}
         run: |
-          curl -o spdlog.tar.gz -L https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.zip
+          curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.zip
           unzip spdlog.zip
           cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
-          rmdir /S /Q include && cp ${{ github.workspace }}\spdlog\include include 
+          rmdir /S /Q include && cp '${{ github.workspace }}\spdlog\include' include 
       
       
       #- name: Install spdlog
