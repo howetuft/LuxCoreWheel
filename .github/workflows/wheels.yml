@@ -52,9 +52,14 @@ jobs:
         if: ${{ runner.os }} == "Windows"
         working-directory:  ${{ github.workspace }}
         run: |
-          curl -L https://github.com/gabime/spdlog/archive/refs/tags/spdlog/v1.14.1.tar.gz -o spdlog.tar.gz && tar -xzf spdlog.tar.gz -C .
-          cd ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
-          rm -rf include && cp ${{ github.workspace }}/spdlog/include include 
+          if curl -L https://github.com/gabime/spdlog/archive/refs/tags/spdlog/v1.14.1.tar.gz -o spdlog.tar.gz; then
+            tar -xzf spdlog.tar.gz -C .
+            cd ${{ github.workspace }}/LuxCore/deps/spdlog-1.8.0
+            rm -rf include && cp ${{ github.workspace }}/spdlog/include include 
+          else
+            fail
+          fi
+          
         shell: bash
       
       
