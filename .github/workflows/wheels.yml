@@ -54,12 +54,15 @@ jobs:
       - name: Install last spdlog version
         if: ${{ runner.os }} == "Windows"
         working-directory:  ${{ runner.workspace }}
+        env:
+          VERSION: 1.14.1
         run: |
-          curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.zip
+          curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/v${{env.VERSION}}.zip
           unzip spdlog.zip
+          dir
           cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
           Remove-Item -Recurse -Force include
-          cp '${{ github.workspace }}\spdlog-1.14.1\include' include
+          cp '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' include
       
       
       #- name: Install spdlog
