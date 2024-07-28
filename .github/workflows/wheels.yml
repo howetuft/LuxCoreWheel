@@ -40,7 +40,8 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-      
-
+      - name: Checkout code
+        uses: nschloe/action-cached-lfs-checkout@v1
 
 
       - name: Checkout repository and submodule(s)
@@ -50,6 +51,8 @@ jobs:
           lfs: true
           fetch-depth: 1
       
+
+
       - name: Checkout LFS objects
         run: |
           cd WindowsCompileDeps/x64/Release/lib
