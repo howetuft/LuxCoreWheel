@@ -114,6 +114,9 @@ jobs:
         id: boost
         uses: egor-tensin/build-boost@v1
         if: ${{ runner.os }} == "Windows"
+        env:
+          CMAKE_CXX_COMPILER_LAUNCHER: sccache
+          CMAKE_C_COMPILER_LAUNCHER: sccache
         with:
           version: ${{ env.boost_version }}
           libraries: python program_options thread filesystem serialization iostreams regex system chrono serialization
