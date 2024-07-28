@@ -124,6 +124,7 @@ jobs:
           directory: '${{github.workspace}}\boost\boost'
       
       - name: Save Cache Boost
+        if: ${{ runner.os }} = "Windows"
         uses: actions/cache/save@v4
         with:
           path: '${{ runner.workspace }}\boost_*.tar.gz'
@@ -140,9 +141,11 @@ jobs:
         run: python -m pip install cibuildwheel==2.19.2
 
       - name: Install Ninja
+        if: ${{ runner.os }} = "Windows"
         uses: seanmiddleditch/gha-setup-ninja@master
       
-      - name: Setup msvc  
+      - name: Setup msvc
+        if: ${{ runner.os }} = "Windows"
         uses: TheMrMilchmann/setup-msvc-dev@v3
         with:
           arch: x64
@@ -176,7 +179,15 @@ jobs:
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
+            SCCACHE_LOG_LEVEL=debug
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
+
+      # Upload sccache log (debug)
+      - uses: actions/upload-artifact@v4
+        if: ${{ runner.os }} = "Windows"
+        with:
+          name: sccache.log
+          path: sccache.log
 
       - uses: actions/upload-artifact@v4
         with:
