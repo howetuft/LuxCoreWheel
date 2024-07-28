@@ -188,7 +188,7 @@ jobs:
         if: always()
         with:
           name: sccache
-          path: '${{ github.workspace }}\sccache.log
+          path: '${{ github.workspace }}\sccache.log'
 
       - uses: actions/upload-artifact@v4
         with:
