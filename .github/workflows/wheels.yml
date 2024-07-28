@@ -48,8 +48,8 @@ jobs:
         with:
           submodules: recursive
 
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       - name: Install last spdlog version
         if: ${{ runner.os }} == "Windows"
