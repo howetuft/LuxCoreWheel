@@ -184,9 +184,9 @@ jobs:
 
       # Upload sccache log (debug)
       - uses: actions/upload-artifact@v4
-        if: ${{ runner.os }} = "Windows"
+        if: always()
         with:
-          name: sccache.log
+          name: sccache
           path: sccache.log
 
       - uses: actions/upload-artifact@v4
