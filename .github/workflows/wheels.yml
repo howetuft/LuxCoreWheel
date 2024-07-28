@@ -171,6 +171,7 @@ jobs:
             CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
             CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
             CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
+            CMAKE_BUILD_TYPE='Release'
             PYTHON_V='3.${{ matrix.python-minor }}'
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
@@ -182,6 +183,7 @@ jobs:
             SCCACHE_LOG='debug'
             SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
             SCCACHE_CONF='${{ github.workspace }}\sccache_config'
+            SCCACHE_DIRECT='true'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       # Upload sccache log (debug)
