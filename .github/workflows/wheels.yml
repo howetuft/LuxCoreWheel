@@ -179,7 +179,7 @@ jobs:
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
-            SCCACHE_LOG_LEVEL=debug
+            SCCACHE_LOG='debug'
             SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
@@ -187,7 +187,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: sccache
+          name: sccache_${{ matrix.python-minor }}
           path: '${{ github.workspace }}\sccache.log'
 
       - uses: actions/upload-artifact@v4
