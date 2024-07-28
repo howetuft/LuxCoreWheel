@@ -39,9 +39,12 @@ jobs:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-      
+            ${{ runner.os }}-pip-   
+               
       - name: Checkout code
         uses: nschloe/action-cached-lfs-checkout@v1
+        with:
+          submodules: recursive
 
 
       - name: Checkout repository and submodule(s)
