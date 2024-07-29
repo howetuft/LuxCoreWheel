@@ -18,7 +18,7 @@
             },
             "toolset": {
                 "strategy": "external"
-            }
+            },
             "architecture": {
                 "strategy": "external"
             },
