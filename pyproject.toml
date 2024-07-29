@@ -80,6 +80,6 @@ cmake.define.MSVC_TOOLSET_VERSION="143"
 cmake.define.CMAKE_BUILD_TYPE="Release"
 cmake.define.XML_STATIC="ON"
 cmake.define.CMAKE_USE_RELATIVE_PATHS="FALSE"
-cmake.args = ["-G Ninja", "--trace-expand"]
+#cmake.args = ["-G Ninja", "--trace-expand"]
 
 # For convenience, all cibuildwheel settings are located in github workflow
