@@ -170,6 +170,7 @@ jobs:
         run: |
           echo $boost_overlay > vcpkg.json
           echo $boost_portfile > portfile.cmake
+        shell: bash
 
       - name: Save Cache Boost
         if: ${{ runner.os }} = "Windows"
