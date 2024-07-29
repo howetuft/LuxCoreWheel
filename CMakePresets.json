@@ -12,7 +12,7 @@
             "description": "Configure with vcpkg toolchain and generate Ninja project files",
             "binaryDir": "${sourceDir}/builds/${presetName}",
             "generator": "Ninja",
-            "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            "toolchainFile": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake"
         }
     ]
 }
