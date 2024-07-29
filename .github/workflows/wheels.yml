@@ -168,10 +168,10 @@ jobs:
       - uses: lukka/get-cmake@latest
 
       # Copy CMakePresets to project
-      - name: "Install CMakePresets"
+      - name: "Install CMakePresets.json and vcpkg.json"
         working-directory: '${{ github.workspace }}'
         run: |
-          ls
+          cp vcpkg.json LuxCore
           cp CMakePresets.json LuxCore
         shell: bash
 
