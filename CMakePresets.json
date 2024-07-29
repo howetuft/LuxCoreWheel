@@ -14,12 +14,14 @@
             "generator": "Ninja",
             "toolchainFile": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-windows-release",
-                "VCPKG_MANIFEST_MODE": "OFF"
+                "VCPKG_TARGET_TRIPLET": "x64-windows-release"
             },
             "architecture": {
                 "value": "x86",
                 "strategy": "external"
+            },
+            "trace": {
+                "mode": "ON"
             }
         }
     ]
