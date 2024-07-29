@@ -98,12 +98,6 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: Clean Windows dependencies (Boost)
-        if: ${{ runner.os }} == "Windows"
-        working-directory: ${{ env.WINDOWS_DEPS }}
-        run: |
-          rm -rf include/boost && rm x64/Release/lib/libboost*.lib
-        shell: bash
 
       - name: Install numpy
         if: ${{ runner.os }} == "Windows"
