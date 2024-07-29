@@ -4,4 +4,7 @@
     "openimageio",
     "openexr"
   ]
+  "vcpkg-configuration": {
+    "overlay-ports": ["../boost/boost"]
+  }
 }

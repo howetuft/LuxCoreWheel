@@ -124,6 +124,22 @@ jobs:
           path: '${{ runner.workspace }}\boost_*.tar.gz'  # D:\a\LuxCoreWheel\boost_1_78_0.tar.gz
           key: 'boost-${{env.boost_version}}'
       
+      # - name: Build Boost
+      #   id: boost
+      #   uses: egor-tensin/build-boost@v1
+      #   if: ${{ runner.os }} == "Windows"
+      #   env:
+      #     CMAKE_CXX_COMPILER_LAUNCHER: sccache
+      #     CMAKE_C_COMPILER_LAUNCHER: sccache
+      #   with:
+      #     version: ${{ env.boost_version }}
+      #     libraries: python program_options thread filesystem serialization iostreams regex system chrono
+      #     platform: x64
+      #     configuration: Release
+      #     static: 1
+      #     toolset: vs2022
+      #     directory: '${{github.workspace}}\boost\boost'
+      
       - name: Build Boost
         id: boost
         uses: egor-tensin/build-boost@v1
@@ -133,13 +149,13 @@ jobs:
           CMAKE_C_COMPILER_LAUNCHER: sccache
         with:
           version: ${{ env.boost_version }}
-          libraries: python program_options thread filesystem serialization iostreams regex system chrono
+          libraries: python
           platform: x64
           configuration: Release
           static: 1
           toolset: vs2022
           directory: '${{github.workspace}}\boost\boost'
-      
+
       - name: Save Cache Boost
         if: ${{ runner.os }} = "Windows"
         uses: actions/cache/save@v4
