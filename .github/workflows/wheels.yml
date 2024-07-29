@@ -158,7 +158,7 @@ jobs:
 
       - name: Boost overlay
         working-directory: '${{github.workspace}}\boost\boost'
-        env: |
+        env:
           boost_vcpkg: |
             {
               "name": "boost",
@@ -166,7 +166,7 @@ jobs:
               "port-version": 0,
               "features": {}
             }
-          boost_portfile: 'set(VCPKG_POLICY_EMPTY_PACKAGE enabled)'
+          boost_portfile: set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
         run: |
           echo $boost_overlay > vcpkg.json
           echo $boost_portfile > portfile.cmake
