@@ -161,7 +161,7 @@ jobs:
         env:
           boost_vcpkg: |
             {
-              "name": "boost",
+              "name": "boost-python-local",
               "version": "1.0.0",
               "port-version": 0,
               "features": {}
