@@ -75,6 +75,15 @@ jobs:
           Remove-Item -Recurse -Force include
           Copy-Item -Path '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' -Destination 'include' -Recurse
       
+      - name: Remove project FindEXR.cmake
+        if: ${{ runner.os }} == "Windows"
+        working-directory:  ${{ github.workspace }}
+        env:
+          VERSION: 1.14.1
+        run: |
+          cd '${{ github.workspace }}\LuxCore\cmake\Packages
+          Remove-Item -Recurse -Force findEXR.cmake
+
       #- name: Setup tmate session
       #  uses: mxschmitt/action-tmate@v3
 
