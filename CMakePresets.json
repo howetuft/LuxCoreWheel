@@ -16,8 +16,10 @@
             "cacheVariables": {
                 "VCPKG_TARGET_TRIPLET": "x64-windows-release"
             },
+            "toolset": {
+                "strategy": "external"
+            }
             "architecture": {
-                "value": "x86",
                 "strategy": "external"
             },
             "trace": {
