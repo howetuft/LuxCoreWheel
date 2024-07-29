@@ -169,7 +169,7 @@ jobs:
 
       # Copy CMakePresets to project
       - name: "Install CMakePresets"
-        working_directory: ${{ github.workspace }}
+        working-directory: '${{ github.workspace }}'
         run: cp CMakePresets.json LuxCore
         shell: bash
 
