@@ -125,7 +125,7 @@ jobs:
         with:
           version: ${{ env.boost_version }}
           libraries: python program_options thread filesystem serialization iostreams regex system chrono serialization
-          platform: x64
+          #platform: x64
           configuration: Release
           static: 1
           toolset: vs2022
@@ -220,6 +220,7 @@ jobs:
             CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
             CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             CMAKE_BUILD_TYPE='Release'
+            CMAKE_BUILD_PARALLEL_LEVEL='2'
             PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
