@@ -168,7 +168,7 @@ jobs:
             }
           boost_portfile: set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
         run: |
-          echo $boost_overlay > vcpkg.json
+          echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
         shell: bash
 
