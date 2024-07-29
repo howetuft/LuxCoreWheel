@@ -16,6 +16,10 @@
             "cacheVariables": {
                 "VCPKG_TARGET_TRIPLET": "x64-windows-release",
                 "VCPKG_MANIFEST_MODE": "OFF"
+            },
+            "architecture": {
+                "value": "x86",
+                "strategy": "external"
             }
         }
     ]
