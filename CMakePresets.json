@@ -23,7 +23,7 @@
                 "strategy": "external"
             },
             "trace": {
-                "mode": "ON"
+                "mode": "on"
             }
         }
     ]
