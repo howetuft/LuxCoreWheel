@@ -169,7 +169,7 @@ jobs:
 
       # Copy CMakePresets to project
       - name: "Install CMakePresets"
-        run: cp ${{ github.workspace }}/CMakePresets.json LuxCore
+        run: cp '$GITHUB_WORKSPACE/CMakePresets.json' LuxCore
         shell: bash
 
       # Restore vcpkg from the GitHub Action cache service. Note that packages are restored by vcpkg's binary caching
