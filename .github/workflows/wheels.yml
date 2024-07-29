@@ -167,6 +167,11 @@ jobs:
       # https://github.com/lukka/run-vcpkg
       - uses: lukka/get-cmake@latest
 
+      # Copy CMakePresets to project
+      - name: "Install CMakePresets"
+        run: cp CMakePresets.json LuxCore
+        shell: bash
+
       # Restore vcpkg from the GitHub Action cache service. Note that packages are restored by vcpkg's binary caching
       # when it is being run afterwards by CMake.
       - name: Restore vcpkg
