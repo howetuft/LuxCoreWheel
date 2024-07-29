@@ -81,7 +81,7 @@ jobs:
         env:
           VERSION: 1.14.1
         run: |
-          cd '${{ github.workspace }}\LuxCore\cmake\Packages
+          cd '${{ github.workspace }}\LuxCore\cmake\Packages'
           Remove-Item -Recurse -Force findEXR.cmake
 
       #- name: Setup tmate session
