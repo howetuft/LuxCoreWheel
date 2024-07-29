@@ -156,6 +156,21 @@ jobs:
           toolset: vs2022
           directory: '${{github.workspace}}\boost\boost'
 
+      - name: Boost overlay
+        working-directory: '${{github.workspace}}\boost\boost'
+        env: |
+          boost_vcpkg: |
+            {
+              "name": "boost",
+              "version": "1.0.0",
+              "port-version": 0,
+              "features": {}
+            }
+          boost_portfile: 'set(VCPKG_POLICY_EMPTY_PACKAGE enabled)'
+        run: |
+          echo $boost_overlay > vcpkg.json
+          echo $boost_portfile > portfile.cmake
+
       - name: Save Cache Boost
         if: ${{ runner.os }} = "Windows"
         uses: actions/cache/save@v4
