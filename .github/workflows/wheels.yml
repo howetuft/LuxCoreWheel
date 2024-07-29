@@ -24,7 +24,7 @@ jobs:
       SCCACHE_GHA_ENABLED: on
       SCCACHE_DIRECT: on
       WINDOWS_DEPS: ${{ github.workspace }}\WindowsCompileDeps
-      boost_version: 1.78.0
+      boost_version: 1.85.0
       GH_TOKEN: ${{ github.token }}
       # Indicates the location of the vcpkg as a Git submodule of the project repository.
       # Not using "VCPKG_ROOT" because a variable with the same name is defined in the VS's

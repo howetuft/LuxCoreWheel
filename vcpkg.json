@@ -2,10 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "dependencies": [
     "openimageio",
-    "openexr",
-    "boost-program-options",
-    "boost-serialization",
-    "boost-iostreams",
-    "boost-python"
+    "openexr"
   ]
 }
