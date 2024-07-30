@@ -192,7 +192,11 @@ jobs:
             set_target_properties(boostpython PROPERTIES
               IMPORTED_LOCATION "stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
             )
-            install(boostpython)
+            install(TARGETS boostpython
+              RUNTIME DESTINATION bin
+              ARCHIVE DESTINATION lib
+              LIBRARY DESTINATION lib
+            )
             install(
               FILES "stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
