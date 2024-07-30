@@ -53,7 +53,7 @@ jobs:
       
       # Cache pip
       - name: Retrieve Python deps
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~\AppData\Local\pip\Cache
           key: ${{ runner.os }}-pip-${{matrix.python-minor}}-${{ hashFiles('**/requirements.txt') }}
