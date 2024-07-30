@@ -61,8 +61,9 @@ jobs:
         with:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'
-          cache-dependency-path: '**/requirements.txt'
-      - run: pip install -r requirements.txt
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
       
       # Cache pip
       - name: Retrieve Python deps
@@ -167,13 +168,27 @@ jobs:
               "name": "boost-python",
               "version": "1.85.0",
               "port-version": 1,
-              "features": {}
+              "features": {},
+              "dependencies": [
+                {
+                  "name": "vcpkg-cmake",
+                  "host": true
+                }
+              ]
             }
           boost_portfile: |
             set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
+            vcpkg_cmake_configure(SOURCE_PATH .)
+            vcpkg_cmake_install()
+          boost_cmakelists: |
+            project(boostpythonproject)
+            add_library(boostpython STATIC IMPORTED)
+            set_target_property(boostpython PROPERTIES IMPORTED_LOCATION stage/x64/Release/lib)
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
+          echo $boot_cmakelists > CMakeLists.txt
+          ls stage/x64/Release/lib
           # mkdir -p installed/x64-windows-release
           # cp stage/include installed/x64-windows-release
           # cp -r stage/x64/Release/lib installed/x64-windows-release
