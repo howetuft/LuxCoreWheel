@@ -37,11 +37,21 @@ jobs:
       VCPKG_BINARY_SOURCES: 'clear;x-gha,readwrite'
 
     steps:
-      #- name: Setup node
-      #  uses: actions/setup-node@v4
-      #  with:
-      #    node-version: 20
 
+      - name: Checkout repository and submodule(s)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      
+
+      - name: Setup Python
+        if: ${{ runner.os }} == "Windows"
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.${{ matrix.python-minor }}
+          cache: 'pip'  # Caching pip dependencies      
+            
       # Cache pip
       - uses: actions/cache@v3
         with:
@@ -50,13 +60,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-   
 
-
-      - name: Checkout repository and submodule(s)
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 1
-      
 
 
 #      - name: Setup tmate session
@@ -87,13 +90,6 @@ jobs:
       #- name: Setup tmate session
       #  uses: mxschmitt/action-tmate@v3
 
-      - name: Setup Python
-        if: ${{ runner.os }} == "Windows"
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.${{ matrix.python-minor }}
-          cache: 'pip'  # Caching pip dependencies      
-            
       - name: Setup sccache
         if: ${{ runner.os }} == "Windows"
         id: sccache
@@ -171,8 +167,8 @@ jobs:
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
           mkdir -p installed/x64-windows-release
-          ls
-          cp include installed/x64-windows-release
+          tree
+          cp stage/include installed/x64-windows-release
           cp stage/x64/Release/lib installed/x64-windows-release
         shell: bash
 
