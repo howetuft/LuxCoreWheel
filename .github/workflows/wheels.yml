@@ -51,6 +51,7 @@ jobs:
         with:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'  # Caching pip dependencies      
+      - run: pip install -r requirements.txt
             
       # Cache pip
       - uses: actions/cache@v3
