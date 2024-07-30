@@ -173,17 +173,23 @@ jobs:
                 {
                   "name": "vcpkg-cmake",
                   "host": true
+                },
+                {
+                  "name": "vcpkg-cmake-config",
+                  "host": true
                 }
               ]
             }
           boost_portfile: |
-            set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
+            #set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
             vcpkg_cmake_configure(SOURCE_PATH .)
             vcpkg_cmake_install()
           boost_cmakelists: |
             project(boostpythonproject)
             add_library(boostpython STATIC IMPORTED)
-            set_target_property(boostpython PROPERTIES IMPORTED_LOCATION stage/x64/Release/lib)
+            set_target_property(boostpython PROPERTIES
+              IMPORTED_LOCATION stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib
+            )
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
