@@ -165,7 +165,16 @@ jobs:
               "port-version": 1,
               "features": {}
             }
-          boost_portfile: set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
+          boost_portfile: |
+            set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
+            vcpkg_cmake_configure(
+              SOURCE_PATH .
+              OPTIONS
+                -DBOOST_INCLUDE_LIBRARIES=python3.${{ matrix.python-minor }} numpy3.${{ matrix.python-minor }}
+                -DBOOST_RUNTIME_LINK=static
+                -DBOOST_ENABLE_PYTHON=ON
+            )
+            vcpkg_cmake_install()
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
