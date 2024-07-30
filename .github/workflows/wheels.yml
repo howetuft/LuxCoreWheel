@@ -197,6 +197,7 @@ jobs:
               FILES "stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
+            MESSAGE(STATUS "Installing boostpython")
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
