@@ -59,6 +59,7 @@ jobs:
           key: ${{ runner.os }}-pip-${{matrix.python-minor}}-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.python-minor }}-   
+          save-always: 1
       - run: pip install -r requirements.txt
             
 
