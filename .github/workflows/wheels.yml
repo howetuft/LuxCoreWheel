@@ -171,6 +171,7 @@ jobs:
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
           mkdir -p installed/x64-windows-release
+          ls
           cp include installed/x64-windows-release
           cp stage/x64/Release/lib installed/x64-windows-release
         shell: bash
