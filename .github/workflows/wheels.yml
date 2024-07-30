@@ -50,16 +50,17 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.${{ matrix.python-minor }}
-          cache: 'pip'  # Caching pip dependencies      
-      - run: pip install -r requirements.txt
-            
+      
       # Cache pip
-      - uses: actions/cache@v3
+      - name: Retrieve Python deps
+        uses: actions/cache@v3
         with:
           path: ~\AppData\Local\pip\Cache
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{matrix.python-minor}}-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-   
+            ${{ runner.os }}-pip-${{ matrix.python-minor }}-   
+      - run: pip install -r requirements.txt
+            
 
 
 
@@ -169,7 +170,7 @@ jobs:
           echo $boost_portfile > portfile.cmake
           mkdir -p installed/x64-windows-release
           # cp stage/include installed/x64-windows-release
-          cp stage/x64/Release/lib installed/x64-windows-release
+          cp -r stage/x64/Release/lib installed/x64-windows-release
         shell: bash
 
       - name: Save Cache Boost
