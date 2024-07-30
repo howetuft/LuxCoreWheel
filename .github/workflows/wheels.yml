@@ -189,7 +189,7 @@ jobs:
           boost_cmakelists: |
             project(boost_python3.${{ matrix.python-minor }})
             add_library(boostpython STATIC IMPORTED)
-            set_target_property(boostpython PROPERTIES
+            set_target_properties(boostpython PROPERTIES
               IMPORTED_LOCATION stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib
             )
             install(boostpython)
