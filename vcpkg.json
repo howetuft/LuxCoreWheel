@@ -3,7 +3,10 @@
   "dependencies": [
     "openimageio",
     "openexr",
-    "boost-python"
+    "boost-python",
+    "boost-program-options",
+    "boost-serialization",
+    "boost-iostreams"
   ],
   "vcpkg-configuration": {
     "overlay-ports": ["../boost/boost"]
