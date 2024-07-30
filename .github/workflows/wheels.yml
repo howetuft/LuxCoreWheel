@@ -182,6 +182,8 @@ jobs:
             }
           boost_portfile: |
             #set(VCPKG_POLICY_EMPTY_PACKAGE enabled)
+            set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
+            set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure(SOURCE_PATH .)
             vcpkg_cmake_install()
           boost_cmakelists: |
@@ -190,6 +192,7 @@ jobs:
             set_target_property(boostpython PROPERTIES
               IMPORTED_LOCATION stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib
             )
+            install(boostpython)
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
