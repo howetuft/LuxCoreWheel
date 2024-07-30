@@ -190,9 +190,13 @@ jobs:
             project(boost_python3.${{ matrix.python-minor }})
             add_library(boostpython STATIC IMPORTED)
             set_target_properties(boostpython PROPERTIES
-              IMPORTED_LOCATION stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib
+              IMPORTED_LOCATION "stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
             )
             install(boostpython)
+            install(
+              FILES "stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
+              DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            )
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
