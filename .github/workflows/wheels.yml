@@ -205,7 +205,7 @@ jobs:
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
-          echo $boot_cmakelists > CMakeLists.txt
+          echo $boost_cmakelists > CMakeLists.txt
           ls stage/x64/Release/lib
           # mkdir -p installed/x64-windows-release
           # cp stage/include installed/x64-windows-release
