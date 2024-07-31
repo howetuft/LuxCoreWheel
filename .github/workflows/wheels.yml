@@ -204,14 +204,11 @@ jobs:
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
         run: |
-          echo $boost_vcpkg > vcpkg.json
-          echo $boost_portfile > portfile.cmake
-          echo $boost_cmakelists > CMakeLists.txt
-          ls x64/Release/lib
-          # mkdir -p installed/x64-windows-release
-          # cp stage/include installed/x64-windows-release
-          # cp -r stage/x64/Release/lib installed/x64-windows-release
-        shell: bash
+          echo %boost_vcpkg% > vcpkg.json
+          echo %boost_portfile% > portfile.cmake
+          echo %boost_cmakelists% > CMakeLists.txt
+          dir x64\Release\lib
+        shell: cmd
 
       - name: Save Cache Boost
         if: ${{ runner.os }} = "Windows"
