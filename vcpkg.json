@@ -9,6 +9,6 @@
     "boost-iostreams"
   ],
   "vcpkg-configuration": {
-    "overlay-ports": ["../boost/boost"]
+    "overlay-ports": ["../boost/boost/stage"]
   }
 }

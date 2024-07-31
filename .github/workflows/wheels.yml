@@ -161,7 +161,7 @@ jobs:
           directory: '${{github.workspace}}\boost\boost'
 
       - name: Boost overlay
-        working-directory: '${{github.workspace}}\boost\boost'
+        working-directory: '${{github.workspace}}\boost\boost\stage'
         env:
           boost_vcpkg: |
             {
@@ -181,17 +181,18 @@ jobs:
               ]
             }
           boost_portfile: |
-            MESSAGE("Boost portfile")
+            MESSAGE("boost-python portfile")
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure()
-            vcpkg_cmake_install()
             vcpkg_cmake_config_fixup(PACKAGE_NAME "boost-python")
-         boost_cmakelists: |
+            vcpkg_cmake_install()
+          boost_cmakelists: |
+            MESSAGE(STATUS "boost-python CMakeLists")
             project(boost-python)
             add_library(boostpython STATIC IMPORTED)
             set_target_properties(boostpython PROPERTIES
-              IMPORTED_LOCATION "stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
+              IMPORTED_LOCATION "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
             )
             install(TARGETS boostpython
               RUNTIME DESTINATION bin
@@ -199,16 +200,14 @@ jobs:
               LIBRARY DESTINATION lib
             )
             install(
-              FILES "stage/x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
+              FILES "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
-
-            MESSAGE(STATUS "Installing boostpython")
         run: |
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
           echo $boost_cmakelists > CMakeLists.txt
-          ls stage/x64/Release/lib
+          ls x64/Release/lib
           # mkdir -p installed/x64-windows-release
           # cp stage/include installed/x64-windows-release
           # cp -r stage/x64/Release/lib installed/x64-windows-release
