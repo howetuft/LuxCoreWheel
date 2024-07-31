@@ -190,18 +190,17 @@ jobs:
           boost_cmakelists: |
             message(STATUS "boost-python CMakeLists")
             project(boost-python)
-            add_library(boostpython STATIC IMPORTED)
-            set_target_properties(boostpython PROPERTIES
-              IMPORTED_LOCATION "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
+            add_custom_target(boost-python
+              DEPENDS libboost_python3${{ matrix.python-minor }}.lib
             )
-            install(TARGETS boostpython
+            add_custom_command(
+              OUTPUT libboost_python3${{ matrix.python-minor }}.lib
+              COMMAND cp "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib" .
+            )
+            install(TARGETS boost-python
               RUNTIME DESTINATION bin
               ARCHIVE DESTINATION lib
               LIBRARY DESTINATION lib
-            )
-            install(
-              FILES "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
-              DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
         run: |
           echo "$boost_vcpkg" > vcpkg.json
