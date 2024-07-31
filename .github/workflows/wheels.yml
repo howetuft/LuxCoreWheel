@@ -204,12 +204,12 @@ jobs:
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
         run: |
-          echo %boost_vcpkg% > vcpkg.json
-          echo %boost_portfile% > portfile.cmake
-          echo %boost_cmakelists% > CMakeLists.txt
-          dir
-          dir x64\Release\lib
-        shell: cmd
+          $boost_vcpkg | Out-File vcpkg.json
+          $boost_portfile | Out-File portfile.cmake
+          $boost_cmakelists | Out-File CMakeLists.txt
+          gci
+          gci x64/Release/lib
+        shell: pwsh
 
       - name: Save Cache Boost
         if: ${{ runner.os }} = "Windows"
