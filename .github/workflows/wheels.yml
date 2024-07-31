@@ -182,15 +182,15 @@ jobs:
               ]
             }
           boost_portfile: |
-            message(STATUS "boost-python portfile")
+            message(STATUS "Running boost-python portfile")
             file(TO_CMAKE_PATH [=[${{ github.workspace }}\boost\boost\stage]=] SRC_PATH)
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure(SOURCE_PATH "${SRC_PATH}")
-            vcpkg_cmake_config_fixup(PACKAGE_NAME "boost-python")
+            # vcpkg_cmake_config_fixup(PACKAGE_NAME "boost-python")
             vcpkg_cmake_install()
           boost_cmakelists: |
-            message(STATUS "boost-python CMakeLists")
+            message(STATUS "Running boost-python CMakeLists")
             project(boost-python)
             add_custom_target(boost-python
               DEPENDS libboost_python3${{ matrix.python-minor }}.lib
