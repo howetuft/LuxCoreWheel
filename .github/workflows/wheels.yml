@@ -204,11 +204,12 @@ jobs:
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
         run: |
+          CR=$(printf '\r')
           echo $boost_vcpkg > vcpkg.json
           echo $boost_portfile > portfile.cmake
-          sed -i -e 's/\r*$/\r/' portfile.cmake
+          sed -i "s/\$/$CR/" portfile.cmake
           echo $boost_cmakelists > CMakeLists.txt
-          sed -i -e 's/\r*$/\r/' CMakeLists.txt
+          sed -i "s/\$/$CR/" CMakeLists.txt
           ls
           ls x64/Release/lib
         shell: bash
