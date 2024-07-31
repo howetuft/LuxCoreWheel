@@ -184,7 +184,7 @@ jobs:
             message(STATUS "boost-python portfile")
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
-            vcpkg_cmake_configure(SOURCE_PATH '${{github.workspace}}\boost\boost\stage')
+            vcpkg_cmake_configure(SOURCE_PATH "${{ github.workspace }}\boost\boost\stage")
             vcpkg_cmake_config_fixup(PACKAGE_NAME "boost-python")
             vcpkg_cmake_install()
           boost_cmakelists: |
