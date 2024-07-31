@@ -184,7 +184,7 @@ jobs:
             message(STATUS "boost-python portfile")
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
-            vcpkg_cmake_configure()
+            vcpkg_cmake_configure(SOURCE_PATH .)
             vcpkg_cmake_config_fixup(PACKAGE_NAME "boost-python")
             vcpkg_cmake_install()
           boost_cmakelists: |
@@ -204,16 +204,9 @@ jobs:
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
         run: |
-          CR=$(printf '\r')
-          echo $boost_vcpkg > vcpkg.json
+          echo "$boost_vcpkg" > vcpkg.json
           echo "$boost_portfile" > portfile.cmake
-          # sed -i "s/\$/$CR/" portfile.cmake
           echo "$boost_cmakelists" > CMakeLists.txt
-          # sed -i "s/\$/$CR/" CMakeLists.txt
-          cat portfile.cmake
-          cat CMakeLists.txt
-          ls
-          ls x64/Release/lib
         shell: bash
 
       - name: Save Cache Boost
