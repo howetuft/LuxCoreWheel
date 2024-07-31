@@ -181,14 +181,14 @@ jobs:
               ]
             }
           boost_portfile: |
-            MESSAGE("boost-python portfile")
+            message(STATUS "boost-python portfile")
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure()
             vcpkg_cmake_config_fixup(PACKAGE_NAME "boost-python")
             vcpkg_cmake_install()
           boost_cmakelists: |
-            MESSAGE(STATUS "boost-python CMakeLists")
+            message(STATUS "boost-python CMakeLists")
             project(boost-python)
             add_library(boostpython STATIC IMPORTED)
             set_target_properties(boostpython PROPERTIES
