@@ -183,7 +183,7 @@ jobs:
             }
           boost_portfile: |
             message(STATUS "boost-python portfile")
-            file(TO_CMAKE_PATH $ENV{GITHUB_WORKSPACE} GHW)
+            file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}" GHW)
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure(SOURCE_PATH "${GHW}/boost/boost/stage")
