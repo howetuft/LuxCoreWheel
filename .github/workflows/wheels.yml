@@ -191,7 +191,7 @@ jobs:
             vcpkg_cmake_install()
           boost_cmakelists: |
             message(STATUS "Running boost-python CMakeLists")
-            project(boost-python)
+            project(boost_python3.${{ matrix.python-minor }})
             add_custom_target(boost-python
               DEPENDS libboost_python3${{ matrix.python-minor }}.lib
             )
