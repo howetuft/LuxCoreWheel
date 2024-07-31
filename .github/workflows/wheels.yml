@@ -319,6 +319,11 @@ jobs:
       #  with:
       #    name: sccache_${{ matrix.python-minor }}
       #    path: '${{ github.workspace }}\sccache.log'
+      - name: boost python log 
+        run: |
+          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\config-x64-windows-out.log
+        shell: cmd
+        if: always()
 
       - uses: actions/upload-artifact@v4
         with:
