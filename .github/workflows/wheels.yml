@@ -206,10 +206,10 @@ jobs:
         run: |
           CR=$(printf '\r')
           echo $boost_vcpkg > vcpkg.json
-          echo $boost_portfile > portfile.cmake
-          sed -i "s/\$/$CR/" portfile.cmake
-          echo $boost_cmakelists > CMakeLists.txt
-          sed -i "s/\$/$CR/" CMakeLists.txt
+          echo "$boost_portfile" > portfile.cmake
+          # sed -i "s/\$/$CR/" portfile.cmake
+          echo "$boost_cmakelists" > CMakeLists.txt
+          # sed -i "s/\$/$CR/" CMakeLists.txt
           cat portfile.cmake
           cat CMakeLists.txt
           ls
