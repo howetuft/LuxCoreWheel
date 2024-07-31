@@ -162,6 +162,7 @@ jobs:
 
       - name: Boost overlay
         working-directory: '${{github.workspace}}\boost\boost\stage'
+        id: boost-overlay
         env:
           boost_vcpkg: >
             {
@@ -182,7 +183,7 @@ jobs:
             }
           boost_portfile: |
             message(STATUS "boost-python portfile")
-            file(TO_CMAKE_PATH "${{ github.workspace }}\boost\boost\stage" SOURCE_PATH)
+            file(TO_CMAKE_PATH "${{ boost-overlay.working-directory }}" SOURCE_PATH)
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure(SOURCE_PATH "${SOURCE_PATH}")
