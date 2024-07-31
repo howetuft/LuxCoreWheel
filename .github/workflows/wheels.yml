@@ -199,10 +199,8 @@ jobs:
               OUTPUT libboost_python3${{ matrix.python-minor }}.lib
               COMMAND cp "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib" .
             )
-            install(TARGETS boost-python
-              RUNTIME DESTINATION bin
-              ARCHIVE DESTINATION lib
-              LIBRARY DESTINATION lib
+            install(FILES "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
+              TYPE LIB
             )
         run: |
           echo "$boost_vcpkg" > vcpkg.json
