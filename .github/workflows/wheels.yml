@@ -207,6 +207,7 @@ jobs:
           echo %boost_vcpkg% > vcpkg.json
           echo %boost_portfile% > portfile.cmake
           echo %boost_cmakelists% > CMakeLists.txt
+          dir
           dir x64\Release\lib
         shell: cmd
 
