@@ -163,7 +163,7 @@ jobs:
       - name: Boost overlay
         working-directory: '${{github.workspace}}\boost\boost\stage'
         env:
-          boost_vcpkg: |
+          boost_vcpkg: >
             {
               "name": "boost-python",
               "version": "1.85.0",
@@ -204,12 +204,12 @@ jobs:
               DESTINATION ${CMAKE_INSTALL_LIBDIR}
             )
         run: |
-          $boost_vcpkg | Out-File vcpkg.json
-          $boost_portfile | Out-File portfile.cmake
-          $boost_cmakelists | Out-File CMakeLists.txt
-          gci
-          gci x64/Release/lib
-        shell: pwsh
+          echo $boost_vcpkg > vcpkg.json
+          echo $boost_portfile > portfile.cmake
+          echo $boost_cmakelists > CMakeLists.txt
+          ls
+          ls x64/Release/lib
+        shell: bash
 
       - name: Save Cache Boost
         if: ${{ runner.os }} = "Windows"
