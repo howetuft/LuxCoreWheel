@@ -210,6 +210,14 @@ jobs:
               TYPE LIB
             )
             # /d/a/LuxCoreWheel/LuxCoreWheel/boost/boost/stage/x64/Release/lib/cmake
+            file(RENAME
+              x64/Release/lib/cmake/boost_python-config.cmake
+              x64/Release/lib/cmake/boost_python3${{ matrix.python-minor}}-config.cmake
+            )
+            file(RENAME
+              x64/Release/lib/cmake/boost_python-config-version.cmake
+              x64/Release/lib/cmake/boost_python3${{ matrix.python-minor}}-config-version.cmake
+            )
             install(
               DIRECTORY x64/Release/lib/cmake/
               DESTINATION share
