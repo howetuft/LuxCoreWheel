@@ -220,7 +220,11 @@ jobs:
               FILES_MATCHING PATTERN "*.cmake"
             )
             install(
-              FILES "python.hpp" "numpy.hpp"
+              FILES "../python.hpp" "../numpy.hpp"
+              TYPE INCLUDE
+            )
+            install(
+              DIRECTORY "../python"
               TYPE INCLUDE
             )
         run: |
