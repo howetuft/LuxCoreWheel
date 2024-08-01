@@ -305,13 +305,12 @@ jobs:
             ACTIONS_RUNTIME_TOKEN
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
-          CIBW_ENVIRONMENT_WINDOWS: >-
+          CIBW_ENVIRONMENT_WINDOWS: |-
             CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
             CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
             CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             CMAKE_BUILD_TYPE='Release'
             CMAKE_BUILD_PARALLEL_LEVEL='4'
-            # PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
             CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
@@ -324,6 +323,7 @@ jobs:
             SCCACHE_CONF='${{ github.workspace }}\sccache_config'
             SCCACHE_DIRECT='true'
             SKBUILD_CMAKE_ARGS='--preset=windows;-G Ninja'
+            # PYTHON_V='3.${{ matrix.python-minor }}'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       # Upload sccache log (debug)
