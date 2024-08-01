@@ -219,6 +219,10 @@ jobs:
               DESTINATION share
               FILES_MATCHING PATTERN "*.cmake"
             )
+            install(
+              FILES "python.hpp" "numpy.hpp"
+              TYPE INCLUDE
+            )
         run: |
           echo "$boost_vcpkg" > vcpkg.json
           echo "$boost_portfile" > portfile.cmake
