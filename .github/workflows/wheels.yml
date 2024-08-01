@@ -160,8 +160,8 @@ jobs:
           toolset: vs2022
           directory: '${{github.workspace}}\boost\boost'
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
       - name: Boost overlay
         working-directory: '${{github.workspace}}\boost\boost\stage'
@@ -206,8 +206,9 @@ jobs:
             install(FILES "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
               TYPE LIB
             )
+            # /d/a/LuxCoreWheel/LuxCoreWheel/boost/boost/stage/x64/Release/lib/cmake
             install(
-              DIRECTORY x64/Release/lib/cmake/boost/
+              DIRECTORY x64/Release/lib/cmake/
               DESTINATION share/boost_python
               FILES_MATCHING PATTERN "*.cmake"
             )
