@@ -203,13 +203,16 @@ jobs:
               OUTPUT libboost_python3${{ matrix.python-minor }}.lib
               COMMAND cp "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib" .
             )
-            install(FILES "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
+            install(
+              FILES
+              "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
+              "x64/Release/lib/libboost_numpy3${{ matrix.python-minor }}.lib"
               TYPE LIB
             )
             # /d/a/LuxCoreWheel/LuxCoreWheel/boost/boost/stage/x64/Release/lib/cmake
             install(
               DIRECTORY x64/Release/lib/cmake/
-              DESTINATION share/boost_python
+              DESTINATION share
               FILES_MATCHING PATTERN "*.cmake"
             )
         run: |
