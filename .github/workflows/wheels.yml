@@ -206,7 +206,7 @@ jobs:
             install(FILES "x64/Release/lib/libboost_python3${{ matrix.python-minor }}.lib"
               TYPE LIB
             )
-            install(FILES "x64/Release/lib/cmake/boost/*.cmake"
+            install(DIRECTORY "x64/Release/lib/cmake/boost/"
               DESTINATION "share/boost_python"
             )
         run: |
