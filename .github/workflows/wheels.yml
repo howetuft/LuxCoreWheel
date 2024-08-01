@@ -342,7 +342,6 @@ jobs:
             SCCACHE_DIRECT='true'
             SKBUILD_CMAKE_ARGS='--preset=windows;-G Ninja'
             PYTHON_V=''
-            #PYTHON_V='3.${{ matrix.python-minor }}'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       # Upload sccache log (debug)
