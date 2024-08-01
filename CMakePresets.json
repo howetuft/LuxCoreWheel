@@ -14,7 +14,8 @@
             "generator": "Ninja",
             "toolchainFile": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
-                "VCPKG_TARGET_TRIPLET": "x64-windows-release"
+                "VCPKG_TARGET_TRIPLET": "x64-windows-release",
+                "VCPKG_TRACE_FIND_PACKAGE": "ON"
             },
             "toolset": {
                 "strategy": "external"

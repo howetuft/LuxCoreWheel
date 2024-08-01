@@ -332,7 +332,6 @@ jobs:
             SCCACHE_DIRECT='true'
             SKBUILD_CMAKE_ARGS='--preset=windows;-G Ninja'
             PYTHON_V='3.${{ matrix.python-minor }}'
-            VCPKG_TRACE_FIND_PACKAGE='ON'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       # Upload sccache log (debug)
@@ -343,7 +342,7 @@ jobs:
       #    path: '${{ github.workspace }}\sccache.log'
       - name: boost python log 
         run: |
-          REM cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\config-x64-windows-out.log
+          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\config-x64-windows-release-out.log
           cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-out.log
           cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-err.log
         shell: cmd
