@@ -220,7 +220,7 @@ jobs:
               FILES_MATCHING PATTERN "*.cmake"
             )
             install(
-              DIRECTORY "boost"
+              DIRECTORY "../boost"
               TYPE INCLUDE
             )
         run: |
