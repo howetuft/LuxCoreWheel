@@ -311,7 +311,7 @@ jobs:
             CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             CMAKE_BUILD_TYPE='Release'
             CMAKE_BUILD_PARALLEL_LEVEL='4'
-            PYTHON_V='3.${{ matrix.python-minor }}'
+            # PYTHON_V='3.${{ matrix.python-minor }}'
             BOOST_ROOT='${{ steps.boost.outputs.root }}'
             BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
             CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
