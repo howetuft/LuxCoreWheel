@@ -231,6 +231,12 @@ jobs:
           echo "$boost_cmakelists" > CMakeLists.txt
         shell: bash
 
+      - uses: actions/upload-artifact@v4
+        id: boost-python-artifacts 
+        with:
+          name: boost-python-${{ matrix.python-minor }}
+          path: ./x64/Release/lib
+
       - name: Save Cache Boost
         if: ${{ runner.os }} = "Windows"
         uses: actions/cache/save@v4
