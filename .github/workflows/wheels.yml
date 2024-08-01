@@ -220,7 +220,11 @@ jobs:
               FILES_MATCHING PATTERN "*.cmake"
             )
             install(
-              DIRECTORY "../boost"
+              FILES "../boost/python.hpp"
+              TYPE INCLUDE
+            )
+            install(
+              DIRECTORY "../boost/python"
               TYPE INCLUDE
             )
         run: |
