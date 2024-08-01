@@ -191,11 +191,11 @@ jobs:
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure(SOURCE_PATH "${SRC_PATH}")
-            vcpkg_cmake_config_fixup(PACKAGE_NAME "boost_python3.${{ matrix.python-minor }}")
+            vcpkg_cmake_config_fixup(PACKAGE_NAME "boost_python3${{ matrix.python-minor }}")
             vcpkg_cmake_install()
           boost_cmakelists: |
             message(STATUS "Running boost-python CMakeLists")
-            project(boost_python)
+            project(boost_python3.${{ matrix.python-minor }})
             add_custom_target(boost-python
               DEPENDS libboost_python3${{ matrix.python-minor }}.lib
             )
@@ -323,7 +323,8 @@ jobs:
             SCCACHE_CONF='${{ github.workspace }}\sccache_config'
             SCCACHE_DIRECT='true'
             SKBUILD_CMAKE_ARGS='--preset=windows;-G Ninja'
-            # PYTHON_V='3.${{ matrix.python-minor }}'
+            PYTHON_V='3.${{ matrix.python-minor }}'
+            VCPKG_TRACE_FIND_PACKAGE='ON'
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
       # Upload sccache log (debug)
