@@ -24,7 +24,7 @@
                 "strategy": "external"
             },
             "trace": {
-                "mode": "expand"
+                "mode": "off"
             }
         }
     ]
