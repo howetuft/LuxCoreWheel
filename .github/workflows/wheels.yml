@@ -191,7 +191,10 @@ jobs:
             set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
             set(VCPKG_POLICY_SKIP_COPYRIGHT_CHECK enabled)
             vcpkg_cmake_configure(SOURCE_PATH "${SRC_PATH}")
-            vcpkg_cmake_config_fixup(PACKAGE_NAME "boost_python3${{ matrix.python-minor }}")
+            vcpkg_cmake_config_fixup(
+              PACKAGE_NAME "boost_python${PV}"
+              CONFIG_PATH "share/boost_python-1.85.0"  # TODO
+            )
             vcpkg_cmake_install()
           boost_cmakelists: |
             message(STATUS "Running boost-python CMakeLists")
@@ -211,16 +214,6 @@ jobs:
               TYPE LIB
             )
             # /d/a/LuxCoreWheel/LuxCoreWheel/boost/boost/stage/x64/Release/lib/cmake
-            file(GLOB_RECURSE PYTHON_CONFIG "boost_python-config.cmake")
-            MESSAGE("Python configs: ${PYTHON_CONFIG}")
-            file(RENAME
-              x64/Release/lib/cmake/boost_python-1.85.0/boost_python-config.cmake
-              x64/Release/lib/cmake/boost_python-1.85.0/boost_python${PV}-config.cmake
-            )
-            file(RENAME
-              x64/Release/lib/cmake/boost_python-1.85.0/boost_python-config-version.cmake
-              x64/Release/lib/cmake/boost_python-1.85.0/boost_python${PV}-config-version.cmake
-            )
             install(
               DIRECTORY x64/Release/lib/cmake/
               DESTINATION share
