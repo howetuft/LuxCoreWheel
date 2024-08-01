@@ -7,7 +7,7 @@
     "boost-program-options",
     "boost-serialization",
     "boost-iostreams",
-    "embree"
+    "embree3"
   ],
   "vcpkg-configuration": {
     "overlay-ports": ["../boost/boost/stage"]
