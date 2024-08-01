@@ -160,8 +160,8 @@ jobs:
           toolset: vs2022
           directory: '${{github.workspace}}\boost\boost'
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
 
       - name: Boost overlay
         working-directory: '${{github.workspace}}\boost\boost\stage'
@@ -220,11 +220,11 @@ jobs:
               FILES_MATCHING PATTERN "*.cmake"
             )
             install(
-              FILES "../python.hpp" "../numpy.hpp"
+              FILES "boost/python.hpp" "boost/numpy.hpp"
               TYPE INCLUDE
             )
             install(
-              DIRECTORY "../python"
+              DIRECTORY "boost/python"
               TYPE INCLUDE
             )
         run: |
