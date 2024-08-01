@@ -160,6 +160,9 @@ jobs:
           toolset: vs2022
           directory: '${{github.workspace}}\boost\boost'
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Boost overlay
         working-directory: '${{github.workspace}}\boost\boost\stage'
         id: boost-overlay
