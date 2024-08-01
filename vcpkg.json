@@ -6,7 +6,8 @@
     "boost-python",
     "boost-program-options",
     "boost-serialization",
-    "boost-iostreams"
+    "boost-iostreams",
+    "embree"
   ],
   "vcpkg-configuration": {
     "overlay-ports": ["../boost/boost/stage"]
