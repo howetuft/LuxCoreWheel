@@ -52,13 +52,12 @@ jobs:
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Restore pip cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: 'c:\users\runneradmin\appdata\local\pip\cache'
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-          save-always: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -72,6 +71,14 @@ jobs:
           python -m pip cache dir
           dir c:\users\runneradmin\appdata\local\pip\cache
             
+      - name: Save pip cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: 'c:\users\runneradmin\appdata\local\pip\cache'
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
 #      - name: Setup tmate session
 #        uses: mxschmitt/action-tmate@v3
