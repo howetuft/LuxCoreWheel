@@ -19,8 +19,8 @@ runs:
           core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
           core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-    - name: Restore pip cache
-      uses: actions/cache/restore@v4
+    - name: Set up pip cache
+      uses: actions/cache@v4
       with:
         path: 'c:\users\runneradmin\appdata\local\pip\cache'
         key: ${{ inputs.job-id }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -31,11 +31,11 @@ runs:
         python -m pip install -r requirements.txt
       shell: bash
           
-    - name: Save pip cache
-      uses: actions/cache/save@v4
-      if: always()
-      with:
-        path: 'c:\users\runneradmin\appdata\local\pip\cache'
-        key: ${{ inputs.job-id }}-pip-${{ hashFiles('**/requirements.txt') }}
+    #- name: Save pip cache
+    #  uses: actions/cache/save@v4
+    #  if: always()
+    #  with:
+    #    path: 'c:\users\runneradmin\appdata\local\pip\cache'
+    #    key: ${{ inputs.job-id }}-pip-${{ hashFiles('**/requirements.txt') }}
 
     
