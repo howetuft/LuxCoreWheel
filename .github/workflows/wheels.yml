@@ -53,10 +53,7 @@ jobs:
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Restore pip cache
-        run: |
-          mkdir -p /c/users/runneradmin/appdata/local/pip/cache
-        shell: bash
-      - uses: actions/cache@v4
+        uses: actions/cache@v4
         with:
           path: C:\users\runneradmin\appdata\local\pip\cache
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
