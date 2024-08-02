@@ -52,18 +52,22 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-
-
       - name: Setup Python
-        if: ${{ runner.os }} == "Windows"
         uses: actions/setup-python@v5
-        id: setup-python
         with:
           python-version: 3.${{ matrix.python-minor }}
           cache: 'pip'
-      - run: |
+
+      - name: Update Python dependencies
+        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.${{ matrix.python-minor }}
+          cache: 'pip'
       
       # Cache pip
       - name: Retrieve Python deps
