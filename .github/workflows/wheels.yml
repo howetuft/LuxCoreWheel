@@ -52,8 +52,6 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: Recreate pip cache dir
-
       - name: Restore pip cache
         run: |
           mkdir -p /c/users/runneradmin/appdata/local/pip/cache
