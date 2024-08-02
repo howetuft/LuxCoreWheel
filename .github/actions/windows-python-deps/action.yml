@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: windows-preparation
-description: LuxCore Python Wheels - Prepare environment for Windows build
+name: windows-python-deps
+description: LuxCore Python Wheels - Prepare Python dependencies for Windows build
 inputs:
   job-id:
     description: 'Job unique identifier (for caching)'
@@ -39,3 +39,5 @@ runs:
       with:
         path: 'c:\users\runneradmin\appdata\local\pip\cache'
         key: ${{ inputs.job-id }}-pip-${{ hashFiles('**/requirements.txt') }}
+
+    

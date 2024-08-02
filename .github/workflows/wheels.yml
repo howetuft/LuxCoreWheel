@@ -21,10 +21,11 @@ jobs:
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         os: [windows-latest]
     env:
+      BOOST_VERSION: 1.85.0
+      SPDLOG_VERSION: 1.14.1
+      GH_TOKEN: ${{ github.token }}
       SCCACHE_GHA_ENABLED: on
       SCCACHE_DIRECT: on
-      boost_version: 1.85.0
-      GH_TOKEN: ${{ github.token }}
       # Indicates the location of the vcpkg as a Git submodule of the project repository.
       # Not using "VCPKG_ROOT" because a variable with the same name is defined in the VS's
       # Developer Command Prompt environment in VS 2022 17.6, which would override this one 
@@ -48,36 +49,16 @@ jobs:
         with:
           python-version: '3.${{ matrix.python-minor }}'
 
-      - name: Prepare for Windows
+      - name: Prepare Python deps for Windows
         if: ${{ runner.os }} == "Windows"
-        uses: ./.github/actions/prepare-for-windows
+        uses: ./.github/actions/windows-python-deps
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
-#      - name: Setup tmate session
-#        uses: mxschmitt/action-tmate@v3
+      - name: Clean source tree for Windows
+        if: ${{ runner.os }} == "Windows"
+        uses: ./.github/actions/windows-clean-tree
 
-      - name: Install last spdlog version
-        if: ${{ runner.os }} == "Windows"
-        working-directory:  ${{ github.workspace }}
-        env:
-          VERSION: 1.14.1
-        run: |
-          curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/v${{env.VERSION}}.zip
-          unzip spdlog.zip
-          dir
-          cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
-          Remove-Item -Recurse -Force include
-          Copy-Item -Path '${{ github.workspace }}\spdlog-${{env.VERSION}}\include' -Destination 'include' -Recurse
-      
-      - name: Remove project FindOpenEXR.cmake
-        if: ${{ runner.os }} == "Windows"
-        working-directory:  ${{ github.workspace }}
-        env:
-          VERSION: 1.14.1
-        run: |
-          cd '${{ github.workspace }}\LuxCore\cmake\Packages'
-          Remove-Item -Recurse -Force FindOpenEXR.cmake
 
       #- name: Setup tmate session
       #  uses: mxschmitt/action-tmate@v3
@@ -87,10 +68,6 @@ jobs:
         id: sccache
         uses: mozilla-actions/sccache-action@v0.0.5
       
-      - name: Install numpy
-        if: ${{ runner.os }} == "Windows"
-        run: python -m pip install numpy<2
-  
       # Build boost python and numpy (for Windows)
       - name: Create dir
         if: ${{ runner.os }} == "Windows"
