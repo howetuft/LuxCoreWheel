@@ -50,7 +50,7 @@ jobs:
 
       - name: Prepare for Windows
         if: ${{ runner.os }} == "Windows"
-        uses: ./.github/actions/prepare-for-windows@1
+        uses: ./.github/actions/prepare-for-windows
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
