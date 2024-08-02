@@ -6,9 +6,9 @@ name: Build
 
 on: [push, pull_request]
 
-permissions:
-  id-token: write # Important for at least docker gha cache
-  contents: write
+#permissions:
+#  id-token: write # Important for at least docker gha cache
+#  contents: write
 
 jobs:
   build_wheels:
@@ -23,7 +23,6 @@ jobs:
     env:
       SCCACHE_GHA_ENABLED: on
       SCCACHE_DIRECT: on
-      WINDOWS_DEPS: ${{ github.workspace }}\WindowsCompileDeps
       boost_version: 1.85.0
       GH_TOKEN: ${{ github.token }}
       # Indicates the location of the vcpkg as a Git submodule of the project repository.
@@ -55,7 +54,7 @@ jobs:
       - name: Restore pip cache
         uses: actions/cache@v4
         with:
-          path: 'C:\users\runneradmin\appdata\local\pip\cache'
+          path: 'c:\users\runneradmin\appdata\local\pip\cache'
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
