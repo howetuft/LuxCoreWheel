@@ -10,6 +10,7 @@ runs:
     - name: Create directory
       run: |
         mkdir '${{github.workspace}}\boost'
+      shell: pwsh
 
     - name: Restore Cache
       uses: actions/cache@v4
