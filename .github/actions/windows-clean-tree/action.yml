@@ -14,7 +14,7 @@ runs:
         unzip spdlog.zip
         cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
         Remove-Item -Recurse -Force include
-        Copy-Item -Path '${{ github.workspace }}\spdlog-${{ env.VERSION }}\include' -Destination 'include' -Recurse
+        Copy-Item -Path '${{ github.workspace }}\spdlog-${{ env.SPDLOG_VERSION }}\include' -Destination 'include' -Recurse
       shell: pwsh
     
     - name: Remove project FindOpenEXR.cmake
