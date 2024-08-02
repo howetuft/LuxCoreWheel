@@ -148,7 +148,6 @@ jobs:
       #  uses: mxschmitt/action-tmate@v3
 
       - name: Oidn overlay
-        working-directory: '${{github.workspace}}\oidn'
         id: oidn-overlay
         env:
           oidn_version: "2.3.0"
@@ -172,11 +171,13 @@ jobs:
 
           oidn_portfile: |
             message(STATUS "Running oidn portfile")
+            mkdir ${{ github.workspace }}/oidn
+            cd ${{ github.workspace }}/oidn
             vcpkg_download_distfile(
               download_path
               URLS https://github.com/RenderKit/oidn/releases/download/v${oidn_version}/oidn-${oidn_version}.x64.windows.zip
               FILENAME oidn-${{ matrix.python-minor }}.zip
-              SKIP_SHA512 True
+              SKIP_SHA512 True  # TODO
             )
             vcpkg_extract_source_archive(
               oidn_path
@@ -191,7 +192,7 @@ jobs:
           oidn_cmakelists: |
             project(oidn)
             message(STATUS "Running oidn CMakeLists")
-            set(oidn_root ${oidn_workspace}/oidn-${oidn_version}.x64.windows)
+            set(oidn_root "${oidn_workspace}/oidn-${oidn_version}.x64.windows")
             message("Installing oidn at ${oidn_root}")
 
             install(
