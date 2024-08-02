@@ -62,6 +62,7 @@ jobs:
         with:
           python-version: '3.${{ matrix.python-minor }}'
           cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
 
       - name: Update Python dependencies
         run: |
