@@ -144,6 +144,74 @@ jobs:
       #     toolset: vs2022
       #     directory: '${{github.workspace}}\boost\boost'
       
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
+
+      - name: Oidn overlay
+        working-directory: '${{github.workspace}}\oidn'
+        id: oidn-overlay
+        env:
+          oidn_version: "2.3.0"
+          oidn_vcpkg: >
+            {
+              "name": "oidn",
+              "version": "$oidn_version",
+              "port-version": 1,
+              "features": {},
+              "dependencies": [
+                {
+                  "name": "vcpkg-cmake",
+                  "host": true
+                },
+                {
+                  "name": "vcpkg-cmake-config",
+                  "host": true
+                }
+              ]
+            }
+
+          oidn_portfile: |
+            message(STATUS "Running oidn portfile")
+            vcpkg_download_distfile(
+              download_path
+              URLS https://github.com/RenderKit/oidn/releases/download/v${oidn_version}/oidn-${oidn_version}.x64.windows.zip
+              FILENAME oidn-${{ matrix.python-minor }}.zip
+              SKIP_SHA512 True
+            )
+            vcpkg_extract_source_archive(
+              oidn_path
+              ARCHIVE download_path
+            )
+            vcpkg_cmake_configure(SOURCE_PATH "${oidn_path}")
+            vcpkg_cmake_config_fixup(
+              PACKAGE_NAME "oidn"
+            )
+            vcpkg_cmake_install()
+
+          oidn_cmakelists: |
+            project(oidn)
+            message(STATUS "Running oidn CMakeLists")
+            set(oidn_root ${oidn_workspace}/oidn-${oidn_version}.x64.windows)
+            message("Installing oidn at ${oidn_root}")
+
+            install(
+              DIRECTORY ${oidn_root}/bin
+              TYPE BIN
+            )
+            install(
+              DIRECTORY ${oidn_root}/include
+              TYPE INCLUDE
+            )
+            install(
+              DIRECTORY ${oidn_root}/lib
+              TYPE LIB
+            )
+        run: |
+          echo "$oidn_vcpkg" > vcpkg.json
+          echo "$oidn_portfile" > portfile.cmake
+          echo "$oidn_cmakelists" > CMakeLists.txt
+        shell: bash
+
       - name: Build Boost
         id: boost
         uses: egor-tensin/build-boost@v1
@@ -159,9 +227,6 @@ jobs:
           static: 1
           toolset: vs2022
           directory: '${{github.workspace}}\boost\boost'
-
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
 
       - name: Boost overlay
         working-directory: '${{github.workspace}}\boost\boost\stage'
