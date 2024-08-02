@@ -55,7 +55,7 @@ jobs:
       - name: Restore pip cache
         uses: actions/cache@v4
         with:
-          path: C:\users\runneradmin\appdata\local\pip\cache
+          path: 'C:\users\runneradmin\appdata\local\pip\cache'
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
