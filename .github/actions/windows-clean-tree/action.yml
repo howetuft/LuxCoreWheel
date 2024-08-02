@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: windows-clean-tree
+description: LuxCore Python Wheels - Clean/update source tree for Windows build
+runs:
+  using: 'composite'
+  steps:
+    - name: Install last spdlog version
+      working-directory:  ${{ github.workspace }}
+      run: |
+        curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/v${{ env.SPDLOG_VERSION }}.zip
+        unzip -q spdlog.zip
+        cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
+        Remove-Item -Recurse -Force include
+        Copy-Item -Path '${{ github.workspace }}\spdlog-${{ env.SPDLOG_VERSION }}\include' -Destination 'include' -Recurse
+      shell: pwsh
+    
+    - name: Remove project FindOpenEXR.cmake
+      working-directory:  ${{ github.workspace }}
+      run: |
+        cd '${{ github.workspace }}\LuxCore\cmake\Packages'
+        Remove-Item -Recurse -Force FindOpenEXR.cmake
+      shell: pwsh
