@@ -57,6 +57,13 @@ jobs:
           mkdir -p /c/users/runneradmin/appdata/local/pip/cache
         shell: bash
 
+      - uses: actions/cache@v4
+        with:
+          path: C:\users\runneradmin\appdata\local\pip\cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
