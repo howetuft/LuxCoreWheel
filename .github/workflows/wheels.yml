@@ -51,7 +51,7 @@ jobs:
       - name: Prepare for Windows
         if: ${{ runner.os }} == "Windows"
         run: |
-          gh workflow run wheels_windowss.yml -f job-identifier=${{ runner.os }}-${{ matrix.python-minor }}
+          gh workflow run wheels_windows.yml -f job-identifier=${{ runner.os }}-${{ matrix.python-minor }}
 
 #      - name: Setup tmate session
 #        uses: mxschmitt/action-tmate@v3
