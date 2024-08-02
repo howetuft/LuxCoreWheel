@@ -65,28 +65,13 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.${{ matrix.python-minor }}'
-          cache: 'pip'
-          cache-dependency-path: 'requirements.txt'
 
       - name: Update Python dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip cache dir
-        
-      # Cache pip
-      - name: Retrieve Python deps
-        uses: actions/cache@v4
-        id: cache_pip
-        with:
-          path: ~/AppData
-          key: ${{ runner.os }}-pip-${{matrix.python-minor}}-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-minor }}-   
-          save-always: 1
             
-
-
 
 #      - name: Setup tmate session
 #        uses: mxschmitt/action-tmate@v3
