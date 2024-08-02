@@ -24,8 +24,6 @@ runs:
       with:
         path: 'c:\users\runneradmin\appdata\local\pip\cache'
         key: ${{ inputs.job-id }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ inputs.job-id }}-pip-
 
     - name: Update Python dependencies
       run: |
