@@ -55,9 +55,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: 'c:\users\runneradmin\appdata\local\pip\cache'
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-${{ matrix.python-minor }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-${{ matrix.python-minor }}-pip-
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -76,9 +76,7 @@ jobs:
         if: always()
         with:
           path: 'c:\users\runneradmin\appdata\local\pip\cache'
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          key: ${{ runner.os }}-${{ matrix.python-minor}}-pip-${{ hashFiles('**/requirements.txt') }}
 
 #      - name: Setup tmate session
 #        uses: mxschmitt/action-tmate@v3
