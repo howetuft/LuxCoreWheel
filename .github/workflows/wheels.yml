@@ -70,6 +70,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python -m pip cache dir
+          dir c:\users\runneradmin\appdata\local\pip\cache
             
 
 #      - name: Setup tmate session
