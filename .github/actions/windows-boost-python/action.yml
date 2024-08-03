@@ -15,8 +15,18 @@ runs:
     - name: Restore Cache
       uses: actions/cache@v4
       with:
-        path: '${{ runner.workspace }}\boost_*.tar.gz'  # D:\a\LuxCoreWheel\boost_1_78_0.tar.gz
+        path: '${{ runner.workspace }}\boost_*.tar.gz'
         key: 'boost-${{env.boost_version}}'
+
+    - name: Export Boost user config
+      env:
+        boost_user_config: |
+          using msvc : : "sccache cl" ;
+      run: |
+        echo "$boost_user_config" > user_config.bjam
+      shell: bash
+          
+
     
     - name: Build boost-python
       uses: egor-tensin/build-boost@v1
