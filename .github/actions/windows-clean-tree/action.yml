@@ -11,7 +11,7 @@ runs:
       working-directory:  ${{ github.workspace }}
       run: |
         curl -o spdlog.zip -L https://github.com/gabime/spdlog/archive/refs/tags/v${{ env.SPDLOG_VERSION }}.zip
-        unzip /q spdlog.zip
+        unzip -q spdlog.zip
         cd '${{ github.workspace }}\LuxCore\deps\spdlog-1.8.0'
         Remove-Item -Recurse -Force include
         Copy-Item -Path '${{ github.workspace }}\spdlog-${{ env.SPDLOG_VERSION }}\include' -Destination 'include' -Recurse
