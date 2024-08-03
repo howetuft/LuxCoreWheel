@@ -62,6 +62,9 @@ jobs:
       - name: Windows - Build boost-python and boost-numpy
         if: ${{ runner.os }} == "Windows"
         uses: ./.github/actions/windows-boost-python
+        with:
+          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+
 
       - name: Windows - Set up build system
         if: ${{ runner.os }} == "Windows"

@@ -4,6 +4,11 @@
 
 name: windows-python-boost
 description: LuxCore Python Wheels - Build boost-python & boost-numpy for Windows build
+inputs:
+  job-id:
+    description: 'Job unique identifier (for caching)'
+    required: true
+    type: string
 runs:
   using: 'composite'
   steps:
@@ -16,7 +21,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: '${{ runner.workspace }}\boost_*.tar.gz'
-        key: 'boost-${{env.boost_version}}'
+        key: 'boost-${{ inputs.job-id }}-${{ env.boost_version }}'
 
     - name: Export Boost user config
       env:
