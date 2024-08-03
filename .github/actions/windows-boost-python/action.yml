@@ -21,7 +21,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: '${{ runner.workspace }}\boost_*.tar.gz'
-        key: 'boost-${{ inputs.job-id }}-${{ env.boost_version }}'
+        key: 'boost-${{ inputs.job-id }}-${{ env.BOOST_VERSION }}
 
     - name: Export Boost user config
       env:
@@ -117,4 +117,4 @@ runs:
       uses: actions/cache/save@v4
       with:
         path: '${{ runner.workspace }}\boost_*.tar.gz'
-        key: 'boost-${{env.BOOST_VERSION}}'
+        key: 'boost-${{ inputs.job-id }}-${{ env.BOOST_VERSION }}
