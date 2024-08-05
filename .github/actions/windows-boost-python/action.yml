@@ -48,7 +48,7 @@ runs:
         boost_vcpkg: >
           {
             "name": "boost-python",
-            "version": "${{ env.BOOST_VERSION }}""
+            "version": "${{ env.BOOST_VERSION }}",
             "port-version": 1,
             "features": {},
             "dependencies": [
