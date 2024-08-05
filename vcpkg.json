@@ -10,6 +10,6 @@
     "embree3"
   ],
   "vcpkg-configuration": {
-    "overlay-ports": ["../boost/boost/stage", "../oidn"]
+    "overlay-ports": ["../boost/boost/stage"]
   }
 }
