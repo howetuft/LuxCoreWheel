@@ -49,15 +49,15 @@ jobs:
         with:
           python-version: '3.${{ matrix.python-minor }}'
 
-      - name: Windows - Set up build system
-        if: ${{ runner.os }} == "Windows"
-        uses: ./.github/actions/windows-build-system
-
       - name: Windows - Prepare Python deps
         if: ${{ runner.os }} == "Windows"
         uses: ./.github/actions/windows-python-deps
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+
+      - name: Windows - Set up build system
+        if: ${{ runner.os }} == "Windows"
+        uses: ./.github/actions/windows-build-system
 
       - name: Windows - Clean source tree
         if: ${{ runner.os }} == "Windows"
