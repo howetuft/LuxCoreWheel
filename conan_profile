@@ -9,4 +9,4 @@ os=Windows
 
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
-tools.env.virtualenv:powershell=True
+tools.env.virtualenv:powershell=False
