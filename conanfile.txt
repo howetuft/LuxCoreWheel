@@ -1,5 +1,5 @@
 [requires]
-openimageio
+openimageio/2.5.14.0
 
 [generators]
 CMakeDeps
