@@ -1,4 +1,5 @@
 [requires]
+ffmpeg/6.1
 openimageio/2.5.14.0
 
 [generators]
