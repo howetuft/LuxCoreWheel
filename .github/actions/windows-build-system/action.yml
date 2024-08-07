@@ -26,8 +26,8 @@ runs:
       run: |
         conan install \
           --build=ffmpeg/6.1 --build=minizip-ng/4.0.3 --build=opencolorio/2.3.1 --build=openimageio/2.5.14.0 \
+          --profile:build=../conan_profile \
           ../conanfile.txt \
-          -pr ../conan_profile \
           -s build_type=Release
       shell: bash
 
