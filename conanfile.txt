@@ -1,0 +1,6 @@
+[requires]
+openimageio
+
+[generators]
+CMakeDeps
+CMakeToolchain
