@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: windows-oidn
-description: LuxCore Python Wheels - Build OIDN for Windows
+description: LuxCore Python Wheels - Prepare OIDN for Windows
 inputs:
   job-id:
     description: 'Job unique identifier (for caching)'

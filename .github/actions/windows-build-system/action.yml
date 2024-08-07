@@ -20,13 +20,21 @@ runs:
     # As used here the Developer Command Prompt created is targeting x64 and using the default the Windows SDK.
     - uses: ilammy/msvc-dev-cmd@v1
 
-    # Copy CMakePresets to project
-    - name: "Install CMakePresets.json and vcpkg.json"
-      working-directory: '${{ github.workspace }}'
+    # Initialize Conan
+    - name: Initialize Conan
+      working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        cp vcpkg.json LuxCore
-        cp CMakePresets.json LuxCore
-      shell: bash
+        conan profile detect --force
+        conan install . -s build_type=Release
+
+    # TODO
+    # # Copy CMakePresets to project
+    # - name: "Install CMakePresets.json and vcpkg.json"
+    #   working-directory: '${{ github.workspace }}'
+    #   run: |
+    #     cp vcpkg.json LuxCore
+    #     cp CMakePresets.json LuxCore
+    #   shell: bash
 
 #    - name: Install Ninja
 #      uses: seanmiddleditch/gha-setup-ninja@master

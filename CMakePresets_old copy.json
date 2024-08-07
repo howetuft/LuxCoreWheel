@@ -9,7 +9,7 @@
         {
             "name": "windows",
             "displayName": "Windows",
-            "description": "Configure with conan toolchain and generate Ninja project files",
+            "description": "Configure with vcpkg toolchain and generate Ninja project files",
             "binaryDir": "${sourceDir}/builds/${presetName}",
             "generator": "Ninja",
             "toolchainFile": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
