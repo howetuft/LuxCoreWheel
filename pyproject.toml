@@ -37,9 +37,9 @@ Repository = "https://github.com/LuxCoreRender/LuxCore"
 
 [tool.scikit-build]
 logging.level = "DEBUG"
-cmake.verbose = true
-cmake.source-dir = "./LuxCore"
-cmake.targets = ["pyluxcore"]
+build.verbose = true
+cmake.source-dir = "."
+build.targets = ["pyluxcore"]
 cmake.build-type = "Release"
 wheel.cmake = true
 wheel.packages = [
@@ -60,26 +60,30 @@ cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Linux-Wheel"
 [[tool.scikit-build.overrides]]
 if.platform-system = "win32"
 inherit.cmake.define = "append"
-cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Windows"
+cmake.define.LUXRAYS_CUSTOM_CONFIG = "Config_Windows-Wheel"
 #cmake.define.PYTHON_LIBRARY = "${project}\\WindowsCompileDeps\\x64\\Release\\lib"
 cmake.define.PYTHON_V = {env="PYTHON_V", default="3.6"}
 #cmake.define.PYTHON_INCLUDE_DIR = "${project}\\WindowsCompileDeps\\include\\Python${PYTHON_V}"
+cmake.define.PYTHON_LIBRARY = {env="Python_ROOT_DIR", default=""}
+cmake.define.Python_ROOT_DIR = {env="Python_ROOT_DIR", default=""}
 cmake.define.BUILD_LUXCORE_DLL = "1"
 cmake.define.CMAKE_POLICY_DEFAULT_CMP0074="NEW"
 cmake.define.BOOST_NO_CXX11_SCOPED_ENUMS="1"
 cmake.define.BOOST_FILESYSTEM_VERSION="4"
-cmake.define.CMAKE_POLICY_CMP0141="NEW"
 cmake.define.CMAKE_POLICY_CMP0128="NEW"
 cmake.define.CMAKE_POLICY_CMP0156="NEW"
 cmake.define.CMAKE_POLICY_CMP0066="NEW"
 cmake.define.CMAKE_POLICY_CMP0056="NEW"
-cmake.define.SPDLOG_FMT_EXTERNAL="ON"
-cmake.define.CMAKE_C_COMPILER="cl.exe"
-cmake.define.CMAKE_CXX_COMPILER="cl.exe"
-cmake.define.MSVC_TOOLSET_VERSION="143"
+cmake.define.CMAKE_POLICY_CMP0074="NEW"
+cmake.define.CMAKE_POLICY_CMP0141="NEW"  # For SCCACHE
+cmake.define.CMAKE_POLICY_CMP0144="NEW"
+#cmake.define.CMAKE_C_COMPILER="cl.exe"
+#cmake.define.CMAKE_CXX_COMPILER="cl.exe"
+cmake.define.msvc_toolset_version="143"
+cmake.define.CMAKE_MSVC_DEBUG_INFORMATION_FORMAT="Embedded"  # For SCCACHE
 cmake.define.CMAKE_BUILD_TYPE="Release"
 cmake.define.XML_STATIC="ON"
 cmake.define.CMAKE_USE_RELATIVE_PATHS="FALSE"
-#cmake.args = ["-G Ninja", "--trace-expand"]
-
+cmake.define.CMAKE_MINIMUM_REQUIRED_VERSION="3.30"
+cmake.define.CMAKE_BUILD_PARALLEL_LEVEL='4'
 # For convenience, all cibuildwheel settings are located in github workflow

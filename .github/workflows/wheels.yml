@@ -17,24 +17,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: ['8', '9', '10', '11', '12']
+        #python-minor: ['8', '9', '10', '11', '12']
+        python-minor: ['12']
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         os: [windows-latest]
     env:
-      BOOST_VERSION: 1.85.0
-      SPDLOG_VERSION: 1.14.1
       GH_TOKEN: ${{ github.token }}
       SCCACHE_GHA_ENABLED: on
       SCCACHE_DIRECT: on
-      # Indicates the location of the vcpkg as a Git submodule of the project repository.
-      # Not using "VCPKG_ROOT" because a variable with the same name is defined in the VS's
-      # Developer Command Prompt environment in VS 2022 17.6, which would override this one 
-      # if it had the same name.
-      _VCPKG_: ${{ github.workspace }}/vcpkg
-      # Tells vcpkg where binary packages are stored.
-      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg/bincache
-      # Let's use GitHub Action cache as storage for the vcpkg Binary Caching feature.
-      VCPKG_BINARY_SOURCES: 'clear;x-gha,readwrite'
+      CMAKE_MESSAGE_LOG_LEVEL: VERBOSE
 
     steps:
 
@@ -43,15 +34,11 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 1
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.${{ matrix.python-minor }}'
-
-      - name: Windows - Set up build system
-        if: ${{ runner.os }} == "Windows"
-        uses: ./.github/actions/windows-build-system
 
       - name: Windows - Prepare Python deps
         if: ${{ runner.os }} == "Windows"
@@ -59,41 +46,44 @@ jobs:
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
+      - name: Windows - Set up build system
+        if: ${{ runner.os }} == "Windows"
+        uses: ./.github/actions/windows-build-system
+        with:
+          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+
       - name: Windows - Clean source tree
         if: ${{ runner.os }} == "Windows"
         uses: ./.github/actions/windows-clean-tree
 
-      - name: Windows - Build boost-python and boost-numpy
-        if: ${{ runner.os }} == "Windows"
-        uses: ./.github/actions/windows-boost-python
-        with:
-          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+      # - name: Windows - Build boost-python and boost-numpy
+      #   if: ${{ runner.os }} == "Windows"
+      #   uses: ./.github/actions/windows-boost-python
+      #   with:
+      #     job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
 
-      - name: Windows - Build oidn
-        if: ${{ runner.os }} == "Windows"
-        uses: ./.github/actions/windows-oidn
-        with:
-          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+      # - name: Windows - Build oidn
+      #   if: ${{ runner.os }} == "Windows"
+      #   uses: ./.github/actions/windows-oidn
+      #   with:
+      #     job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
       #- name: Setup tmate session
       #  uses: mxschmitt/action-tmate@v3
 
 
-      - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel==2.19.2
-
 
       # Build wheel
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
+        uses: pypa/cibuildwheel@v2.21.1
         env:
           SCCACHE_GHA_ENABLED: "true"
           CIBW_BUILD_FRONTEND: build
           CIBW_BUILD_VERBOSITY: 1
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
-          #CIBW_ARCHS: auto64
+          CIBW_ARCHS: auto64
           CIBW_ENVIRONMENT_PASS_LINUX: |
             SCCACHE_GHA_ENABLED
             SCCACHE_DIRECT
@@ -101,40 +91,44 @@ jobs:
             ACTIONS_RUNTIME_TOKEN
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
+          CIBW_BEFORE_BUILD_WINDOWS: bash.exe %GITHUB_WORKSPACE%/scripts/before_build_windows.sh
           CIBW_ENVIRONMENT_WINDOWS: >-
-            CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
-            CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
-            CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
-            CMAKE_BUILD_TYPE='Release'
-            CMAKE_BUILD_PARALLEL_LEVEL='4'
-            BOOST_ROOT='${{ steps.boost.outputs.root }}'
-            BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
-            CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
-            CFLAGS='-DXML_STATIC'
-            CMAKE_CXX_COMPILER_LAUNCHER=sccache
-            CMAKE_C_COMPILER_LAUNCHER=sccache
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
-            SCCACHE_LOG='debug'
-            SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
-            SCCACHE_CONF='${{ github.workspace }}\sccache_config'
-            SCCACHE_DIRECT='true'
-            SKBUILD_CMAKE_ARGS='--preset=windows;-G Ninja'
+            SCCACHE_LOG=debug
+            LIBDIR='${{ env.Python_ROOT_DIR }}'
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             PYTHON_V=''
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
+            SPDLOG_FMT_EXTERNAL=on
+            #CMAKE_LIBRARY_PATH='${{ env.PYTHONLOCATION }}\libs'
+            #CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
+            #CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
+            #BOOST_ROOT='${{ steps.boost.outputs.root }}'
+            #BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
+            #CMAKE_BUILD_TYPE='Release'
+            #CMAKE_BUILD_PARALLEL_LEVEL='4'
+            #CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
+            #CFLAGS='-DXML_STATIC'
+            #CMAKE_CXX_COMPILER_LAUNCHER=sccache
+            #CMAKE_C_COMPILER_LAUNCHER=sccache
+            #CMAKE_CXX_STANDARD=17
+            #CMAKE_BUILD_TYPE='Release'
+        with:
+            package-dir: .
+            output-dir: wheelhouse
+            config-file: "{package}/pyproject.toml"
 
-      # Upload sccache log (debug)
+
+      #- name: Setup tmate session
+        #if: ${{ failure() }}
+        #uses: mxschmitt/action-tmate@v3
+
+      ## Upload sccache log (debug)
       #- uses: actions/upload-artifact@v4
-      #  if: always()
-      #  with:
-      #    name: sccache_${{ matrix.python-minor }}
-      #    path: '${{ github.workspace }}\sccache.log'
-      - name: boost python log 
-        run: |
-          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\config-x64-windows-release-out.log
-          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-out.log
-          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-err.log
-        shell: cmd
-        if: always()
+        #if: always()
+        #with:
+          #name: sccache_${{ matrix.python-minor }}
+          #path: 'C:\hostedtoolcache\windows\sccache\sccache.log'
+
 
       - uses: actions/upload-artifact@v4
         with:

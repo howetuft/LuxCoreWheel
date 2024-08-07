@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "boost_helper"
+version = "1.0.0"
+
+[tool.setuptools]
+py-modules = ["boost_helper", "boost_data"]

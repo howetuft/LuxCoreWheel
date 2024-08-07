@@ -2,54 +2,169 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: windows-python-boost
+name: windows-build-system
 description: LuxCore Python Wheels - Build boost-python & boost-numpy for Windows build
+inputs:
+  job-id:
+    description: 'Job unique identifier (for caching)'
+    required: true
+    type: string
 runs:
   using: 'composite'
   steps:
+    - name: Init environment
+      run: |
+        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
+        echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
+        #echo "SCCACHE_DIRECT=False" >> $GITHUB_ENV
+        echo "SCCACHE_ERROR_LOG=../../sccache.log" >> $GITHUB_ENV
+        # LogLevel in {error, warn, info, debug, trace}, see parse.rs
+        echo "SCCACHE_LOG=Info" >> $GITHUB_ENV
+        echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        echo "BOOST_INSTALL_LAYOUT=system" >> $GITHUB_ENV
+      shell: bash
+    # Debug
+    #- uses: mxschmitt/action-tmate@v3
+
     # Setup the build machine with the most recent versions of CMake and Ninja. Both are cached if not already: on subsequent runs both will be quickly restored from GitHub cache service.
     # https://github.com/lukka/run-vcpkg
     - uses: lukka/get-cmake@latest
 
     - name: Setup sccache
-      if: ${{ runner.os }} == "Windows"
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
-      
-    # On Windows runners, let's ensure to have the Developer Command Prompt environment setup correctly.
-    # As used here the Developer Command Prompt created is targeting x64 and using the default the Windows SDK.
+
+    # For main compilation
     - uses: ilammy/msvc-dev-cmd@v1
 
-    # Copy CMakePresets to project
-    - name: "Install CMakePresets.json and vcpkg.json"
+    #- name: Initialize VC
+      #run: |
+        #@echo off
+
+        #for /f "usebackq tokens=*" %%i in (`vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+          #set InstallDir=%%i
+        #)
+
+        #if exist "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" (
+          #@echo "Running %InstallDir%\VC\Auxiliary\Build\vcvars64.bat..."
+          #"%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" %*
+
+          #@echo "Exporting..."
+          #set > %GITHUB_ENV%
+        #)
+      #shell: cmd
+      #
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
+
+
+    # Initialize Conan with local packages
+    - name: Initialize Conan
+      working-directory: ${{ github.workspace }}/LuxCore
+      env:
+        PKG_CONFIG_PATH: .
+      run: |
+        # Copy profiles
+        mkdir -p /c/users/runneradmin/.conan2/profiles
+        cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
+
+        cp ../conanfile.py .
+        unset ORIGINAL_PATH
+      shell: bash
+
+    - name: install boost_helper
+      working-directory: ${{ github.workspace }}/externals/windows/_boost_wheel
+      run: |
+        python -m pip install .
+      shell: bash
+
+    #- name: create boost-deps (header only)
+      #working-directory: ${{ github.workspace }}/externals/windows
+      #run: |
+        #for FOLDER in boost-align boost-bind boost-config boost-conversion boost-core boost-detail boost-foreach boost-function boost-integer boost-iterator boost-lexical_cast boost-mpl boost-numeric_conversion boost-preprocessor boost-property_map boost-smart_ptr boost-static_assert boost-tuple boost-type_traits boost-utility boost-assert boost-predef boost-move boost-ratio boost-throw_exception boost-typeof boost-winapi boost-intrusive boost-container_hash boost-system boost-io boost-algorithm boost-range boost-any boost-tokenizer boost-array boost-dynamic_bitset boost-regex boost-optional boost-spirit boost-unordered boost-variant boost-concept_check
+        #do
+          #conan create $FOLDER &
+        #done
+      #shell: bash
+
+    #- name: create boost dependencies
+      #working-directory: ${{ github.workspace }}/externals/windows
+      #run: |
+        #./boost-create-base-deps.sh
+      #shell: bash
+
+    #- name: create boost-deps (libs)
+      #working-directory: ${{ github.workspace }}/externals/windows
+      #run: |
+        #export SCCACHE_GHA_ENABLED
+        #export SCCACHE_C_CUSTOM_CACHE_BUSTER
+        #export SCCACHE_CONF
+        #export SCCACHE_DIRECT
+        #export CMAKE_CXX_COMPILER_LAUNCHER
+        #export CMAKE_C_COMPILER_LAUNCHER
+
+        #./boost-create-lib-deps.sh
+      #shell: bash
+
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
+
+
+    # We use editable mode, otherwise a random revision is computed and makes
+    # sccache inefficient
+
+    #- name: openimageio
+      #working-directory: ${{ github.workspace }}/externals/windows/openimageio
+      #run: |
+        ## Keep install before source, otherwise settings.build_type won't be set
+        ## when running layout()
+        #conan editable add .
+        #conan install . -s build_type=Release
+        #conan source .
+        ##cp -R src/include .
+
+        ##conan build .
+        ##cp -R build/Release/lib .
+        ##cp -R build/Release/include/* include
+
+      #shell: bash
+
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
+
+
+    #- name: oidn
+      #working-directory: ${{ github.workspace }}/externals/windows/oidn
+      #run: |
+        ## oidn
+        #conan editable add .
+        #conan install . -s build_type=Release
+        #conan source .
+      #shell: bash
+
+    #- name: test
+      #working-directory: ${{ github.workspace }}/externals/windows/test
+      #run: |
+        #conan install --build=missing .  -s build_type=Release
+        #cmake --preset=conan-release -G Ninja .
+      #shell: bash
+
+
+    #- uses: mxschmitt/action-tmate@v3
+
+    #- name: Run conan
+      #working-directory: ${{ github.workspace }}
+      #env:
+        #PKG_CONFIG_PATH: .
+      #run: |
+        #conan install --build=missing . -s build_type=Release
+      #shell: bash
+
+    # Copy config to project
+    - name: "Install Config_Windows-Wheel.cmake"
       working-directory: '${{ github.workspace }}'
       run: |
-        cp vcpkg.json LuxCore
-        cp CMakePresets.json LuxCore
+        cp configs/Config_Windows-Wheel.cmake LuxCore/cmake/SpecializedConfig
       shell: bash
-
-#    - name: Install Ninja
-#      uses: seanmiddleditch/gha-setup-ninja@master
-    
-    # vcpkg stuff
-    - name: "Create directory '${{ env.VCPKG_DEFAULT_BINARY_CACHE }}'"
-      run: mkdir -p $VCPKG_DEFAULT_BINARY_CACHE
-      shell: bash
-
-    # Restore vcpkg from the GitHub Action cache service. Note that packages are restored by vcpkg's binary caching
-    # when it is being run afterwards by CMake.
-    - name: Restore vcpkg
-      uses: actions/cache@v4
-      with:
-        # The first path is the location of vcpkg: it contains the vcpkg executable and data files, as long as the
-        # built package archives (aka binary cache) which are located by VCPKG_DEFAULT_BINARY_CACHE env var.
-        # The other paths starting with '!' are exclusions: they contain termporary files generated during the build of the installed packages.
-        path: |
-          ${{ env._VCPKG_ }}
-          !${{ env._VCPKG_ }}/buildtrees
-          !${{ env._VCPKG_ }}/packages
-          !${{ env._VCPKG_ }}/downloads
-          !${{ env._VCPKG_ }}/installed
-        # The key is composed in a way that it gets properly invalidated whenever a different version of vcpkg is being used.
-        key: |
-          ${{ hashFiles( '.git/modules/vcpkg/HEAD' )}}

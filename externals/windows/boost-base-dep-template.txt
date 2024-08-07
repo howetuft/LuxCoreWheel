@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
+from boost_helper import BoostMeta, ConanFile
+
+class BoostMODULE(
+    ConanFile,
+    metaclass=BoostMeta,
+    module="MODULE",
+    package_type="header-library"
+):
+    pass
