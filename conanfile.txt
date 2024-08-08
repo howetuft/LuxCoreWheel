@@ -7,7 +7,7 @@ boost/1.84.0
 openimageio/2.5.14.0
 
 [options]
-boost:without_python=False
+boost/*:without_python=False
 
 [generators]
 CMakeDeps
