@@ -23,11 +23,13 @@ runs:
     # Initialize Conan
     - name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
+      env:
+        PKG_CONFIG_PATH: .
       run: |
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         conan install \
-          --build=ffmpeg/6.1 --build=minizip-ng/4.0.3 --build=opencolorio/2.3.1 --build=openimageio/2.5.14.0 \
+          --build=missing \
           ../conanfile.txt \
           -s build_type=Release
       shell: bash
