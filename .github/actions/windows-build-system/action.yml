@@ -31,11 +31,8 @@ runs:
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conanfile.py .
-        conan install ` 
-          --build=missing ` 
-          .  `
-          -s build_type=Release
-      shell: pwsh
+        conan install --build=missing .  -s build_type=Release
+      shell: bash
 
     # # Copy CMakePresets to project
     # - name: "Install CMakePresets.json"
