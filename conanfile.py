@@ -14,8 +14,8 @@ class LuxCore(ConanFile):
         "openimageio/2.5.14.0",
     ]
 
-    options = {
-        "boost/*:without_python": [False,]
+    default_options = {
+        "boost/*:without_python": False
     }
 
     generators = "CMakeDeps", "CMakeToolchain"
