@@ -19,3 +19,5 @@ class LuxCore(ConanFile):
     }
 
     generators = "CMakeDeps", "CMakeToolchain"
+
+    settings = "os", "compiler", "build_type", "arch"
