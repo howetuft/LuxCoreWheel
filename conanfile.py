@@ -5,7 +5,7 @@
 from conan import ConanFile
 
 class LuxCore(ConanFile):
-    requirements = [
+    requires = [
         "opencolorio/2.3.1",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
