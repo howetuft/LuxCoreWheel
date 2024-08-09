@@ -15,7 +15,7 @@ class LuxCore(ConanFile):
     ]
 
     options = {
-        "boost/*:without_python": False
+        "boost/*:without_python": [False,]
     }
 
     generators = "CMakeDeps", "CMakeToolchain"
