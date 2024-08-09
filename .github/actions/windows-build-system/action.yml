@@ -12,13 +12,10 @@ runs:
     - uses: lukka/get-cmake@latest
 
     - name: Setup sccache
-      if: ${{ runner.os }} == "Windows"
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
       
-    - name: Install Ninja
-      uses: seanmiddleditch/gha-setup-ninja@master
-
+    # TODO
     # On Windows runners, let's ensure to have the Developer Command Prompt environment setup correctly.
     # As used here the Developer Command Prompt created is targeting x64 and using the default the Windows SDK.
     - uses: ilammy/msvc-dev-cmd@v1
@@ -33,17 +30,18 @@ runs:
       run: |
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
+        cp ../conanfile.txt .
         conan install \
           --build=missing \
-          ../conanfile.txt \
+          . \
           -s build_type=Release
       shell: bash
 
-    # Copy CMakePresets to project
-    - name: "Install CMakePresets.json"
-      working-directory: '${{ github.workspace }}'
-      run: |
-        cp CMakePresets.json LuxCore
-      shell: bash
+    # # Copy CMakePresets to project
+    # - name: "Install CMakePresets.json"
+    #   working-directory: '${{ github.workspace }}'
+    #   run: |
+    #     cp CMakePresets.json LuxCore
+    #   shell: bash
 
     
