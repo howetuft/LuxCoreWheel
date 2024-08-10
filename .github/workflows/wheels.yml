@@ -105,6 +105,7 @@ jobs:
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
+            CMAKE_CXX_STANDARD=17
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG='debug'
             SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
