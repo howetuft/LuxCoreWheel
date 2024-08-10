@@ -53,23 +53,41 @@ class LuxCore(ConanFile):
     "wave",
 )
 
-    _boost_required_options = {
-        "thread",
-        "program_options",
-        "filesystem",
-        "serialization",
-        "iostreams",
-        "regexs",
-        "system",
-        "python",
-        "chrono",
-        "serialization",
-        "numpy",
-    }
-
     default_options = {
-        f"boost/*:without_{option}": option not in LuxCore._boost_required_options
-        for option in LuxCore._boost_all_options
+        "boost/*:without_atomic": True,
+        "boost/*:without_charconv": True,
+        "boost/*:without_chrono": False,
+        "boost/*:without_cobalt": True,
+        "boost/*:without_container": True,
+        "boost/*:without_context": True,
+        "boost/*:without_contract": True,
+        "boost/*:without_coroutine": True,
+        "boost/*:without_date_time": True,
+        "boost/*:without_exception": True,
+        "boost/*:without_fiber": True,
+        "boost/*:without_filesystem": False,
+        "boost/*:without_graph": True,
+        "boost/*:without_graph_parallel": True,
+        "boost/*:without_iostreams": False,
+        "boost/*:without_json": True,
+        "boost/*:without_locale": True,
+        "boost/*:without_log": True,
+        "boost/*:without_math": True,
+        "boost/*:without_mpi": True,
+        "boost/*:without_nowide": True,
+        "boost/*:without_program_options": False,
+        "boost/*:without_python": False,
+        "boost/*:without_random": True,
+        "boost/*:without_regex": False,
+        "boost/*:without_serialization": False,
+        "boost/*:without_stacktrace": True,
+        "boost/*:without_system": False,
+        "boost/*:without_test": True,
+        "boost/*:without_thread": False,
+        "boost/*:without_timer": True,
+        "boost/*:without_type_erasure": True,
+        "boost/*:without_url": True,
+        "boost/*:without_wave": True,
     }
 
     generators = "CMakeDeps", "CMakeToolchain"
@@ -77,4 +95,4 @@ class LuxCore(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def package_info(self):
-        self.conf_info.define("tools.build:verbosity", "debug")
+        self.conf_info.define("cmake.build:verbosity", "debug")
