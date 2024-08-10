@@ -118,7 +118,7 @@ jobs:
             SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
             SCCACHE_CONF='${{ github.workspace }}\sccache_config'
             SCCACHE_DIRECT='true'
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja'
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--trace-expand'
             PYTHON_V=''
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 

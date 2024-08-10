@@ -16,8 +16,60 @@ class LuxCore(ConanFile):
         "openimageio/2.5.14.0",
     ]
 
+    _boost_all_options = (
+    "atomic",
+    "charconv",
+    "chrono",
+    "cobalt",
+    "container",
+    "context",
+    "contract",
+    "coroutine",
+    "date_time",
+    "exception",
+    "fiber",
+    "filesystem",
+    "graph",
+    "graph_parallel",
+    "iostreams",
+    "json",
+    "locale",
+    "log",
+    "math",
+    "mpi",
+    "nowide",
+    "program_options",
+    "python",
+    "random",
+    "regex",
+    "serialization",
+    "stacktrace",
+    "system",
+    "test",
+    "thread",
+    "timer",
+    "type_erasure",
+    "url",
+    "wave",
+)
+
+    _boost_required_options = {
+        "thread",
+        "program_options",
+        "filesystem",
+        "serialization",
+        "iostreams",
+        "regexs",
+        "system",
+        "python",
+        "chrono",
+        "serialization",
+        "numpy",
+    }
+
     default_options = {
-        "boost/*:without_python": False
+        f"boost/*:without_{option}": option not in self._boost_required_options
+        for option in self._boost_all_options
     }
 
     generators = "CMakeDeps", "CMakeToolchain"
