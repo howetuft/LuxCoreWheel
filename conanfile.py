@@ -58,7 +58,7 @@ class LuxCore(ConanFile):
         "boost/*:without_charconv": True,
         "boost/*:without_chrono": False,
         "boost/*:without_cobalt": True,
-        "boost/*:without_container": True,
+        "boost/*:without_container": False,
         "boost/*:without_context": True,
         "boost/*:without_contract": True,
         "boost/*:without_coroutine": True,
