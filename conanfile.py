@@ -54,7 +54,7 @@ class LuxCore(ConanFile):
 )
 
     default_options = {
-        "boost/*:without_atomic": True,
+        "boost/*:without_atomic": False,
         "boost/*:without_charconv": True,
         "boost/*:without_chrono": False,
         "boost/*:without_cobalt": True,
