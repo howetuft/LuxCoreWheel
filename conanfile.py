@@ -68,8 +68,8 @@ class LuxCore(ConanFile):
     }
 
     default_options = {
-        f"boost/*:without_{option}": option not in self._boost_required_options
-        for option in self._boost_all_options
+        f"boost/*:without_{option}": option not in LuxCore._boost_required_options
+        for option in LuxCore._boost_all_options
     }
 
     generators = "CMakeDeps", "CMakeToolchain"
