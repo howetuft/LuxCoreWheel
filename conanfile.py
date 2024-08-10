@@ -13,6 +13,7 @@ class LuxCore(ConanFile):
         "libpng/1.6.42",
         "ffmpeg/6.1",
         "boost/1.84.0",
+        "llvm-openmp/18.1.8",
         "openimageio/2.5.14.0",
     ]
 
