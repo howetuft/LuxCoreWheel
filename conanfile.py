@@ -77,7 +77,7 @@ class LuxCore(ConanFile):
         "boost/*:without_nowide": True,
         "boost/*:without_program_options": False,
         "boost/*:without_python": False,
-        "boost/*:without_random": True,
+        "boost/*:without_random": False,
         "boost/*:without_regex": False,
         "boost/*:without_serialization": False,
         "boost/*:without_stacktrace": True,
