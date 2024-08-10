@@ -5,6 +5,8 @@
 from conan import ConanFile
 
 class LuxCore(ConanFile):
+    name = "LuxCoreWheels"
+
     requires = [
         "opencolorio/2.3.1",
         "minizip-ng/4.0.3",
@@ -21,3 +23,6 @@ class LuxCore(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain"
 
     settings = "os", "compiler", "build_type", "arch"
+
+    def package_info(self):
+        self.conf_info.define("tools.build:verbosity", "debug")
