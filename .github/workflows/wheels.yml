@@ -35,7 +35,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 1
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -106,6 +106,7 @@ jobs:
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
             CMAKE_CXX_STANDARD=17
+            CMAKE_MESSAGE_LOG_LEVEL=VERBOSE
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG='debug'
             SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
