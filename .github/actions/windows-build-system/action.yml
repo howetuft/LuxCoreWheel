@@ -46,7 +46,7 @@ runs:
     - name: "Install Config_Windows-Wheel.cmake"
       working-directory: '${{ github.workspace }}'
       run: |
-        cp configs/Config_Windows-Wheel.cmake LuxCore/configs
+        cp configs/Config_Windows-Wheel.cmake LuxCore/cmake/SpecializedConfig
       shell: bash
 
 
