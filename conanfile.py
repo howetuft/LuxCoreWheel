@@ -17,7 +17,7 @@ class LuxCore(ConanFile):
         "boost/1.78.0",
         "llvm-openmp/18.1.8",
         "spdlog/1.14.1",
-        "openimageio/2.1.11.2@ppodsiadly/stable"
+        "openimageio/2.1.11.2@ppodsiadly/stable",
         "embree3/3.13.5",
         "c-blosc/1.21.5",
     ]
