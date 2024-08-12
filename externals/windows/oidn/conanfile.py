@@ -23,4 +23,4 @@ class OidnConan(ConanFile):
             )
 
     def package_info(self):
-        self.cpp_info.libs = ["oidn"]
+        self.cpp_info.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
