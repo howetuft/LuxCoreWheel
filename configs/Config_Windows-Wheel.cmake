@@ -18,7 +18,7 @@ else()
 endif()
 
 find_package(embree REQUIRED)
-if (EMBREE_FOUND)
+if (embree_FOUND)
   set(EMBREE_FOUND "TRUE")
   MESSAGE(VERBOSE "LuxCoreWheel - Embree: ${EMBREE_INCLUDE_DIR}")
   include_directories(${EMBREE_INCLUDE_DIR})
