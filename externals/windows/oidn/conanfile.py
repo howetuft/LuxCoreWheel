@@ -10,7 +10,7 @@ class OidnConan(ConanFile):
     settings = "os", "arch"
 
     def build(self):
-        url = "https://github.com/RenderKit/oidn/releases/download/v{version}/oidn-{version}.x64.windows.zip"
+        url = f"https://github.com/RenderKit/oidn/releases/download/v{version}/oidn-{version}.x64.windows.zip"
         get(self, url)
 
     def package(self):
