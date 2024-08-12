@@ -36,6 +36,9 @@ runs:
         cp ../windows.cmake /c/users/runneradmin/.conan2/profiles/windows.cmake
         cp ../conanfile.py .
 
+        # Create local package oidn
+        conan create ${{ github.workspace }}/externals/windows/oidn
+
         # Run conan
         conan install --build=missing .  -s build_type=Release
       shell: bash
