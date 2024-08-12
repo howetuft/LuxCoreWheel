@@ -33,7 +33,6 @@ runs:
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
-        cp ../windows.cmake /c/users/runneradmin/.conan2/profiles/windows.cmake
         cp ../conanfile.py .
 
         # Create local package oidn
