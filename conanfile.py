@@ -19,6 +19,9 @@ class LuxCore(ConanFile):
         "spdlog/1.14.1",
         "openimageio/2.5.14.0",
         "embree3/3.13.5",
+        "c-blosc/1.21.5",
+        "bison/3.8.2",
+        "flex/2.6.4",
     ]
 
     default_options = {
