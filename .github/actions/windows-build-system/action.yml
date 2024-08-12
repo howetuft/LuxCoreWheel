@@ -29,9 +29,13 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
+        # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
+        cp ../windows.cmake /c/users/runneradmin/.conan2/profiles/windows.cmake
         cp ../conanfile.py .
+
+        # Run conan
         conan install --build=missing .  -s build_type=Release
       shell: bash
 
