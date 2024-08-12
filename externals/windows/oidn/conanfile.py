@@ -16,7 +16,9 @@ class OidnConan(ConanFile):
     def package(self):
         for subfolder in ("bin", "include", "lib"):
             shutil.copytree(
-                os.path.join(self.build_folder, subfolder),
+                os.path.join(
+                    self.build_folder, f"oidn-{self.version}.x64.windows", subfolder
+                ),
                 os.path.join(self.package_folder, subfolder),
             )
 
