@@ -1,3 +1,5 @@
+include(default)
+
 [settings]
 arch=x86_64
 build_type=Release
@@ -10,3 +12,4 @@ os=Windows
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
+tools.cmake.cmaketoolchain:user_toolchain+={{profile_dir}}/windows.cmake
