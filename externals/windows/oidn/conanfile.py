@@ -14,10 +14,11 @@ class OidnConan(ConanFile):
         get(self, url)
 
     def package(self):
-        shutil.copytree(
-            self.build_folder,
-            self.package_folder
-        )
+        for subfolder in ("bin", "include", "lib"):
+            shutil.copytree(
+                os.path.join(self.build_folder, subfolder),
+                os.path.join(self.package_folder, subfolder),
+            )
 
     def package_info(self):
         self.cpp_info.libs = ["oidn"]
