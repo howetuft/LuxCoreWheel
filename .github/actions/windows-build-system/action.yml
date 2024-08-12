@@ -43,6 +43,14 @@ runs:
         conan install --build=missing .  -s build_type=Release
       shell: bash
 
+    # Copy config to project
+    - name: "Install Config_Windows-Wheel.cmake"
+      working-directory: '${{ github.workspace }}'
+      run: |
+        cp configs/Config_Windows-Wheel.cmake LuxCore/configs
+      shell: bash
+
+
     # # Copy CMakePresets to project
     # - name: "Install CMakePresets.json"
     #   working-directory: '${{ github.workspace }}'
