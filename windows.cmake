@@ -4,3 +4,4 @@
 # expects OPENIMAGEIO_FOUND. We will lure LuxCore:
 set(OPENIMAGEIO_FOUND "TRUE")
 set(EMBREE_FOUND "TRUE")
+set(OIDN_FOUND "TRUE")
