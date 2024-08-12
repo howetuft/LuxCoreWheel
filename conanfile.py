@@ -14,7 +14,7 @@ class LuxCore(ConanFile):
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
         "ffmpeg/6.1",
-        "boost/1.84.0",
+        "boost/1.78.0",
         "llvm-openmp/18.1.8",
         "spdlog/1.14.1",
         "openimageio/2.5.14.0",
