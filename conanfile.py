@@ -16,6 +16,7 @@ class LuxCore(ConanFile):
         "llvm-openmp/18.1.8",
         "spdlog/1.14.1",
         "openimageio/2.5.14.0",
+        "embree3/3.13.5",
     ]
 
     default_options = {
