@@ -15,7 +15,7 @@ class LuxCore(ConanFile):
         "ffmpeg/6.1",
         "boost/1.78.0",
         "llvm-openmp/18.1.8",
-        "spdlog/1.14.1",
+        "spdlog/1.8.5",
         "openimageio/2.2.13",
         "embree3/3.12.2",
         "c-blosc/1.21.5",
