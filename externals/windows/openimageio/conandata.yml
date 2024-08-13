@@ -1,3 +1,9 @@
 sources:
   "2.2.13.1":
     url: "https://github.com/AcademySoftwareFoundation/OpenImageIO/archive/refs/tags/v2.2.13.1.zip"
+
+patches:
+  "2.2.13.1":
+    - patch_file: "patches/fix-fmt.patch"
+      patch_description: "fix fmt case-sensitive fmt_INCLUDES"
+      patch_type: "conan"
