@@ -62,7 +62,13 @@ class LuxCore(ConanFile):
         "fmt/*:header_only": True,
     }
 
-    generators = "CMakeDeps", "CMakeToolchain"
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.generate()
+
+        cd = CMakeDeps(self)
+        cd.set_property("openexr", "cmake_file_name", "OPENEXR")
+        cd.generate()
 
     settings = "os", "compiler", "build_type", "arch"
 
