@@ -26,7 +26,6 @@ class OpenImageIOConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False],
-        "fPIC": [True, False],
         "with_libjpeg": ["libjpeg", "libjpeg-turbo"],
         "with_libpng": [True, False],
         "with_freetype": [True, False],
