@@ -258,7 +258,6 @@ class OpenImageIOConan(ConanFile):
             "libtiff::libtiff",
             "pugixml::pugixml",
             "tsl-robin-map::tsl-robin-map",
-            "libsquish::libsquish",
             "fmt::fmt",
             "imath::imath",
             "openexr::openexr",
