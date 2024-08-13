@@ -138,18 +138,19 @@ class OpenImageIOConan(ConanFile):
 
         # CMake options
         tc.variables["CMAKE_DEBUG_POSTFIX"] = ""  # Needed for 2.3.x.x+ versions
-        tc.variables["OIIO_BUILD_TOOLS"] = False
-        tc.variables["OIIO_BUILD_TESTS"] = False
-        tc.variables["BUILD_DOCS"] = False
-        tc.variables["INSTALL_DOCS"] = False
-        tc.variables["INSTALL_FONTS"] = False
-        tc.variables["INSTALL_CMAKE_HELPER"] = False
+        tc.cache_variables["OIIO_BUILD_TOOLS"] = False
+        tc.cache_variables["OIIO_BUILD_TESTS"] = False
+        tc.cache_variables["BUILD_DOCS"] = False
+        tc.cache_variables["INSTALL_DOCS"] = False
+        tc.cache_variables["INSTALL_FONTS"] = False
+        tc.cache_variables["INSTALL_CMAKE_HELPER"] = False
         tc.variables["EMBEDPLUGINS"] = True
-        tc.variables["USE_PYTHON"] = False
-        tc.variables["USE_EXTERNAL_PUGIXML"] = True
-        tc.variables["BUILD_MISSING_FMT"] = False
+        tc.cache_variables["USE_PYTHON"] = False
+        tc.cache_variables["USE_EXTERNAL_PUGIXML"] = True
+        tc.cache_variables["BUILD_MISSING_FMT"] = False
         tc.cache_variables["USE_QT"] = False
         tc.cache_variables["OIIO_INTERNALIZE_FMT"] = False
+        tc.cache_variables["fmt_LOCAL_BUILD"] = False
 
 
         # Conan is normally not used for testing, so fixing this option to not build the tests
