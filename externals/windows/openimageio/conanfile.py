@@ -188,6 +188,9 @@ class OpenImageIOConan(ConanFile):
 
         tc.generate()
         cd = CMakeDeps(self)
+        if self.options.with_libwebp:
+            cd.set_property("WebP::webp", "cmake_target_aliases", ["WebP::WebP"])
+            assert 1==0, "Error"
         cd.generate()
 
     def build(self):
@@ -260,6 +263,8 @@ class OpenImageIOConan(ConanFile):
             "imath::imath",
             "openexr::openexr",
         ]
+
+        print(f"OIIO Components: {self.cpp_info.components}")
 
         if self.options.with_libjpeg == "libjpeg":
             open_image_io.requires.append("libjpeg::libjpeg")
