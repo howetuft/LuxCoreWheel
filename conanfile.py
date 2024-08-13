@@ -10,7 +10,7 @@ class LuxCore(ConanFile):
     name = "LuxCoreWheels"
 
     requires = [
-        "onetbb/2021.12.0",
+        "onetbb/2020.3",
         "opencolorio/2.1.0",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
@@ -69,6 +69,7 @@ class LuxCore(ConanFile):
 
         cd = CMakeDeps(self)
         cd.set_property("openexr", "cmake_file_name", "OPENEXR")
+        cd.set_property("onetbb", "cmake_file_name", "TBB")
         cd.generate()
 
     settings = "os", "compiler", "build_type", "arch"
