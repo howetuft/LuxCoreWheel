@@ -151,7 +151,7 @@ class OpenImageIOConan(ConanFile):
         tc.cache_variables["USE_PYTHON"] = False
         tc.cache_variables["USE_EXTERNAL_PUGIXML"] = True
         tc.cache_variables["BUILD_MISSING_FMT"] = False
-        tc.cache_variables["USE_QT"] = False
+        tc.cache_variables["USE_Qt5"] = False
         tc.cache_variables["VERBOSE"] = True
         tc.cache_variables["USE_Libsquish"] = False
 

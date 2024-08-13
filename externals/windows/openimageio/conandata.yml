@@ -7,3 +7,6 @@ patches:
     - patch_file: "patches/fix-fmt.patch"
       patch_description: "fix fmt case-sensitive fmt_INCLUDES"
       patch_type: "conan"
+    - patch_file: "patches/fix-heif.patch"
+      patch_description: "fix heif case-sensitive target"
+      patch_type: "conan"
