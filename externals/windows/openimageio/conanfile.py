@@ -64,6 +64,9 @@ class OpenImageIOConan(ConanFile):
         "fmt/*:header_only": True,
     }
 
+    def export_sources(self):
+        export_conandata_patches(self)
+
     def requirements(self):
         # Required libraries
         self.requires("boost/1.78.0")  # Modified
@@ -190,6 +193,7 @@ class OpenImageIOConan(ConanFile):
         cd.generate()
 
     def build(self):
+        apply_conandata_patches(self)
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
