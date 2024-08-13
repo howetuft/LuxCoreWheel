@@ -79,7 +79,6 @@ class OpenImageIOConan(ConanFile):
         elif self.options.with_libjpeg == "libjpeg-turbo":
             self.requires("libjpeg-turbo/2.0.5")
         self.requires("pugixml/1.14")
-        self.requires("libsquish/1.15")
         self.requires("tsl-robin-map/1.2.1")
         # if Version(self.version) >= "2.4.17.0":
             # self.requires("fmt/10.2.1", transitive_headers=True)
