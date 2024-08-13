@@ -81,6 +81,7 @@ class OpenImageIOConan(ConanFile):
             self.requires("fmt/10.2.1", transitive_headers=True)
         else:
             self.requires("fmt/9.1.0", transitive_headers=True)
+        self.requires("qt/5.15.14")
 
         # Optional libraries
         if self.options.with_libpng:
