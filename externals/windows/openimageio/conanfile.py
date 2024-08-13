@@ -192,7 +192,7 @@ class OpenImageIOConan(ConanFile):
             cd.set_property("libwebp::webp", "cmake_target_name", "WebP::WebP")
             cd.set_property("libwebp::webpdemux", "cmake_target_name", "WebP::WebPDemux")
         if self.options.with_freetype:
-            cd.set_property("freetype", "cmake_find_mode", "config")
+            cd.set_property("freetype", "cmake_find_mode", "module")
 
         # target_link_libraries(... boost::boost TIFF::TIFF Imath::Imath pugixml::pugixml tsl::robin_map fmt::fmt-header-only qt::qt JPEG::JPEG HDF5::HDF5 OpenColorIO::OpenColorIO openexr::openexr ffmpeg::ffmpeg Freetype::Freetype PNG::PNG GIF::GIF libheif::heif openjp2 Ptex::Ptex_static ZLIB::ZLIB WebP::WebP)
         cd.generate()
