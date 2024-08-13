@@ -46,7 +46,7 @@ class OpenImageIOConan(ConanFile):
     }
     default_options = {
         "shared": False,
-        "with_libjpeg": "libjpeg-turbo",
+        "with_libjpeg": "libjpeg",
         "with_libpng": True,
         "with_freetype": True,
         "with_hdf5": True,
