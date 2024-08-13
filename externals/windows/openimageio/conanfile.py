@@ -152,6 +152,7 @@ class OpenImageIOConan(ConanFile):
         tc.cache_variables["USE_QT"] = False
         tc.cache_variables["OIIO_INTERNALIZE_FMT"] = False
         tc.cache_variables["fmt_LOCAL_BUILD"] = False
+        tc.cache_variables["VERBOSE"] = True
 
 
         # Conan is normally not used for testing, so fixing this option to not build the tests
