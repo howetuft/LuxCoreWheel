@@ -194,7 +194,6 @@ class OpenImageIOConan(ConanFile):
         if self.options.with_freetype:
             cd.set_property("freetype", "cmake_find_mode", "module")
 
-        # target_link_libraries(... boost::boost TIFF::TIFF Imath::Imath pugixml::pugixml tsl::robin_map fmt::fmt-header-only qt::qt JPEG::JPEG HDF5::HDF5 OpenColorIO::OpenColorIO openexr::openexr ffmpeg::ffmpeg Freetype::Freetype PNG::PNG GIF::GIF libheif::heif openjp2 Ptex::Ptex_static ZLIB::ZLIB WebP::WebP)
         cd.generate()
 
     def build(self):
