@@ -35,8 +35,9 @@ runs:
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conanfile.py .
 
-        # Create local package oidn
+        # Create local packages (openimageio, oidn)
         conan create ../externals/windows/oidn
+        conan create ../externals/windows/conan-openimageio
 
         # Run conan
         conan install --build=missing .  -s build_type=Release

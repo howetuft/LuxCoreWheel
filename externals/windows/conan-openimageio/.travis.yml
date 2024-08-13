@@ -1,0 +1,56 @@
+env:
+  global:
+    - CONAN_USERNAME: "ppodsiadly"
+    - CONAN_LOGIN_USERNAME: "ppodsiadly"
+    - CONAN_UPLOAD: "https://api.bintray.com/conan/ppodsiadly/conan"
+    - CONAN_STABLE_BRANCH_PATTERN: "stable/*"
+    - CONAN_UPLOAD_ONLY_WHEN_STABLE: 0
+
+linux: &linux
+   os: linux
+   sudo: required
+   language: python
+   python: "3.6"
+   services:
+     - docker
+
+osx: &osx
+   os: osx
+   language: generic
+
+matrix:
+   include:
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7 CONAN_BUILD_TYPES=Release CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7 CONAN_BUILD_TYPES=Debug CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8 CONAN_BUILD_TYPES=Release CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8 CONAN_BUILD_TYPES=Debug CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/gcc9 CONAN_BUILD_TYPES=Release CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/gcc9 CONAN_BUILD_TYPES=Debug CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60 CONAN_BUILD_TYPES=Release CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60 CONAN_BUILD_TYPES=Debug CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/clang9 CONAN_BUILD_TYPES=Release CONAN_ARCHS=x86_64
+      - <<: *linux
+        env: CONAN_CLANG_VERSIONS=9 CONAN_DOCKER_IMAGE=conanio/clang9 CONAN_BUILD_TYPES=Debug CONAN_ARCHS=x86_64
+      - <<: *osx
+        osx_image: xcode10.2
+        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_BUILD_TYPES=Release
+      - <<: *osx
+        osx_image: xcode10.2
+        env: CONAN_APPLE_CLANG_VERSIONS=10.0 CONAN_BUILD_TYPES=Debug
+
+install:
+  - chmod +x .travis/install.sh
+  - ./.travis/install.sh
+
+script:
+  - chmod +x .travis/run.sh
+  - ./.travis/run.sh
