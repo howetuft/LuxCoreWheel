@@ -1,0 +1,19 @@
+commit 432f61cccd862bd8fcc4183de3c58c5c83f9c580
+Author: howetuft <howetuft@gmail.com>
+Date:   Tue Aug 13 14:23:00 2024 +0200
+
+    Fix libheif
+
+diff --git a/src/heif.imageio/CMakeLists.txt b/src/heif.imageio/CMakeLists.txt
+index fed800154..63c7b5c8a 100644
+--- a/src/heif.imageio/CMakeLists.txt
++++ b/src/heif.imageio/CMakeLists.txt
+@@ -4,7 +4,7 @@
+ 
+ if (Libheif_FOUND)
+     add_oiio_plugin (heifinput.cpp heifoutput.cpp
+-                     LINK_LIBRARIES Libheif::Libheif
++                     LINK_LIBRARIES libheif::libheif
+                      DEFINITIONS "-DUSE_HEIF=1")
+ else ()
+     message (WARNING "heif plugin will not be built")
