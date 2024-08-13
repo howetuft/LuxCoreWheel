@@ -189,7 +189,7 @@ class OpenImageIOConan(ConanFile):
         tc.generate()
         cd = CMakeDeps(self)
         if self.options.with_libwebp:
-            cd.set_property("libwebp", "cmake_target_aliases", ["WebP::WebP"])
+            cd.set_property("libwebp", "cmake_target_name", ["WebP::WebP"])
         cd.generate()
 
     def build(self):
