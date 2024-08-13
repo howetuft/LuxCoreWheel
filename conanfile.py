@@ -19,6 +19,7 @@ class LuxCore(ConanFile):
         "openimageio/2.2.13.1",
         "embree3/3.13.1",
         "c-blosc/1.21.5",
+        "openexr/2.5.7",
         "oidn/2.3.0",
     ]
 
