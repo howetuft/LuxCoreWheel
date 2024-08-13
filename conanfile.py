@@ -8,7 +8,6 @@ class LuxCore(ConanFile):
     name = "LuxCoreWheels"
 
     requires = [
-        "oidn/2.3.0",
         "onetbb/2021.12.0",
         "opencolorio/2.3.1",
         "minizip-ng/4.0.3",
@@ -17,9 +16,10 @@ class LuxCore(ConanFile):
         "boost/1.78.0",
         "llvm-openmp/18.1.8",
         "spdlog/1.14.1",
-        "openimageio/2.1.11.2@ppodsiadly/stable",
-        "embree3/3.13.5",
+        "openimageio/2.2.13",
+        "embree3/3.12.2",
         "c-blosc/1.21.5",
+        "oidn/2.3.0",
     ]
 
     default_options = {
