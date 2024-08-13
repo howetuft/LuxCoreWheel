@@ -136,7 +136,7 @@ class OpenImageIOConan(ConanFile):
 
         # CMake options
         tc.variables["CMAKE_DEBUG_POSTFIX"] = ""  # Needed for 2.3.x.x+ versions
-        tc.variables["OIIO_BUILD_TOOLS"] = True
+        tc.variables["OIIO_BUILD_TOOLS"] = False
         tc.variables["OIIO_BUILD_TESTS"] = False
         tc.variables["BUILD_DOCS"] = False
         tc.variables["INSTALL_DOCS"] = False
