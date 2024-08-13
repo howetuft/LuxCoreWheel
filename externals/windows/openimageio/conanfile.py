@@ -152,9 +152,8 @@ class OpenImageIOConan(ConanFile):
         tc.cache_variables["USE_EXTERNAL_PUGIXML"] = True
         tc.cache_variables["BUILD_MISSING_FMT"] = False
         tc.cache_variables["USE_QT"] = False
-        tc.cache_variables["OIIO_INTERNALIZE_FMT"] = False
-        tc.cache_variables["fmt_LOCAL_BUILD"] = False
         tc.cache_variables["VERBOSE"] = True
+        tc.cache_variables["USE_Libsquish"] = False
 
 
         # Conan is normally not used for testing, so fixing this option to not build the tests
