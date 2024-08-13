@@ -295,7 +295,8 @@ class OpenImageIOConan(ConanFile):
             open_image_io.requires.append("ptex::ptex")
         if self.options.with_libwebp:
             open_image_io.requires.append("libwebp::libwebp")
-            self.cpp_info.components["libwebp::libwebp"].set_property("cmake_target_aliases", ["WebP::WebP"])
+            self.cpp_info.components["WebP::webp"].set_property("cmake_target_aliases", ["WebP::WebP"])
+            assert 1==0, "Error"
         if self.settings.os in ["Linux", "FreeBSD"]:
             open_image_io.system_libs.extend(["dl", "m", "pthread"])
 
