@@ -173,7 +173,6 @@ class OpenImageIOConan(ConanFile):
         tc.variables["USE_R3DSDK"] = False
         tc.variables["USE_NUKE"] = False
         tc.variables["USE_OPENGL"] = False
-        tc.variables["USE_QT"] = False
         tc.variables["USE_LIBPNG"] = self.options.with_libpng
         tc.variables["USE_FREETYPE"] = self.options.with_freetype
         tc.variables["USE_LIBWEBP"] = self.options.with_libwebp
