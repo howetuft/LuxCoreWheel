@@ -53,7 +53,7 @@ class OpenImageIOConan(ConanFile):
         "with_opencv": False,
         "with_tbb": False,
         "with_dicom": False,  # Heavy dependency, disabled by default
-        "with_ffmpeg": True,
+        "with_ffmpeg": False,
         "with_giflib": True,
         "with_libheif": True,
         "with_raw": False,  # libraw is available under CDDL-1.0 or LGPL-2.1, for this reason it is disabled by default
