@@ -46,7 +46,7 @@ class OpenImageIOConan(ConanFile):
     }
     default_options = {
         "shared": False,
-        "with_libjpeg": "libjpeg",
+        "with_libjpeg": "libjpeg-turbo",
         "with_libpng": True,
         "with_freetype": True,
         "with_hdf5": True,
@@ -66,15 +66,15 @@ class OpenImageIOConan(ConanFile):
 
     def requirements(self):
         # Required libraries
+        self.requires("boost/1.78.0")
+        self.requires("openexr/2.4.0")
         self.requires("zlib/[>=1.2.11 <2]")
-        self.requires("boost/1.84.0")
-        self.requires("libtiff/4.6.0")
+        self.requires("libtiff/4.3.0")
         self.requires("imath/3.1.9", transitive_headers=True)
-        self.requires("openexr/3.2.3")
         if self.options.with_libjpeg == "libjpeg":
             self.requires("libjpeg/9e")
         elif self.options.with_libjpeg == "libjpeg-turbo":
-            self.requires("libjpeg-turbo/3.0.2")
+            self.requires("libjpeg-turbo/2.0.5")
         self.requires("pugixml/1.14")
         self.requires("libsquish/1.15")
         self.requires("tsl-robin-map/1.2.1")
