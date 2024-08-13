@@ -61,6 +61,7 @@ class OpenImageIOConan(ConanFile):
         "with_openvdb": False,  # FIXME: broken on M1
         "with_ptex": True,
         "with_libwebp": True,
+        "fmt/*:header_only": True,
     }
 
     def requirements(self):
@@ -154,7 +155,7 @@ class OpenImageIOConan(ConanFile):
 
 
         # Conan is normally not used for testing, so fixing this option to not build the tests
-        tc.variables["BUILD_TESTING"] = False
+        tc.cache_variables["BUILD_TESTING"] = False
 
         # OIIO CMake files are patched to check USE_* flags to require or not use dependencies
         tc.variables["USE_JPEGTURBO"] = (
