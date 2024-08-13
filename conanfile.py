@@ -57,13 +57,13 @@ class LuxCore(ConanFile):
         "boost/*:without_type_erasure": True,
         "boost/*:without_url": True,
         "boost/*:without_wave": True,
+        "fmt/*:header_only": True,
     }
 
     generators = "CMakeDeps", "CMakeToolchain"
 
     settings = "os", "compiler", "build_type", "arch"
 
-    tool_requires = "7zip/23.01"
 
     def package_info(self):
         self.conf_info.define("cmake.build:verbosity", "debug")
