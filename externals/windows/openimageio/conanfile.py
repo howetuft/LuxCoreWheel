@@ -22,8 +22,8 @@ class OpenImageIOConan(ConanFile):
     license = "Apache-2.0", "BSD-3-Clause"
     homepage = "http://www.openimageio.org/"
     version = "2.2.13.1"
-    user = "LuxCoreWheels"
-    channel = "LuxCoreWheels"
+    user = "luxcorewheels"
+    channel = "luxcorewheels"
 
     settings = "os", "arch", "compiler", "build_type"
     options = {
