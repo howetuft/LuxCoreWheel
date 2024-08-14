@@ -111,7 +111,7 @@ jobs:
             SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
             SCCACHE_CONF='${{ github.workspace }}\sccache_config'
             SCCACHE_DIRECT='true'
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE;--trace-expand'
             PYTHON_V=''
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
 
@@ -121,7 +121,7 @@ jobs:
       #  with:
       #    name: sccache_${{ matrix.python-minor }}
       #    path: '${{ github.workspace }}\sccache.log'
-      - name: boost python log 
+      - name: boost python log
         run: |
           cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\config-x64-windows-release-out.log
           cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-out.log
