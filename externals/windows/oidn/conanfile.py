@@ -7,7 +7,9 @@ from conan import ConanFile
 class OidnConan(ConanFile):
     name = "oidn"
     version = "2.3.0"
-    settings = "os", "arch"
+    settings = "os", "arch", "compiler", "build_type"
+    user = "LuxCoreWheels"
+    channel = "LuxCoreWheels"
 
     def build(self):
         url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
