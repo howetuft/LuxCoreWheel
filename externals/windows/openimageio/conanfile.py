@@ -66,6 +66,10 @@ class OpenImageIOConan(ConanFile):
         "fmt/*:header_only": True,
     }
 
+    tool_requires = [
+        "yasm/1.3.0",
+    ]
+
     def export_sources(self):
         export_conandata_patches(self)
 
