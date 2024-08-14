@@ -69,7 +69,6 @@ class LuxCore(ConanFile):
 
         cd = CMakeDeps(self)
         cd.set_property("openexr", "cmake_file_name", "OPENEXR")
-        cd.set_property("onetbb", "cmake_file_name", "TBB")
         cd.generate()
 
     settings = "os", "compiler", "build_type", "arch"
