@@ -36,8 +36,8 @@ runs:
         cp ../conanfile.py .
 
         # Create local packages (openimageio, oidn)
-        conan create ../externals/windows/oidn
-        conan create ../externals/windows/openimageio
+        conan editable add ../externals/windows/oidn
+        conan editable add ../externals/windows/openimageio
 
         # Run conan
         conan install --build=missing .  -s build_type=Release
