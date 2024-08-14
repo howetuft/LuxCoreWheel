@@ -213,6 +213,10 @@ class OpenImageIOConan(ConanFile):
         rmdir(self, os.path.join(self.package_folder, "lib", "pkgconfig"))
         rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
 
+    def package_id(self):
+        # We clear everything in order to have a constant package_id and use the cache
+        self.info.clear()
+
     @staticmethod
     def _conan_comp(name):
         return f"openimageio_{name.lower()}"
