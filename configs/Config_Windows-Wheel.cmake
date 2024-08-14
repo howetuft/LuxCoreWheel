@@ -39,6 +39,13 @@ else()
   MESSAGE(STATUS "LuxCoreWheel - tbb NOT FOUND")
 endif()
 
+find_package(ZLIB REQUIRED)
+if (ZLIB_FOUND)
+  MESSAGE(STATUS "LuxCoreWheel - ZLIB: ${ZLIB_INCLUDE_DIR}")
+  include_directories(${ZLIB_INCLUDE_DIR})
+else()
+  MESSAGE(STATUS "LuxCoreWheel - ZLIB NOT FOUND")
+endif()
 set(OIDN_FOUND "TRUE")
 
 SET(CMAKE_BUILD_TYPE "Release")
