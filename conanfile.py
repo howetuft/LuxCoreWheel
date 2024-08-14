@@ -76,3 +76,7 @@ class LuxCore(ConanFile):
 
     def package_info(self):
         self.conf_info.define("cmake.build:verbosity", "debug")
+
+    def package_id(self):
+        # We clear everything in order to have a constant package_id and use the cache
+        self.info.clear()

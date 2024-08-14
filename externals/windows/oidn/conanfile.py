@@ -24,3 +24,7 @@ class OidnConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
+
+    def package_id(self):
+        # We clear everything in order to have a constant package_id and use the cache
+        self.info.clear()
