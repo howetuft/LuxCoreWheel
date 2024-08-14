@@ -18,11 +18,11 @@ class LuxCore(ConanFile):
         "boost/1.78.0",
         "llvm-openmp/18.1.8",
         "spdlog/1.8.5",
-        "openimageio/2.2.13.1",
+        "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
         "embree3/3.13.1",
         "c-blosc/1.21.5",
         "openexr/2.5.7",
-        "oidn/2.3.0",
+        "oidn/2.3.0@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {
