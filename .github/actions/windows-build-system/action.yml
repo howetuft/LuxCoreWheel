@@ -29,8 +29,9 @@ runs:
         PKG_CONFIG_PATH: .
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
-        CONAN_SKIP_VS_PROJECTS_UPGRADE: 1
       run: |
+        yasm -h
+
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
