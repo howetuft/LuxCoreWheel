@@ -11,3 +11,4 @@ os=Windows
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
 tools.microsoft.bash:path=bash -el {0}
+tools.microsoft.bash:subsystem=msys2
