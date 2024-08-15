@@ -45,6 +45,9 @@ runs:
         # Create local packages (openimageio, oidn)
         conan create ../externals/windows/oidn
         conan create ../externals/windows/openimageio
+
+        echo "yasm test"
+        conda run yasm --version
       shell: bash
 
     - name: Run conan
