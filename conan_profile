@@ -10,3 +10,4 @@ os=Windows
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
+tools.microsoft.bash:path=bash -el {0}
