@@ -30,11 +30,15 @@ runs:
 
     #- uses: mxschmitt/action-tmate@v3
 
-    - name: Test
+    - name: Install yasm in bash
       shell: bash
       run: |
         . /c/Miniconda/etc/profile.d/conda.sh
-        conda run yasm
+        alias yasm=conda run yasm
+
+    - run: |
+        yasm --version
+      shell: bash
 
     # Initialize Conan
     - name: Initialize Conan
