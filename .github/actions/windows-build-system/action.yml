@@ -22,7 +22,8 @@ runs:
       run: |
         # From https://github.com/conan-io/conan-center-index/issues/13804
         curl -o yasm.exe http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe
-        cp yasm.exe '${VCToolsInstallDir}'
+        echo "Destination directory: ${VCToolsInstallDir}"
+        cp yasm.exe "${VCToolsInstallDir}"
       shell: bash
 
     # Initialize Conan
