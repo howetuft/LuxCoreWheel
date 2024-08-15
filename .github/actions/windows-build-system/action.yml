@@ -21,7 +21,11 @@ runs:
     - uses: conda-incubator/setup-miniconda@v3
       with:
         auto-update-conda: true
-        python-version: ${{ matrix.python-version }}
+        python-version: "3.${{ matrix.python-minor }}"
+
+    - name: Conda list
+      shell: pwsh
+      run: conda list
 
     - name: Get yasm
       run: |
