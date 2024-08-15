@@ -27,6 +27,7 @@ runs:
       shell: pwsh
       run: |
         conda install conda-forge::yasm
+        yasm --version
 
     # Initialize Conan
     - name: Initialize Conan
