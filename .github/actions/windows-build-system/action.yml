@@ -28,6 +28,8 @@ runs:
       run: |
         conda install conda-forge::yasm
 
+    - uses: mxschmitt/action-tmate@v3
+
     - name: Test
       shell: bash
       run: |
