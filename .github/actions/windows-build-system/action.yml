@@ -30,16 +30,6 @@ runs:
 
     #- uses: mxschmitt/action-tmate@v3
 
-    - name: Install yasm in bash
-      shell: bash
-      run: |
-        . /c/Miniconda/etc/profile.d/conda.sh
-        alias yasm="conda run yasm"
-
-    - run: |
-        yasm --version
-      shell: bash
-
     # Initialize Conan
     - name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
@@ -66,6 +56,8 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
+        . /c/Miniconda/etc/profile.d/conda.sh
+        alias yasm="conda run yasm"
         conan install --build=missing .  -s build_type=Release
       shell: bash
 
