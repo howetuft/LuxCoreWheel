@@ -18,17 +18,6 @@ runs:
 
     - uses: ilammy/msvc-dev-cmd@v1
 
-    - uses: conda-incubator/setup-miniconda@v3
-      with:
-        auto-update-conda: true
-        python-version: "3.${{ matrix.python-minor }}"
-
-    - name: Get yasm
-      shell: bash -el {0}
-      run: |
-        conda install conda-forge::yasm
-
-    #- uses: mxschmitt/action-tmate@v3
 
     # Initialize Conan
     - name: Initialize Conan
@@ -48,6 +37,9 @@ runs:
         conan create ../externals/windows/oidn
         conan create ../externals/windows/openimageio
       shell: bash
+
+    - uses: mxschmitt/action-tmate@v3
+
 
     - name: Run conan
       working-directory: ${{ github.workspace }}/LuxCore
