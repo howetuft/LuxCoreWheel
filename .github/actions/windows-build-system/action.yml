@@ -18,6 +18,16 @@ runs:
 
     - uses: ilammy/msvc-dev-cmd@v1
 
+    - name: Install yasm
+      run: |
+        vcpkg install yasm
+      shell: bash
+
+    - name: Test yasm
+      run: |
+        yasm --version
+      shell: bash
+
 
     # Initialize Conan
     - name: Initialize Conan
@@ -33,13 +43,22 @@ runs:
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conanfile.py .
 
+        # Init git for openimageio
+        git init openimagio
+        cp -rf ../externals/windows/openimageio openimageio
+        cd openimageio
+        git commit -am "init"
+
+        # Init git for oidn
+        git init oidn
+        cp -rf ../externals/windows/oidn oidn
+        cd oidn
+        git commit -am "init"
+
         # Create local packages (openimageio, oidn)
-        conan create ../externals/windows/oidn
-        conan create ../externals/windows/openimageio
+        conan create openimageio
+        conan create oidn
       shell: bash
-
-    - uses: mxschmitt/action-tmate@v3
-
 
     - name: Run conan
       working-directory: ${{ github.workspace }}/LuxCore
@@ -48,8 +67,6 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
-        . /c/Miniconda/etc/profile.d/conda.sh
-        alias yasm="conda run yasm"
         conan install --build=missing .  -s build_type=Release
       shell: bash
 
