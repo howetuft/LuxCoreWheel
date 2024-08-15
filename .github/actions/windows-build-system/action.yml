@@ -18,17 +18,6 @@ runs:
 
     - uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Install yasm
-      run: |
-        vcpkg install yasm
-      shell: bash
-
-    - name: Test yasm
-      run: |
-        yasm --version
-      shell: bash
-
-
     # Initialize Conan
     - name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
