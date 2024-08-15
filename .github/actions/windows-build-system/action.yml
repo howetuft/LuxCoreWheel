@@ -28,12 +28,12 @@ runs:
       run: |
         conda install conda-forge::yasm
 
-    - uses: mxschmitt/action-tmate@v3
+    #- uses: mxschmitt/action-tmate@v3
 
     - name: Test
       shell: bash
       run: |
-        . /c/Miniconda3/etc/profile.d/conda.sh
+        . /c/Miniconda/etc/profile.d/conda.sh
         conda run yasm
 
     # Initialize Conan
