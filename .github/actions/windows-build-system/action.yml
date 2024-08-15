@@ -27,8 +27,6 @@ runs:
       shell: bash -el {0}
       run: |
         conda install conda-forge::yasm
-        alias yasm="conda run yasm"
-        yasm --version
 
     # Initialize Conan
     - name: Initialize Conan
@@ -38,9 +36,6 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
-        echo "yasm test"
-        yasm --version
-
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
@@ -49,7 +44,6 @@ runs:
         # Create local packages (openimageio, oidn)
         conan create ../externals/windows/oidn
         conan create ../externals/windows/openimageio
-
       shell: bash
 
     - name: Run conan
@@ -59,9 +53,10 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
+        alias yasm="conda run yasm"
         yasm --version
         conan install --build=missing .  -s build_type=Release
-      shell: pwsh
+      shell: bash -el {0}
 
     # Copy config to project
     - name: "Install Config_Windows-Wheel.cmake"
