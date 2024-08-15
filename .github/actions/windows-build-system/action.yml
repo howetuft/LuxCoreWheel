@@ -27,6 +27,8 @@ runs:
       shell: bash -el {0}
       run: |
         conda install conda-forge::yasm
+        alias yasm="conda run yasm"
+        yasm --version
 
     # Initialize Conan
     - name: Initialize Conan
