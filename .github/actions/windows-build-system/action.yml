@@ -23,21 +23,10 @@ runs:
         auto-update-conda: true
         python-version: "3.${{ matrix.python-minor }}"
 
-    - name: Conda list
-      shell: pwsh
-      run: conda list
-
     - name: Get yasm
+      shell: pwsh
       run: |
-        conda info
-        conda list
         conda install conda-forge::yasm
-        ## From https://github.com/conan-io/conan-center-index/issues/13804
-        #curl -o yasm.exe http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe
-        #dest_dir=$VCToolsInstallDir/bin/HostX64/x64
-        #echo "Destination directory: ${dest_dir}"
-        #cp yasm.exe "${dest_dir}"
-      shell: bash
 
     # Initialize Conan
     - name: Initialize Conan
