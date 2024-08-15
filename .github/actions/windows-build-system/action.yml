@@ -54,6 +54,7 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
+        yasm --version
         conan install --build=missing .  -s build_type=Release
       shell: pwsh
 
