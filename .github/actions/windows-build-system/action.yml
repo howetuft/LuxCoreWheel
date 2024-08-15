@@ -25,7 +25,6 @@ runs:
         dest_dir=$VCToolsInstallDir/bin/HostX64/x64
         echo "Destination directory: ${dest_dir}"
         cp yasm.exe "${dest_dir}"
-        yasm -h
       shell: bash
 
     # Initialize Conan
@@ -36,6 +35,7 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
+        yasm --version
 
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
