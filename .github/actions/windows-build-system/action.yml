@@ -22,6 +22,11 @@ runs:
     # As used here the Developer Command Prompt created is targeting x64 and using the default the Windows SDK.
     - uses: ilammy/msvc-dev-cmd@v1
 
+    - name: Get yasm
+      run: |
+        # From https://github.com/conan-io/conan-center-index/issues/13804
+        curl -o yasm.exe http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe
+
     # Initialize Conan
     - name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
@@ -30,7 +35,7 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
-        vsyasm -h
+        yasm -h
 
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
