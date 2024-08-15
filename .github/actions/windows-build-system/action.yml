@@ -34,7 +34,7 @@ runs:
       shell: bash
       run: |
         . /c/Miniconda/etc/profile.d/conda.sh
-        alias yasm=conda run yasm
+        alias yasm="conda run yasm"
 
     - run: |
         yasm --version
