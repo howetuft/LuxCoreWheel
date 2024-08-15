@@ -10,6 +10,7 @@ class LuxCore(ConanFile):
     name = "LuxCoreWheels"
 
     requires = [
+        "libvpx/1.13.1",
         "onetbb/2020.3",
         "opencolorio/2.1.0",
         "minizip-ng/4.0.3",
