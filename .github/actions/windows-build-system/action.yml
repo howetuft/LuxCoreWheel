@@ -28,6 +28,12 @@ runs:
       run: |
         conda install conda-forge::yasm
 
+    - name: Test
+      shell: bash
+      run: |
+        . /c/Miniconda3/etc/profile.d/conda.sh
+        conda run yasm
+
     # Initialize Conan
     - name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
@@ -36,6 +42,7 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
+
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
@@ -53,10 +60,8 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
-        alias yasm="conda run yasm"
-        yasm --version
         conan install --build=missing .  -s build_type=Release
-      shell: bash -el {0}
+      shell: bash
 
     # Copy config to project
     - name: "Install Config_Windows-Wheel.cmake"
