@@ -30,7 +30,7 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
-        yasm -h
+        vcyasm -h
 
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
