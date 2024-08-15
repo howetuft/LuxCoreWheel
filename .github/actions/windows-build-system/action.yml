@@ -40,13 +40,17 @@ runs:
         git init openimagio
         cp -rf ../externals/windows/openimageio openimageio
         cd openimageio
+        git add -A
         git commit -am "init"
+        cd ..
 
         # Init git for oidn
         git init oidn
         cp -rf ../externals/windows/oidn oidn
         cd oidn
+        git add -A
         git commit -am "init"
+        cd ..
 
         # Create local packages (openimageio, oidn)
         conan create openimageio
