@@ -32,6 +32,10 @@ runs:
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conanfile.py .
 
+        # Git config (required...)
+        git config --global user.email "me@example.com"
+        git config --global user.name "My Name"
+
         # Init git for openimageio
         git init openimagio
         cp -rf ../externals/windows/openimageio openimageio
