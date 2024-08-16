@@ -7,28 +7,34 @@ description: LuxCore Python Wheels - Build boost-python & boost-numpy for Window
 runs:
   using: 'composite'
   steps:
+    # Debug
+    - run-name: Debug
+      run: |
+        echo "${{ github.workspace }}/scripts" >> $GITHUB_PATH
+
+    - uses: mxschmitt/action-tmate@v3
+
+
+
     # Setup the build machine with the most recent versions of CMake and Ninja. Both are cached if not already: on subsequent runs both will be quickly restored from GitHub cache service.
     # https://github.com/lukka/run-vcpkg
     - uses: lukka/get-cmake@latest
 
     # TODO should be global?
-    - name: Setup sccache
+    - run-name: Setup sccache
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
 
     - uses: ilammy/msvc-dev-cmd@v1
 
     # Initialize Conan with local packages
-    - name: Initialize Conan
+    - run-name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
       env:
         PKG_CONFIG_PATH: .
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
-
-        echo "alias yasm=toto" >> ~/.bashrc
-
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
