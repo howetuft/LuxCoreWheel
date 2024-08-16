@@ -65,6 +65,7 @@ runs:
 
 
     - name: Create local packages
+      working-directory: ${{ github.workspace }}/LuxCore
       run: |
         conan install --build=missing ../externals/windows/libvpx  -s build_type=Release
         conan create ../externals/windows/openimageio
