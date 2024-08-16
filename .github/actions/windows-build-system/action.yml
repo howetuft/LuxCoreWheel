@@ -9,8 +9,9 @@ runs:
   steps:
     # Debug
     - name: Debug
+      working-directory: ${{ github.workspace }}/scripts
       run: |
-        echo "${{ github.workspace }}/scripts" >> $GITHUB_PATH
+        cp yasm /usr/bin
       shell: bash
 
     - uses: mxschmitt/action-tmate@v3
