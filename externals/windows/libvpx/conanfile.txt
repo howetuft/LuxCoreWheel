@@ -1,2 +1,0 @@
-[requires]
-libvpx/1.13.1

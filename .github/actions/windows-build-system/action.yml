@@ -70,7 +70,7 @@ runs:
         conan install --build=missing ../externals/windows/libvpx  -s build_type=Release
         conan create ../externals/windows/openimageio
         conan create ../externals/windows/oidn
-      shell: pwsh
+      shell: bash
 
     #- uses: mxschmitt/action-tmate@v3
 
