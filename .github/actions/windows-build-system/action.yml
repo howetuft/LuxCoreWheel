@@ -33,7 +33,7 @@ runs:
         cp ../conanfile.py .
 
         # Create local packages (openimageio, oidn)
-        conan create ../externals/windows/libvpx
+        conan install --build=missing ../externals/windows/libvpx  -s build_type=Release
         conan create ../externals/windows/openimageio
         conan create ../externals/windows/oidn
       shell: bash
