@@ -27,6 +27,8 @@ runs:
         CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
 
+        echo "alias yasm=toto" >> ~/.bashrc
+
         # Copy profile
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
