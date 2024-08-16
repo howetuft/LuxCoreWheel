@@ -12,7 +12,7 @@ runs:
       working-directory: ${{ github.workspace }}/scripts
       run: |
         . /c/Miniconda/etc/profile.d/conda.sh
-        conda install yasm
+        #conda install yasm  TODO Debug
         cp yasm /usr/bin
       shell: bash
 
@@ -64,9 +64,8 @@ runs:
         bash
 
 
-    - name: Initialize Conan
-      run:
-        # Create local packages (openimageio, oidn)
+    - name: Create local packages
+      run: |
         conan install --build=missing ../externals/windows/libvpx  -s build_type=Release
         conan create ../externals/windows/openimageio
         conan create ../externals/windows/oidn
