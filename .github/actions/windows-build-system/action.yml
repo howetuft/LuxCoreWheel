@@ -8,7 +8,7 @@ runs:
   using: 'composite'
   steps:
     # Debug
-    - name: Set up yasm
+    - name: Set up yasm (bash)
       working-directory: ${{ github.workspace }}/scripts
       run: |
         . /c/Miniconda/etc/profile.d/conda.sh
@@ -16,11 +16,22 @@ runs:
         cp yasm /usr/bin
       shell: bash
 
+    - name: Set up yasm (pwsh)
+      working-directory: ${{ github.workspace }}/scripts
+      run: |
+        Set-Alias -Name yasm -Value "echo 'YASM!'"
+      shell: pwsh
+
     - name: Test yasm
       run: |
         echo "Test yasm"
         yasm --version
       shell: bash
+
+    - name: Test yasm
+      run: |
+        yasm
+      shell: pwsh
 
     #- uses: mxschmitt/action-tmate@v3
 
