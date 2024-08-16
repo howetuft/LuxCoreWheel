@@ -8,9 +8,10 @@ runs:
   using: 'composite'
   steps:
     # Debug
-    - run-name: Debug
+    - name: Debug
       run: |
         echo "${{ github.workspace }}/scripts" >> $GITHUB_PATH
+      shell: bash
 
     - uses: mxschmitt/action-tmate@v3
 
