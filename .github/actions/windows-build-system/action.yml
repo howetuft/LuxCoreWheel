@@ -8,7 +8,7 @@ runs:
   using: 'composite'
   steps:
     # Debug
-    - name: Debug
+    - name: Set up yasm
       working-directory: ${{ github.workspace }}/scripts
       run: |
         . /c/Miniconda/etc/profile.d/conda.sh
@@ -16,7 +16,7 @@ runs:
         cp yasm /usr/bin
       shell: bash
 
-    - uses: mxschmitt/action-tmate@v3
+    #- uses: mxschmitt/action-tmate@v3
 
 
 
@@ -50,7 +50,7 @@ runs:
         conan create ../externals/windows/oidn
       shell: bash
 
-    - uses: mxschmitt/action-tmate@v3
+    #- uses: mxschmitt/action-tmate@v3
 
     - name: Run conan
       working-directory: ${{ github.workspace }}/LuxCore
