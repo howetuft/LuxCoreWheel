@@ -11,6 +11,8 @@ runs:
     - name: Debug
       working-directory: ${{ github.workspace }}/scripts
       run: |
+        . /c/Miniconda/etc/profile.d/conda.sh
+        conda install yasm
         cp yasm /usr/bin
       shell: bash
 

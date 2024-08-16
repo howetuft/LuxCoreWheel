@@ -1,2 +1,4 @@
 #!/bin/bash
-echo "YASM!"
+. /c/Miniconda/etc/profile.d/conda.sh
+echo "yasm $@"
+conda run yasm $@
