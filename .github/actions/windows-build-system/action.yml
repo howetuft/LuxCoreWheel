@@ -22,14 +22,14 @@ runs:
     - uses: lukka/get-cmake@latest
 
     # TODO should be global?
-    - run-name: Setup sccache
+    - name: Setup sccache
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
 
     - uses: ilammy/msvc-dev-cmd@v1
 
     # Initialize Conan with local packages
-    - run-name: Initialize Conan
+    - name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
       env:
         PKG_CONFIG_PATH: .
