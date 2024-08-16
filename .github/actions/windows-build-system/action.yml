@@ -64,14 +64,18 @@ runs:
         bash
 
 
-    - name: Create local packages
+    - name: Create libvpx
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
         conan install --build=missing ../externals/windows/libvpx  -s build_type=Release
+      shell: pwsh
+
+    - name: Create local packages
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
         conan create ../externals/windows/openimageio
         conan create ../externals/windows/oidn
       shell: bash
-
     #- uses: mxschmitt/action-tmate@v3
 
     - name: Run conan
