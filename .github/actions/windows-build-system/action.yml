@@ -33,7 +33,7 @@ runs:
         yasm
       shell: pwsh
 
-    - uses: mxschmitt/action-tmate@v3
+    #- uses: mxschmitt/action-tmate@v3
 
 
 
