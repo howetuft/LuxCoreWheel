@@ -61,14 +61,13 @@ runs:
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conanfile.py .
         unset ORIGINAL_PATH
-      shell:
-        bash
+      shell: bash
 
     - name: Create libvpx
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        conan install /build:missing /requires:'libvpx/1.13.1'
-      shell: cmd
+        conan install --build=missing --requires=libvpx/1.13.1
+      shell: bash
 
     - name: Create local packages
       working-directory: ${{ github.workspace }}/LuxCore
