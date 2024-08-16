@@ -16,6 +16,12 @@ runs:
         cp yasm /usr/bin
       shell: bash
 
+    - name: Test yasm
+      run: |
+        echo "Test yasm"
+        yasm --version
+      shell: bash
+
     #- uses: mxschmitt/action-tmate@v3
 
 
