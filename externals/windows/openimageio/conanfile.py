@@ -24,6 +24,7 @@ class OpenImageIOConan(ConanFile):
     version = "2.2.13.1"
     user = "luxcorewheels"
     channel = "luxcorewheels"
+    revision_mode = "scm_folder"
 
     settings = "os", "arch", "compiler", "build_type"
     options = {

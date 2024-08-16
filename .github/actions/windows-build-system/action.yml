@@ -32,29 +32,9 @@ runs:
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conanfile.py .
 
-        # Git config (required...)
-        git config --global user.email "me@example.com"
-        git config --global user.name "My Name"
-
-        # Init git for openimageio
-        git init openimagio
-        cp -rf ../externals/windows/openimageio openimageio
-        cd openimageio
-        git add -A
-        git commit -am "init"
-        cd ..
-
-        # Init git for oidn
-        git init oidn
-        cp -rf ../externals/windows/oidn oidn
-        cd oidn
-        git add -A
-        git commit -am "init"
-        cd ..
-
         # Create local packages (openimageio, oidn)
-        conan create openimageio
-        conan create oidn
+        conan create ../externals/windows/openimageio
+        conan create ../externals/windows/oidn
       shell: bash
 
     - name: Run conan
