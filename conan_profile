@@ -10,5 +10,6 @@ os=Windows
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
-tools.microsoft.bash:path=gitbash.exe
+tools.microsoft.bash:active=true
+tools.microsoft.bash:path=C:/shells/gitbash.exe
 tools.microsoft.bash:subsystem=msys2
