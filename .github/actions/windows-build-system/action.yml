@@ -60,12 +60,17 @@ runs:
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conanfile.py .
+      shell:
+        bash
 
+
+    - name: Initialize Conan
+      run:
         # Create local packages (openimageio, oidn)
         conan install --build=missing ../externals/windows/libvpx  -s build_type=Release
         conan create ../externals/windows/openimageio
         conan create ../externals/windows/oidn
-      shell: bash
+      shell: pwsh
 
     #- uses: mxschmitt/action-tmate@v3
 
