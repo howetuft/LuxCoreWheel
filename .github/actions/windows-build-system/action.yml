@@ -37,6 +37,8 @@ runs:
         conan create ../externals/windows/oidn
       shell: bash
 
+    - uses: mxschmitt/action-tmate@v3
+
     - name: Run conan
       working-directory: ${{ github.workspace }}/LuxCore
       env:
