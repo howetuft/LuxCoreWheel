@@ -67,8 +67,8 @@ runs:
     - name: Create libvpx
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        conan install --build=missing --requires "libvpx/1.13.1"
-      shell: pwsh
+        conan install /build=missing /requires=libvpx/1.13.1
+      shell: cmd
 
     - name: Create local packages
       working-directory: ${{ github.workspace }}/LuxCore
