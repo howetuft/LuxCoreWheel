@@ -13,4 +13,3 @@ tools.env.virtualenv:powershell=False
 tools.microsoft.bash:active=True
 tools.microsoft.bash:path=C:/shells/winbash.exe
 tools.microsoft.bash:subsystem=msys2
-tools.build.verbosity=debug
