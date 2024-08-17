@@ -236,11 +236,11 @@ class LibVPXConan(ConanFile):
         autotools = Autotools(self)
         autotools.install()
 
-        # The workaround requires us to move the outputs into place now
-        rename(self,
-                os.path.join(self.package_folder, self._install_tmp_folder, "include"),
-                os.path.join(self.package_folder, "include")
-                )
+        # # The workaround requires us to move the outputs into place now
+        # rename(self,
+                # os.path.join(self.package_folder, self._install_tmp_folder, "include"),
+                # os.path.join(self.package_folder, "include")
+                # )
 
         if is_msvc(self):
             # Libs are still in the build folder, get from there directly.
