@@ -77,7 +77,7 @@ runs:
       env:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
-        SCCACHE_DIRECT: True
+        SCCACHE_DIRECT: False
       run: |
         conan create ../externals/windows/oidn
         conan create ../externals/windows/openimageio
