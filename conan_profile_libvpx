@@ -9,7 +9,7 @@ os=Windows
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
-tools.microsoft.bash:active=True
+tools.microsoft.bash:active=False
 tools.microsoft.bash:path=C:/shells/winbash.exe
 tools.microsoft.bash:subsystem=msys2
 tools.build:verbosity=verbose

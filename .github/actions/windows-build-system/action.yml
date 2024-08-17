@@ -66,18 +66,11 @@ runs:
         unset ORIGINAL_PATH
       shell: bash
 
-    - name: Set up libvpx (bash)
-      working-directory: ${{ github.workspace }}/scripts
+    - name: Create libvpx
       run: |
-        . /c/Miniconda/etc/profile.d/conda.sh
-        conda install anaconda::libvpx
-      shell: bash
-
-    #- name: Create libvpx
-      #run: |
-        #unset ORIGINAL_PATH
-        #conan install --profile=conan_profile_libvpx --build=missing --requires=libvpx/1.13.1 -vvv
-      #shell: bash
+        unset ORIGINAL_PATH
+        conan install --profile=conan_profile_libvpx --build=missing --requires=libvpx/1.13.1 -vvv
+      shell: pwsh
 
     - name: Create local packages
       working-directory: ${{ github.workspace }}/LuxCore
