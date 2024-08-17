@@ -8,6 +8,7 @@ compiler.runtime=dynamic
 os=Windows
 
 [conf]
-tools.env.virtualenv:powershell=True
+tools.env.virtualenv:powershell=False
+tools.microsoft.bash:path=msys2bash.cmd
 tools.microsoft.bash:active=False
 tools.build:verbosity=verbose
