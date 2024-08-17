@@ -74,6 +74,10 @@ runs:
 
     - name: Create local packages
       working-directory: ${{ github.workspace }}/LuxCore
+      env:
+        CMAKE_CXX_COMPILER_LAUNCHER: sccache
+        CMAKE_C_COMPILER_LAUNCHER: sccache
+        SCCACHE_DIRECT: True
       run: |
         conan create ../externals/windows/oidn
         conan create ../externals/windows/openimageio
@@ -86,6 +90,7 @@ runs:
         PKG_CONFIG_PATH: .
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
+        SCCACHE_DIRECT: True
       run: |
         conan install --build=missing .  -s build_type=Release
       shell: bash
