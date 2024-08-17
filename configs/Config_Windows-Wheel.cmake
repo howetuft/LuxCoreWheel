@@ -48,7 +48,7 @@ else()
 endif()
 
 find_package(oidn)
-if (OIDN_FOUND)
+if (oidn_FOUND)
   set(OIDN_FOUND "TRUE")
   MESSAGE(STATUS "LuxCoreWheel - OIDN: ${OIDN_INCLUDE_DIR} / ${oidn_INCLUDE_DIR}")
   include_directories(${OIDN_INCLUDE_DIR})
