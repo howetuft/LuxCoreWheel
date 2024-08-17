@@ -70,7 +70,7 @@ runs:
       working-directory: ${{ github.workspace }}/scripts
       run: |
         . /c/Miniconda/etc/profile.d/conda.sh
-        conda install libvpx
+        conda install anaconda::libvpx
       shell: bash
 
     #- name: Create libvpx
