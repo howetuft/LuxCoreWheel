@@ -68,7 +68,7 @@ runs:
 
     - name: Create libvpx
       run: |
-        conan create --version=1.13.1 --ptofile=conan_profile_libvpx ../externals/windows/libvpx
+        conan create --version=1.13.1 --profile=conan_profile_libvpx ../externals/windows/libvpx
         #conan install --profile=conan_profile_libvpx --build=missing --requires=libvpx/1.13.1 -vvv
       shell: bash
 
