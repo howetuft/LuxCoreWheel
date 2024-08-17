@@ -62,9 +62,6 @@ runs:
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
         cp ../conan_profile_libvpx /c/users/runneradmin/.conan2/profiles/libvpx
 
-
-
-
         cp ../conanfile.py .
         unset ORIGINAL_PATH
       shell: bash
@@ -72,7 +69,7 @@ runs:
     - name: Create libvpx
       run: |
         unset ORIGINAL_PATH
-        conan install --build=missing --requires=libvpx/1.13.1 -vvv
+        conan install --build=missing --requires=libvpx/1.13.1 -vvv -pr conan_profile_libvpx
       shell: bash
 
     - name: Create local packages
