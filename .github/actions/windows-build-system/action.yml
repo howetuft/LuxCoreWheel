@@ -69,7 +69,7 @@ runs:
     - name: Create libvpx
       run: |
         unset ORIGINAL_PATH
-        conan install --build=missing --requires=libvpx/1.13.1 -vvv -pr conan_profile_libvpx
+        conan install --build=missing --requires=libvpx/1.13.1 -vvv --profile=conan_profile_libvpx
       shell: bash
 
     - name: Create local packages
