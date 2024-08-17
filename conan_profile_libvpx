@@ -7,7 +7,6 @@ compiler.version=14
 os=Windows
 
 [conf]
-tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
 tools.microsoft.bash:active=False
 tools.microsoft.bash:path=C:/shells/winbash.exe

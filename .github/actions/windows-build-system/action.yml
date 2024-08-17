@@ -68,7 +68,6 @@ runs:
 
     - name: Create libvpx
       run: |
-        unset ORIGINAL_PATH
         conan install --profile=conan_profile_libvpx --build=missing --requires=libvpx/1.13.1 -vvv
       shell: pwsh
 
