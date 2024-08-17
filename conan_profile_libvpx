@@ -1,15 +1,14 @@
 [settings]
 arch=x86_64
 build_type=Release
-compiler=gcc
-compiler.libcxx=libstdc++
+compiler=msvc
 compiler.cppstd=17
-compiler.version=14
+compiler.version=194
 os=Windows
 
 [conf]
 tools.env.virtualenv:powershell=False
-tools.microsoft.bash:active=True
+tools.microsoft.bash:active=False
 tools.microsoft.bash:path=bash
 tools.microsoft.bash:subsystem=msys2
 tools.build:verbosity=verbose
