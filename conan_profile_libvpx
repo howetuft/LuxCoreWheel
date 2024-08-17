@@ -9,7 +9,7 @@ os=Windows
 
 [conf]
 tools.env.virtualenv:powershell=False
-tools.microsoft.bash:path=msys2bash.cmd
+tools.microsoft.bash:path=C:\msys64\usr\bin\bash.exe
 tools.microsoft.bash:subsystem=msys2
 tools.microsoft.bash:active=False
 tools.build:verbosity=verbose
