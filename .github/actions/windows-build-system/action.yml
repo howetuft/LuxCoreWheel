@@ -73,12 +73,6 @@ runs:
         ##conan install --profile=libvpx --build=missing --requires=libvpx/1.13.1 -vvv
       #shell: pwsh
 
-    - name: Graph info
-      working-directory: ${{ github.workspace }}/LuxCore
-      run: |
-        conan graph info .
-      shell: bash
-
     - name: Create local packages
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
