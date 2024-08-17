@@ -68,7 +68,7 @@ runs:
 
     - name: Create libvpx
       run: |
-        bash -c "conan install --profile=conan_profile_libvpx --build=missing --requires=libvpx/1.13.1 -vvv"
+        conan install --profile=conan_profile_libvpx --build=missing --requires=libvpx/1.13.1 -vvv
       shell: bash
 
     - name: Create local packages
