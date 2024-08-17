@@ -10,6 +10,4 @@ os=Windows
 [conf]
 tools.env.virtualenv:powershell=True
 tools.microsoft.bash:active=False
-tools.microsoft.bash:path=bash
-tools.microsoft.bash:subsystem=msys2
 tools.build:verbosity=verbose
