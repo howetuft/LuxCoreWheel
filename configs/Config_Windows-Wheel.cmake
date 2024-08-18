@@ -56,4 +56,6 @@ else()
   MESSAGE(STATUS "LuxCoreWheel - OIDN NOT FOUND")
 endif()
 
+add_compile_definitions(SPDLOG_FMT_EXTERNAL)
+
 SET(CMAKE_BUILD_TYPE "Release")
