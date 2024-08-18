@@ -11,36 +11,17 @@ inputs:
     type: string
 runs:
   using: 'composite'
+  env:
+    SCCACHE_C_CUSTOM_CACHE_BUSTER: ${{ inputs.job-id }}
+    SCCACHE_CONF: '${{ github.workspace }}\sccache_config'
+    SCCACHE_DIRECT: False
+    SCCACHE_LOG: 'debug'
+    CMAKE_CXX_COMPILER_LAUNCHER: sccache
+    CMAKE_C_COMPILER_LAUNCHER: sccache
+
   steps:
     # Debug
-    #- name: Set up yasm (bash)
-      #working-directory: ${{ github.workspace }}/scripts
-      #run: |
-        #. /c/Miniconda/etc/profile.d/conda.sh
-        ##conda install yasm  TODO Debug
-        #cp yasm /usr/bin
-      #shell: bash
-
-    #- name: Set up yasm (pwsh)
-      #working-directory: ${{ github.workspace }}/scripts
-      #run: |
-        #Set-Alias -Name yasm -Value "echo 'YASM!'"
-      #shell: pwsh
-
-    #- name: Test yasm
-      #run: |
-        #echo "Test yasm"
-        #yasm --version
-      #shell: bash
-
-    #- name: Test yasm
-      #run: |
-        #yasm
-      #shell: pwsh
-
     #- uses: mxschmitt/action-tmate@v3
-
-
 
     # Setup the build machine with the most recent versions of CMake and Ninja. Both are cached if not already: on subsequent runs both will be quickly restored from GitHub cache service.
     # https://github.com/lukka/run-vcpkg
@@ -57,8 +38,6 @@ runs:
       working-directory: ${{ github.workspace }}/LuxCore
       env:
         PKG_CONFIG_PATH: .
-        CMAKE_CXX_COMPILER_LAUNCHER: sccache
-        CMAKE_C_COMPILER_LAUNCHER: sccache
       run: |
         # Copy profiles
         mkdir -p /c/users/runneradmin/.conan2/profiles
@@ -78,12 +57,6 @@ runs:
 
     - name: Create local packages
       working-directory: ${{ github.workspace }}/LuxCore
-      env:
-        CMAKE_CXX_COMPILER_LAUNCHER: sccache
-        CMAKE_C_COMPILER_LAUNCHER: sccache
-        SCCACHE_C_CUSTOM_CACHE_BUSTER: ${{ inputs.job-id }}
-        SCCACHE_CONF: '${{ github.workspace }}\sccache_config'
-        SCCACHE_DIRECT: False
       run: |
         conan create ../externals/windows/oidn
         conan create ../externals/windows/openimageio
@@ -94,11 +67,6 @@ runs:
       working-directory: ${{ github.workspace }}/LuxCore
       env:
         PKG_CONFIG_PATH: .
-        CMAKE_CXX_COMPILER_LAUNCHER: sccache
-        CMAKE_C_COMPILER_LAUNCHER: sccache
-        SCCACHE_DIRECT: True
-        SCCACHE_C_CUSTOM_CACHE_BUSTER: ${{ inputs.job-id }}
-        SCCACHE_CONF: '${{ github.workspace }}\sccache_config'
       run: |
         conan install --build=missing .  -s build_type=Release
       shell: bash
