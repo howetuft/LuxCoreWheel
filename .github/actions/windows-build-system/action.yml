@@ -22,7 +22,6 @@ runs:
     SCCACHE_LOG: 'debug'
     CMAKE_CXX_COMPILER_LAUNCHER: sccache
     CMAKE_C_COMPILER_LAUNCHER: sccache
-
   steps:
     # Debug
     #- uses: mxschmitt/action-tmate@v3
