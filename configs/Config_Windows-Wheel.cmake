@@ -57,5 +57,14 @@ else()
 endif()
 
 add_compile_definitions(SPDLOG_FMT_EXTERNAL)
+find_package(fmt)
+if (fmt_FOUND)
+  set(FMT_FOUND "TRUE")
+  MESSAGE(STATUS "LuxCoreWheel - fmt: ${fmt_INCLUDE_DIR}")
+  include_directories(${fmt_INCLUDE_DIR})
+else()
+  MESSAGE(STATUS "LuxCoreWheel - fmt NOT FOUND")
+endif()
+
 
 SET(CMAKE_BUILD_TYPE "Release")
