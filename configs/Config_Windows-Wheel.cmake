@@ -66,5 +66,12 @@ else()
   MESSAGE(STATUS "LuxCoreWheel - fmt NOT FOUND")
 endif()
 
+findPython(Interpreter Development)
+if (Python_FOUND)
+  MESSAGE(STATUS "LuxCoreWheel - Python: ${Python_INCLUDE_DIR}")
+  include_directories(${Python_INCLUDE_DIR})
+else()
+  MESSAGE(STATUS "LuxCoreWheel - Python NOT FOUND")
+endif()
 
 SET(CMAKE_BUILD_TYPE "Release")
