@@ -107,8 +107,8 @@ jobs:
             CMAKE_CXX_STANDARD=17
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG='debug'
-            SCCACHE_ERROR_LOG='${{ github.workspace }}\sccache.log'
-            SCCACHE_CONF='${{ github.workspace }}\sccache_config'
+            SCCACHE_ERROR_LOG="${{ github.workspace }}\sccache.log"
+            SCCACHE_CONF="${{ github.workspace }}\sccache_config"
             SCCACHE_DIRECT='true'
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             PYTHON_V=''
