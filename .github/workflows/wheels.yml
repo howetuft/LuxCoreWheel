@@ -21,8 +21,6 @@ jobs:
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         os: [windows-latest]
     env:
-      BOOST_VERSION: 1.85.0
-      SPDLOG_VERSION: 1.14.1
       GH_TOKEN: ${{ github.token }}
       SCCACHE_GHA_ENABLED: on
       SCCACHE_DIRECT: on
@@ -78,7 +76,6 @@ jobs:
 
       # Build wheel
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
         env:
           SCCACHE_GHA_ENABLED: "true"
           CIBW_BUILD_FRONTEND: build
@@ -114,6 +111,8 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             PYTHON_V=''
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
+        run: |
+          python -m cibuildwheel --output-dir wheelhouse
 
       # Upload sccache log (debug)
       #- uses: actions/upload-artifact@v4
