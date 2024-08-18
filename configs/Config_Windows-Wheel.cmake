@@ -66,7 +66,7 @@ else()
   MESSAGE(STATUS "LuxCoreWheel - fmt NOT FOUND")
 endif()
 
-findPython(Interpreter Development)
+find_package(Python COMPONENTS Interpreter Development)
 if (Python_FOUND)
   MESSAGE(STATUS "LuxCoreWheel - Python: ${Python_INCLUDE_DIR}")
   include_directories(${Python_INCLUDE_DIR})
