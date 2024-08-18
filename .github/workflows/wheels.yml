@@ -50,6 +50,7 @@ jobs:
         uses: ./.github/actions/windows-build-system
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+          workspace: ${{ github.workspace }}
 
       - name: Windows - Clean source tree
         if: ${{ runner.os }} == "Windows"

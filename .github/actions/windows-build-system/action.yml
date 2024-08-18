@@ -9,11 +9,15 @@ inputs:
     description: 'Job unique identifier (for caching)'
     required: true
     type: string
+  workspace:
+    description: 'Path to workspace'
+    required: true
+    type: string
 runs:
   using: 'composite'
   env:
     SCCACHE_C_CUSTOM_CACHE_BUSTER: ${{ inputs.job-id }}
-    SCCACHE_CONF: '${{ github.workspace }}\sccache_config'
+    SCCACHE_CONF: '${{ inputs.workspace }}\sccache_config'
     SCCACHE_DIRECT: False
     SCCACHE_LOG: 'debug'
     CMAKE_CXX_COMPILER_LAUNCHER: sccache
