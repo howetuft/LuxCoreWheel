@@ -48,6 +48,8 @@ jobs:
       - name: Windows - Set up build system
         if: ${{ runner.os }} == "Windows"
         uses: ./.github/actions/windows-build-system
+        with:
+          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
       - name: Windows - Clean source tree
         if: ${{ runner.os }} == "Windows"
@@ -110,6 +112,7 @@ jobs:
             SCCACHE_DIRECT='true'
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             PYTHON_V=''
+            SPDLOG_FMT_EXTERNAL=on
           CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
         run: |
           python -m cibuildwheel --output-dir wheelhouse

@@ -4,23 +4,28 @@
 
 name: windows-build-system
 description: LuxCore Python Wheels - Build boost-python & boost-numpy for Windows build
+inputs:
+  job-id:
+    description: 'Job unique identifier (for caching)'
+    required: true
+    type: string
 runs:
   using: 'composite'
   steps:
     # Debug
-    - name: Set up yasm (bash)
-      working-directory: ${{ github.workspace }}/scripts
-      run: |
-        . /c/Miniconda/etc/profile.d/conda.sh
-        #conda install yasm  TODO Debug
-        cp yasm /usr/bin
-      shell: bash
+    #- name: Set up yasm (bash)
+      #working-directory: ${{ github.workspace }}/scripts
+      #run: |
+        #. /c/Miniconda/etc/profile.d/conda.sh
+        ##conda install yasm  TODO Debug
+        #cp yasm /usr/bin
+      #shell: bash
 
-    - name: Set up yasm (pwsh)
-      working-directory: ${{ github.workspace }}/scripts
-      run: |
-        Set-Alias -Name yasm -Value "echo 'YASM!'"
-      shell: pwsh
+    #- name: Set up yasm (pwsh)
+      #working-directory: ${{ github.workspace }}/scripts
+      #run: |
+        #Set-Alias -Name yasm -Value "echo 'YASM!'"
+      #shell: pwsh
 
     #- name: Test yasm
       #run: |
@@ -41,7 +46,6 @@ runs:
     # https://github.com/lukka/run-vcpkg
     - uses: lukka/get-cmake@latest
 
-    # TODO should be global?
     - name: Setup sccache
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
@@ -77,6 +81,8 @@ runs:
       env:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
+        SCCACHE_C_CUSTOM_CACHE_BUSTER: ${{ inputs.job-id }}
+        SCCACHE_CONF: '${{ github.workspace }}\sccache_config'
         SCCACHE_DIRECT: False
       run: |
         conan create ../externals/windows/oidn
@@ -91,6 +97,8 @@ runs:
         CMAKE_CXX_COMPILER_LAUNCHER: sccache
         CMAKE_C_COMPILER_LAUNCHER: sccache
         SCCACHE_DIRECT: True
+        SCCACHE_C_CUSTOM_CACHE_BUSTER: ${{ inputs.job-id }}
+        SCCACHE_CONF: '${{ github.workspace }}\sccache_config'
       run: |
         conan install --build=missing .  -s build_type=Release
       shell: bash
