@@ -9,10 +9,6 @@ inputs:
     description: 'Job unique identifier (for caching)'
     required: true
     type: string
-  workspace:
-    description: 'Path to workspace'
-    required: true
-    type: string
 runs:
   using: 'composite'
   steps:
