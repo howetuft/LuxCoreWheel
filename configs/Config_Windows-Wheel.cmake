@@ -67,6 +67,7 @@ else()
 endif()
 
 find_package(Python COMPONENTS Interpreter Development)
+find_library(P312 NAMES python312 REQUIRED)
 if (Python_FOUND)
   MESSAGE(STATUS "LuxCoreWheel - Python: ${Python_INCLUDE_DIR}")
   include_directories(${Python_INCLUDE_DIR})
