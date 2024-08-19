@@ -23,7 +23,10 @@ runs:
       uses: actions/cache@v4
       with:
         path: 'c:\users\runneradmin\appdata\local\pip\cache'
-        key: ${{ inputs.job-id }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ inputs.job-id }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ inputs.job-id }}-pip-
+          ${{ inputs.job-id }}-
 
     - name: Update Python dependencies
       run: |
@@ -31,12 +34,10 @@ runs:
         python -m pip cache dir
         python -m pip install -r requirements.txt
       shell: bash
-          
+
     #- name: Save pip cache
     #  uses: actions/cache/save@v4
     #  if: always()
     #  with:
     #    path: 'c:\users\runneradmin\appdata\local\pip\cache'
     #    key: ${{ inputs.job-id }}-pip-${{ hashFiles('**/requirements.txt') }}
-
-    
