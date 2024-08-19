@@ -22,8 +22,7 @@ runs:
         echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
         echo "SCCACHE_CONF='${{ inputs.workspace }}\sccache_config'" >> $GITHUB_ENV
         #echo "SCCACHE_DIRECT=False" >> $GITHUB_ENV
-        #echo "SCCACHE_ERROR_LOG='${{ inputs.workspace }}/sccache.log'" >> $GITHUB_ENV
-        echo "SCCACHE_ERROR_LOG=../../sccache.log" >> $GITHUB_ENV
+        echo "SCCACHE_ERROR_LOG=../../sccache.log_${{ matrix.python-minor }}" >> $GITHUB_ENV
         echo "SCCACHE_LOG=debug" >> $GITHUB_ENV
         echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
         echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
@@ -70,7 +69,7 @@ runs:
         conan create ../externals/windows/openimageio
       shell: bash
 
-    - uses: mxschmitt/action-tmate@v3
+    #- uses: mxschmitt/action-tmate@v3
 
     - name: Run conan
       working-directory: ${{ github.workspace }}/LuxCore
