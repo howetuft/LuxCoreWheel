@@ -66,6 +66,7 @@ else()
   MESSAGE(STATUS "LuxCoreWheel - fmt NOT FOUND")
 endif()
 
+message(STATUS "Looking for Python in $ENV{PYTHON3_ROOT_DIR}")
 find_package(Python COMPONENTS Interpreter Development HINTS $ENV{PYTHON3_ROOT_DIR})
 find_library(P312 NAMES python312 REQUIRED HINTS $ENV{PYTHON3_ROOT_DIR})
 if (Python_FOUND)
