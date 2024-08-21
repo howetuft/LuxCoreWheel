@@ -61,7 +61,7 @@ runs:
     - name: Create local packages
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        conan create ../externals/windows/oidn
+        conan build ../externals/windows/oidn
         conan create ../externals/windows/openimageio
       shell: bash
 
