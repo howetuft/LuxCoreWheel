@@ -84,7 +84,7 @@ jobs:
           CIBW_BUILD_VERBOSITY: 1
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
-          #CIBW_ARCHS: auto64
+          CIBW_ARCHS: auto64
           CIBW_ENVIRONMENT_PASS_LINUX: |
             SCCACHE_GHA_ENABLED
             SCCACHE_DIRECT
@@ -93,13 +93,13 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
           CIBW_ENVIRONMENT_WINDOWS: >-
-            CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
-            CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
-            CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
+            #CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
+            #CMAKE_LIBRARY_PATH='${{ env.WINDOWS_DEPS }}\x64\Release\lib;${{ steps.boost.outputs.librarydir }}'
+            #CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             CMAKE_BUILD_TYPE='Release'
             CMAKE_BUILD_PARALLEL_LEVEL='4'
-            BOOST_ROOT='${{ steps.boost.outputs.root }}'
-            BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
+            #BOOST_ROOT='${{ steps.boost.outputs.root }}'
+            #BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
             CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
             CFLAGS='-DXML_STATIC'
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
@@ -113,7 +113,6 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             PYTHON_V=''
             SPDLOG_FMT_EXTERNAL=on
-          CIBW_BEFORE_BUILD_WINDOWS: dir ${{ steps.boost.outputs.root }} && echo %SCCACHE_GHA_ENABLED% && dir D:\a\LuxCoreWheel\LuxCoreWheel
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 
