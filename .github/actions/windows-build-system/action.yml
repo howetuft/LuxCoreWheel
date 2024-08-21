@@ -100,7 +100,7 @@ runs:
     # Disable Windows Defender (for unzipping...)
     - run: |
         Set-MpPreference -DisableRealtimeMonitoring $true
-        Write-Host (Get-Service actions.runner.*).name
+        Write-Output (Get-Service actions.runner.*).name
       shell: pwsh
     - run: |
         sc config "NAME_OF_YOUR_SERVICE" obj= "NT AUTHORITY\SYSTEM" type= own
