@@ -100,9 +100,9 @@ runs:
     # Disable Windows Defender (for unzipping...)
     - run: |
         Set-MpPreference -DisableRealtimeMonitoring $true
+        (Get-Service actions.runner.*).name
       shell: pwsh
     - run: |
-        powershell "(Get-Service actions.runner.*).name"
         sc config "NAME_OF_YOUR_SERVICE" obj= "NT AUTHORITY\SYSTEM" type= own
         runas /user:Administrator "sc stop WinDefend"
       shell: cmd
