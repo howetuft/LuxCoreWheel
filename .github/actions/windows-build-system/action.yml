@@ -58,11 +58,22 @@ runs:
         ##conan install --profile=libvpx --build=missing --requires=libvpx/1.13.1 -vvv
       #shell: pwsh
 
-    - name: Create local packages
+    - name: oidn
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        conan build ../externals/windows/oidn
+        conan create ../externals/windows/oidn
+
+        conan source ../externals/windows/openimageio
         conan build ../externals/windows/openimageio
+      shell: bash
+
+    - name: openimageio
+      working-directory: ${{ github.workspace }}/externals/windows/openimageio
+      run: |
+        conan source .
+        conan install .
+        conan build .
+        conan export-pkg .
       shell: bash
 
     #- uses: mxschmitt/action-tmate@v3
