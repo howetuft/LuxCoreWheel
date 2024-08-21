@@ -100,9 +100,8 @@ runs:
     # Disable Windows Defender (for unzipping...)
     - run: |
         choco install gsudo
-        refreshenv
+        Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
         Write-Output "Disable Windows Defender"
-        Write-Output (Get-Service actions.runner.*).name
         gsudo Set-MpPreference -DisableRealtimeMonitoring $true
       shell: pwsh
 
