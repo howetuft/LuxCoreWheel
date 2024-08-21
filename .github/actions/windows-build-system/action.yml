@@ -62,7 +62,7 @@ runs:
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
         conan build ../externals/windows/oidn
-        conan create ../externals/windows/openimageio
+        conan build ../externals/windows/openimageio
       shell: bash
 
     #- uses: mxschmitt/action-tmate@v3
