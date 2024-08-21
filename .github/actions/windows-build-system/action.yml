@@ -47,7 +47,7 @@ runs:
         goto EOF
 
 
-
+        :_change_registry
         REG ADD HKEY_CLASSES_ROOT\7-Zip.zip /d "zip Archive" /f > nul
         REG ADD HKEY_CLASSES_ROOT\7-Zip.zip\DefaultIcon /d "C:\Program Files\7-Zip\7z.dll,4" /f > nul
         REG ADD HKEY_CLASSES_ROOT\7-Zip.zip\shell /f > nul
