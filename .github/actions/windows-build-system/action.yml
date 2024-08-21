@@ -99,16 +99,12 @@ runs:
 
     # Disable Windows Defender (for unzipping...)
     - run: |
-        Set-MpPreference -DisableRealtimeMonitoring $true
-        Write-Output (Get-Service actions.runner.*).name
-      shell: pwsh
-    - run: |
         choco install gsudo
         refreshenv
-      shell: cmd
-    - run: |
-        gsudo sc stop WinDefend
-      shell: cmd
+        Write-Output "Disable Windows Defender"
+        Write-Output (Get-Service actions.runner.*).name
+        gsudo Set-MpPreference -DisableRealtimeMonitoring $true
+      shell: pwsh
 
 
     # Initialize Conan with local packages
