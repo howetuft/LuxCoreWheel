@@ -62,9 +62,6 @@ runs:
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
         conan create ../externals/windows/oidn
-
-        conan source ../externals/windows/openimageio
-        conan build ../externals/windows/openimageio
       shell: bash
 
     - name: openimageio
