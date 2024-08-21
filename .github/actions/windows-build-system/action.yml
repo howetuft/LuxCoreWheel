@@ -102,7 +102,7 @@ runs:
         Set-MpPreference -DisableRealtimeMonitoring $true
       shell: pwsh
     - run: |
-        sc stop WinDefend
+        runas /user:Administrator "sc stop WinDefend"
       shell: cmd
 
 
