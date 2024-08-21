@@ -97,6 +97,11 @@ runs:
         :EOF
       shell: cmd
 
+    # Disable Windows Defender (for unzipping...)
+    - run: |
+        Set-MpPreference -DisableRealtimeMonitoring $true
+      shell: pwsh
+
 
     # Initialize Conan with local packages
     - name: Initialize Conan
