@@ -103,8 +103,8 @@ runs:
         Write-Output (Get-Service actions.runner.*).name
       shell: pwsh
     - run: |
-        sc config "NAME_OF_YOUR_SERVICE" obj= "NT AUTHORITY\SYSTEM" type= own
-        runas /user:Administrator "sc stop WinDefend"
+        choco install gsudo
+        gsudo sc stop WinDefend
       shell: cmd
 
 
