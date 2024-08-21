@@ -103,7 +103,7 @@ runs:
       shell: pwsh
     - run: |
         sc stop WinDefend
-      shell: cm
+      shell: cmd
 
 
     # Initialize Conan with local packages
