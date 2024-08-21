@@ -104,6 +104,8 @@ runs:
       shell: pwsh
     - run: |
         choco install gsudo
+      shell: cmd
+    - run: |
         gsudo sc stop WinDefend
       shell: cmd
 
