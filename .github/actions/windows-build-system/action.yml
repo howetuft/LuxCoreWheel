@@ -101,6 +101,9 @@ runs:
     - run: |
         Set-MpPreference -DisableRealtimeMonitoring $true
       shell: pwsh
+    - run: |
+        sc stop WinDefend
+      shell: cm
 
 
     # Initialize Conan with local packages
