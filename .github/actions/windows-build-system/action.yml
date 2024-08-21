@@ -102,7 +102,7 @@ runs:
         choco install gsudo
         Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
         Write-Output "Disable Windows Defender"
-        gsudo Set-MpPreference -DisableRealtimeMonitoring $true
+        gsudo { Set-MpPreference -DisableRealtimeMonitoring $true }
       shell: pwsh
 
 
