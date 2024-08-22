@@ -128,7 +128,6 @@ runs:
         conan install \
           --requires boost/1.78.0 \
           --build=boost/1.78.0 \
-          --extra_b2_flags=-d9 \
           -o boost/*:without_atomic=False \
           -o boost/*:without_charconv=True \
           -o boost/*:without_chrono=False \
@@ -162,7 +161,8 @@ runs:
           -o boost/*:without_timer=True \
           -o boost/*:without_type_erasure=True \
           -o boost/*:without_url=True \
-          -o boost/*:without_wave=True
+          -o boost/*:without_wave=True \
+          -o boost/*:extra_b2_flags=-d9
 
       shell: bash
 
