@@ -123,7 +123,7 @@ runs:
     - name: boost
       working-directory: ${{ github.workspace }}
       run: |
-        echo 'using msvc : : sccache.exe "''${{ env.VCINSTALLDIR }}bin\cl.exe''" ;' | sed -r 's/\\/\\\\/g'>> /c/users/runneradmin/site-config.jam
+        echo 'using msvc : : sccache.exe "''${{ env.VCINSTALLDIR }}bin\cl.exe''" ;' | sed -r 's/\\///g'>> /c/users/runneradmin/site-config.jam
         cat /c/users/runneradmin/site-config.jam
         conan install \
           --requires boost/1.78.0 \
