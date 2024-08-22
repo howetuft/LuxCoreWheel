@@ -34,7 +34,7 @@ runs:
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
 
-    - uses: ilammy/msvc-dev-cmd@v1
+    #- uses: ilammy/msvc-dev-cmd@v1
 
     - name: Associate 7-zip to all archives
       run: |
@@ -97,15 +97,6 @@ runs:
         :EOF
       shell: cmd
 
-    # Disable Windows Defender (for unzipping...)
-    - run: |
-        choco install gsudo
-        Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-        Write-Output "Disable Windows Defender"
-        gsudo { Set-MpPreference -DisableRealtimeMonitoring $true }
-      shell: pwsh
-
-
     # Initialize Conan with local packages
     - name: Initialize Conan
       working-directory: ${{ github.workspace }}/LuxCore
@@ -127,6 +118,47 @@ runs:
         #conan create --version=1.13.1 --profile=libvpx ../externals/windows/libvpx
         ##conan install --profile=libvpx --build=missing --requires=libvpx/1.13.1 -vvv
       #shell: pwsh
+
+    - name: boost
+      working-directory: ${{ github.workspace }}
+      run: |
+        conan install --requires boost/1.78.0 \
+          -o boost/*:without_atomic=false \
+          -o boost/*:without_charconv=true \
+          -o boost/*:without_chrono=false \
+          -o boost/*:without_cobalt=true \
+          -o boost/*:without_container=false \
+          -o boost/*:without_context=true \
+          -o boost/*:without_contract=true \
+          -o boost/*:without_coroutine=true \
+          -o boost/*:without_date_time=false \
+          -o boost/*:without_exception=false \
+          -o boost/*:without_fiber=true \
+          -o boost/*:without_filesystem=false \
+          -o boost/*:without_graph=true \
+          -o boost/*:without_graph_parallel=true \
+          -o boost/*:without_iostreams=false \
+          -o boost/*:without_json=true \
+          -o boost/*:without_locale=true \
+          -o boost/*:without_log=true \
+          -o boost/*:without_math=true \
+          -o boost/*:without_mpi=true \
+          -o boost/*:without_nowide=true \
+          -o boost/*:without_program_options=false \
+          -o boost/*:without_python=false \
+          -o boost/*:without_random=false \
+          -o boost/*:without_regex=false \
+          -o boost/*:without_serialization=false \
+          -o boost/*:without_stacktrace=true \
+          -o boost/*:without_system=false \
+          -o boost/*:without_test=true \
+          -o boost/*:without_thread=false \
+          -o boost/*:without_timer=true \
+          -o boost/*:without_type_erasure=true \
+          -o boost/*:without_url=true \
+          -o boost/*:without_wave=true
+
+      shell: bash
 
     - name: oidn
       working-directory: ${{ github.workspace }}/externals/windows/oidn
