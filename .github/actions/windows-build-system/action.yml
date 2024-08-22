@@ -162,7 +162,7 @@ runs:
           -o boost/*:without_type_erasure=True \
           -o boost/*:without_url=True \
           -o boost/*:without_wave=True \
-          -o boost/*:extra_b2_flags=-d9
+          -o boost/*:extra_b2_flags=-d4
 
       shell: bash
 
