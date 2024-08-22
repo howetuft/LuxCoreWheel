@@ -122,7 +122,9 @@ runs:
     - name: boost
       working-directory: ${{ github.workspace }}
       run: |
-        conan install --requires boost/1.78.0 \
+        conan install \
+          --requires boost/1.78.0 \
+          --build=boost/1.78.0 \
           -o boost/*:without_atomic=False \
           -o boost/*:without_charconv=True \
           -o boost/*:without_chrono=False \
