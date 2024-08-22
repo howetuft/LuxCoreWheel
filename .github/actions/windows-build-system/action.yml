@@ -163,7 +163,7 @@ runs:
           -o boost/*:without_url=True \
           -o boost/*:without_wave=True \
           -o boost/*:magic_autolink=True \
-          -o boost/*:extra_b2_flags=-d2
+          -o boost/*:extra_b2_flags=-d1
 
       shell: bash
 
