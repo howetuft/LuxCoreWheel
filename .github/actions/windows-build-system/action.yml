@@ -34,7 +34,8 @@ runs:
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
 
-    #- uses: ilammy/msvc-dev-cmd@v1
+    # For main compilation
+    - uses: ilammy/msvc-dev-cmd@v1
 
     - name: Associate 7-zip to all archives
       run: |
@@ -122,6 +123,7 @@ runs:
     - name: boost
       working-directory: ${{ github.workspace }}
       run: |
+        echo "using v143 : : sccache cl ;" >> ~/user-config.jam
         conan install \
           --requires boost/1.78.0 \
           --build=boost/1.78.0 \
