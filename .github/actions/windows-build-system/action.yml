@@ -173,7 +173,8 @@ runs:
         conan source .
         conan install .
         conan build .
-        conan export-pkg .
+        conan editable add .
+        #conan export-pkg .
       shell: bash
 
     - name: openimageio
