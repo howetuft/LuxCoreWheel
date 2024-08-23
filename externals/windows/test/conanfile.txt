@@ -1,2 +1,2 @@
 [requires]
-oidn/2.3.0
+oidn/2.3.0@luxcorewheels/luxcorewheels
