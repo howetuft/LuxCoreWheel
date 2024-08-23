@@ -10,6 +10,3 @@
 [submodule "externals/windows/openimageio"]
 	path = externals/windows/openimageio
 	url = https://github.com/howetuft/LCW_ConanOIIO.git
-[submodule "externals/windows/oidn"]
-	path = externals/windows/oidn
-	url = https://github.com/howetuft/LCW_ConanOIDN.git

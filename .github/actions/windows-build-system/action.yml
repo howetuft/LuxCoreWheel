@@ -182,8 +182,8 @@ runs:
         conan source .
         conan install .
         conan build .
-        conan editable add --name=openimageio --version=2.2.13.1 .
-        # conan export-pkg .
+        # conan editable add --name=openimageio --version=2.2.13.1 .
+        conan export-pkg .
       shell: bash
 
     #- uses: mxschmitt/action-tmate@v3
