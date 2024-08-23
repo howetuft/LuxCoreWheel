@@ -119,6 +119,9 @@ runs:
         #conan export-pkg .
       shell: bash
 
+    # Debug
+    - uses: mxschmitt/action-tmate@v3
+
     - name: test
       working-directory: ${{ github.workspace }}/externals/windows/test
       run: |
