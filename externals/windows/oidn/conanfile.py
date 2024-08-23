@@ -22,7 +22,7 @@ class OidnConan(ConanFile):
             org = os.path.join(
                 self.recipe_folder, f"oidn-{self.version}.x64.windows", subfolder
             )
-            dst = os.path.join(self.recipe_folder, subfolder)
+            dst = os.path.join(self.build_folder, subfolder)
             shutil.copytree(org, dst)
 
     def package(self):
