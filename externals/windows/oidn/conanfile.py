@@ -2,7 +2,7 @@ import os
 import shutil
 from conan.tools.files import get, copy
 from conan import ConanFile
-from conan.layout import cmake_layout
+from conan.tools.cmake import cmake_layout
 
 
 class OidnConan(ConanFile):
