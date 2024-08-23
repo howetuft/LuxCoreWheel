@@ -1,0 +1,2 @@
+[requires]
+oidn/2.3.0

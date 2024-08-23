@@ -1,0 +1,4 @@
+project(test)
+add_executable(test "test/test.cpp")
+find_package(oidn)
+add_dependencies(test oidn::oidn)
