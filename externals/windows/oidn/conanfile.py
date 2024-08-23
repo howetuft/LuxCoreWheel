@@ -45,17 +45,6 @@ class OidnConan(ConanFile):
         url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
         get(self, url)
 
-    def build(self):
-        base = os.path.join(self.cpp.source, f"oidn-{self.version}.x64.windows")
-        # Include
-        shutil.copytree(os.path.join(base, "include"), self.cpp.source.includedirs)
-
-        # Libs
-        shutil.copytree(os.path.join(base, "lib"), self.cpp.build.libdirs)
-
-        # Bin
-        shutil.copytree(os.path.join(base, "bin"), self.cpp.build.bindirs)
-
     def package(self):
         for subfolder in ("bin", "include", "lib"):
             shutil.copytree(
