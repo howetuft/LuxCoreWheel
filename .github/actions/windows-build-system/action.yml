@@ -174,7 +174,7 @@ runs:
         ls oidn
         conan install oidn
         conan build oidn
-        conan packahe oidn
+        conan package oidn
         conan editable add oidn
         conan editable list
         #conan export-pkg .
