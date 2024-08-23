@@ -16,7 +16,8 @@ class OidnConan(ConanFile):
     def layout(self):
         ## define project folder structure
 
-        self.folders.source = f"oidn-{self.version}.x64.windows"
+        self.folders.source = "."
+        base = f"oidn-{self.version}.x64.windows"
         self.folders.build = os.path.join("build", str(self.settings.build_type))
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
@@ -24,17 +25,17 @@ class OidnConan(ConanFile):
         # for editable packages:
         # this information is relative to the source folder
         self.cpp.source.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
-        self.cpp.source.includedirs = ["include"]
-        self.cpp.source.libdirs = ["lib"]
-        self.cpp.source.bindirs = ["bin"]
+        self.cpp.source.includedirs = [os.path.join(base, "include")]
+        self.cpp.source.libdirs = [os.path.join(base, "lib")]
+        self.cpp.source.bindirs = [os.path.join(base, "bin")]
 
-        ## cpp.package information is for consumers to find the package contents
-        # in the Conan cache
-        self.cpp.package.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
-        self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
-                                                   # default, but declared for completion
-        self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
-                                                   # default, but declared for completion
+        # ## cpp.package information is for consumers to find the package contents
+        # # in the Conan cache
+        # self.cpp.package.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
+        # self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
+                                                   # # default, but declared for completion
+        # self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
+                                                   # # default, but declared for completion
 
         # ## cpp.package information is for consumers to find the package contents in the Conan cache
 
