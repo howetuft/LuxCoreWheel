@@ -168,12 +168,14 @@ runs:
       #shell: bash
 
     - name: oidn
-      working-directory: ${{ github.workspace }}/externals/windows/oidn
+      working-directory: ${{ github.workspace }}/externals/windows
       run: |
-        conan source .
-        conan install .
-        conan build .
-        conan editable add .
+        conan source oidn
+        ls oidn
+        conan install oidn
+        conan build oidn
+        conan editable add oidn
+        conan editable list
         #conan export-pkg .
       shell: bash
 
