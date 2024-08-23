@@ -13,17 +13,48 @@ class OidnConan(ConanFile):
     channel = "luxcorewheels"
     revision_mode = "hash"
 
+    def layout(self):
+        ## define project folder structure
+
+        self.folders.source = f"oidn-{self.version}.x64.windows"
+        self.folders.build = os.path.join("build", str(self.settings.build_type))
+        self.folders.generators = os.path.join(self.folders.build, "generators")
+
+        # this information is relative to the source folder
+        self.cpp.source.includedirs = ["include"]
+        self.cpp.source.libdirs = ["lib"]
+        self.cpp.source.bindirs = ["bin"]
+
+        # ## cpp.package information is for consumers to find the package contents in the Conan cache
+
+        # self.cpp.package.libs = ["oidn"]
+        # self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
+                                                   # # default, but declared for completion
+        # self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
+                                                   # # default, but declared for completion
+
+        # ## cpp.source and cpp.build information is specifically designed for editable packages:
+
+        # # this information is relative to the source folder that is '.'
+        # self.cpp.source.includedirs = ["include"] # maps to ./include
+
+        # # this information is relative to the build folder that is './build/<build_type>', so it will
+        # self.cpp.build.libdirs = ["."]  # map to ./build/<build_type> for libdirs
+
     def source(self):
         url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
         get(self, url)
 
     def build(self):
-        for subfolder in ("bin", "include", "lib"):
-            org = os.path.join(
-                self.recipe_folder, f"oidn-{self.version}.x64.windows", subfolder
-            )
-            dst = os.path.join(self.build_folder, subfolder)
-            shutil.copytree(org, dst)
+        base = os.path.join(self.cpp.source, f"oidn-{self.version}.x64.windows")
+        # Include
+        shutil.copytree(os.path.join(base, "include"), self.cpp.source.includedirs)
+
+        # Libs
+        shutil.copytree(os.path.join(base, "lib"), self.cpp.build.libdirs)
+
+        # Bin
+        shutil.copytree(os.path.join(base, "bin"), self.cpp.build.bindirs)
 
     def package(self):
         for subfolder in ("bin", "include", "lib"):
@@ -41,5 +72,3 @@ class OidnConan(ConanFile):
         # We clear everything in order to have a constant package_id and use the cache
         self.info.clear()
 
-    def layout(self):
-        cmake_layout(self)
