@@ -20,10 +20,21 @@ class OidnConan(ConanFile):
         self.folders.build = os.path.join("build", str(self.settings.build_type))
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
+        ## cpp.source and cpp.build information is specifically designed
+        # for editable packages:
         # this information is relative to the source folder
+        self.cpp.source.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
         self.cpp.source.includedirs = ["include"]
         self.cpp.source.libdirs = ["lib"]
         self.cpp.source.bindirs = ["bin"]
+
+        ## cpp.package information is for consumers to find the package contents
+        # in the Conan cache
+        self.cpp.package.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
+        self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
+                                                   # default, but declared for completion
+        self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
+                                                   # default, but declared for completion
 
         # ## cpp.package information is for consumers to find the package contents in the Conan cache
 
