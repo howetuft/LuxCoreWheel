@@ -13,11 +13,11 @@ class OidnConan(ConanFile):
     channel = "luxcorewheels"
     revision_mode = "hash"
 
-    def build(self):
+    def source(self):
         url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
         get(self, url)
 
-    def package(self):
+    def build(self):
         for subfolder in ("bin", "include", "lib"):
             shutil.copytree(
                 os.path.join(
