@@ -171,9 +171,9 @@ runs:
       working-directory: ${{ github.workspace }}/externals/windows/oidn
       run: |
         conan source .
-        ls
         conan install .
         conan build .
+        ls
         conan editable add .
         conan editable list
         #conan export-pkg .
