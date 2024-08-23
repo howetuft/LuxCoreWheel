@@ -120,7 +120,7 @@ runs:
       shell: bash
 
     - name: test
-      working-directory: ${{ github.workspace }}/externals/windows
+      working-directory: ${{ github.workspace }}/externals/windows/test
       run: |
         conan install --build=missing .  -s build_type=Release
         cmake --preset=conan-release -G ninja .
