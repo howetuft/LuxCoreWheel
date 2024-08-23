@@ -59,6 +59,7 @@ class LuxCore(ConanFile):
         "boost/*:without_type_erasure": True,
         "boost/*:without_url": True,
         "boost/*:without_wave": True,
+        "boost/*:magic_autolink": True,
         "fmt/*:header_only": True,
     }
 
