@@ -139,7 +139,7 @@ runs:
       working-directory: ${{ github.workspace }}/externals/windows/test
       run: |
         conan install --build=missing .  -s build_type=Release
-        cmake --preset=conan-release -G Ninja .
+        cmake --preset=conan-release -G Ninja --trace-expand .
       shell: bash
 
 
