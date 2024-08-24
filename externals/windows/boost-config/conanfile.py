@@ -6,7 +6,11 @@ sys.path.append(os.path.join(here, '..'))
 
 from boost_helper import BoostModule
 
-Boost_Python_Recipe = BoostModule("config", "1.78.0")
+class Boost_Python_Recipe(
+    metaclass=BoostTemplate, module="config", boost_version="1.78.0"
+):
+    pass
+
 
 # from conan import ConanFile
 # from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
