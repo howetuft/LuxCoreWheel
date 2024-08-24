@@ -11,6 +11,7 @@ class Test(ConanFile):
 
     requires = [
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
+        "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {

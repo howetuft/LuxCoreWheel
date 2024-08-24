@@ -107,12 +107,23 @@ runs:
 
       #shell: bash
 
+    # We use editable mode, otherwise a random revision is computed and make
+    # sccache inefficient
+
     - name: openimageio
       working-directory: ${{ github.workspace }}/externals/windows/openimageio
       run: |
         conan source .
         conan install .
         conan build .
+        conan editable add .
+      shell: bash
+
+    - name: oidn
+      working-directory: ${{ github.workspace }}/externals/windows/oidn
+      run: |
+        conan source .
+        conan install .
         conan editable add .
       shell: bash
 
@@ -123,14 +134,6 @@ runs:
         cmake --preset=conan-release -G Ninja .
       shell: bash
 
-
-    - name: oidn
-      working-directory: ${{ github.workspace }}/externals/windows/oidn
-      run: |
-        conan source .
-        conan install .
-        conan editable add .
-      shell: bash
 
     ## Debug
     #- uses: mxschmitt/action-tmate@v3
