@@ -7,7 +7,7 @@ sys.path.append(os.path.join(here, '..'))
 from boost_helper import BoostMeta
 
 class Boost_Python_Recipe(
-    metaclass=BoostTemplate, module="config", boost_version="1.78.0"
+    metaclass=BoostMeta, module="config", boost_version="1.78.0"
 ):
     pass
 
