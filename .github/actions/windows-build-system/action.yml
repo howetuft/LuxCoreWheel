@@ -116,9 +116,13 @@ runs:
         # Keep install before source, otherwise settings.build_type won't be set
         # when running layout()
         conan editable add .
-        conan install . -pr default
+        conan install . -s build_type=Release
         conan source .
-        cmake . -G Ninja
+        mkdir build
+        cd build
+        cmake .. --preset conan-default
+        cmake .. --build --preset conan-release \
+        cd ..
         echo "Dir content:"
         find .
       shell: bash
