@@ -165,7 +165,7 @@ class OpenImageIOConan(ConanFile):
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
-        rm(self, "conanfile.txt")
+        rm(self, "conanfile.txt", ".")
 
     def generate(self):
         tc = CMakeToolchain(self)
