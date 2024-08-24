@@ -26,7 +26,7 @@ class OpenImageIOConan(ConanFile):
     channel = "luxcorewheels"
     revision_mode = "scm_folder"
 
-    settings = "os", "arch", "compiler", "build_type"
+    settings = "os", "compiler", "build_type", "arch"
     options = {
         "shared": [True, False],
         "with_libjpeg": ["libjpeg", "libjpeg-turbo"],
