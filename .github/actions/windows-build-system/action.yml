@@ -19,7 +19,8 @@ runs:
         echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
         #echo "SCCACHE_DIRECT=False" >> $GITHUB_ENV
         echo "SCCACHE_ERROR_LOG=../../sccache.log" >> $GITHUB_ENV
-        # echo "SCCACHE_LOG=debug" >> $GITHUB_ENV
+        # LogLevel in {error, warn, info, debug, trace}, see parse.rs
+        echo "SCCACHE_LOG=Info" >> $GITHUB_ENV
         echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
         echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
       shell: bash
@@ -124,7 +125,6 @@ runs:
         cp -R build/Release/lib .
         cp -R build/Release/include/* include
 
-        find .
       shell: bash
 
     ## Debug
