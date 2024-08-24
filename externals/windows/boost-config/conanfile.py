@@ -1,5 +1,5 @@
 # # TODO Licence
-from .. import boost_template
+import windows.boost_template
 
 Boost_Python_Recipe = BoostModule("config", "1.78.0")
 
