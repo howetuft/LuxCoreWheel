@@ -1,5 +1,10 @@
 # # TODO Licence
-import windows.boost_template
+import os
+import sys
+here = os.path.dirname(__file__)
+sys.path.append(os.path.join(here, '..'))
+
+import boost_template
 
 Boost_Python_Recipe = BoostModule("config", "1.78.0")
 
