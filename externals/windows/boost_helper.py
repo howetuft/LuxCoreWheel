@@ -61,7 +61,7 @@ class BoostTemplate(ConanFile):
         self.cpp_info.libs = [f"boost-{self.module}"]
 
 
-def BoostModule(module, boost_version, boost_deps):
+def BoostModule(module, boost_version, boost_deps=[]):
     module = str(module)
     boost_version = str(boost_version)
     boost_deps = list(boost_deps)
