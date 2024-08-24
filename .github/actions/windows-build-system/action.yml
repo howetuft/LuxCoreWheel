@@ -118,9 +118,12 @@ runs:
         conan editable add .
         conan install . -s build_type=Release
         conan source .
+        cp -R src/include .
+
         conan build .
         cp -R build/Release/lib .
-        cp -R build/Release/include .
+        cp -R build/Release/include/* include
+
         find .
       shell: bash
 
