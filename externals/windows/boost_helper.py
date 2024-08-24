@@ -70,9 +70,10 @@ def BoostModule(module, boost_version, boost_deps=[]):
     new_instance.module = f"boost-{module}"
     new_instance.name = f"boost-{module}"
     new_instance.version = boost_version
-    new_instance.requires.append(f"boost/{boost_version}")
+    requires = [f"boost/{boost_version}"]
     for dep in boost_deps:
-        new_instance.requires.append(f"boost-{dep}/{boost_version}@LuxCoreWheel/LuxCoreWheel")
+        requires.append(f"boost-{dep}/{boost_version}@LuxCoreWheel/LuxCoreWheel")
+    new_instance.requires = requires
     return new_instance
 
 
