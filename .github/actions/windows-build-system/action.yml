@@ -114,7 +114,7 @@ runs:
       working-directory: ${{ github.workspace }}/externals/windows/openimageio
       run: |
         conan editable add .
-        conan source . -pr default
+        conan source .
         conan install . -pr default
         conan build . -pr default
         echo "Dir content:"
