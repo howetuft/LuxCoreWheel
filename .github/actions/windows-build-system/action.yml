@@ -118,13 +118,8 @@ runs:
         conan editable add .
         conan install . -s build_type=Release
         conan source .
-        mkdir build
-        cd build
-        cmake .. --preset conan-default
-        cmake .. --build --preset conan-release
-        cd ..
-        echo "Dir content:"
-        find .
+        conan build .
+        cp -R build/Release/lib .
       shell: bash
 
     ## Debug
