@@ -60,6 +60,7 @@ runs:
         conan install .
         conan source .
         conan build .
+        conan export-pkg .
       shell: bash
 
     - name: boost-python

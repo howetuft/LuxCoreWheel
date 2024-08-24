@@ -1,23 +1,17 @@
-# TODO Licence
+# TODO License
 
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import get
 
-
-class boost_moduleRecipe(ConanFile):
-    _module = "config"
-    version = "1.78.0"
-    requires = ["boost/1.78.0", "boost-config/1.78.0"]
-
-    name = f"boost-{_module}"
+class BoostTemplate(ConanFile):
     package_type = "library"
 
     # Optional metadata
     license = "<Put the package license here>"
     author = "<Put your name here> <And your email here>"
     url = "<Package recipe repository url here, for issues about the package>"
-    description = "<Description of boost-module package here>"
+    description = "<Description of boost-python package here>"
     topics = ("<Put some tag here>", "<here>", "<and here>")
 
     # Binary configuration
@@ -28,11 +22,12 @@ class boost_moduleRecipe(ConanFile):
     # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
 
+    requires = []
 
     def source(self):
         get(
             self,
-            f"https://github.com/boostorg/{self._module}/archive/refs/tags/boost-{self.version}.zip",
+            "https://github.com/boostorg/{self.module}/archive/refs/tags/boost-{self.version}.zip",
             strip_root=True
         )
 
@@ -63,5 +58,15 @@ class boost_moduleRecipe(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = [f"boost-{self._module}"]
+        self.cpp_info.libs = [f"boost-{self.module}"]
+
+
+def BoostModule(module, boost_version):
+    new_instance = BoostTemplate()
+    new_instance.module = f"boost-{module}"
+    new_instance.name = f"boost-{module}"
+    new_instance.version = boost_version
+    new_instance.requires.append(f"boost/{boost_version}")
+    return new_instance
+
 
