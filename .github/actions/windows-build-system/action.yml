@@ -54,6 +54,15 @@ runs:
         unset ORIGINAL_PATH
       shell: bash
 
+    - name: boost-python
+      working-directory: ${{ github.workspace }}/externals/windows/boost-python
+      run: |
+        conan install .
+        conan source .
+        conan build .
+      shell: bash
+
+
     #- name: Create libvpx
       #working-directory: ${{ github.workspace }}/LuxCore
       #run: |
