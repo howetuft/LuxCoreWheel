@@ -7,6 +7,3 @@
 [submodule "conan-openimageio"]
 	path = conan-openimageio
 	url = https://github.com/p-podsiadly/conan-openimageio.git
-[submodule "externals/windows/openimageio"]
-	path = externals/windows/openimageio
-	url = https://github.com/howetuft/LCW_ConanOIIO.git

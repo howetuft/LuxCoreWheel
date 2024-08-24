@@ -107,20 +107,14 @@ runs:
 
       #shell: bash
 
-    - name: oidn
-      working-directory: ${{ github.workspace }}/externals/windows/oidn
+    - name: openimageio
+      working-directory: ${{ github.workspace }}/externals/windows/openimageio
       run: |
         conan source .
         conan install .
         conan build .
-        ls
         conan editable add .
-        conan editable list
-        #conan export-pkg .
       shell: bash
-
-    ## Debug
-    #- uses: mxschmitt/action-tmate@v3
 
     - name: test
       working-directory: ${{ github.workspace }}/externals/windows/test
@@ -129,15 +123,17 @@ runs:
         cmake --preset=conan-release -G Ninja .
       shell: bash
 
-    - name: openimageio
-      working-directory: ${{ github.workspace }}/externals/windows/openimageio
+
+    - name: oidn
+      working-directory: ${{ github.workspace }}/externals/windows/oidn
       run: |
         conan source .
         conan install .
-        conan build .
-        # conan editable add --name=openimageio --version=2.2.13.1 .
-        conan export-pkg .
+        conan editable add .
       shell: bash
+
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
 
     #- uses: mxschmitt/action-tmate@v3
 
