@@ -147,11 +147,11 @@ class OpenImageIOConan(ConanFile):
         print(f"build: {self.folders.build}")
 
         # this information is relative to the source folder that is '.'
-        self.cpp.source.includedirs = ["src/include"] # maps to ./include
+        self.cpp.source.includedirs = [os.path.join("src", "include")] # maps to ./include
 
         # this information is relative to the build folder that is './build/<build_type>', so it will
         self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.build.libdirs = ["lib"]  # map to ./build/<build_type> for libdirs
+        self.cpp.build.libdirs = [".", "lib"]  # map to ./build/<build_type> for libdirs
         self.cpp.build.includedirs = ["include"]  # map to ./build/<build_type> for libdirs
         ## cpp.package information is for consumers to find the package contents in the Conan cache
 
