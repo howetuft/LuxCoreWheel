@@ -30,7 +30,8 @@ class boost_pythonRecipe(ConanFile):
         # TODO hardcoded version
         get(
             self,
-            "https://github.com/boostorg/python/archive/refs/tags/boost-1.78.0.zip"
+            "https://github.com/boostorg/python/archive/refs/tags/boost-1.78.0.zip",
+            strip_root=True
         )
 
     def config_options(self):
