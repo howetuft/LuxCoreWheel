@@ -119,6 +119,10 @@ runs:
         conan editable add .
       shell: bash
 
+    # Debug
+    - uses: mxschmitt/action-tmate@v3
+
+
     - name: oidn
       working-directory: ${{ github.workspace }}/externals/windows/oidn
       run: |
@@ -134,9 +138,6 @@ runs:
         cmake --preset=conan-release -G Ninja .
       shell: bash
 
-
-    ## Debug
-    #- uses: mxschmitt/action-tmate@v3
 
     #- uses: mxschmitt/action-tmate@v3
 
