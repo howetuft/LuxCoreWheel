@@ -138,6 +138,9 @@ class OpenImageIOConan(ConanFile):
             )
 
     def layout(self):
+        cmake_layout(self)
+        self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        return
 
         # define project folder structure for editable mode
 
