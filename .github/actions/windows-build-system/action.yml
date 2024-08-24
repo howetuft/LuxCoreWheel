@@ -115,10 +115,10 @@ runs:
       run: |
         # Keep install before source, otherwise settings.build_type won't be set
         # when running layout()
+        conan editable add .
         conan install . -pr default
         conan source .
-        conan build . -pr default
-        conan editable add .
+        cmake . -G Ninja
         echo "Dir content:"
         find .
       shell: bash
