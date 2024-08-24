@@ -115,10 +115,10 @@ runs:
       run: |
         echo "editable add"
         conan editable add .
-        echo "source"
-        conan source .
         echo "install"
         conan install . -pr default
+        echo "source"
+        conan source .
         echo "build"
         conan build . -pr default
         echo "Dir content:"
