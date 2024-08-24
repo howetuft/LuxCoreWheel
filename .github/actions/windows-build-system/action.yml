@@ -119,8 +119,8 @@ runs:
         conan editable add .
       shell: bash
 
-    # Debug
-    - uses: mxschmitt/action-tmate@v3
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
 
 
     - name: oidn
