@@ -113,12 +113,12 @@ runs:
     - name: openimageio
       working-directory: ${{ github.workspace }}/externals/windows/openimageio
       run: |
-        conan editable add .
         # Keep install before source, otherwise settings.build_type won't be set
         # when running layout()
         conan install . -pr default
         conan source .
         conan build . -pr default
+        conan editable add .
         echo "Dir content:"
         find .
       shell: bash
