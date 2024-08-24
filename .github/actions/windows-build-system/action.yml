@@ -121,7 +121,7 @@ runs:
         mkdir build
         cd build
         cmake .. --preset conan-default
-        cmake .. --build --preset conan-release \
+        cmake .. --build --preset conan-release
         cd ..
         echo "Dir content:"
         find .
