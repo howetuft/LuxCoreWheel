@@ -5,9 +5,10 @@ from conan.tools.files import get
 
 class boost_moduleRecipe(ConanFile):
     _module = "config"
-    _version = "1.78.0"
-    name = f"boost-{_module}"
     version = "1.78.0"
+    requires = f"boost/1.78.0"
+
+    name = f"boost-{_module}"
     package_type = "library"
 
     # Optional metadata
@@ -26,13 +27,12 @@ class boost_moduleRecipe(ConanFile):
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
 
     # TODO hardcoded version
-    requires = f"boost/{_version}"
 
     def source(self):
         # TODO hardcoded version
         get(
             self,
-            f"https://github.com/boostorg/{_module}/archive/refs/tags/boost-{_version}.zip",
+            f"https://github.com/boostorg/{self._module}/archive/refs/tags/boost-{self.version}.zip",
             strip_root=True
         )
 
@@ -63,5 +63,5 @@ class boost_moduleRecipe(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = [f"boost-{_module}"]
+        self.cpp_info.libs = [f"boost-{self._module}"]
 
