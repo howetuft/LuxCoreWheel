@@ -4,7 +4,7 @@ import sys
 here = os.path.dirname(__file__)
 sys.path.append(os.path.join(here, '..'))
 
-from boost_helper import BoostModule
+from boost_helper import BoostMeta
 
 class Boost_Python_Recipe(
     metaclass=BoostTemplate, module="config", boost_version="1.78.0"
