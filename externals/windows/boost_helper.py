@@ -42,7 +42,7 @@ def package_info(self):
     self.cpp_info.libs = [f"boost-{self.module}"]
 
 
-class BoostTemplate(type):
+class BoostMeta(type):
     """Metaclass to create the ConanFile class."""
     # Sources are located in the same place as this recipe, copy them to the recipe
 
