@@ -138,7 +138,30 @@ class OpenImageIOConan(ConanFile):
             )
 
     def layout(self):
-        cmake_layout(self, src_folder="src")
+
+        # define project folder structure for editable mode
+
+        self.folders.source = "."
+        self.folders.build = os.path.join("build", str(self.settings.build_type))
+        self.folders.generators = os.path.join(self.folders.build, "generators")
+
+        ## cpp.package information is for consumers to find the package contents in the Conan cache
+
+        self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
+                                                   # default, but declared for completion
+        self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
+                                                   # default, but declared for completion
+
+        ## cpp.source and cpp.build information is specifically designed for editable packages:
+
+        # this information is relative to the source folder that is '.'
+        self.cpp.source.includedirs = ["include"] # maps to ./include
+
+        # this information is relative to the build folder that is './build/<build_type>', so it will
+        self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        self.cpp.build.libdirs = ["."]  # map to ./build/<build_type> for libdirs
+
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
