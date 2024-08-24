@@ -1,6 +1,6 @@
 from .. import boost_template
 
-Boost_Python_Recipe = BoostModule("python", "1.78.0")
+Boost_Python_Recipe = BoostModule("python", "1.78.0", ["config"])
 
 
 # from conan import ConanFile
