@@ -121,6 +121,7 @@ runs:
         conan build .
         cp -R build/Release/lib .
         cp -R build/Release/include .
+        find .
       shell: bash
 
     ## Debug
