@@ -155,11 +155,11 @@ class OpenImageIOConan(ConanFile):
         self.cpp.build.includedirs = ["include"]  # map to ./build/<build_type> for libdirs
         ## cpp.package information is for consumers to find the package contents in the Conan cache
 
-        self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
-                                                   # default, but declared for completion
-        self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
-                                                   # default, but declared for completion
+        # self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        # self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
+                                                   # # default, but declared for completion
+        # self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
+                                                   # # default, but declared for completion
 
         ## cpp.source and cpp.build information is specifically designed for editable packages:
 
