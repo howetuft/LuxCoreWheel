@@ -43,6 +43,12 @@ def build(self):
 def package(self):
     cmake = CMake(self)
     cmake.install()
+    copy(self, "*.h", src=self.source_folder,
+         dst=join(self.package_folder, "include"))
+    copy(self, "*.lib", src=self.build_folder,
+         dst=join(self.package_folder, "lib"), keep_path=False)
+    copy(self, "*.a", src=self.build_folder,
+         dst=join(self.package_folder, "lib"), keep_path=False)
 
 def package_info(self):
     self.cpp_info.libs = [f"boost-{self.module}"]
