@@ -64,6 +64,7 @@ class BoostMeta(type):
         else:
             BoostMeta.data_cache[name] = kwargs
         print(f"'{name}' creation requested")
+        traceback.print_stack()
 
         # Attributes
         module = str(kwargs["module"])
