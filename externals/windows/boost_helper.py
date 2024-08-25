@@ -56,6 +56,7 @@ def package(self):
 def package_info(self):
     self.cpp_info.libs = [f"boost-{self.module}"]
     self.cpp_info.set_property("cmake_target_name", f"Boost::{self.module}")
+    print(f"Setting target to Boost::{self.module}")
 
 
 class BoostMeta(type):
