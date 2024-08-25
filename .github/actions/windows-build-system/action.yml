@@ -54,25 +54,12 @@ runs:
         unset ORIGINAL_PATH
       shell: bash
 
-    - name: boost-config
-      working-directory: ${{ github.workspace }}/externals/windows/boost-config
-      run: |
-        conan create .
-        #conan install .
-        #conan source .
-        #conan build .
-        #conan export .
-      shell: bash
-
-    - name: boost-align
-      working-directory: ${{ github.workspace }}/externals/windows/boost-align
-      run: |
-        conan create .
-        #conan install .
-        #conan source .
-        #conan build .
-        #conan export .
-      shell: bash
+    - name: create boost-deps
+      working-directory: ${{ github.workspace }}/externals/windows
+      run |:
+        for FOLDER in boost-align boost-bind boost-config boost-conversion boost-core boost-detail boost-foreach boost-function boost_helper.py boost-integer boost-iterator boost-lexical_cast boost-mpl boost-numeric_conversion boost-preprocessor boost-property_map boost-smart_ptr boost-static_assert boost-tuple boost-type_traits boost-utility
+        do
+          conan create $FOLDER
 
     - name: boost-python
       working-directory: ${{ github.workspace }}/externals/windows/boost-python
