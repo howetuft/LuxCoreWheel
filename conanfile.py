@@ -27,6 +27,7 @@ class LuxCore(ConanFile):
         "boost-chrono/1.78.0",
         "boost-system/1.78.0",
         "boost-filesystem/1.78.0",
+        "boost-container/1.78.0",
     ]
 
     default_options = {
