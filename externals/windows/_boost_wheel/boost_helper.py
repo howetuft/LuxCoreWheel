@@ -82,9 +82,10 @@ class BoostMeta(type):
     data_cache = dict()
 
     def __new__(cls, name, bases, attrs, **kwargs):
+        print(f"LuxCoreWheels: new '{name}' required")
         # We cache kwargs as conan sometimes erases attributes...
         if name in BoostMeta.data_cache and kwargs:
-            raise ValueError(f"'{name}' already in cache")
+            print(f"LuxCoreWheels: warning - '{name}' already in cache - keeping cache values")
         if name in BoostMeta.data_cache:
             # Retrieve kwargs
             kwargs = BoostMeta.data_cache[name]
