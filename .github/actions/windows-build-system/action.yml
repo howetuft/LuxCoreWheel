@@ -73,11 +73,19 @@ runs:
       working-directory: ${{ github.workspace }}/externals/windows/boost-python
       run: |
         conan create .
-        #conan install .
-        #conan source .
-        #conan build .
       shell: bash
 
+    - name: boost-atomic
+      working-directory: ${{ github.workspace }}/externals/windows/boost-atomic
+      run: |
+        conan create .
+      shell: bash
+
+    - name: boost-chrono
+      working-directory: ${{ github.workspace }}/externals/windows/boost-chrono
+      run: |
+        conan create .
+      shell: bash
 
     #- name: Create libvpx
       #working-directory: ${{ github.workspace }}/LuxCore
