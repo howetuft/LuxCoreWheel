@@ -9,7 +9,7 @@ sys.path.append(os.path.join(here, '..'))
 
 from boost_helper import BoostMeta, ConanFile
 
-class Boost_Python_Recipe(metaclass=BoostMeta, module="config"):
+class Boost_Python_Recipe(ConanFile, metaclass=BoostMeta, module="config"):
     pass
 
 test = Boost_Python_Recipe()
