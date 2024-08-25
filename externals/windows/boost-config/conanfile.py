@@ -7,12 +7,13 @@ import sys
 here = os.path.dirname(__file__)
 sys.path.append(os.path.join(here, '..'))
 
-from boost_helper import BoostMeta
+from boost_helper import BoostMeta, ConanFile
 
-class Boost_Python_Recipe(
-    metaclass=BoostMeta, module="config", boost_version="1.78.0"
-):
+class Boost_Python_Recipe(metaclass=BoostMeta, module="config"):
     pass
+
+test = Boost_Python_Recipe()
+print(test.module)
 
 # class Boost_Python_Recipe(
     # metaclass=BoostMeta

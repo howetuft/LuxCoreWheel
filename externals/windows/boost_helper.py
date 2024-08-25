@@ -6,11 +6,13 @@ from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import get
 
+BOOST_VERSION = "1.78.0"
 
 def source(self):
+    print("Source {self.module}")
     get(
         self,
-        "https://github.com/boostorg/{self.module}/archive/refs/tags/boost-{self.version}.zip",
+        f"https://github.com/boostorg/{self.module}/archive/refs/tags/boost-{self.version}.zip",
         strip_root=True
     )
 
@@ -52,7 +54,7 @@ class BoostMeta(type):
     def __new__(cls, name, bases, attrs, **kwargs):
         # Attributes
         module = str(kwargs["module"])
-        boost_version = str(kwargs["boost_version"])
+        boost_version = BOOST_VERSION
         boost_deps = list(kwargs.get("boost_deps", []))
         requires = [f"boost/{boost_version}"]
         for dep in boost_deps:
@@ -80,9 +82,9 @@ class BoostMeta(type):
         attrs.update(new_attrs)
 
         # Bases
-        bases = bases + (ConanFile,)
+        bases = (ConanFile,) + bases
 
         # Instantiate
         print(f"Boost - Generating recipe for {name}({module}, {boost_version})")
-        new_class = super().__new__(cls, "BoostTemplate", (ConanFile,), attrs)
+        new_class = super().__new__(cls, name, bases, attrs)
         return new_class
