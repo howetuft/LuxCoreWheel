@@ -9,5 +9,5 @@ sys.path.append(os.path.join(here, '..'))
 
 from boost_helper import BoostMeta, ConanFile
 
-class BoostPython(ConanFile, metaclass=BoostMeta, module="python", boost_deps=["config"]):
+class BoostPython(ConanFile, metaclass=BoostMeta, module="python", boost_deps=["config", "align"]):
     pass
