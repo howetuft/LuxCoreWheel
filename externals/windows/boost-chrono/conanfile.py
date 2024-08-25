@@ -21,6 +21,9 @@ DEPS = [
     "static_assert",
     "throw_exception",
     "type_traits",
+    "typeof",
+    "utility",
+    "winapi",
 ]
 
 class BoostChrono(ConanFile, metaclass=BoostMeta, module="chrono", boost_deps=DEPS):

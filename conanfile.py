@@ -24,11 +24,12 @@ class LuxCore(ConanFile):
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
         "boost-python/1.78.0",
         "boost-atomic/1.78.0",
+        "boost-chrono/1.78.0",
     ]
 
     default_options = {
         "boost/*:without_atomic": True,
-        "boost/*:without_chrono": False,
+        "boost/*:without_chrono": True,
         "boost/*:without_container": False,
         "boost/*:without_date_time": False,
         "boost/*:without_exception": False,

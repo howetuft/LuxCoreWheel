@@ -54,10 +54,16 @@ runs:
         unset ORIGINAL_PATH
       shell: bash
 
+    - name: install boost_helper
+      working-directory: ${{ github.workspace }}/externals/windows/_boost_wheel
+      run: |
+        python -m pip install .
+      shell: bash
+
     - name: create boost-deps
       working-directory: ${{ github.workspace }}/externals/windows
       run: |
-        for FOLDER in boost-align boost-bind boost-config boost-conversion boost-core boost-detail boost-foreach boost-function boost-integer boost-iterator boost-lexical_cast boost-mpl boost-numeric_conversion boost-preprocessor boost-property_map boost-smart_ptr boost-static_assert boost-tuple boost-type_traits boost-utility boost-assert boost-predef boost-move boost-ratio boost-throw_exception
+        for FOLDER in boost-align boost-bind boost-config boost-conversion boost-core boost-detail boost-foreach boost-function boost-integer boost-iterator boost-lexical_cast boost-mpl boost-numeric_conversion boost-preprocessor boost-property_map boost-smart_ptr boost-static_assert boost-tuple boost-type_traits boost-utility boost-assert boost-predef boost-move boost-ratio boost-throw_exception boost-typeof boost-winapi
         do
           conan create $FOLDER
         done
