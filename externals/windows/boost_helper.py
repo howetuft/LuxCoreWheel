@@ -47,16 +47,16 @@ class BoostMeta(type):
     # Sources are located in the same place as this recipe, copy them to the recipe
 
 
-    def __new__(cls, module, boost_version, boost_deps=[]):
-        module = str(module)
-        boost_version = str(boost_version)
-        boost_deps = list(boost_deps)
-        print(f"Boost - Generating recipe for {module} {boost_version}")
+    def __new__(cls, name, bases, attrs, **kwargs):
+        # Attributes
+        module = str(kwargs["module"])
+        boost_version = str(kwargs["boost_version"])
+        boost_deps = list(kwargs.get("boost_deps", []))
         requires = [f"boost/{boost_version}"]
         for dep in boost_deps:
             requires.append(f"boost-{dep}/{boost_version}@LuxCoreWheel/LuxCoreWheel")
 
-        attrs = dict(
+        new_attrs = dict(
             package_type="library",
             settings=("os", "compiler", "build_type", "arch"),
             options={"shared": [True, False], "fPIC": [True, False]},
@@ -75,6 +75,12 @@ class BoostMeta(type):
             package=package,
             package_info=package_info,
         )
+        attrs.update(new_attrs)
 
-        new_class = type("BoostTemplate", [ConanFile], attrs)
+        # Bases
+        bases = bases + (ConanFile,)
+
+        # Instantiate
+        print(f"Boost - Generating recipe for {name}({module}, {boost_version})")
+        new_class = super().__new__(cls, "BoostTemplate", (ConanFile,), attrs)
         return new_class

@@ -11,6 +11,10 @@ class Boost_Python_Recipe(
 ):
     pass
 
+# class Boost_Python_Recipe(
+    # metaclass=BoostMeta
+# ):
+    # pass
 
 # from conan import ConanFile
 # from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
