@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+import traceback
+
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import get
@@ -52,6 +54,8 @@ class BoostMeta(type):
 
 
     def __new__(cls, name, bases, attrs, **kwargs):
+        print(f"'{name}' creation requested")
+        traceback.print_stack()
         # Attributes
         module = str(kwargs["module"])
         boost_version = BOOST_VERSION
@@ -85,6 +89,6 @@ class BoostMeta(type):
         bases = (ConanFile,) + bases
 
         # Instantiate
-        print(f"Boost - Generating recipe for {name}({module}, {boost_version})")
+        print(f"Boost - Generating recipe {name} for ('{module}', '{boost_version}')")
         new_class = super().__new__(cls, name, bases, attrs)
         return new_class
