@@ -12,6 +12,7 @@ DEPS = [
     "align",
     "predef",
     "preprocessor",
+    "winapi",
 ]
 
 class BoostAtomic(ConanFile, metaclass=BoostMeta, module="atomic", boost_deps=DEPS):
