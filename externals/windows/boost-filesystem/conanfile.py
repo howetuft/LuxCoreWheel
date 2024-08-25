@@ -15,6 +15,7 @@ DEPS = [
     "smart_ptr",
     "type_traits",
     "predef",
+    "winapi",
 ]
 
 class BoostFilesystem(ConanFile, metaclass=BoostMeta, module="filesystem", boost_deps=DEPS):
