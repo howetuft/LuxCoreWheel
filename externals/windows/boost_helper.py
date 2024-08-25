@@ -74,9 +74,10 @@ class BoostMeta(type):
         requires = [f"boost/{boost_version}"]
         for dep in boost_deps:
             requires.append(f"boost-{dep}/{boost_version}")
+        package_type = kwargs.get("package_type", "library")
 
         new_attrs = dict(
-            package_type="library",
+            package_type=package_type,
             settings=("os", "compiler", "build_type", "arch"),
             options={"shared": [True, False], "fPIC": [True, False]},
             default_options={"shared": False, "fPIC": True},
