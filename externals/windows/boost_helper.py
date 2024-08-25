@@ -11,7 +11,7 @@ from conan.tools.files import get
 BOOST_VERSION = "1.78.0"
 
 def source(self):
-    print("Source {self.module}")
+    print(f"Source {self.module}")
     get(
         self,
         f"https://github.com/boostorg/{self.module}/archive/refs/tags/boost-{self.version}.zip",
@@ -80,7 +80,7 @@ class BoostMeta(type):
             options={"shared": [True, False], "fPIC": [True, False]},
             default_options={"shared": False, "fPIC": True},
             exports_sources=("CMakeLists.txt", "src/*", "include/*"),
-            module=f"boost-{module}",
+            module=module,
             name=f"boost-{module}",
             version=boost_version,
             requires=requires,

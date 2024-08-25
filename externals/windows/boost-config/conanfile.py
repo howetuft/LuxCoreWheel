@@ -12,9 +12,6 @@ from boost_helper import BoostMeta, ConanFile
 class Boost_Python_Recipe(ConanFile, metaclass=BoostMeta, module="config"):
     pass
 
-test = Boost_Python_Recipe()
-print(test.module)
-
 # class Boost_Python_Recipe(
     # metaclass=BoostMeta
 # ):
