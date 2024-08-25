@@ -46,6 +46,7 @@ def package(self):
 
 def package_info(self):
     self.cpp_info.libs = [f"boost-{self.module}"]
+    self.cpp_info.set_property("cmake_target_name", "Boost::{self.module}")
 
 
 class BoostMeta(type):
@@ -63,7 +64,7 @@ class BoostMeta(type):
             kwargs = BoostMeta.data_cache[name]
         else:
             BoostMeta.data_cache[name] = kwargs
-        print(f"'{name}' creation requested")
+        # print(f"'{name}' creation requested")
         # traceback.print_stack()
 
         # Attributes
@@ -96,6 +97,6 @@ class BoostMeta(type):
         attrs.update(new_attrs)
 
         # Instantiate
-        print(f"Boost - Generating recipe {name} for ('{module}', '{boost_version}')")
+        # print(f"Boost - Generating recipe {name} for ('{module}', '{boost_version}')")
         new_class = super().__new__(cls, name, bases, attrs)
         return new_class
