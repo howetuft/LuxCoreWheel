@@ -52,10 +52,19 @@ class BoostMeta(type):
     """Metaclass to create the ConanFile class."""
     # Sources are located in the same place as this recipe, copy them to the recipe
 
+    data_cache = dict()
 
     def __new__(cls, name, bases, attrs, **kwargs):
+        # We cache kwargs as conan sometimes erases attributes...
+        if name in BoostMeta.data_cache and kwargs:
+            raise ValueError(f"'{name}' already in cache")
+        if name in BoostMeta.data_cache:
+            # Retrieve kwargs
+            kwargs = BoostMeta.data_cache(name)
+        else:
+            BoostMeta.data_cache[name] = kwargs
         print(f"'{name}' creation requested")
-        traceback.print_stack()
+
         # Attributes
         module = str(kwargs["module"])
         boost_version = BOOST_VERSION
