@@ -72,7 +72,7 @@ class BoostMeta(type):
         boost_deps = list(kwargs.get("boost_deps", []))
         requires = [f"boost/{boost_version}"]
         for dep in boost_deps:
-            requires.append(f"boost-{dep}/{boost_version}@luxcorewheels/luxcorewheels")
+            requires.append(f"boost-{dep}/{boost_version}")
 
         new_attrs = dict(
             package_type="library",
