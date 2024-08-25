@@ -9,5 +9,5 @@ sys.path.append(os.path.join(here, '..'))
 
 from boost_helper import BoostMeta, ConanFile
 
-class BoostConfig(ConanFile, metaclass=BoostMeta, module="config"):
+class BoostConfig(ConanFile, metaclass=BoostMeta, module="config", package_type="header-library"):
     pass
