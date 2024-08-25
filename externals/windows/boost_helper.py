@@ -96,7 +96,9 @@ class BoostMeta(type):
         attrs.update(new_attrs)
 
         # Bases
-        bases = (ConanFile,) + bases
+        if all(not isinstance(c, ConanFile) for c in bases):
+            bases = (ConanFile,) + bases
+
 
         # Instantiate
         print(f"Boost - Generating recipe {name} for ('{module}', '{boost_version}')")
