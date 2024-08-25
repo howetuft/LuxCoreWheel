@@ -60,7 +60,7 @@ class BoostMeta(type):
             raise ValueError(f"'{name}' already in cache")
         if name in BoostMeta.data_cache:
             # Retrieve kwargs
-            kwargs = BoostMeta.data_cache(name)
+            kwargs = BoostMeta.data_cache[name]
         else:
             BoostMeta.data_cache[name] = kwargs
         print(f"'{name}' creation requested")
