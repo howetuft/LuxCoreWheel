@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import traceback
+import os
 
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
