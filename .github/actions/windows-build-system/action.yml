@@ -63,6 +63,15 @@ runs:
         conan export-pkg .
       shell: bash
 
+    - name: boost-align
+      working-directory: ${{ github.workspace }}/externals/windows/boost-align
+      run: |
+        conan install .
+        conan source .
+        conan build .
+        conan export-pkg .
+      shell: bash
+
     - name: boost-python
       working-directory: ${{ github.workspace }}/externals/windows/boost-python
       run: |
