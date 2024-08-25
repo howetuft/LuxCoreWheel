@@ -33,7 +33,19 @@ def layout(self):
 def generate(self):
     deps = CMakeDeps(self)
     deps.generate()
+
+    # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
+    finds = [
+        f"find_package(boost-{dep})\n" for dep in self.boost_deps if dep != "boost"
+    ]
+    finds.append("find_package(Boost)\n")
+    if finds:
+        filepath = os.path.join(self.source_folder, "luxcore.cmake")
+        with open(filepath, "w+") as f:
+            f.writelines(finds)
+        tc.cache_variables["CMAKE_PROJECT_TOP_LEVEL_INCLUDES"] = filepath
+
     tc.generate()
 
 def build(self):
@@ -54,10 +66,13 @@ def package(self):
          dst=os.path.join(self.package_folder, "lib"), keep_path=False)
 
 def package_info(self):
-    self.cpp_info.libs = [f"boost-{self.module}"]
+    self.cpp_info.bindirs = []
+    self.cpp_info.libdirs = []
+    # self.cpp_info.libs = [f"boost-{self.module}"]
     self.cpp_info.set_property("cmake_file_name", f"boost-{self.module}")
-    self.cpp_info.set_property("cmake_target_name", f"Boost::{self.module}")
-    print(f"Setting target to Boost::{self.module}")
+    self.cpp_info.set_property("cmake_target_name", f"boost_{self.module}")
+    self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
+    self.cpp_info.set_property("cmake_find_mode", "both")
 
 
 class BoostMeta(type):
@@ -97,6 +112,7 @@ class BoostMeta(type):
             name=f"boost-{module}",
             version=boost_version,
             requires=requires,
+            boost_deps=boost_deps,
             source=source,
             config_options=config_options,
             configure=configure,
