@@ -32,23 +32,22 @@ def layout(self):
 
 def generate(self):
     deps = CMakeDeps(self)
-    deps.set_property("zlib", "cmake_build_modules", ["toto",])
     deps.generate()
 
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
-    finds = [
+    finds = ['message(STATUS "luxcore.cmake")']
+    finds += [
         f"find_package(boost-{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("find_package(Boost)\n")
     finds.append("find_package(ZLIB)\n")
     finds.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
-    finds.append("message(STATUS 'Zlib include :${ZLIB_INCLUDE_DIRS}')")
-    if finds:
-        filepath = os.path.join(self.source_folder, "luxcore.cmake")
-        with open(filepath, "w+") as f:
-            f.writelines(finds)
-        tc.cache_variables["CMAKE_PROJECT_TOP_LEVEL_INCLUDES"] = filepath
+    finds.append('message(STATUS "Zlib include :${ZLIB_INCLUDE_DIRS}")')
+    filepath = os.path.join(self.source_folder, "luxcore.cmake")
+    with open(filepath, "w+") as f:
+        f.writelines(finds)
+    tc.cache_variables["CMAKE_PROJECT_INCLUDE_BEFORE"] = filepath
 
     tc.generate()
 
