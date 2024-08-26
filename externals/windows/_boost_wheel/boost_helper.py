@@ -38,7 +38,7 @@ def generate(self):
     tc = CMakeToolchain(self)
     finds = ['message(STATUS "luxcore.cmake")\n']
     finds += [
-        f"find_package(boost-{dep})\n" for dep in self.boost_deps if dep != "boost"
+        f"find_package(boost{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("cmake_policy(SET CMP0167 OLD)\n")
     finds.append("find_package(Boost)\n")
@@ -74,7 +74,7 @@ def package(self):
 def package_info(self):
     self.cpp_info.bindirs = []
     self.cpp_info.libdirs = []
-    # self.cpp_info.libs = [f"boost-{self.module}"]
+    self.cpp_info.libs = [f"boost{self.module}"]
     self.cpp_info.set_property("cmake_file_name", f"Boost{self.module}")
     self.cpp_info.set_property("cmake_target_name", f"Boost::{self.module}")
     # self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
