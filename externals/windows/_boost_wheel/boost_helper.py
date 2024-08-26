@@ -36,15 +36,18 @@ def generate(self):
 
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
-    finds = [
+    finds = ['message(STATUS "luxcore.cmake")']
+    finds += [
         f"find_package(boost-{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("find_package(Boost)\n")
-    if finds:
-        filepath = os.path.join(self.source_folder, "luxcore.cmake")
-        with open(filepath, "w+") as f:
-            f.writelines(finds)
-        tc.cache_variables["CMAKE_PROJECT_TOP_LEVEL_INCLUDES"] = filepath
+    finds.append("find_package(ZLIB)\n")
+    finds.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
+    finds.append('message(STATUS "Zlib include :${ZLIB_INCLUDE_DIRS}")')
+    filepath = os.path.join(self.source_folder, "luxcore.cmake")
+    with open(filepath, "w+") as f:
+        f.writelines(finds)
+    tc.cache_variables["CMAKE_PROJECT_INCLUDE_BEFORE"] = filepath
 
     tc.generate()
 
@@ -82,10 +85,9 @@ class BoostMeta(type):
     data_cache = dict()
 
     def __new__(cls, name, bases, attrs, **kwargs):
-        print(f"LuxCoreWheels: new '{name}' required")
         # We cache kwargs as conan sometimes erases attributes...
         if name in BoostMeta.data_cache and kwargs:
-            print(f"LuxCoreWheels: warning - '{name}' already in cache - keeping cache values")
+            raise ValueError(f"'{name}' already in cache")
         if name in BoostMeta.data_cache:
             # Retrieve kwargs
             kwargs = BoostMeta.data_cache[name]
