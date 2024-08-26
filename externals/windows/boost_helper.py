@@ -41,6 +41,7 @@ def generate(self):
     ]
     finds.append("find_package(Boost)\n")
     finds.append("find_package(zlib)\n")
+    finds.append("include_directories(ZLIB_INCLUDE_DIRS)\n")
     if finds:
         filepath = os.path.join(self.source_folder, "luxcore.cmake")
         with open(filepath, "w+") as f:
