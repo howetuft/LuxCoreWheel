@@ -72,7 +72,7 @@ runs:
     - name: create boost-deps (libs)
       working-directory: ${{ github.workspace }}/externals/windows
       run: |
-        for FOLDER in boost-python boost-atomic boost-chrono boost-container boost-filesystem boost-container
+        for FOLDER in boost-python boost-atomic boost-chrono boost-container boost-filesystem boost-container boost-date_time boost-iostreams boost-program_options
         do
           conan create $FOLDER
         done
