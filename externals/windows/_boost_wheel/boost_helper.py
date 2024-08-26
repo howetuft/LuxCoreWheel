@@ -40,6 +40,7 @@ def generate(self):
     finds += [
         f"find_package(boost-{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]
+    finds.append("cmake_policy(SET CMP0167 OLD)\n")
     finds.append("find_package(Boost)\n")
     finds.append("find_package(ZLIB)\n")
     finds.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
