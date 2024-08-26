@@ -36,14 +36,14 @@ def generate(self):
 
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
-    finds = ['message(STATUS "luxcore.cmake")']
+    finds = ['message(STATUS "luxcore.cmake")\n']
     finds += [
         f"find_package(boost-{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("find_package(Boost)\n")
     finds.append("find_package(ZLIB)\n")
     finds.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
-    finds.append('message(STATUS "Zlib include :${ZLIB_INCLUDE_DIRS}")')
+    finds.append('message(STATUS "Zlib include :${ZLIB_INCLUDE_DIRS}")\n')
     filepath = os.path.join(self.source_folder, "luxcore.cmake")
     with open(filepath, "w+") as f:
         f.writelines(finds)
