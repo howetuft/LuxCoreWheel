@@ -68,14 +68,16 @@ def package(self):
          dst=os.path.join(self.package_folder, "lib"), keep_path=False)
     copy(self, "*.a", src=self.build_folder,
          dst=os.path.join(self.package_folder, "lib"), keep_path=False)
+    copy(self, "*.cmake", src=self.build_folder,
+         dst=os.path.join(self.package_folder, "lib", "cmake"), keep_path=False)
 
 def package_info(self):
     self.cpp_info.bindirs = []
     self.cpp_info.libdirs = []
     # self.cpp_info.libs = [f"boost-{self.module}"]
-    self.cpp_info.set_property("cmake_file_name", f"boost-{self.module}")
-    self.cpp_info.set_property("cmake_target_name", f"boost_{self.module}")
-    self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
+    self.cpp_info.set_property("cmake_file_name", f"Boost{self.module}")
+    self.cpp_info.set_property("cmake_target_name", f"Boost::{self.module}")
+    # self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
     self.cpp_info.set_property("cmake_find_mode", "both")
 
 
