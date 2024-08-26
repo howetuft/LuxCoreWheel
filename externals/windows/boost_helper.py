@@ -32,6 +32,7 @@ def layout(self):
 
 def generate(self):
     deps = CMakeDeps(self)
+    deps.set_property("zlib", "cmake_build_modules", ["toto",])
     deps.generate()
 
     # Generate also luxcore.cmake
