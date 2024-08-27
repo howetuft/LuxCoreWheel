@@ -43,7 +43,7 @@ class LuxCore(ConanFile):
         "boost/*:without_iostreams": True,
         "boost/*:without_program_options": True,
         "boost/*:without_python": True,
-        "boost/*:without_random": False,
+        "boost/*:without_random": True,
         "boost/*:without_regex": False,
         "boost/*:without_serialization": False,
         "boost/*:without_system": True,

@@ -63,7 +63,7 @@ runs:
     - name: create boost-deps (header only)
       working-directory: ${{ github.workspace }}/externals/windows
       run: |
-        for FOLDER in boost-align boost-bind boost-config boost-conversion boost-core boost-detail boost-foreach boost-function boost-integer boost-iterator boost-lexical_cast boost-mpl boost-numeric_conversion boost-preprocessor boost-property_map boost-smart_ptr boost-static_assert boost-tuple boost-type_traits boost-utility boost-assert boost-predef boost-move boost-ratio boost-throw_exception boost-typeof boost-winapi boost-intrusive boost-container_hash boost-system boost-io boost-algorithm boost-range boost-any boost-tokenizer
+        for FOLDER in boost-align boost-bind boost-config boost-conversion boost-core boost-detail boost-foreach boost-function boost-integer boost-iterator boost-lexical_cast boost-mpl boost-numeric_conversion boost-preprocessor boost-property_map boost-smart_ptr boost-static_assert boost-tuple boost-type_traits boost-utility boost-assert boost-predef boost-move boost-ratio boost-throw_exception boost-typeof boost-winapi boost-intrusive boost-container_hash boost-system boost-io boost-algorithm boost-range boost-any boost-tokenizer boost-array dynamic_bitset
         do
           conan create $FOLDER
         done
@@ -72,7 +72,7 @@ runs:
     - name: create boost-deps (libs)
       working-directory: ${{ github.workspace }}/externals/windows
       run: |
-        for FOLDER in boost-python boost-atomic boost-chrono boost-container boost-filesystem boost-container boost-date_time boost-iostreams boost-program_options
+        for FOLDER in boost-python boost-atomic boost-chrono boost-container boost-filesystem boost-container boost-date_time boost-iostreams boost-program_options boost-random
         do
           conan create $FOLDER
         done
