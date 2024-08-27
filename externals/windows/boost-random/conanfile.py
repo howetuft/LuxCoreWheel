@@ -1,0 +1,23 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
+from boost_helper import BoostMeta, ConanFile
+
+DEPS = [
+    "array",
+    "assert",
+    "config",
+    "core",
+    "dynamic_bitset",
+    "integer",
+    "io",
+    "range",
+    "static_assert",
+    "throw_exception",
+    "type_traits",
+    "utility",
+]
+
+class BoostRandom(ConanFile, metaclass=BoostMeta, module="random", boost_deps=DEPS):
+    pass

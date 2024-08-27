@@ -31,6 +31,8 @@ class LuxCore(ConanFile):
         "boost-date_time/1.78.0",
         "boost-iostreams/1.78.0",
         "boost-program_options/1.78.0",
+        "boost-random/1.78.0",
+        "boost-serialization/1.78.0",
     ]
 
     default_options = {
@@ -44,8 +46,8 @@ class LuxCore(ConanFile):
         "boost/*:without_program_options": True,
         "boost/*:without_python": True,
         "boost/*:without_random": True,
-        "boost/*:without_regex": False,
-        "boost/*:without_serialization": False,
+        "boost/*:without_regex": True,
+        "boost/*:without_serialization": True,
         "boost/*:without_system": True,
         "boost/*:without_thread": False,
         "boost/*:without_charconv": True,
