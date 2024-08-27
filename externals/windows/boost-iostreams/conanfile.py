@@ -23,5 +23,5 @@ DEPS = [
     "numeric_conversion",
 ]
 
-class BoostIostreams(ConanFile, metaclass=BoostMeta, module="iostreams", boost_deps=DEPS):
+class BoostIostreams(ConanFile, metaclass=BoostMeta, module="iostreams", boost_deps=DEPS, other_deps=["zlib/1.3.1"]):
     pass
