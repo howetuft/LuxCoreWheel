@@ -12,7 +12,7 @@ from conan.tools.files import *
 BOOST_VERSION = "1.78.0"
 
 def source(self):
-    print(f"Source {self.module}")
+    print(f"BoostMeta -- Source {self.module}")
     get(
         self,
         f"https://github.com/boostorg/{self.module}/archive/refs/tags/boost-{self.version}.zip",
@@ -36,19 +36,20 @@ def generate(self):
 
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
-    finds = ['message(STATUS "luxcore.cmake")\n']
+    finds = ['message(STATUS "BoostMeta -- find packages")\n']
     finds += [
-        f"find_package(boost{dep})\n" for dep in self.boost_deps if dep != "boost"
+        f"find_package(Boost_{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("cmake_policy(SET CMP0167 OLD)\n")
     finds.append("find_package(Boost)\n")
     finds.append("find_package(ZLIB)\n")
+    finds.append("unset(ZLIB_FIND_QUIETLY)\n")
     finds.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
-    finds.append('message(STATUS "Zlib include :${ZLIB_INCLUDE_DIRS}")\n')
+    finds.append('message(STATUS "Zlib include: ${ZLIB_INCLUDE_DIRS}")\n')
     filepath = os.path.join(self.source_folder, "luxcore.cmake")
     with open(filepath, "w+") as f:
         f.writelines(finds)
-    tc.cache_variables["CMAKE_PROJECT_INCLUDE_BEFORE"] = filepath
+    tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
 
     tc.generate()
 
@@ -74,8 +75,8 @@ def package(self):
 def package_info(self):
     self.cpp_info.bindirs = []
     self.cpp_info.libdirs = []
-    self.cpp_info.libs = [f"boost{self.module}"]
-    self.cpp_info.set_property("cmake_file_name", f"Boost{self.module}")
+    #self.cpp_info.libs = [f"boost_{self.module}"]
+    self.cpp_info.set_property("cmake_file_name", f"Boost_{self.module}")
     self.cpp_info.set_property("cmake_target_name", f"Boost::{self.module}")
     # self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
     self.cpp_info.set_property("cmake_find_mode", "both")
@@ -90,7 +91,7 @@ class BoostMeta(type):
     def __new__(cls, name, bases, attrs, **kwargs):
         # We cache kwargs as conan sometimes erases attributes...
         if name in BoostMeta.data_cache and kwargs:
-            print(f"LuxCoreWheel Warning: '{name}' already in cache")
+            print(f"BoostMeta -- Warning: '{name}' already in cache")
         if name in BoostMeta.data_cache:
             # Retrieve kwargs
             kwargs = BoostMeta.data_cache[name]
