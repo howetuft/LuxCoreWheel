@@ -104,9 +104,12 @@ class BoostMeta(type):
         module = str(kwargs["module"])
         boost_version = BOOST_VERSION
         boost_deps = list(kwargs.get("boost_deps", []))
+        other_deps = list(kwargs.get("other_deps", []))
         requires = [f"boost/{boost_version}"]
         for dep in boost_deps:
             requires.append(f"boost-{dep}/{boost_version}")
+        for dep in other_deps:
+            requires.append(dep)
         package_type = kwargs.get("package_type", "library")
 
         new_attrs = dict(
