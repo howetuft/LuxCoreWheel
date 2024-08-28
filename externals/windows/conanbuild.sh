@@ -1,0 +1,1 @@
+. "/home/vincent/.masse/Documents/DevGit/LuxCoreWheel/externals/windows/conanbuildenv-release-x86_64.sh"
