@@ -59,7 +59,9 @@ conan install --requires boost/1.78.0
 
 # Launch parallel treatments
 pids=()
+N=4
 for i in ${!deps[@]}; do
+  ((j=j%N)); ((j++==0)) && wait  # N process batches
   dep=${deps[$i]}
   conan_treatment $dep &
   pids[${i}]=$!
