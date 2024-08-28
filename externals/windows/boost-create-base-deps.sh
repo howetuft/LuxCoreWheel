@@ -51,7 +51,11 @@ deps=(
 )
 
 conan_treatment() {
-  conan create "boost-$1"
+  # Put in editable mode
+  conan editable add "boost-$1"
+  conan install "boost-$1" -s build_type=Release
+  conan source "boost-$1"
+  conan build "boost-$1"
 }
 
 # Prerequisite
@@ -61,7 +65,7 @@ conan install --requires boost/1.78.0
 pids=()
 N=4
 for i in ${!deps[@]}; do
-  ((j=j%N)); ((j++==0)) && wait  # N process batches
+  ((j=j%N)); ((j++==0)) && wait  # N process batches (to avoid sqlite lock)
   dep=${deps[$i]}
   conan_treatment $dep &
   pids[${i}]=$!
