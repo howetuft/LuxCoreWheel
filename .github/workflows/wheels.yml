@@ -94,23 +94,24 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
           CIBW_ENVIRONMENT_WINDOWS: >-
-            CMAKE_BUILD_TYPE='Release'
-            CMAKE_BUILD_PARALLEL_LEVEL='4'
-            CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
-            CFLAGS='-DXML_STATIC'
-            CMAKE_CXX_COMPILER_LAUNCHER=sccache
-            CMAKE_C_COMPILER_LAUNCHER=sccache
-            CMAKE_CXX_STANDARD=17
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG=debug
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE;--j4'
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;--log-level=VERBOSE'
             PYTHON_V=''
             SPDLOG_FMT_EXTERNAL=on
-            CMAKE_LIBRARY_PATH='${{ env.PYTHONLOCATION }}\libs'
+            #CMAKE_LIBRARY_PATH='${{ env.PYTHONLOCATION }}\libs'
             #CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
             #CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
             #BOOST_ROOT='${{ steps.boost.outputs.root }}'
             #BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
+            #CMAKE_BUILD_TYPE='Release'
+            #CMAKE_BUILD_PARALLEL_LEVEL='4'
+            #CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
+            #CFLAGS='-DXML_STATIC'
+            #CMAKE_CXX_COMPILER_LAUNCHER=sccache
+            #CMAKE_C_COMPILER_LAUNCHER=sccache
+            #CMAKE_CXX_STANDARD=17
+            #CMAKE_BUILD_TYPE='Release'
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 

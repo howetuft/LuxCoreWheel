@@ -83,5 +83,6 @@ cmake.define.CMAKE_BUILD_TYPE="Release"
 cmake.define.XML_STATIC="ON"
 cmake.define.CMAKE_USE_RELATIVE_PATHS="FALSE"
 cmake.define.CMAKE_MINIMUM_REQUIRED_VERSION="3.30"
-
+cmake.define.CMAKE_BUILD_PARALLEL_LEVEL='4'
+cmake.define.CMAKE_GENERATOR="Ninja"
 # For convenience, all cibuildwheel settings are located in github workflow
