@@ -36,7 +36,7 @@ runs:
     - name: Save pip cache
       id: cache-pip-save
       uses: actions/cache/save@v4
-      if: always()
+      if: steps.cache-pip_restore.outputs.cache-hit != 'true'
       with:
         path: 'c:\users\runneradmin\appdata\local\pip\cache'
         key: ${{ steps.cache-pip-restore.outputs.cache-primary-key }}
