@@ -23,13 +23,28 @@ deps=(
 )
 
 
-for dep in ${deps[@]}; do
+pids=()
+for i in ${!deps[@]}; do
+  dep=${deps[$i]}
   echo "Building '${dep}'"
-  destdir=boost-${dep}
-  conan editable add "${destdir}"
+  destdir=~/.boost_conan/${dep}
+  cp -R boost-${dep} ${destdir}
   conan install "${destdir}" -s build_type=Release
   conan source "${destdir}"
   conan build "${destdir}"
+  pids[${i}]=$!
+done
+
+# Wait for all treatments to finish
+for pid in ${pids[*]}; do
+    wait $pid
+done
+
+# Put in editable mode (warning: conan not thread-safe, do not parallelize)
+cd ~/.boost_conan
+for dep in ${deps[@]}; do
+  destdir=~/.boost_conan/${dep}
+  conan editable add "${destdir}"
 done
 
 echo "Boost lib dependencies: done"

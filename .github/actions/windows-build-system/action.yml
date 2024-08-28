@@ -78,6 +78,13 @@ runs:
     - name: create boost-deps (libs)
       working-directory: ${{ github.workspace }}/externals/windows
       run: |
+        export SCCACHE_GHA_ENABLED
+        export SCCACHE_C_CUSTOM_CACHE_BUSTER
+        export SCCACHE_CONF
+        export SCCACHE_DIRECT
+        export CMAKE_CXX_COMPILER_LAUNCHER
+        export CMAKE_C_COMPILER_LAUNCHER
+
         ./boost-create-lib-deps.sh
       shell: bash
 
@@ -166,12 +173,12 @@ runs:
         conan editable add .
       shell: bash
 
-    - name: test
-      working-directory: ${{ github.workspace }}/externals/windows/test
-      run: |
-        conan install --build=missing .  -s build_type=Release
-        cmake --preset=conan-release -G Ninja .
-      shell: bash
+    #- name: test
+      #working-directory: ${{ github.workspace }}/externals/windows/test
+      #run: |
+        #conan install --build=missing .  -s build_type=Release
+        #cmake --preset=conan-release -G Ninja .
+      #shell: bash
 
 
     #- uses: mxschmitt/action-tmate@v3

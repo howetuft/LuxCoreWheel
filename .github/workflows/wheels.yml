@@ -103,7 +103,7 @@ jobs:
             CMAKE_CXX_STANDARD=17
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG=debug
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE;--j4'
             PYTHON_V=''
             SPDLOG_FMT_EXTERNAL=on
             CMAKE_LIBRARY_PATH='${{ env.PYTHONLOCATION }}\libs'
