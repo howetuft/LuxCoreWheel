@@ -48,11 +48,14 @@ runs:
 
         @echo "%InstallDir%\vcvarsall.bat"
         if exist "%InstallDir%\vcvarsall.bat" (
-          @echo "exists"
+          @echo "Running..."
           "%InstallDir%\vcvarsall.bat" %*
         )
       shell: cmd
 
+
+    # Debug
+    - uses: mxschmitt/action-tmate@v3
 
 
     # Initialize Conan with local packages
@@ -64,7 +67,6 @@ runs:
         # Copy profiles
         mkdir -p /c/users/runneradmin/.conan2/profiles
         cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
-        cp ../conan_profile_libvpx /c/users/runneradmin/.conan2/profiles/libvpx
 
         cp ../conanfile.py .
         unset ORIGINAL_PATH
