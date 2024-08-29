@@ -37,10 +37,37 @@ runs:
 
     # For main compilation
     #- uses: ilammy/msvc-dev-cmd@v1
-    - name: Setup compiler
+
+    - name: Initialize VC
       run: |
-        vcvars64.bat
-      shell: cmd
+        # From https://github.com/microsoft/vswhere/wiki/Find-VC
+        [CmdletBinding()]
+        param (
+          [Parameter()]
+          $Arch = 'x64',
+
+          [Parameter()]
+          $HostArch = 'x64',
+
+          [Parameter(ValueFromRemainingArguments=$true)]
+          $Arguments
+        )
+
+        $installDir = vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        if ($installDir) {
+          $path = join-path $installDir 'VC\Auxiliary\Build\Microsoft.VCToolsVersion.default.txt'
+          if (test-path $path) {
+            $version = gc -raw $path
+            if ($version) {
+              $version = $version.Trim()
+              $path = join-path $installDir "VC\Tools\MSVC\$version\bin\Host$HostArch\$Arch\cl.exe"
+              & $path $Arguments
+            }
+          }
+        }
+      shell: pwsh
+
+
 
     # Initialize Conan with local packages
     - name: Initialize Conan
