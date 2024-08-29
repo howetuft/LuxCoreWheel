@@ -31,13 +31,13 @@ runs:
       run: |
         python -m pip cache dir
         python -m pip install -r requirements.txt
-        echo "Cache hit: ${{steps.cache-pip_restore.outputs.cache-hit}}"
+        echo "Cache hit: ${{steps.cache-pip-restore.outputs.cache-hit}}"
       shell: bash
 
     - name: Save pip cache
       id: cache-pip-save
       uses: actions/cache/save@v4
-      if: steps.cache-pip_restore.outputs.cache-hit != 'true'
+      if: steps.cache-pip-restore.outputs.cache-hit != 'true'
       with:
         path: 'c:\users\runneradmin\appdata\local\pip\cache'
         key: ${{ steps.cache-pip-restore.outputs.cache-primary-key }}

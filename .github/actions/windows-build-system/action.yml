@@ -46,16 +46,14 @@ runs:
           set InstallDir=%%i
         )
 
-        @echo "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat"
         if exist "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" (
-          @echo "Running..."
+          @echo "Running %InstallDir%\VC\Auxiliary\Build\vcvars64.bat..."
           "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" %*
+
+          @echo "Exporting..."
+          @echo "LIB=%LIB%" >> %GITHUB_ENV%
         )
       shell: cmd
-
-    # Debug
-    - uses: mxschmitt/action-tmate@v3
-
 
     # Initialize Conan with local packages
     - name: Initialize Conan
