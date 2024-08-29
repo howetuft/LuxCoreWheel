@@ -53,8 +53,8 @@ runs:
         )
       shell: cmd
 
-    ## Debug
-    #- uses: mxschmitt/action-tmate@v3
+    # Debug
+    - uses: mxschmitt/action-tmate@v3
 
 
     # Initialize Conan with local packages

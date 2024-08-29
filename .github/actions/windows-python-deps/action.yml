@@ -31,6 +31,7 @@ runs:
       run: |
         python -m pip cache dir
         python -m pip install -r requirements.txt
+        echo "Cache hit: ${{steps.cache-pip_restore.outputs.cache-hit}}"
       shell: bash
 
     - name: Save pip cache
