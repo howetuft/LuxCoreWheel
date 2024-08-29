@@ -53,9 +53,8 @@ runs:
         )
       shell: cmd
 
-C:\Program Files\Microsoft Visual Studio\2022\Enterprise\vcvarsall.bat
-    # Debug
-    - uses: mxschmitt/action-tmate@v3
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
 
 
     # Initialize Conan with local packages
