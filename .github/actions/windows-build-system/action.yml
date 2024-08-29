@@ -50,7 +50,7 @@ runs:
                 }
             }
         }
-        cmd.exe /c $path
+        cmd.exe /c "$path"
       shell: pwsh
 
 
