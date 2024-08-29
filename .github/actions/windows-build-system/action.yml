@@ -46,10 +46,10 @@ runs:
           set InstallDir=%%i
         )
 
-        @echo "%InstallDir%\Common7\Tools\vcvarsall.bat"
-        if exist "%InstallDir%\Common7\Tools\vcvarsall.bat" (
+        @echo "%InstallDir%\vcvarsall.bat"
+        if exist "%InstallDir%\vcvarsall.bat" (
           @echo "exists"
-          "%InstallDir%\Common7\Tools\vcvarsall.bat" %*
+          "%InstallDir%\vcvarsall.bat" %*
         )
       shell: cmd
 
