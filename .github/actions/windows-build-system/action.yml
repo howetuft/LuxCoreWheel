@@ -46,14 +46,14 @@ runs:
           set InstallDir=%%i
         )
 
-        @echo "%InstallDir%\vcvarsall.bat"
-        if exist "%InstallDir%\vcvarsall.bat" (
+        @echo "%InstallDir%\VC\Auxilliary\Build\vcvars64.bat"
+        if exist "%InstallDir%\VC\Auxilliary\Build\vcvars64.bat" (
           @echo "Running..."
-          "%InstallDir%\vcvarsall.bat" %*
+          "%InstallDir%\VC\Auxilliary\Build\vcvars64.bat" %*
         )
       shell: cmd
 
-
+C:\Program Files\Microsoft Visual Studio\2022\Enterprise\vcvarsall.bat
     # Debug
     - uses: mxschmitt/action-tmate@v3
 
