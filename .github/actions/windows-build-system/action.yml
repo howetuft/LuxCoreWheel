@@ -49,7 +49,7 @@ runs:
         if exist "%InstallDir%\Common7\Tools\vcvarsall.bat" (
           "%InstallDir%\Common7\Tools\vcvarsall.bat" %*
         )
-      shell: pwsh
+      shell: cmd
 
 
 
