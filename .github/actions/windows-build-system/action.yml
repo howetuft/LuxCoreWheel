@@ -37,9 +37,10 @@ runs:
 
     # For main compilation
     #- uses: ilammy/msvc-dev-cmd@v1
-    - run: |
+    - name: Setup compiler
+      run: |
         vcvarsbat64.bat
-    - shell: cmd
+      shell: cmd
 
     # Initialize Conan with local packages
     - name: Initialize Conan
