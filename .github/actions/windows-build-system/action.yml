@@ -46,7 +46,9 @@ runs:
           set InstallDir=%%i
         )
 
+        @echo "%InstallDir%\Common7\Tools\vcvarsall.bat"
         if exist "%InstallDir%\Common7\Tools\vcvarsall.bat" (
+          @echo "exists"
           "%InstallDir%\Common7\Tools\vcvarsall.bat" %*
         )
       shell: cmd
