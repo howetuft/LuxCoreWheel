@@ -46,10 +46,10 @@ runs:
           set InstallDir=%%i
         )
 
-        @echo "%InstallDir%\VC\Auxilliary\Build\vcvars64.bat"
-        if exist "%InstallDir%\VC\Auxilliary\Build\vcvars64.bat" (
+        @echo "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat"
+        if exist "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" (
           @echo "Running..."
-          "%InstallDir%\VC\Auxilliary\Build\vcvars64.bat" %*
+          "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" %*
         )
       shell: cmd
 
