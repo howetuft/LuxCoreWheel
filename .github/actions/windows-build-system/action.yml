@@ -51,9 +51,10 @@ runs:
           "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" %*
 
           @echo "Exporting..."
-          set
+          set > %GITHUB_ENV%
         )
       shell: cmd
+      #
     ## Debug
     #- uses: mxschmitt/action-tmate@v3
 
