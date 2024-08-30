@@ -51,9 +51,12 @@ runs:
           "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" %*
 
           @echo "Exporting..."
-          @echo "LIB=%LIB%" >> %GITHUB_ENV%
+          set
         )
       shell: cmd
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
+
 
     # Initialize Conan with local packages
     - name: Initialize Conan
