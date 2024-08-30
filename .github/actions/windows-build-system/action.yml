@@ -23,6 +23,7 @@ runs:
         echo "SCCACHE_LOG=Info" >> $GITHUB_ENV
         echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
         echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        echo "libdir=$Python_ROOT_DIR" >> $GITHUB_ENV
       shell: bash
     # Debug
     #- uses: mxschmitt/action-tmate@v3
