@@ -66,7 +66,8 @@ else()
   MESSAGE(STATUS "LuxCoreWheel - fmt NOT FOUND")
 endif()
 
-find_package(Python COMPONENTS Interpreter Development.Module HINTS "$ENV{Python3_ROOT_DIR}")
+# Nota: PYTHON_LIBRARY is set by scikit, see pyproject.toml
+find_package(Python COMPONENTS Interpreter Development.Module HINTS "${PYTHON_LIBRARY}")
 if (Python_FOUND)
   MESSAGE(STATUS "LuxCoreWheel - Python includes: ${Python_INCLUDE_DIR}")
   include_directories(${Python_INCLUDE_DIR})
