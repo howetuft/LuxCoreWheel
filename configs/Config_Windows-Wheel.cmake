@@ -67,6 +67,7 @@ else()
 endif()
 
 # Nota: PYTHON_LIBRARY is set by scikit, see pyproject.toml
+MESSAGE(STATUS "LuxCoreWheel - Python PYTHON_LIBRARY: ${PYTHON_LIBRARY}")
 find_package(Python COMPONENTS Interpreter Development.Module HINTS "${PYTHON_LIBRARY}")
 if (Python_FOUND)
   MESSAGE(STATUS "LuxCoreWheel - Python includes: ${Python_INCLUDE_DIR}")
