@@ -27,6 +27,6 @@ runs:
     - name: Remove all deps
       working-directory:  ${{ github.workspace }}
       run: |
-        cd '${{ github.workspace }}\LuxCore
+        cd '${{ github.workspace }}\LuxCore'
         Remove-Item -Recurse -Force deps
       shell: pwsh
