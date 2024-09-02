@@ -35,6 +35,7 @@ if (tbb_FOUND)
   set(TBB_FOUND "TRUE")
   MESSAGE(STATUS "LuxCoreWheel - tbb: ${TBB_INCLUDE_DIR}")
   include_directories(${TBB_INCLUDE_DIR})
+  set(TBB_LIBRARY "${TBB_LIBRARIES}")  # TBB_LIBRARIES is referenced as TBB_LIBRARY in LuxCore...
 else()
   MESSAGE(STATUS "LuxCoreWheel - tbb NOT FOUND")
 endif()
