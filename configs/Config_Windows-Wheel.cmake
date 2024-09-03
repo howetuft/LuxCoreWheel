@@ -120,7 +120,7 @@ if (NOT Boost_FOUND)
         endif()
         # The following line is necessary with CMake 3.18.0 to find static libs on Windows
         unset(Boost_LIB_PREFIX)
-		message(STATUS "Re-trying with link static = ${Boost_USE_STATIC_LIBS}")
+        message(STATUS "Re-trying with link static = ${Boost_USE_STATIC_LIBS}")
         find_package(Boost ${Boost_MINIMUM_VERSION} COMPONENTS ${LUXRAYS_BOOST_COMPONENTS})
 endif()
 
@@ -152,6 +152,16 @@ else()
         MESSAGE(WARNING "OpenMP not found - compiling without")
 endif()
 
+# Blosc
+find_package(c-blosc)
+if (c-blosc_FOUND)
+  MESSAGE(STATUS "c-blosc found - compiling with")
+  set(BLOSC_FOUND "True")
+  include_directories(${c-blosc_INCLUDE_DIR})
+else()
+  MESSAGE(WARNING "c-blosc not found")
+endif()
+
 # Conan
 find_package(TBB)
 find_package(minizip)
@@ -176,3 +186,4 @@ find_package(Boost_random)
 find_package(Boost_serialization)
 find_package(Boost_thread)
 find_package(Boost)
+
