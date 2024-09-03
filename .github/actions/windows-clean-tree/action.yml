@@ -24,15 +24,12 @@ runs:
         Remove-Item -Recurse -Force Find*.cmake
       shell: pwsh
 
-    - name: Remove all deps
-      working-directory:  ${{ github.workspace }}
+    - name: Remove all embedded libraries
+      working-directory:  ${{ github.workspace }}/src/slg/CMakeLists
       run: |
-        cd '${{ github.workspace }}\LuxCore'
-        Remove-Item -Recurse -Force deps
-      shell: pwsh
-
-    - name: Empty Dependencies.cmake
-      working-directory:  ${{ github.workspace }}
-      run: |
-        echo "" > '${{ github.workspace }}\LuxCore\cmake\Dependencies.cmake'
-      shell: pwsh
+        for lib in bcd eigen lut openvdb opensubdiv opencolorio yaml expat
+        do
+          echo "LuxCoreWheel - Removing '${lib}' related cmake entries"
+          sed -i '/${lib})/d'
+        done
+      shell: bash
