@@ -86,13 +86,79 @@ CMAKE_POLICY(SET CMP0141 NEW)
 
 SET(CMAKE_BUILD_TYPE "Release")
 
+
+# Replaces Dependencies.cmake
+find_package(TIFF REQUIRED)
+include_directories(BEFORE SYSTEM ${TIFF_INCLUDE_DIR})
+find_package(JPEG REQUIRED)
+include_directories(BEFORE SYSTEM ${JPEG_INCLUDE_DIR})
+find_package(PNG REQUIRED)
+include_directories(BEFORE SYSTEM ${PNG_PNG_INCLUDE_DIR})
+find_package(Threads REQUIRED)
+
+find_program(PYSIDE_UIC NAMES pyside-uic pyside2-uic pyside6-uic
+		HINTS "${Python3_INCLUDE_DIRS}/../Scripts"
+		PATHS "c:/Program Files/Python${PYTHON_V}/Scripts")
+# Find Boost
+set(Boost_USE_STATIC_LIBS       ON)
+set(Boost_USE_MULTITHREADED     ON)
+set(Boost_USE_STATIC_RUNTIME    OFF)
+set(BOOST_ROOT                  "${BOOST_SEARCH_PATH}")
+#set(Boost_DEBUG                 ON)
+set(Boost_MINIMUM_VERSION       "1.56.0")
+
+# For Windows builds, PYTHON_V must be defined as "3x" (x=Python minor version, e.g. "35")
+# For other platforms, specifying python minor version is not needed
+set(LUXRAYS_BOOST_COMPONENTS thread program_options filesystem serialization iostreams regex system python${PYTHON_V} chrono serialization numpy${PYTHON_V})
+find_package(Boost ${Boost_MINIMUM_VERSION} COMPONENTS ${LUXRAYS_BOOST_COMPONENTS})
+if (NOT Boost_FOUND)
+        # Try again with the other type of libs
+        if(Boost_USE_STATIC_LIBS)
+                set(Boost_USE_STATIC_LIBS OFF)
+        else()
+                set(Boost_USE_STATIC_LIBS ON)
+        endif()
+        # The following line is necessary with CMake 3.18.0 to find static libs on Windows
+        unset(Boost_LIB_PREFIX)
+		message(STATUS "Re-trying with link static = ${Boost_USE_STATIC_LIBS}")
+        find_package(Boost ${Boost_MINIMUM_VERSION} COMPONENTS ${LUXRAYS_BOOST_COMPONENTS})
+endif()
+
+if (Boost_FOUND)
+	include_directories(BEFORE SYSTEM ${Boost_INCLUDE_DIRS})
+	link_directories(${Boost_LIBRARY_DIRS})
+	# Don't use old boost versions interfaces
+	ADD_DEFINITIONS(-DBOOST_FILESYSTEM_NO_DEPRECATED)
+	if (Boost_USE_STATIC_LIBS)
+		ADD_DEFINITIONS(-DBOOST_STATIC_LIB)
+		ADD_DEFINITIONS(-DBOOST_PYTHON_STATIC_LIB)
+	endif()
+endif ()
+
+
+# OpenGL
+find_package(OpenGL)
+
+if (OPENGL_FOUND)
+	include_directories(BEFORE SYSTEM ${OPENGL_INCLUDE_PATH})
+endif ()
+
+find_package(OpenMP)
+if (OPENMP_FOUND)
+        MESSAGE(STATUS "OpenMP found - compiling with")
+        set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+else()
+        MESSAGE(WARNING "OpenMP not found - compiling without")
+endif()
+
+# Conan
 find_package(TBB)
 find_package(minizip)
 find_package(OpenMP)
 find_package(spdlog)
 find_package(OpenImageIO)
 find_package(PNG)
-find_package(OpenColorIO)
 find_package(embree)
 find_package(c-blosc)
 find_package(OPENEXR)

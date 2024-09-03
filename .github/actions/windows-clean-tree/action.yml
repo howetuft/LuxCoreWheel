@@ -30,3 +30,9 @@ runs:
         cd '${{ github.workspace }}\LuxCore'
         Remove-Item -Recurse -Force deps
       shell: pwsh
+
+    - name: Empty Dependencies.cmake
+      working-directory:  ${{ github.workspace }}
+      run: |
+        echo "" > '${{ github.workspace }}\LuxCore\cmake.Dependencies.cmake'
+      shell: pwsh
