@@ -27,7 +27,7 @@ runs:
     - name: Remove all embedded libraries
       working-directory:  ${{ github.workspace }}\LuxCore
       run: |
-        for lib in bcd eigen lut openvdb opensubdiv opencolorio yaml expat
+        for lib in eigen openvdb opensubdiv opencolorio yaml expat
         do
           echo "LuxCoreWheel - Removing '${lib}'"
           sed -i "/${lib}/d" src/slg/CMakeLists.txt
