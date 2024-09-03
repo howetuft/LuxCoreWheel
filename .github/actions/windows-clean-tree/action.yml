@@ -30,7 +30,7 @@ runs:
         for lib in bcd eigen lut openvdb opensubdiv opencolorio yaml expat
         do
           echo "LuxCoreWheel - Removing '${lib}'"
-          sed -i '/${lib})/d' src/slg/CMakeLists.txt
+          sed -i "/${lib}/d" src/slg/CMakeLists.txt
           rm -rf deps/${lib}*
         done
       shell: bash
