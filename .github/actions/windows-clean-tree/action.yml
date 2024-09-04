@@ -24,10 +24,10 @@ runs:
         Remove-Item -Recurse -Force Find*.cmake
       shell: pwsh
 
-    - name: Remove all embedded libraries
+    - name: Remove duplicate embedded libraries
       working-directory:  ${{ github.workspace }}\LuxCore
       run: |
-        for lib in eigen openvdb opensubdiv opencolorio yaml expat
+        for lib in opencolorio yaml expat spdlog
         do
           echo "LuxCoreWheel - Removing '${lib}'"
           sed -i "/${lib}/d" src/slg/CMakeLists.txt
