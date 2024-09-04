@@ -38,7 +38,7 @@ Repository = "https://github.com/LuxCoreRender/LuxCore"
 [tool.scikit-build]
 logging.level = "DEBUG"
 build.verbose = true
-cmake.source-dir = "./LuxCore"
+cmake.source-dir = "."
 build.targets = ["pyluxcore"]
 cmake.build-type = "Release"
 wheel.cmake = true
