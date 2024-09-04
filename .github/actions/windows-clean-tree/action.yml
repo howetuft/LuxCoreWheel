@@ -27,7 +27,7 @@ runs:
       shell: bash
 
     - name: Reference deps targets in CMakeLists
-      working-directory:  ${{ github.workspace }}\LuxCore
+      working-directory:  ${{ github.workspace }}
       run: |
         link_statement="target_link_libraries(pyluxcore PRIVATE slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb TBB::TBB MINIZIP::minizip llvm-openmp::llvm-openmp spdlog::spdlog openimageio::openimageio PNG::PNG OpenColorIO::OpenColorIO embree c-blosc::c-blosc openexr::openexr oidn::oidn Boost::python Boost::atomic Boost::chrono Boost::system Boost::filesystem Boost::container Boost::date_time Boost::iostreams Boost::program_options Boost::random Boost::serialization Boost::thread boost::boost)"
         echo $link_statement >> LuxCore/src/luxcore/CMakeLists.txt
