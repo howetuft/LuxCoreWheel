@@ -188,3 +188,5 @@ find_package(Boost_serialization)
 find_package(Boost_thread)
 find_package(Boost)
 
+# Includes
+include_directories(${OpenColorIO_INCLUDE_DIR})
