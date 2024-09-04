@@ -203,7 +203,7 @@ runs:
     #- uses: mxschmitt/action-tmate@v3
 
     - name: Run conan
-      working-directory: ${{ github.workspace }}/LuxCore
+      working-directory: ${{ github.workspace }}
       env:
         PKG_CONFIG_PATH: .
       run: |

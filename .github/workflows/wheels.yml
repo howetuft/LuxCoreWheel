@@ -123,13 +123,13 @@ jobs:
           name: sccache_${{ matrix.python-minor }}
           path: 'C:\hostedtoolcache\windows\sccache\sccache.log'
 
-      - name: boost python log
-        run: |
-          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\config-x64-windows-release-out.log
-          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-out.log
-          cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-err.log
-        shell: cmd
-        if: always()
+      #- name: boost python log
+        #run: |
+          #cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\config-x64-windows-release-out.log
+          #cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-out.log
+          #cat D:\a\LuxCoreWheel\LuxCoreWheel\vcpkg\buildtrees\boost-python\install-x64-windows-release-rel-err.log
+        #shell: cmd
+        #if: always()
 
       - uses: actions/upload-artifact@v4
         with:
