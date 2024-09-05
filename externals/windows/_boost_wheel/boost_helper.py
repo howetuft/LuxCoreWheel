@@ -38,7 +38,8 @@ def layout(self):
 
     # this information is relative to the build folder that is
     # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
-    self.folders.build = os.path.join("build", str(self.settings.build_type))
+    self.cpp.build.libdirs.append("lib")
+    self.cpp.build.includedirs.append("include")
     self.cpp.build.libdirs = ["."]
 
 def generate(self):
