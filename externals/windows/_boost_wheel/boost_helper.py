@@ -30,6 +30,17 @@ def configure(self):
 def layout(self):
     cmake_layout(self)
 
+    # cpp.source and cpp.build information is specifically designed for
+    # editable packages:
+    # this information is relative to the source folder that is '.'
+    self.folders.source = "."
+    self.cpp.source.includedirs = ["include"]   # maps to ./include
+
+    # this information is relative to the build folder that is
+    # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
+    self.folders.build = os.path.join("build", str(self.settings.build_type))
+    self.cpp.build.libdirs = ["."]
+
 def generate(self):
     deps = CMakeDeps(self)
     deps.generate()
