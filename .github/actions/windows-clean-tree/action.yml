@@ -32,8 +32,8 @@ runs:
         grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs sed -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
       shell: bash
 
-    - name: Set CMAKE_CXX_STANDARD to 17
+    - name: Set CMAKE_CXX_STANDARD to 14
       working-directory:  ${{ github.workspace }}\LuxCore
       run: |
-        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs sed -i 's/11/17/g'
+        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs sed -i 's/11/14/g'
       shell: bash
