@@ -26,6 +26,13 @@ runs:
         done
       shell: bash
 
+    - name: Switch CMAKE_SOURCE_DIR to PROJECT_SOURCE_DIR
+      working-directory:  ${{ github.workspace }}\LuxCore
+      run: |
+        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs sed -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
+      shell: bash
+
+
     - name: Reference deps targets in CMakeLists
       working-directory:  ${{ github.workspace }}
       run: |
