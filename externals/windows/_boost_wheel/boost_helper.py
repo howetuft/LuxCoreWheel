@@ -118,7 +118,7 @@ class BoostMeta(type):
         other_deps = list(kwargs.get("other_deps", []))
         requires = [f"boost/{boost_version}"]
         for dep in boost_deps:
-            requires.append(f"boost-{dep}/{boost_version}")
+            requires.append(f"boost-{dep}/{boost_version}@luxcorewheels/luxcorewheels")
         for dep in other_deps:
             requires.append(dep)
         package_type = kwargs.get("package_type", "library")
@@ -142,6 +142,9 @@ class BoostMeta(type):
             build=build,
             package=package,
             package_info=package_info,
+            user = "luxcorewheels",
+            channel = "luxcorewheels",
+            revision_mode = "scm_folder",
         )
         attrs.update(new_attrs)
 
