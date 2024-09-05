@@ -3,7 +3,7 @@ project(cmake_wrapper)
 
 enable_language(C)
 enable_language(CXX)
-set (CMAKE_CXX_STANDARD 17)
+set (CMAKE_CXX_STANDARD 14)
 
 add_subdirectory(LuxCore)
 
@@ -11,7 +11,6 @@ if(WIN32)
   message(STATUS "LuxCoreWheel - Add conan targets")
   find_package(TBB REQUIRED)
   find_package(minizip REQUIRED)
-  find_package(OpenMP REQUIRED)
   find_package(spdlog REQUIRED)
   find_package(OpenImageIO REQUIRED)
   find_package(PNG REQUIRED)

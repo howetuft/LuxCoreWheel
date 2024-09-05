@@ -14,7 +14,6 @@ class LuxCore(ConanFile):
         "opencolorio/2.1.0",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
-        "llvm-openmp/18.1.8",
         "spdlog/1.8.5",
         "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
         "embree3/3.13.1",
