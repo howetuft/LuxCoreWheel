@@ -20,7 +20,7 @@ class LuxCore(ConanFile):
         "c-blosc/1.21.5",
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
         "boost/1.78.0",
-        "boost-python/1.78.0",
+        "boost-python/1.78.0@luxcorewheels/luxcorewheels",
         "boost-atomic/1.78.0",
         "boost-chrono/1.78.0",
         "boost-system/1.78.0",
