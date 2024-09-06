@@ -30,16 +30,13 @@ def configure(self):
 def layout(self):
     cmake_layout(self)
 
-    base = self.name
-
     # cpp.source and cpp.build information is specifically designed for
     # editable packages:
     # this information is relative to the source folder that is '.'
     self.folders.source = "."
-    self.cpp.source.libs = [base]
-    self.cpp.source.includedirs = [os.path.join(base, "include")]
-    self.cpp.source.libdirs = [os.path.join(base, "lib")]
-    self.cpp.source.bindirs = [os.path.join(base, "bin")]
+    self.cpp.source.includedirs = ["include"]
+    self.cpp.source.libdirs = ["lib"]
+    self.cpp.source.bindirs = ["bin"]
 
     # this information is relative to the build folder that is
     # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
@@ -99,6 +96,11 @@ def package_info(self):
     self.cpp_info.set_property("cmake_find_mode", "both")
 
 
+def package_id(self):
+    # We clear everything in order to have a constant package_id and use the cache
+    self.info.clear()
+
+
 class BoostMeta(type):
     """Metaclass to create the ConanFile class."""
     # Sources are located in the same place as this recipe, copy them to the recipe
@@ -148,6 +150,7 @@ class BoostMeta(type):
             build=build,
             package=package,
             package_info=package_info,
+            package_id=package_id,
             user = "luxcorewheels",
             channel = "luxcorewheels",
             revision_mode = "scm_folder",
