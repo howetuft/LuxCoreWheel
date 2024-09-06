@@ -35,12 +35,12 @@ def layout(self):
     # this information is relative to the source folder that is '.'
     self.folders.source = "."
     self.cpp.source.includedirs = ["include"]
-    self.cpp.source.libdirs = ["lib"]
-    self.cpp.source.bindirs = ["bin"]
 
     # this information is relative to the build folder that is
     # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
     self.folders.build = os.path.join("build", str(self.settings.build_type))
+    self.cpp.build.libdirs = ["."]
+    self.cpp.build.includedirs = ["include"]
 
     self.folders.generators = os.path.join(self.folders.build, "generators")
 

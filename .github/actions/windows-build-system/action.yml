@@ -107,8 +107,8 @@ runs:
         ./boost-create-lib-deps.sh
       shell: bash
 
-    # Debug
-    - uses: mxschmitt/action-tmate@v3
+    ## Debug
+    #- uses: mxschmitt/action-tmate@v3
 
 
     #- name: Create libvpx
@@ -211,7 +211,7 @@ runs:
       env:
         PKG_CONFIG_PATH: .
       run: |
-        conan install --build=missing .  -s build_type=Release
+        conan install . --build=editable -s build_type=Release
       shell: bash
 
     # Copy config to project
