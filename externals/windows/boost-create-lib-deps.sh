@@ -22,16 +22,35 @@ deps=(
   thread
 )
 
+conan_build_recipe() {
+  local destdir=~/.boost_conan/${1}
+
+  cp -R boost-${dep} ${destdir}
+
+  # Install/source/build
+  #
+  # Keep install before source, otherwise settings.build_type won't be set
+  # when running layout()
+  conan install "${destdir}" --build=editable -s build_type=Release
+  conan source "${destdir}"
+  conan build "${destdir}"
+
+  echo "LuxCoreWheels - Module ${1} created in ${destdir}"
+
+}
+
+# Put in editable mode (warning: conan not thread-safe, do not parallelize)
+cd ~/.boost_conan
+for dep in ${deps[@]}; do
+  destdir=~/.boost_conan/${dep}
+  conan editable add "${destdir}"
+done
 
 pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
-  echo "Building '${dep}'"
-  destdir=~/.boost_conan/${dep}
-  cp -R boost-${dep} ${destdir}
-  conan install "${destdir}" -s build_type=Release
-  conan source "${destdir}"
-  conan build "${destdir}"
+  echo "LuxCoreWheels - Building '${dep}'"
+  conan_build_recipe $dep
   pids[${i}]=$!
 done
 
@@ -40,11 +59,5 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
-# Put in editable mode (warning: conan not thread-safe, do not parallelize)
-cd ~/.boost_conan
-for dep in ${deps[@]}; do
-  destdir=~/.boost_conan/${dep}
-  conan editable add "${destdir}"
-done
 
 echo "Boost lib dependencies: done"

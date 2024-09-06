@@ -191,9 +191,9 @@ runs:
     - name: oidn
       working-directory: ${{ github.workspace }}/externals/windows/oidn
       run: |
-        conan source .
-        conan install .
         conan editable add .
+        conan install .
+        conan source .
       shell: bash
 
     #- name: test
@@ -211,7 +211,7 @@ runs:
       env:
         PKG_CONFIG_PATH: .
       run: |
-        conan install . --build=editable -s build_type=Release
+        conan install . --build=missing -s build_type=Release
       shell: bash
 
     # Copy config to project
