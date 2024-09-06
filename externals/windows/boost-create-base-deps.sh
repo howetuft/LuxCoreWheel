@@ -53,32 +53,48 @@ deps=(
   winapi
 )
 
-conan_create() {
+conan_create_recipe() {
 
   # Create recipe
   local destdir=~/.boost_conan/${1}
-  echo "${destdir}"
+  echo "Creating ${destdir}"
   mkdir -p ${destdir}
 
   sed "s/MODULE/$1/" boost-base-dep-template.txt > ${destdir}/conanfile.py
 
-  # Create
+  # Put in editable mode
+  conan editable add $destdir
+}
+
+conan_build_recipe() {
+  local destdir=~/.boost_conan/${1}
+
+  # Install/source/build
+  #
+  # Keep install before source, otherwise settings.build_type won't be set
+  # when running layout()
   conan install "${destdir}" -s build_type=Release
   conan source "${destdir}"
   conan build "${destdir}"
 
-  echo "Module ${1} created in ${destdir}"
+  echo "LuxCoreWheels - Module ${1} created in ${destdir}"
 
 }
 
 # Prerequisite
 conan install --requires boost/1.78.0
 
-# Launch parallel treatments
+# Put in editable mode (warning: conan not thread-safe, do not parallelize)
+cd ~/.boost_conan
+for dep in ${deps[@]}; do
+  conan_create_recipe $dep
+done
+
+# Launch parallel build
 pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
-  conan_create $dep & # Here
+  conan_build_recipe $dep &
   pids[${i}]=$!
 done
 
@@ -87,10 +103,5 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
-# Put in editable mode (warning: conan not thread-safe, do not parallelize)
-cd ~/.boost_conan
-for dep in ${deps[@]}; do
-  conan editable add $dep
-done
 
 echo "Boost base dependencies: done"
