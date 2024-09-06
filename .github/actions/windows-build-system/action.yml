@@ -107,6 +107,10 @@ runs:
         ./boost-create-lib-deps.sh
       shell: bash
 
+    # Debug
+    - uses: mxschmitt/action-tmate@v3
+
+
     #- name: Create libvpx
       #working-directory: ${{ github.workspace }}/LuxCore
       #run: |
