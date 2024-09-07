@@ -74,6 +74,8 @@ conan_build_recipe() {
 
   conan install "${destdir}" -s build_type=Release
   conan source "${destdir}"
+  conan generate "${destdir}"
+
 
   # Configure and build
   cmake --preset conan-release -G ninja "$destdir"
