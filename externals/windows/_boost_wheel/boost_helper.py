@@ -145,7 +145,7 @@ class BoostMeta(type):
         for dep in other_deps:
             requires.append(dep)
         package_type = kwargs.get("package_type", "library")
-        libs = kwargs.get("lib", [])
+        libs = kwargs.get("libs", [])
 
         new_attrs = dict(
             package_type=package_type,
