@@ -62,30 +62,31 @@ conan_create_recipe() {
 
   sed "s/MODULE/$1/" boost-base-dep-template.txt > ${destdir}/conanfile.py
 
-  # Put in editable mode
+  # Put in editable mode, install and source
+  #
+  # Keep install before source, otherwise settings.build_type won't be set
+  # when running layout()
   conan editable add $destdir
+  conan install "${destdir}" -s build_type=Release
+  conan source "${destdir}"
 }
 
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
 
-  # Install/source/build
-  #
-  # Keep install before source, otherwise settings.build_type won't be set
-  # when running layout()
-  conan install "${destdir}" -s build_type=Release
-  conan source "${destdir}"
-  conan build "${destdir}"
+  # Configure and build
+  cmake --preset conan-release -G ninja "$destdir"
+  cmake --build --preset conan-release -G ninja "$destdir"
 
   echo "LuxCoreWheels - Module ${1} created in ${destdir}"
 
 }
 
-echo ""
+echo "\n"
 echo "*******************************************"
 echo "*         Boost base dependencies         *"
 echo "*******************************************"
-echo ""
+echo "\n"
 
 # Prerequisite
 conan install --requires boost/1.78.0
