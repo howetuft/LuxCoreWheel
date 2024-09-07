@@ -22,5 +22,5 @@ DEPS = [
     "winapi",
 ]
 
-class BoostDate_time(ConanFile, metaclass=BoostMeta, module="date_time", boost_deps=DEPS):
+class BoostDate_time(ConanFile, metaclass=BoostMeta, module="date_time", boost_deps=DEPS, libs=["boost_date_time"]):
     pass

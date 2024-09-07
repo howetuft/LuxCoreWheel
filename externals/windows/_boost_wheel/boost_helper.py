@@ -47,6 +47,10 @@ def layout(self):
 
     self.folders.generators = os.path.join(self.folders.build, "generators")
 
+    self.cpp.package.libs = self.libs
+    # self.cpp.package.includedirs = ["include"]
+    # self.cpp.package.libdirs.append(os.path.join(self.folders.build, "lib"))
+
 def generate(self):
     deps = CMakeDeps(self)
     deps.generate()
@@ -133,6 +137,7 @@ class BoostMeta(type):
         for dep in other_deps:
             requires.append(dep)
         package_type = kwargs.get("package_type", "library")
+        libs = kwargs.get("lib", [])
 
         new_attrs = dict(
             package_type=package_type,
@@ -157,6 +162,7 @@ class BoostMeta(type):
             user = "luxcorewheels",
             channel = "luxcorewheels",
             revision_mode = "scm_folder",
+            libs=libs,
         )
         attrs.update(new_attrs)
 

@@ -21,5 +21,5 @@ DEPS = [
     "winapi",
 ]
 
-class BoostChrono(ConanFile, metaclass=BoostMeta, module="chrono", boost_deps=DEPS):
+class BoostChrono(ConanFile, metaclass=BoostMeta, module="chrono", boost_deps=DEPS, libs=["boost_chrono"]):
     pass

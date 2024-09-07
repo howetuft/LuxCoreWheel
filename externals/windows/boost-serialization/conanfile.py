@@ -28,5 +28,5 @@ DEPS = [
     "function",
 ]
 
-class BoostSerialization(ConanFile, metaclass=BoostMeta, module="serialization", boost_deps=DEPS):
+class BoostSerialization(ConanFile, metaclass=BoostMeta, module="serialization", boost_deps=DEPS, libs=["boost_serialization", "boost_wserialization"]):
     pass

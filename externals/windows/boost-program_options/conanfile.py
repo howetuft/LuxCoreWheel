@@ -20,5 +20,5 @@ DEPS = [
     "tokenizer",
 ]
 
-class BoostProgram_options(ConanFile, metaclass=BoostMeta, module="program_options", boost_deps=DEPS):
+class BoostProgram_options(ConanFile, metaclass=BoostMeta, module="program_options", boost_deps=DEPS, libs=["boost_program_options"]):
     pass

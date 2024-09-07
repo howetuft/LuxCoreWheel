@@ -30,5 +30,5 @@ DEPS = [
     "lexical_cast",
 ]
 
-class BoostThread(ConanFile, metaclass=BoostMeta, module="thread", boost_deps=DEPS):
+class BoostThread(ConanFile, metaclass=BoostMeta, module="thread", boost_deps=DEPS, libs=["boost_thread"]):
     pass

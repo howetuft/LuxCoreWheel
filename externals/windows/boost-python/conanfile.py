@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from boost_helper import BoostMeta, ConanFile
+from sys import version_info as vi
 
 DEPS = [
     "align",
@@ -27,5 +28,7 @@ DEPS = [
     "property_map",
 ]
 
-class BoostPython(ConanFile, metaclass=BoostMeta, module="python", boost_deps=DEPS):
+LIBS = ["boost_python{vi.major}{vi.minor}", "boost_numpy{vi.major}{vi.minor}"]
+
+class BoostPython(ConanFile, metaclass=BoostMeta, module="python", boost_deps=DEPS, libs=LIBS):
     pass

@@ -18,5 +18,5 @@ DEPS = [
     "winapi",
 ]
 
-class BoostFilesystem(ConanFile, metaclass=BoostMeta, module="filesystem", boost_deps=DEPS):
+class BoostFilesystem(ConanFile, metaclass=BoostMeta, module="filesystem", boost_deps=DEPS, libs=["boost_filesystem"]):
     pass

@@ -15,5 +15,5 @@ DEPS = [
     "winapi",
 ]
 
-class BoostAtomic(ConanFile, metaclass=BoostMeta, module="atomic", boost_deps=DEPS):
+class BoostAtomic(ConanFile, metaclass=BoostMeta, module="atomic", boost_deps=DEPS, libs=["boost_atomic"]):
     pass

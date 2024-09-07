@@ -15,5 +15,5 @@ DEPS = [
     "winapi",
 ]
 
-class BoostContainer(ConanFile, metaclass=BoostMeta, module="container", boost_deps=DEPS):
+class BoostContainer(ConanFile, metaclass=BoostMeta, module="container", boost_deps=DEPS, libs=["boost_container"]):
     pass

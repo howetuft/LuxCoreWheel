@@ -19,5 +19,5 @@ DEPS = [
     "utility",
 ]
 
-class BoostRandom(ConanFile, metaclass=BoostMeta, module="random", boost_deps=DEPS):
+class BoostRandom(ConanFile, metaclass=BoostMeta, module="random", boost_deps=DEPS, libs=["boost_random"]):
     pass
