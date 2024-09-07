@@ -34,8 +34,8 @@ if(WIN32)
   find_package(Boost REQUIRED)
   target_link_libraries(pyluxcore PRIVATE
     slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
-    TBB::TBB MINIZIP::minizip spdlog::spdlog
-    openimageio::openimageio PNG::PNG openexr::openexr embree
+    TBB::TBB MINIZIP::minizip spdlog::spdlog openexr::openexr embree
+    openimageio::openimageio PNG::PNG
     c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
     Boost::chrono Boost::system Boost::filesystem Boost::container
     Boost::date_time Boost::iostreams Boost::program_options Boost::random
