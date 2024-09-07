@@ -77,10 +77,10 @@ class OpenImageIOConan(ConanFile):
     def requirements(self):
         # Required libraries
         self.requires("boost/1.78.0")  # Modified
-        self.requires("openexr/2.5.7", transitive_headers=True) # Modified
+        self.requires("openexr/2.5.7", transitive_headers=True)  # Modified
         self.requires("zlib/[>=1.2.11 <2]")
         self.requires("libtiff/4.3.0")
-        self.requires("imath/3.1.9", transitive_headers=True)
+        # self.requires("imath/3.1.9", transitive_headers=True)  # Modified (relies on openexr)
         if self.options.with_libjpeg == "libjpeg":
             self.requires("libjpeg/9e")
         elif self.options.with_libjpeg == "libjpeg-turbo":
