@@ -289,7 +289,7 @@ class OpenImageIOConan(ConanFile):
             "boost::thread",
             "boost::system",
             "boost::regex",
-            "imath::imath",
+            # "imath::imath",  # Modified (relies on openexr)
             "openexr::openexr",
         ]
         if self.settings.os in ["Linux", "FreeBSD"]:
@@ -313,7 +313,7 @@ class OpenImageIOConan(ConanFile):
             "pugixml::pugixml",
             "tsl-robin-map::tsl-robin-map",
             "fmt::fmt",
-            "imath::imath",
+            # "imath::imath",
             "openexr::openexr",
         ]
 
