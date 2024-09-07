@@ -15,6 +15,7 @@ if(WIN32)
   find_package(OpenImageIO REQUIRED)
   find_package(PNG REQUIRED)
   find_package(OpenColorIO REQUIRED)
+  find_package(OpenEXR)
   find_package(embree REQUIRED)
   find_package(Blosc REQUIRED)
   find_package(oidn REQUIRED)
@@ -34,7 +35,7 @@ if(WIN32)
   target_link_libraries(pyluxcore PRIVATE
     slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
     TBB::TBB MINIZIP::minizip spdlog::spdlog
-    openimageio::openimageio PNG::PNG OpenColorIO::OpenColorIO embree
+    openimageio::openimageio PNG::PNG OpenColorIO::OpenColorIO openexr::openexr embree
     c-blosc::c-blosc openexr::openexr oidn::oidn Boost::python Boost::atomic
     Boost::chrono Boost::system Boost::filesystem Boost::container
     Boost::date_time Boost::iostreams Boost::program_options Boost::random

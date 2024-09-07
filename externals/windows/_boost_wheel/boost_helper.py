@@ -29,7 +29,8 @@ def configure(self):
 
 def layout(self):
     cmake_layout(self)
-    print(f"{self.module}: libs = {self.libs}")
+    if self.libs:
+        print(f"BoostMeta - {self.module}: libs = {self.libs}")
 
     # Set folders
     self.folders.source = "."
