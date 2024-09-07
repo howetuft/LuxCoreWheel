@@ -25,7 +25,6 @@ deps=(
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
 
-  cp -R boost-${dep} ${destdir}
 
   # Install/source/build
   #
@@ -39,10 +38,20 @@ conan_build_recipe() {
 
 }
 
+
+
+echo ""
+echo "*******************************************"
+echo "*          Boost lib dependencies         *"
+echo "*******************************************"
+echo ""
+
+
+
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
-cd ~/.boost_conan
 for dep in ${deps[@]}; do
   destdir=~/.boost_conan/${dep}
+  cp -R boost-${dep} ${destdir}
   conan editable add "${destdir}"
 done
 

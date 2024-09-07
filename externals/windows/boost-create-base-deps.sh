@@ -81,6 +81,12 @@ conan_build_recipe() {
 
 }
 
+echo ""
+echo "*******************************************"
+echo "*         Boost base dependencies         *"
+echo "*******************************************"
+echo ""
+
 # Prerequisite
 conan install --requires boost/1.78.0
 
