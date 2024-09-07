@@ -40,19 +40,16 @@ def layout(self):
     # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
     self.folders.build = os.path.join("build", str(self.settings.build_type))
     self.cpp.build.libdirs = ["."]
-    # if self.module not in [
-        # "align", "config", "assert", "algorithm", "atomic", "filesystem"
-    # ]:
-        # self.cpp.build.includedirs = ["include"]
 
     self.folders.generators = os.path.join(self.folders.build, "generators")
 
     self.cpp.package.libs = self.libs
     self.cpp.package.includedirs = ["include"]
-    self.cpp.package.libdirs.append(
+    self.cpp.package.libdirs += [
         self.folders.build,
         os.path.join(self.folders.build, "lib")
-    )
+    ]
+
 
 def generate(self):
     deps = CMakeDeps(self)
