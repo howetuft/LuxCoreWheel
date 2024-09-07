@@ -48,8 +48,11 @@ def layout(self):
     self.folders.generators = os.path.join(self.folders.build, "generators")
 
     self.cpp.package.libs = self.libs
-    # self.cpp.package.includedirs = ["include"]
-    # self.cpp.package.libdirs.append(os.path.join(self.folders.build, "lib"))
+    self.cpp.package.includedirs = ["include"]
+    self.cpp.package.libdirs.append(
+        self.folders.build,
+        os.path.join(self.folders.build, "lib")
+    )
 
 def generate(self):
     deps = CMakeDeps(self)

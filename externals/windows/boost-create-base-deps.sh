@@ -67,12 +67,13 @@ conan_create_recipe() {
   # Keep install before source, otherwise settings.build_type won't be set
   # when running layout()
   conan editable add $destdir
-  conan install "${destdir}" -s build_type=Release
-  conan source "${destdir}"
 }
 
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
+
+  conan install "${destdir}" -s build_type=Release
+  conan source "${destdir}"
 
   # Configure and build
   cmake --preset conan-release -G ninja "$destdir"
