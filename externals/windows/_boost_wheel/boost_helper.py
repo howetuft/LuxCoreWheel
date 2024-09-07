@@ -30,7 +30,7 @@ def configure(self):
 def layout(self):
     cmake_layout(self)
     if self.libs:
-        print(f"BoostMeta - {self.module}: libs = {self.libs}")
+        print(f"BoostMeta -- {self.module}: libs = {self.libs}")
 
     # Set folders
     self.folders.source = "."
@@ -66,6 +66,7 @@ def generate(self):
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
     finds = ['message(STATUS "BoostMeta -- find packages")\n']
+    finds.append("enable_language(CXX)\n")
     finds += [
         f"find_package(Boost_{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]

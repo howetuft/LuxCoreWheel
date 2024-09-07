@@ -35,10 +35,10 @@ if(WIN32)
   target_link_libraries(pyluxcore PRIVATE
     slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
     TBB::TBB MINIZIP::minizip spdlog::spdlog
-    openimageio::openimageio PNG::PNG OpenColorIO::OpenColorIO openexr::openexr embree
-    c-blosc::c-blosc openexr::openexr oidn::oidn Boost::python Boost::atomic
+    openimageio::openimageio PNG::PNG openexr::openexr embree
+    c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
     Boost::chrono Boost::system Boost::filesystem Boost::container
     Boost::date_time Boost::iostreams Boost::program_options Boost::random
-    Boost::serialization Boost::thread boost::boost
+    Boost::serialization Boost::thread boost::boost OpenColorIO::OpenColorIO
   )
 endif(WIN32)
