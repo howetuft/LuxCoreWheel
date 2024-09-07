@@ -29,26 +29,33 @@ def configure(self):
 
 def layout(self):
     cmake_layout(self)
+    print(f"{self.module}: libs = {self.libs}")
 
-    # cpp.source and cpp.build information is specifically designed for
-    # editable packages:
-    # this information is relative to the source folder that is '.'
+    # Set folders
     self.folders.source = "."
-    self.cpp.source.includedirs = ["include"]
-
-    # this information is relative to the build folder that is
-    # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
     self.folders.build = os.path.join("build", str(self.settings.build_type))
-    self.cpp.build.libdirs = ["."]
-
     self.folders.generators = os.path.join(self.folders.build, "generators")
 
+    # Describe package
     self.cpp.package.libs = self.libs
     self.cpp.package.includedirs = ["include"]
     self.cpp.package.libdirs += [
         self.folders.build,
         os.path.join(self.folders.build, "lib")
     ]
+
+    # Describe what changes between package and editable
+    #
+    # cpp.source and cpp.build information is specifically designed for
+    # editable packages:
+    # this information is relative to the source folder that is '.'
+    self.cpp.source.includedirs = ["include"]
+
+    # this information is relative to the build folder that is
+    # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
+    self.cpp.build.libdirs = ["."]
+
+
 
 
 def generate(self):
@@ -101,6 +108,7 @@ def package_info(self):
     self.cpp_info.set_property("cmake_target_name", f"Boost::{self.module}")
     # self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
     self.cpp_info.set_property("cmake_find_mode", "both")
+    self.cpp_info.libs = self.libs
 
 
 def package_id(self):
