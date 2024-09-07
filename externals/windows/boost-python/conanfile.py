@@ -28,7 +28,7 @@ DEPS = [
     "property_map",
 ]
 
-LIBS = ["boost_python{vi.major}{vi.minor}", "boost_numpy{vi.major}{vi.minor}"]
+LIBS = [f"boost_python{vi.major}{vi.minor}", f"boost_numpy{vi.major}{vi.minor}"]
 
 class BoostPython(ConanFile, metaclass=BoostMeta, module="python", boost_deps=DEPS, libs=LIBS):
     pass

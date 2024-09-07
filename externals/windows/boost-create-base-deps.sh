@@ -74,22 +74,17 @@ conan_build_recipe() {
 
   conan install "${destdir}" -s build_type=Release
   conan source "${destdir}"
-  conan generate "${destdir}"
-
-
-  # Configure and build
-  cmake --preset conan-release -G ninja "$destdir"
-  cmake --build --preset conan-release -G ninja "$destdir"
+  #conan build "${destdir}"
 
   echo "LuxCoreWheels - Module ${1} created in ${destdir}"
 
 }
 
-echo "\n"
+echo ""
 echo "*******************************************"
 echo "*         Boost base dependencies         *"
 echo "*******************************************"
-echo "\n"
+echo ""
 
 # Prerequisite
 conan install --requires boost/1.78.0
