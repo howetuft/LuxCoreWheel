@@ -40,7 +40,8 @@ def layout(self):
     # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
     self.folders.build = os.path.join("build", str(self.settings.build_type))
     self.cpp.build.libdirs = ["."]
-    self.cpp.build.includedirs = ["include"]
+    if self.module not in ["align", "config", "assert", "algorithm"]:
+        self.cpp.build.includedirs = ["include"]
 
     self.folders.generators = os.path.join(self.folders.build, "generators")
 
