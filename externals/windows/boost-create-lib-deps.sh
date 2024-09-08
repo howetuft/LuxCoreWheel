@@ -36,6 +36,10 @@ deps=(
   program_options
 )
 
+deps=(
+  graph
+)
+
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
 
