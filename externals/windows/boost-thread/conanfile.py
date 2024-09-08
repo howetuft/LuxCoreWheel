@@ -15,6 +15,7 @@ DEPS = [
     "container_hash",
     "core",
     "date_time",
+    "exception",
     "function",
     "intrusive",
     "io",

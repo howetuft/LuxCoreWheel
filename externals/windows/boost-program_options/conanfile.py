@@ -16,6 +16,7 @@ DEPS = [
     "smart_ptr",
     "static_assert",
     "throw_exception",
+    "type_index",
     "type_traits",
     "bind",
     "tokenizer",

@@ -8,6 +8,7 @@ DEPS = [
     "array",
     "assert",
     "config",
+    "container_hash",
     "core",
     "detail",
     "integer",

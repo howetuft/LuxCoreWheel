@@ -16,6 +16,7 @@ DEPS = [
     "preprocessor",
     "random",
     "range",
+    "regex",
     "smart_ptr",
     "static_assert",
     "throw_exception",

@@ -14,6 +14,7 @@ DEPS = [
     "io",
     "iterator",
     "mpl",
+    "preprocessor",
     "smart_ptr",
     "system",
     "type_traits",
