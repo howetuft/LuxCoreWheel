@@ -18,6 +18,7 @@ DEPS = [
     "iterator",
     "lexical_cast",
     "mpl",
+    "numeric_conversion",
     "preprocessor",
     "range",
     "smart_ptr",

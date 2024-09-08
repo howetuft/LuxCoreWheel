@@ -29,6 +29,7 @@ DEPS = [
     "throw_exception",
     "tuple",
     "type_index",
+    "type_of",
     "type_traits",
     "utility",
     "integer",
