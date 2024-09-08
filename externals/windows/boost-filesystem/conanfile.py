@@ -13,6 +13,7 @@ DEPS = [
     "io",
     "iterator",
     "smart_ptr",
+    "system",
     "type_traits",
     "predef",
     "winapi",

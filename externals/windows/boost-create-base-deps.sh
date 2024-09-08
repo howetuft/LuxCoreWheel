@@ -90,7 +90,7 @@ echo ""
 #conan install --requires boost/1.78.0
 
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
-cd ~/.boost_conan
+#cd ~/.boost_conan
 for dep in ${deps[@]}; do
   conan_create_recipe $dep
 done

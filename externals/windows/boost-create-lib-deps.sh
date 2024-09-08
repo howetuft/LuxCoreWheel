@@ -8,6 +8,7 @@
 # rm ~/.conan2/editable_packages.json
 
 deps=(
+  random
   python
   atomic
   chrono
@@ -17,7 +18,6 @@ deps=(
   date_time
   iostreams
   program_options
-  random
   serialization
   thread
 )

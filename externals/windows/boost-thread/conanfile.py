@@ -6,6 +6,7 @@ from boost_helper import BoostMeta, ConanFile
 
 DEPS = [
     "assert",
+    "atomic",
     "bind",
     "concept_check",
     "config",

@@ -14,6 +14,7 @@ DEPS = [
     "iterator",
     "mpl",
     "preprocessor",
+    "random",
     "range",
     "smart_ptr",
     "static_assert",
