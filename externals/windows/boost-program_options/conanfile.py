@@ -12,6 +12,7 @@ DEPS = [
     "core",
     "detail",
     "function",
+    "integer",
     "iterator",
     "lexical_cast",
     "mpl",

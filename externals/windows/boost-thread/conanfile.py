@@ -21,6 +21,7 @@ DEPS = [
     "io",
     "iterator",
     "move",
+    "mpl",
     "numeric_conversion",
     "optional",
     "predef",

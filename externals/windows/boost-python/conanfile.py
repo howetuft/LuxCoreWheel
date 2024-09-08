@@ -26,6 +26,7 @@ DEPS = [
     "static_assert",
     "throw_exception",
     "tuple",
+    "type_index",
     "type_traits",
     "utility",
     "integer",
