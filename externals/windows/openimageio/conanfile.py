@@ -78,7 +78,7 @@ class OpenImageIOConan(ConanFile):
     def requirements(self):
         # Required libraries
         self.requires("boost/1.78.0")  # Modified
-        self.requires("boost-filesystem/1.78.0")
+        self.requires("boost-filesystem/1.78.0@luxcorewheels/luxcorewheels")
         self.requires("openexr/2.5.7", transitive_headers=True)  # Modified
         self.requires("zlib/[>=1.2.11 <2]")
         self.requires("libtiff/4.3.0")

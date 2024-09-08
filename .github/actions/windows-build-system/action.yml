@@ -111,61 +111,7 @@ runs:
     #- uses: mxschmitt/action-tmate@v3
 
 
-    #- name: Create libvpx
-      #working-directory: ${{ github.workspace }}/LuxCore
-      #run: |
-        #conan create --version=1.13.1 --profile=libvpx ../externals/windows/libvpx
-        ##conan install --profile=libvpx --build=missing --requires=libvpx/1.13.1 -vvv
-      #shell: pwsh
-
-    #- name: boost
-      #working-directory: ${{ github.workspace }}
-      #run: |
-        ##echo 'using msvc : 14.3 : "sccache.exe ''${{ env.VCINSTALLDIR }}bin\cl.exe''" : ;' | sed -r 's/\\/\//g'>> /c/users/runneradmin/site-config.jam
-        ##cat /c/users/runneradmin/site-config.jam
-        #conan install \
-          #--requires boost/1.78.0 \
-          #--build=boost/1.78.0 \
-          #-o boost/*:without_atomic=False \
-          #-o boost/*:without_charconv=True \
-          #-o boost/*:without_chrono=False \
-          #-o boost/*:without_cobalt=True \
-          #-o boost/*:without_container=False \
-          #-o boost/*:without_context=True \
-          #-o boost/*:without_contract=True \
-          #-o boost/*:without_coroutine=True \
-          #-o boost/*:without_date_time=False \
-          #-o boost/*:without_exception=False \
-          #-o boost/*:without_fiber=True \
-          #-o boost/*:without_filesystem=False \
-          #-o boost/*:without_graph=True \
-          #-o boost/*:without_graph_parallel=True \
-          #-o boost/*:without_iostreams=False \
-          #-o boost/*:without_json=True \
-          #-o boost/*:without_locale=True \
-          #-o boost/*:without_log=True \
-          #-o boost/*:without_math=True \
-          #-o boost/*:without_mpi=True \
-          #-o boost/*:without_nowide=True \
-          #-o boost/*:without_program_options=False \
-          #-o boost/*:without_python=False \
-          #-o boost/*:without_random=False \
-          #-o boost/*:without_regex=False \
-          #-o boost/*:without_serialization=False \
-          #-o boost/*:without_stacktrace=True \
-          #-o boost/*:without_system=False \
-          #-o boost/*:without_test=True \
-          #-o boost/*:without_thread=False \
-          #-o boost/*:without_timer=True \
-          #-o boost/*:without_type_erasure=True \
-          #-o boost/*:without_url=True \
-          #-o boost/*:without_wave=True \
-          #-o boost/*:magic_autolink=True \
-          #-o boost/*:extra_b2_flags=-d0
-
-      #shell: bash
-
-    # We use editable mode, otherwise a random revision is computed and make
+    # We use editable mode, otherwise a random revision is computed and makes
     # sccache inefficient
 
     - name: openimageio
@@ -174,7 +120,7 @@ runs:
         # Keep install before source, otherwise settings.build_type won't be set
         # when running layout()
         conan editable add .
-        conan install . -s build_type=Release
+        conan install . -s build_type=Release --build=boost-filesystem
         conan source .
         cp -R src/include .
 
