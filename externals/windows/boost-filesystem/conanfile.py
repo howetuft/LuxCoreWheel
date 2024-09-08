@@ -13,6 +13,7 @@ DEPS = [
     "detail",
     "io",
     "iterator",
+    "mpl",
     "smart_ptr",
     "system",
     "type_traits",

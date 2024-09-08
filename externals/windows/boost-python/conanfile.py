@@ -6,6 +6,7 @@ from boost_helper import BoostMeta, ConanFile
 from sys import version_info as vi
 
 DEPS = [
+    "algorithm",
     "align",
     "bind",
     "config",
@@ -22,6 +23,7 @@ DEPS = [
     "preprocessor",
     "smart_ptr",
     "static_assert",
+    "throw_exception",
     "tuple",
     "type_traits",
     "utility",

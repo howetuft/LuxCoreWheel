@@ -12,6 +12,7 @@ DEPS = [
     "dynamic_bitset",
     "integer",
     "io",
+    "predef",
     "range",
     "static_assert",
     "system",
