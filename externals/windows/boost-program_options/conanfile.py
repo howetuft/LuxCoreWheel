@@ -13,6 +13,7 @@ DEPS = [
     "function",
     "iterator",
     "lexical_cast",
+    "mpl",
     "smart_ptr",
     "static_assert",
     "throw_exception",

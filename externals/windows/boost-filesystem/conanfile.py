@@ -16,6 +16,7 @@ DEPS = [
     "mpl",
     "preprocessor",
     "smart_ptr",
+    "static_assert",
     "system",
     "type_traits",
     "predef",

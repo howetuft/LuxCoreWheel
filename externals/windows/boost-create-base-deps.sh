@@ -21,6 +21,7 @@ deps=(
   core
   detail
   dynamic_bitset
+  exception
   foreach
   function
   graph
