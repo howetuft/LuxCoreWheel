@@ -7,19 +7,19 @@
 # For local debug, run this before:
 # rm ~/.conan2/editable_packages.json
 
-deps=(
-  random
-  python
-  atomic
-  chrono
-  filesystem
-  container
-  date_time
-  iostreams
-  program_options
-  serialization
-  thread
-)
+#deps=(
+  #random
+  #python
+  #atomic
+  #chrono
+  #filesystem
+  #container
+  #date_time
+  #iostreams
+  #program_options
+  #serialization
+  #thread
+#)
 
 deps=(
   atomic
@@ -72,7 +72,8 @@ pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
   echo "LuxCoreWheels - Building '${dep}'"
-  conan_build_recipe $dep &
+  #conan_build_recipe $dep &
+  conan_build_recipe $dep
   pids[${i}]=$!
 done
 

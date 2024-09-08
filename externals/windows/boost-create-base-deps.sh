@@ -47,6 +47,7 @@ deps=(
   tokenizer
   tuple
   type_traits
+  type_index
   typeof
   unordered
   utility

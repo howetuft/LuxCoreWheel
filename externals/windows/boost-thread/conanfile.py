@@ -11,6 +11,7 @@ DEPS = [
     "chrono",
     "concept_check",
     "config",
+    "container",
     "container_hash",
     "core",
     "function",
