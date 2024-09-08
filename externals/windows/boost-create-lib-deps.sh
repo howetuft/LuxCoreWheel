@@ -22,6 +22,7 @@
 #)
 
 deps=(
+  graph
   atomic
   container
   python

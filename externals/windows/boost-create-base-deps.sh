@@ -24,7 +24,6 @@ deps=(
   exception
   foreach
   function
-  graph
   integer
   intrusive
   io
