@@ -7,6 +7,7 @@ from boost_helper import BoostMeta, ConanFile
 DEPS = [
     "any",
     "assert",
+    "bind",
     "config",
     "container_hash",
     "core",
@@ -17,12 +18,12 @@ DEPS = [
     "lexical_cast",
     "mpl",
     "preprocessor",
+    "range",
     "smart_ptr",
     "static_assert",
     "throw_exception",
     "type_index",
     "type_traits",
-    "bind",
     "tokenizer",
 ]
 

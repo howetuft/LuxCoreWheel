@@ -11,6 +11,7 @@ DEPS = [
     "assert",
     "bind",
     "config",
+    "container_hash",
     "conversion",
     "core",
     "detail",
