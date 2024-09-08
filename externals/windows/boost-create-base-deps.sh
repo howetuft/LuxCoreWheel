@@ -34,6 +34,7 @@ deps=(
   mpl
   numeric_conversion
   optional
+  parameter
   predef
   preprocessor
   property_map

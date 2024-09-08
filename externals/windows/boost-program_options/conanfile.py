@@ -11,6 +11,7 @@ DEPS = [
     "bind",
     "concept_check",
     "config",
+    "container",
     "container_hash",
     "core",
     "detail",

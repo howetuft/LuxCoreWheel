@@ -23,6 +23,7 @@ DEPS = [
     "lexical_cast",
     "mpl",
     "numeric_conversion",
+    "parameter",
     "preprocessor",
     "smart_ptr",
     "static_assert",
