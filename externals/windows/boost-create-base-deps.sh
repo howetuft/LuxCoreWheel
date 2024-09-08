@@ -88,6 +88,7 @@ echo ""
 
 # Prerequisite
 #conan install --requires boost/1.78.0
+conan install --requires zlib/1.2.11
 
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
 #cd ~/.boost_conan
