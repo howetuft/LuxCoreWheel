@@ -26,6 +26,7 @@ DEPS = [
     "type_index",
     "type_traits",
     "tokenizer",
+    "utility",
 ]
 
 class BoostProgram_options(ConanFile, metaclass=BoostMeta, module="program_options", boost_deps=DEPS, libs=["boost_program_options"]):

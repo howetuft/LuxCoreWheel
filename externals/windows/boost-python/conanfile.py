@@ -10,7 +10,7 @@ DEPS = [
     "align",
     "assert",
     "bind",
-    "concept",
+    "concept_check",
     "config",
     "container_hash",
     "conversion",

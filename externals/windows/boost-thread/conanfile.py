@@ -17,6 +17,7 @@ DEPS = [
     "date_time",
     "exception",
     "function",
+    "integer",
     "intrusive",
     "io",
     "iterator",
