@@ -26,6 +26,7 @@ DEPS = [
     "optional",
     "predef",
     "preprocessor",
+    "ratio",
     "smart_ptr",
     "static_assert",
     "system",

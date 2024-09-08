@@ -8,6 +8,7 @@ DEPS = [
     "any",
     "assert",
     "bind",
+    "concept_check",
     "config",
     "container_hash",
     "core",
