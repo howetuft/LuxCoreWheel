@@ -71,7 +71,7 @@ def generate(self):
         f"find_package(Boost_{dep})\n" for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("cmake_policy(SET CMP0167 OLD)\n")
-    finds.append("find_package(Boost)\n")
+    # finds.append("find_package(Boost)\n")  # TODO
     finds.append("find_package(ZLIB)\n")
     finds.append("unset(ZLIB_FIND_QUIETLY)\n")
     finds.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
@@ -141,7 +141,8 @@ class BoostMeta(type):
         boost_version = BOOST_VERSION
         boost_deps = list(kwargs.get("boost_deps", []))
         other_deps = list(kwargs.get("other_deps", []))
-        requires = [f"boost/{boost_version}"]
+        # requires = [f"boost/{boost_version}"]
+        requires = []
         for dep in boost_deps:
             requires.append(f"boost-{dep}/{boost_version}@luxcorewheels/luxcorewheels")
         for dep in other_deps:
