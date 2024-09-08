@@ -22,9 +22,10 @@
 #)
 
 deps=(
-  program_options
   atomic
   container
+  program_options
+  python
   date_time
   random
   chrono
@@ -32,7 +33,6 @@ deps=(
   thread
   serialization
   filesystem
-  python
 )
 
 conan_build_recipe() {

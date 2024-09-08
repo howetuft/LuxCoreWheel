@@ -24,6 +24,7 @@ DEPS = [
     "mpl",
     "mp11",
     "numeric_conversion",
+    "unordered",
     "parameter",
     "preprocessor",
     "smart_ptr",
