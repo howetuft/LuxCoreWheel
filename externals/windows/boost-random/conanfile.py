@@ -18,6 +18,7 @@ DEPS = [
     "throw_exception",
     "type_traits",
     "utility",
+    "winapi",
 ]
 
 class BoostRandom(ConanFile, metaclass=BoostMeta, module="random", boost_deps=DEPS, libs=["boost_random"]):

@@ -68,7 +68,8 @@ def generate(self):
     finds = ['message(STATUS "BoostMeta -- find packages")\n']
     finds.append("enable_language(CXX)\n")
     finds += [
-        f"find_package(Boost_{dep})\n" for dep in self.boost_deps if dep != "boost"
+        f"find_package(Boost_{dep})\ninclude_directories($\{Boost_{dep}_INCLUDE_DIRS\})\n"
+        for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("cmake_policy(SET CMP0167 OLD)\n")
     # finds.append("find_package(Boost)\n")  # TODO
