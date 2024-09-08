@@ -9,6 +9,8 @@ from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 class LuxCore(ConanFile):
     name = "LuxCoreWheels"
 
+    _boost_version = "1.78.0"
+
     requires = [
         "onetbb/2020.3",
         "opencolorio/2.1.0",
@@ -19,19 +21,19 @@ class LuxCore(ConanFile):
         "embree3/3.13.1",
         "c-blosc/1.21.5",
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
-        "boost/1.78.0",
-        "boost-python/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-atomic/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-chrono/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-system/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-filesystem/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-container/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-date_time/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-iostreams/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-program_options/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-random/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-serialization/1.78.0@luxcorewheels/luxcorewheels",
-        "boost-thread/1.78.0@luxcorewheels/luxcorewheels",
+        f"boost/{_boost_version}",
+        f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-atomic/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-chrono/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-system/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-filesystem/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-container/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-date_time/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-iostreams/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-program_options/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-random/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-serialization/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-thread/{_boost_version}@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {
