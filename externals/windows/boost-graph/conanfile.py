@@ -7,6 +7,7 @@ from boost_helper import BoostMeta, ConanFile
 DEPS = [
     "algorithm",
     "any",
+    "array",
 ]
 
 class BoostGraph(ConanFile, metaclass=BoostMeta, module="graph", boost_deps=DEPS):
