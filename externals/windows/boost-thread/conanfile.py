@@ -34,6 +34,7 @@ DEPS = [
     "system",
     "throw_exception",
     "tuple",
+    "type_index",
     "type_traits",
     "utility",
     "winapi",
