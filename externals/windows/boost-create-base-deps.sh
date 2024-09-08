@@ -32,6 +32,7 @@ deps=(
   lexical_cast
   move
   mpl
+  mp11
   numeric_conversion
   optional
   parameter

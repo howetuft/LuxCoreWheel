@@ -22,6 +22,7 @@
 #)
 
 deps=(
+  program_options
   atomic
   container
   date_time
@@ -29,7 +30,6 @@ deps=(
   chrono
   iostreams
   thread
-  program_options
   serialization
   filesystem
   python

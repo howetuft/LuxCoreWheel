@@ -22,6 +22,7 @@ DEPS = [
     "iterator",
     "lexical_cast",
     "mpl",
+    "mp11",
     "numeric_conversion",
     "parameter",
     "preprocessor",
