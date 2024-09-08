@@ -14,6 +14,7 @@ DEPS = [
     "detail",
     "foreach",
     "function",
+    "graph",
     "iterator",
     "lexical_cast",
     "mpl",

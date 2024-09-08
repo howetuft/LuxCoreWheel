@@ -23,6 +23,7 @@ deps=(
   dynamic_bitset
   foreach
   function
+  graph
   integer
   intrusive
   io

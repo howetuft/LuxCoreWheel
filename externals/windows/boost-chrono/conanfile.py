@@ -12,6 +12,7 @@ DEPS = [
     "move",
     "mpl",
     "predef",
+    "preprocessor",
     "ratio",
     "static_assert",
     "system",

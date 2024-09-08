@@ -8,6 +8,7 @@ DEPS = [
     "assert",
     "atomic",
     "bind",
+    "chrono",
     "concept_check",
     "config",
     "container_hash",
