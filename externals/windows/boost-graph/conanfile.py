@@ -37,6 +37,7 @@ DEPS = [
     "spirit",
     "static_assert",
     "throw_exception",
+    "type_index",
     "tti",
     "tuple",
     "type_traits",
