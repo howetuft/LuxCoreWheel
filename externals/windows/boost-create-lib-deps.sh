@@ -21,6 +21,8 @@
   #thread
 #)
 
+
+
 deps=(
   atomic
   container
@@ -61,7 +63,7 @@ echo "*          Boost lib dependencies         *"
 echo "*******************************************"
 echo ""
 
-
+conan install --requires fftw/3.3.10
 
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
 for dep in ${deps[@]}; do
@@ -85,6 +87,6 @@ for pid in ${pids[*]}; do
 done
 
 
-echo "Boost lib dependencies: done"
+echo "     Boost lib dependencies: done"
 echo "*******************************************"
 echo "*******************************************"
