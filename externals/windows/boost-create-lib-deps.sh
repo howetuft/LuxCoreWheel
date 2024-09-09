@@ -22,12 +22,12 @@
 #)
 
 deps=(
-  graph
   atomic
   container
   python
   date_time
   random
+  graph
   chrono
   iostreams
   thread
