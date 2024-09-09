@@ -33,6 +33,7 @@ deps=(
   move
   mpl
   mp11
+  multi_index
   numeric_conversion
   optional
   parameter
@@ -49,6 +50,7 @@ deps=(
   system
   throw_exception
   tokenizer
+  tti
   tuple
   type_traits
   type_index
@@ -57,6 +59,7 @@ deps=(
   utility
   variant
   winapi
+  xpressive
 )
 
 conan_create_recipe() {

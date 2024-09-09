@@ -27,6 +27,7 @@ DEPS = [
     "numeric_conversion",
     "unordered",
     "parameter",
+    "predef",
     "preprocessor",
     "smart_ptr",
     "static_assert",
