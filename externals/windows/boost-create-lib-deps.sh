@@ -26,19 +26,16 @@ deps=(
   container
   date_time
   random
-  graph
   chrono
   iostreams
   thread
   serialization
   filesystem
+  graph
   program_options
   python
 )
 
-deps=(
-  graph
-)
 
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
