@@ -24,7 +24,6 @@
 deps=(
   atomic
   container
-  python
   date_time
   random
   graph
@@ -34,6 +33,7 @@ deps=(
   serialization
   filesystem
   program_options
+  python
 )
 
 deps=(
@@ -89,3 +89,5 @@ done
 
 
 echo "Boost lib dependencies: done"
+echo "*******************************************"
+echo "*******************************************"
