@@ -9,6 +9,7 @@ DEPS = [
     "algorithm",
     "align",
     "assert",
+    "bimap",
     "bind",
     "concept_check",
     "config",

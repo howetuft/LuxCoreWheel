@@ -13,6 +13,7 @@ deps=(
   any
   array
   assert
+  bimap
   bind
   concept_check
   config
