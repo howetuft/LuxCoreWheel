@@ -26,6 +26,7 @@ DEPS = [
     "multi_index",
     "optional",
     "parameter",
+    "preprocessor",
     "property_map",
     "property_tree",
     "random",
