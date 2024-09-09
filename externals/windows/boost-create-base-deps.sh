@@ -39,6 +39,7 @@ deps=(
   predef
   preprocessor
   property_map
+  property_tree
   range
   ratio
   regex
