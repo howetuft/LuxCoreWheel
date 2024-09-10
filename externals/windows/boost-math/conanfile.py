@@ -39,7 +39,6 @@ class BoostMath(
     metaclass=BoostMeta,
     module="math",
     boost_deps=DEPS,
-    libs=["boost_math"],
     boost_post_source=_post_source
 ):
     pass
