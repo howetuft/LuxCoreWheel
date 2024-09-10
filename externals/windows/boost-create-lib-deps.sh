@@ -52,7 +52,7 @@ conan_build_recipe() {
   # when running layout()
   conan install "${destdir}" --build=editable -s build_type=Release
   conan source "${destdir}"
-  conan build "${destdir}"
+  #conan build "${destdir}"
 
   echo "LuxCoreWheels - Module ${1} created in ${destdir}"
 
