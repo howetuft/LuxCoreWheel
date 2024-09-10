@@ -5,6 +5,7 @@
 from boost_helper import BoostMeta, ConanFile
 
 DEPS = [
+    "algorithm",
     "assert",
     "atomic",
     "bind",
@@ -38,7 +39,6 @@ DEPS = [
     "type_traits",
     "utility",
     "winapi",
-    "algorithm",
     "lexical_cast",
 ]
 
