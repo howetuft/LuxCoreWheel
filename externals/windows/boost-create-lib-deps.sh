@@ -35,6 +35,7 @@ deps=(
   iostreams
   thread
   serialization
+  property_tree
   filesystem
   graph
   program_options

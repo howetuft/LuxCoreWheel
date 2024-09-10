@@ -83,7 +83,6 @@ def generate(self):
     with open(filepath, "w+") as f:
         f.writelines(finds)
     tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
-    tc.cache_variables["BOOST_SUPERPROJECT_VERSION"] = self.version
 
     tc.generate()
 
