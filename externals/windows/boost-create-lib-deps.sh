@@ -25,11 +25,11 @@
 
 
 deps=(
-  math
   atomic
   container
   date_time
   random
+  math
   chrono
   iostreams
   thread
@@ -38,11 +38,6 @@ deps=(
   graph
   program_options
   python
-)
-
-deps=(
-  random
-  math
 )
 
 
