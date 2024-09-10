@@ -6,6 +6,7 @@
 
 # For local debug, run this before:
 # rm ~/.conan2/editable_packages.json
+# rm -rf ~/.boost_conan
 
 #deps=(
   #random
@@ -24,6 +25,7 @@
 
 
 deps=(
+  math
   atomic
   container
   date_time
@@ -36,6 +38,11 @@ deps=(
   graph
   program_options
   python
+)
+
+deps=(
+  random
+  math
 )
 
 
@@ -56,6 +63,7 @@ conan_build_recipe() {
 }
 
 
+set -eo pipefail
 
 echo ""
 echo "*******************************************"

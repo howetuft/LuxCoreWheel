@@ -30,7 +30,6 @@ deps=(
   io
   iterator
   lexical_cast
-  math
   move
   mpl
   mp11

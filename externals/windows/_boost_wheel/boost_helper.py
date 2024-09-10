@@ -18,6 +18,8 @@ def source(self):
         f"https://github.com/boostorg/{self.module}/archive/refs/tags/boost-{self.version}.zip",
         strip_root=True
     )
+    if self.boost_post_source:
+        self.boost_post_source()
 
 def config_options(self):
     if self.settings.os == "Windows":
@@ -142,7 +144,9 @@ class BoostMeta(type):
         boost_version = BOOST_VERSION
         boost_deps = list(kwargs.get("boost_deps", []))
         other_deps = list(kwargs.get("other_deps", []))
+        boost_post_source = kwargs.get("boost_post_source", None)
         # requires = [f"boost/{boost_version}"]
+
         requires = ["zlib/[>=1.2.11 <2]"]
         for dep in boost_deps:
             requires.append(f"boost-{dep}/{boost_version}@luxcorewheels/luxcorewheels")
@@ -163,6 +167,7 @@ class BoostMeta(type):
             requires=requires,
             boost_deps=boost_deps,
             source=source,
+            boost_post_source=boost_post_source,
             config_options=config_options,
             configure=configure,
             layout=layout,
