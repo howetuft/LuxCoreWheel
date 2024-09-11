@@ -31,10 +31,9 @@ def _post_source(self):
     with open(cmakelists_file, encoding="utf-8") as f:
         read_data = f.read()
 
-    write_data = re.sub(r"(BOOST_SUPERPROJECT_VERSION)", '"True"', read_data)
-
     with open(cmakelists_file, "w", encoding="utf-8") as f:
-        f.write(write_data)
+        f.write(f'set(BOOST_SUPERPROJECT_VERSION "{self.version}")\n')
+        f.write(read_data)
 
 
 class BoostProperty_tree(

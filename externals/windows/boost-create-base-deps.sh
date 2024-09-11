@@ -23,6 +23,7 @@ deps=(
   detail
   dynamic_bitset
   foreach
+  format
   function
   integer
   intrusive

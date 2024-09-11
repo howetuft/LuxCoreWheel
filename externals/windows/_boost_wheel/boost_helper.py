@@ -74,6 +74,7 @@ def generate(self):
         for dep in self.boost_deps if dep != "boost"
     ]
     finds.append("cmake_policy(SET CMP0167 OLD)\n")
+    finds.append("cmake_policy(SET CMP0169 OLD)\n")
     # finds.append("find_package(Boost)\n")  # TODO
     finds.append("find_package(ZLIB)\n")
     finds.append("unset(ZLIB_FIND_QUIETLY)\n")

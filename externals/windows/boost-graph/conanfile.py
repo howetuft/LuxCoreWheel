@@ -49,5 +49,5 @@ DEPS = [
     "xpressive",
 ]
 
-class BoostGraph(ConanFile, metaclass=BoostMeta, module="graph", libs=["graph"], boost_deps=DEPS):
+class BoostGraph(ConanFile, metaclass=BoostMeta, module="graph", libs=["boost_graph"], boost_deps=DEPS):
     pass
