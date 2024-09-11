@@ -26,6 +26,7 @@ DEPS = [
     "move",
     "mpl",
     "multi_index",
+    "numeric_conversion",
     "optional",
     "parameter",
     "preprocessor",
