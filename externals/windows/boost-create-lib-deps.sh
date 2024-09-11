@@ -40,6 +40,7 @@ deps=(
   graph
   program_options
   python
+  boost
 )
 
 
@@ -53,7 +54,7 @@ conan_build_recipe() {
   # when running layout()
   conan install "${destdir}" --build=editable -s build_type=Release
   conan source "${destdir}"
-  conan build "${destdir}"
+  #conan build "${destdir}" -s build_type=Release
 
   echo "LuxCoreWheels - Module ${1} created in ${destdir}"
 
@@ -90,6 +91,8 @@ done
 for pid in ${pids[*]}; do
     wait $pid
 done
+
+conan build ~/.boost_conan/boost -s build_type=Release
 
 
 echo "     Boost lib dependencies: done"

@@ -19,6 +19,7 @@ DEPS = [
     "core",
     "describe",
     "detail",
+    "exception",
     "foreach",
     "function",
     "fusion",
