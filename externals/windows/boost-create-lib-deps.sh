@@ -68,7 +68,7 @@ echo "*          Boost lib dependencies         *"
 echo "*******************************************"
 echo ""
 
-conan install --requires fftw/3.3.10
+#conan install --requires fftw/3.3.10
 
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
 for dep in ${deps[@]}; do
@@ -81,8 +81,8 @@ pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
   echo "LuxCoreWheels - Building '${dep}'"
-  #conan_build_recipe $dep &
-  conan_build_recipe $dep
+  conan_build_recipe $dep &
+  #conan_build_recipe $dep
   pids[${i}]=$!
 done
 

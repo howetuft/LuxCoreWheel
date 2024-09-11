@@ -36,6 +36,7 @@ DEPS = [
     "preprocessor",
     "property_map",
     "property_tree",
+    "proto",
     "random",
     "range",
     "regex",
