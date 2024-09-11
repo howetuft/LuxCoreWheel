@@ -83,7 +83,7 @@ conan_create_recipe() {
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
 
-  conan install "${destdir}" -s build_type=Release
+  #conan install "${destdir}" -s build_type=Release
   conan source "${destdir}"
   #conan build "${destdir}"
 

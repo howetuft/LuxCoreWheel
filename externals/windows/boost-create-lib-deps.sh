@@ -52,7 +52,7 @@ conan_build_recipe() {
   #
   # Keep install before source, otherwise settings.build_type won't be set
   # when running layout()
-  conan install "${destdir}" --build=editable -s build_type=Release
+  #conan install "${destdir}" --build=editable -s build_type=Release
   conan source "${destdir}"
   #conan build "${destdir}" -s build_type=Release
 
@@ -83,7 +83,7 @@ for i in ${!deps[@]}; do
   dep=${deps[$i]}
   echo "LuxCoreWheels - Building '${dep}'"
   #conan_build_recipe $dep &
-  conan_build_recipe $dep
+  conan_build_recipe $dep &
   pids[${i}]=$!
 done
 
@@ -92,6 +92,7 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
+conan install ~/.boost_conan/boost --build=editable -s build_type=Release
 conan build ~/.boost_conan/boost -s build_type=Release
 
 
