@@ -81,8 +81,8 @@ pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
   echo "LuxCoreWheels - Building '${dep}'"
-  conan_build_recipe $dep &
-  #conan_build_recipe $dep
+  #conan_build_recipe $dep &
+  conan_build_recipe $dep
   pids[${i}]=$!
 done
 
