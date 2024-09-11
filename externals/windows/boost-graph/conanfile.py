@@ -13,6 +13,7 @@ DEPS = [
     "bind",
     "concept_check",
     "config",
+    "container",
     "container_hash",
     "conversion",
     "core",
