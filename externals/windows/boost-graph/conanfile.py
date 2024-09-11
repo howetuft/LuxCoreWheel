@@ -30,6 +30,7 @@ DEPS = [
     "numeric_conversion",
     "optional",
     "parameter",
+    "predef",
     "preprocessor",
     "property_map",
     "property_tree",
