@@ -20,11 +20,13 @@ deps=(
   container_hash
   conversion
   core
+  describe
   detail
   dynamic_bitset
   foreach
   format
   function
+  fusion
   integer
   intrusive
   io
