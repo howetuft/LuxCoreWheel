@@ -73,7 +73,6 @@ class BoostBoost(ConanFile):
 
         # Generate also luxcore.cmake
         tc = CMakeToolchain(self)
-        tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
 
         tc.generate()
 
