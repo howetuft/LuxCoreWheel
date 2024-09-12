@@ -32,6 +32,7 @@ DEPS = [
     "parameter",
     "predef",
     "preprocessor",
+    "range",
     "serialization",
     "smart_ptr",
     "static_assert",

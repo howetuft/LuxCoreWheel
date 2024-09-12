@@ -44,8 +44,10 @@ deps=(
 )
 
 
-conan_build_recipe() {
+conan_source_recipe() {
   local destdir=~/.boost_conan/${1}
+  cp -R boost-${dep} ${destdir}
+  conan editable add "${destdir}"
 
 
   # Install/source/build
@@ -56,7 +58,7 @@ conan_build_recipe() {
   conan source "${destdir}"
   #conan build "${destdir}" -s build_type=Release
 
-  echo "LuxCoreWheels - Module ${1} created in ${destdir}"
+  echo "LuxCoreWheels - Module ${1} sourced in ${destdir}"
 
 }
 
@@ -72,18 +74,18 @@ echo ""
 #conan install --requires fftw/3.3.10
 
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
-for dep in ${deps[@]}; do
-  destdir=~/.boost_conan/${dep}
-  cp -R boost-${dep} ${destdir}
-  conan editable add "${destdir}"
-done
+#for dep in ${deps[@]}; do
+  #destdir=~/.boost_conan/${dep}
+  #cp -R boost-${dep} ${destdir}
+  #conan editable add "${destdir}"
+#done
 
 pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
-  echo "LuxCoreWheels - Building '${dep}'"
+  echo "LuxCoreWheels - Sourcing '${dep}'"
   #conan_build_recipe $dep &
-  conan_build_recipe $dep &
+  conan_source_recipe $dep &
   pids[${i}]=$!
 done
 
@@ -91,6 +93,8 @@ done
 for pid in ${pids[*]}; do
     wait $pid
 done
+
+echo "LuxCoreWheels - BUILDING BOOST"
 
 conan install ~/.boost_conan/boost --build=editable -s build_type=Release
 conan build ~/.boost_conan/boost -s build_type=Release
