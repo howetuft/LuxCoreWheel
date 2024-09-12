@@ -14,7 +14,6 @@ DEPS = [
     "program_options",
     "filesystem",
     "iostreams",
-    "regex",
     "system",
     "python",
     "chrono",
