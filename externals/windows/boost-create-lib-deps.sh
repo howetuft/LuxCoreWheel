@@ -81,6 +81,7 @@ echo ""
 pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
+  conan_create_recipe $dep &
 done
 #
 # Wait for all treatments to finish
