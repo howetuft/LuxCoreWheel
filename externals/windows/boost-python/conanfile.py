@@ -27,6 +27,7 @@ DEPS = [
     "mp11",
     "multi_index",
     "numeric_conversion",
+    "optional",
     "unordered",
     "parameter",
     "predef",
