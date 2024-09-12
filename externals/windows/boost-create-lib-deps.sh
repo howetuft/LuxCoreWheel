@@ -51,21 +51,21 @@ conan_create_recipe() {
 }
 
 
-conan_source_recipe() {
-  local destdir=~/.boost_conan/${1}
+#conan_source_recipe() {
+  #local destdir=~/.boost_conan/${1}
 
 
-  # Install/source/build
-  #
-  # Keep install before source, otherwise settings.build_type won't be set
-  # when running layout()
-  #conan install "${destdir}" --build=editable -s build_type=Release
-  conan source "${destdir}"
-  #conan build "${destdir}" -s build_type=Release
+  ## Install/source/build
+  ##
+  ## Keep install before source, otherwise settings.build_type won't be set
+  ## when running layout()
+  ##conan install "${destdir}" --build=editable -s build_type=Release
+  #conan source "${destdir}"
+  ##conan build "${destdir}" -s build_type=Release
 
-  echo "LuxCoreWheels - Module ${1} sourced in ${destdir}"
+  #echo "LuxCoreWheels - Module ${1} sourced in ${destdir}"
 
-}
+#}
 
 
 set -eo pipefail
@@ -78,7 +78,7 @@ echo ""
 
 #conan install --requires fftw/3.3.10
 
-# Put in editable mode (warning: conan not thread-safe, do not parallelize)
+# Create
 pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
@@ -91,6 +91,7 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
+# Put in editable mode
 for dep in ${deps[@]}; do
   destdir=~/.boost_conan/${dep}
   conan editable add "${destdir}"
@@ -113,10 +114,11 @@ done
 echo "LuxCoreWheels - BUILDING BOOST"
 
 conan_create_recipe "boost"
+conan editable add ~/.boost_conan/boost
 conan install ~/.boost_conan/boost --build=editable -s build_type=Release
 conan build ~/.boost_conan/boost -s build_type=Release
 
 
-echo "     Boost lib dependencies: done"
+echo "     Boost lib dependencies: done\n"
 echo "*******************************************"
 echo "*******************************************"
