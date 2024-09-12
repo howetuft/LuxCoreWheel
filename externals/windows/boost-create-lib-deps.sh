@@ -40,7 +40,6 @@ deps=(
   graph
   program_options
   python
-  boost
 )
 
 conan_create_recipe() {
@@ -107,6 +106,7 @@ done
 
 echo "LuxCoreWheels - BUILDING BOOST"
 
+conan_create_recipe "boost"
 conan install ~/.boost_conan/boost --build=editable -s build_type=Release
 conan build ~/.boost_conan/boost -s build_type=Release
 
