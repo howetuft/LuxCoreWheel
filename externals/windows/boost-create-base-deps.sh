@@ -11,7 +11,6 @@ deps=(
   algorithm
   align
   any
-  archive
   array
   assert
   bimap

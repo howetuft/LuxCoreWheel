@@ -8,7 +8,6 @@ from sys import version_info as vi
 DEPS = [
     "algorithm",
     "align",
-    "archive",
     "assert",
     "bimap",
     "bind",
@@ -32,6 +31,7 @@ DEPS = [
     "parameter",
     "predef",
     "preprocessor",
+    "serialization",
     "smart_ptr",
     "static_assert",
     "throw_exception",
