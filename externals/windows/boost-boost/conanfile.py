@@ -31,6 +31,7 @@ class BoostBoost(ConanFile):
     user = "luxcorewheels"
     channel = "luxcorewheels"
     revision_mode = "scm_folder"
+    package_type = "header-library"
 
     def requirements(self):
         for dep in DEPS:
@@ -72,9 +73,7 @@ class BoostBoost(ConanFile):
         deps = CMakeDeps(self)
         deps.generate()
 
-        # Generate also luxcore.cmake
         tc = CMakeToolchain(self)
-
         tc.generate()
 
     def build(self):
@@ -104,7 +103,6 @@ class BoostBoost(ConanFile):
         self.cpp_info.set_property("cmake_target_name", f"Boost")
         # self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
         self.cpp_info.set_property("cmake_find_mode", "both")
-        self.cpp_info.libs = self.libs
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
