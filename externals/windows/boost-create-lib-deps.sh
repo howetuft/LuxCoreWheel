@@ -45,7 +45,8 @@ deps=(
 conan_create_recipe() {
   local destdir=~/.boost_conan/${1}
   cp -R boost-${1} ${destdir}
-  conan editable add "${destdir}"
+  conan source "${destdir}"
+  #conan editable add "${destdir}"
   echo "LuxCoreWheels - Module ${1} created in ${destdir} (editable)"
 }
 
@@ -90,19 +91,24 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
-pids=()
-for i in ${!deps[@]}; do
-  dep=${deps[$i]}
-  echo "LuxCoreWheels - Sourcing '${dep}'"
-  #conan_build_recipe $dep &
-  conan_source_recipe $dep &
-  pids[${i}]=$!
+for dep in ${deps[@]}; do
+  destdir=~/.boost_conan/${dep}
+  conan editable add "${destdir}"
 done
 
-# Wait for all treatments to finish
-for pid in ${pids[*]}; do
-    wait $pid
-done
+#pids=()
+#for i in ${!deps[@]}; do
+  #dep=${deps[$i]}
+  #echo "LuxCoreWheels - Sourcing '${dep}'"
+  ##conan_build_recipe $dep &
+  #conan_source_recipe $dep &
+  #pids[${i}]=$!
+#done
+
+## Wait for all treatments to finish
+#for pid in ${pids[*]}; do
+    #wait $pid
+#done
 
 echo "LuxCoreWheels - BUILDING BOOST"
 
