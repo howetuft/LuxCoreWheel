@@ -29,6 +29,7 @@ target_link_libraries(boost
     Boost::bind
     Boost::concept_check
     Boost::config
+    Boost::container
     Boost::container_hash
     Boost::conversion
     Boost::core
