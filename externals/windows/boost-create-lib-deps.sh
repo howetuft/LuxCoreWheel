@@ -44,8 +44,8 @@ deps=(
 )
 
 conan_create_recipe() {
-  local destdir=~/.boost_conan/$1
-  cp -R boost-$1 ${destdir}
+  local destdir=~/.boost_conan/${1}
+  cp -R boost-${1} ${destdir}
   conan editable add "${destdir}"
   echo "LuxCoreWheels - Module ${1} created in ${destdir} (editable)"
 }
