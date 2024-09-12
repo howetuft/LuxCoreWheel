@@ -22,6 +22,7 @@ DEPS = [
 ]
 
 class BoostBoost(ConanFile):
+    name = "boost"
     version = "1.78.0"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
