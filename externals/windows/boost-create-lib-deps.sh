@@ -46,8 +46,6 @@ deps=(
 
 conan_source_recipe() {
   local destdir=~/.boost_conan/${1}
-  cp -R boost-${dep} ${destdir}
-  conan editable add "${destdir}"
 
 
   # Install/source/build
@@ -74,11 +72,18 @@ echo ""
 #conan install --requires fftw/3.3.10
 
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
-#for dep in ${deps[@]}; do
-  #destdir=~/.boost_conan/${dep}
-  #cp -R boost-${dep} ${destdir}
-  #conan editable add "${destdir}"
-#done
+pids=()
+for i in ${!deps[@]}; do
+  dep=${deps[$i]}
+  destdir=~/.boost_conan/${dep}
+  cp -R boost-${dep} ${destdir}
+  conan editable add "${destdir}"
+done
+#
+# Wait for all treatments to finish
+for pid in ${pids[*]}; do
+    wait $pid
+done
 
 pids=()
 for i in ${!deps[@]}; do
