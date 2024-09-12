@@ -8,6 +8,7 @@ from sys import version_info as vi
 DEPS = [
     "algorithm",
     "align",
+    "array",
     "assert",
     "bimap",
     "bind",

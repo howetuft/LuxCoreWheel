@@ -43,6 +43,12 @@ deps=(
   boost
 )
 
+conan_create_recipe() {
+  local destdir=~/.boost_conan/$1
+  cp -R boost-$1 ${destdir}
+  conan editable add "${destdir}"
+}
+
 
 conan_source_recipe() {
   local destdir=~/.boost_conan/${1}
@@ -75,9 +81,6 @@ echo ""
 pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
-  destdir=~/.boost_conan/${dep}
-  cp -R boost-${dep} ${destdir}
-  conan editable add "${destdir}"
 done
 #
 # Wait for all treatments to finish
