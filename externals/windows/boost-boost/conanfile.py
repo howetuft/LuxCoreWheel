@@ -59,6 +59,7 @@ DEPS = [
     "regex",
     "smart_ptr",
     "spirit",
+    "stacktrace",
     "static_assert",
     "system",
     "throw_exception",
