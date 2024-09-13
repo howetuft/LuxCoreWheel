@@ -11,6 +11,46 @@ from conan.tools.files import *
 
 BOOST_VERSION = "1.78.0"
 
+DEPENDENCIES = {
+    "algorithm": ["array", "assert", "bind", "concept_check", "config", "core", "exception", "function", "iterator", "mpl", "range", "regex", "static_assert", "throw_exception", "tuple", "type_traits", "unordered"],
+    "align": ["assert", "config", "core", "static_assert"],
+    "any": ["config", "throw_exception", "type_index"],
+    "array": ["assert", "config", "core", "static_assert", "throw_exception"],
+    "assert": ["config"],
+    "bimap": ["concept_check", "config", "container_hash", "core", "iterator", "lambda", "mpl", "multi_index", "preprocessor", "static_assert", "throw_exception", "type_traits", "utility"],
+    "bind": ["config", "core"],
+    "concept_check": ["config", "preprocessor", "static_assert", "type_traits"],
+    "config": [],
+    "container_hash": ["config", "describe", "mp11"],
+    "conversion": ["assert", "config","smart_ptr"],
+    "core": ["assert", "config", "static_assert", "throw_exception"],
+    "describe": ["mp11"],
+    "detail": ["config", "core", "preprocessor", "static_assert", "type_traits"],
+    "dynamic_bitset": ["assert", "config", "container_hash", "core", "integer", "move", "static_assert", "throw_exception"],
+    "foreach": ["config", "core", "iterator", "mpl", "range", "type_traits"],
+    "format": ["assert", "config", "core", "optional", "smart_ptr", "throw_exception", "utility"],
+    "function": ["assert", "bind", "config", "core", "throw_exception"],
+    "function_types": ["config", "core", "detail", "mpl", "preprocessor", "type_traits"],
+    "fusion": ["config", "container_hash", "core", "function_types", "mpl", "preprocessor", "static_assert", "tuple", "type_traits", "typeof", "utility"],
+    "integer": ["assert", "config", "core", "static_assert", "throw_exception", "type_traits"],
+    "intrusive": ["assert", "config", "move"],
+    "io": ["config"],
+    "iterator": ["assert", "concept_check", "config", "core", "detail", "function_types", "fusion", "mpl", "optional", "smart_ptr", "static_assert", "type_traits", "utility"],
+    "lambda": ["bind", "config", "core", "detail", "iterator", "mpl", "preprocessor", "tuple", "type_traits", "utility"],
+    "lexical_cast": ["config", "container", "core", "throw_exception", "type_traits"],
+    "move": ["config"],
+    "mpl": ["config", "core", "predef", "preprocessor", "static_assert", "type_traits", "utility"],
+    "mp11": [],
+    "multi_index": ["assert", "bind", "config", "container_hash", "core", "integer", "iterator", "move", "mpl", "preprocessor", "smart_ptr", "static_assert", "throw_exception", "tuple", "type_traits", "utility"],
+    "numeric_conversion": ["config", "conversion", "core", "mpl", "preprocessor", "throw_exception", "type_traits"],
+    "optional": ["assert", "config", "core", "move", "static_assert", "throw_exception", "type_traits"],
+    "parameter": ["config", "core", "function", "fusion", "mp11", "mpl", "optional", "preprocessor", "type_traits", "utility"],
+    # HERE
+    "stacktrace": ["array", "config", "container_hash", "core", "predef", "static_assert", "type_traits", "winapi"],
+    "static_assert": ["config"],
+    "throw_exception": ["assert", "config"],
+}
+
 def source(self):
     print(f"BoostMeta -- Source {self.module}")
     get(
@@ -23,13 +63,14 @@ def source(self):
 
 def requirements(self):
     self.requires("zlib/[>=1.2.11 <2]")
-    for dep in self._boost_deps:
+    boost_deps = DEPENDENCIES.get(self.module, [])
+    boost_deps += self._boost_deps
+    print(self.module, boost_deps)
+    for dep in boost_deps:
         self.requires(
             f"boost-{dep}/{self.version}@luxcorewheels/luxcorewheels",
             transitive_headers=True
         )
-    for dep in self._other_deps:
-        self.requires(dep)
 
 
 def config_options(self):
@@ -76,13 +117,15 @@ def generate(self):
     deps = CMakeDeps(self)
     deps.generate()
 
+    boost_deps = self.boost_deps + DEPENDENCIES.get(self.module, [])
+
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
     finds = ['message(STATUS "BoostMeta -- find packages")\n']
     finds.append("enable_language(CXX)\n")
     finds += [
         f"find_package(Boost_{dep})\ninclude_directories(${{Boost_{dep}_INCLUDE_DIRS}})\n"
-        for dep in self.boost_deps if dep != "boost"
+        for dep in boost_deps if dep != "boost"
     ]
     finds.append("cmake_policy(SET CMP0167 OLD)\n")
     finds.append("cmake_policy(SET CMP0169 OLD)\n")

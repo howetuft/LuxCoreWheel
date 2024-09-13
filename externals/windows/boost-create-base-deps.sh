@@ -26,11 +26,13 @@ deps=(
   foreach
   format
   function
+  function_types
   fusion
   integer
   intrusive
   io
   iterator
+  lambda
   lexical_cast
   move
   mpl
@@ -116,7 +118,6 @@ done
 for dep in ${deps[@]}; do
   conan_build_recipe $dep
 done
-
 
 
 echo "Boost base dependencies: done"
