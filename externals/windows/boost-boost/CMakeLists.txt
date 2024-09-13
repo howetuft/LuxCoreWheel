@@ -7,19 +7,6 @@ add_library(Boost ALIAS boost)
 
 target_link_libraries(boost
   INTERFACE
-    Boost::thread
-    Boost::program_options
-    Boost::filesystem
-    Boost::iostreams
-    Boost::regex
-    Boost::system
-    Boost::python
-    Boost::chrono
-    Boost::serialization
-)
-
-target_link_libraries(boost
-  INTERFACE
     Boost::algorithm
     Boost::align
     Boost::any
@@ -77,3 +64,17 @@ target_link_libraries(boost
     Boost::winapi
     Boost::xpressive
 )
+
+target_link_libraries(boost
+  INTERFACE
+    Boost::thread
+    Boost::program_options
+    Boost::filesystem
+    Boost::iostreams
+    Boost::regex
+    Boost::system
+    Boost::python
+    Boost::chrono
+    Boost::serialization
+)
+

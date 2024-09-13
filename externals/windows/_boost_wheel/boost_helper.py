@@ -21,6 +21,17 @@ def source(self):
     if self.boost_post_source:
         self.boost_post_source()
 
+def requirements(self):
+    self.requires("zlib/[>=1.2.11 <2]")
+    for dep in self._boost_deps:
+        self.requires(
+            f"boost-{dep}/{self.version}@luxcorewheels/luxcorewheels",
+            transitive_headers=True
+        )
+    for dep in self._other_deps:
+        self.requires(dep)
+
+
 def config_options(self):
     if self.settings.os == "Windows":
         self.options.rm_safe("fPIC")
@@ -148,11 +159,6 @@ class BoostMeta(type):
         boost_post_source = kwargs.get("boost_post_source", None)
         # requires = [f"boost/{boost_version}"]
 
-        requires = ["zlib/[>=1.2.11 <2]"]
-        for dep in boost_deps:
-            requires.append(f"boost-{dep}/{boost_version}@luxcorewheels/luxcorewheels")
-        for dep in other_deps:
-            requires.append(dep)
         package_type = kwargs.get("package_type", "library")
         libs = kwargs.get("libs", [])
 
@@ -165,7 +171,6 @@ class BoostMeta(type):
             module=module,
             name=f"boost-{module}",
             version=boost_version,
-            requires=requires,
             boost_deps=boost_deps,
             source=source,
             boost_post_source=boost_post_source,
@@ -181,6 +186,9 @@ class BoostMeta(type):
             channel = "luxcorewheels",
             revision_mode = "scm_folder",
             libs=libs,
+            _boost_deps=boost_deps,
+            _other_deps=other_deps,
+            requirements=requirements,
         )
         attrs.update(new_attrs)
 

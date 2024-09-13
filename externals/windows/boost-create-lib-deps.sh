@@ -59,6 +59,7 @@ done
 for dep in ${deps[@]}; do
   destdir=~/.boost_conan/${dep}
   conan editable add "${destdir}"
+  conan install "${destdir}" -s build_type=Release
 done
 
 echo "LuxCoreWheels - BUILDING BOOST"
