@@ -62,6 +62,7 @@ target_link_libraries(boost
     Boost::smart_ptr
     Boost::spirit
     Boost::static_assert
+    Boost::stacktrace
     Boost::system
     Boost::throw_exception
     Boost::tokenizer

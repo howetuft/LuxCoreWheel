@@ -17,6 +17,7 @@ deps=(
   bind
   concept_check
   config
+  container
   container_hash
   conversion
   core
@@ -49,6 +50,7 @@ deps=(
   smart_ptr
   spirit
   static_assert
+  stacktrace
   system
   throw_exception
   tokenizer
