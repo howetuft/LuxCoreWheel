@@ -23,6 +23,7 @@ deps=(
   describe
   detail
   dynamic_bitset
+  endian
   foreach
   format
   function
@@ -41,17 +42,20 @@ deps=(
   numeric_conversion
   optional
   parameter
+  phoenix
+  pool
   predef
   preprocessor
   property_map
   proto
   range
   ratio
+  rational
   regex
   smart_ptr
   spirit
-  static_assert
   stacktrace
+  static_assert
   system
   throw_exception
   tokenizer
@@ -63,6 +67,7 @@ deps=(
   unordered
   utility
   variant
+  variant2
   winapi
   xpressive
 )

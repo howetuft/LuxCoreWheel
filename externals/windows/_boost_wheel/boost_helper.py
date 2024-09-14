@@ -27,6 +27,7 @@ DEPENDENCIES = {
     "describe": ["mp11"],
     "detail": ["config", "core", "preprocessor", "static_assert", "type_traits"],
     "dynamic_bitset": ["assert", "config", "container_hash", "core", "integer", "move", "static_assert", "throw_exception"],
+    "endian": ["config", "core", "static_assert", "type_traits"],
     "foreach": ["config", "core", "iterator", "mpl", "range", "type_traits"],
     "format": ["assert", "config", "core", "optional", "smart_ptr", "throw_exception", "utility"],
     "function": ["assert", "bind", "config", "core", "throw_exception"],
@@ -45,10 +46,34 @@ DEPENDENCIES = {
     "numeric_conversion": ["config", "conversion", "core", "mpl", "preprocessor", "throw_exception", "type_traits"],
     "optional": ["assert", "config", "core", "move", "static_assert", "throw_exception", "type_traits"],
     "parameter": ["config", "core", "function", "fusion", "mp11", "mpl", "optional", "preprocessor", "type_traits", "utility"],
-    # HERE
+    "phoenix": ["assert", "bind", "config", "core", "function", "fusion", "mpl", "predef", "preprocessor", "proto", "range", "smart_ptr", "type_traits", "utility"],
+    "pool": ["assert", "config", "integer", "throw_exception", "type_traits", "winapi"],
+    "predef": [],
+    "preprocessor": [],
+    "property_map": ["any", "assert", "concept_check", "config", "core", "function", "iterator", "lexical_cast", "mpl", "smart_ptr", "static_assert", "throw_exception", "type_traits", "utility"],
+    "proto": ["config", "core", "fusion", "mpl", "preprocessor", "range", "static_assert", "type_traits", "typeof", "utility"],
+    "range": ["array", "assert", "concept_check", "config", "container_hash", "conversion", "core", "detail", "iterator", "mpl", "optional", "preprocessor", "regex", "static_assert", "tuple", "type_traits", "utility"],
+    "ratio": ["config", "core", "integer", "mpl", "rational", "static_assert", "type_traits"],
+    "rational": ["assert", "config", "core", "integer", "static_assert", "throw_exception", "type_traits", "utility"],
+    "regex": ["config", "throw_exception", "predef", "assert"],
+    "smart_ptr": ["assert", "config", "core", "move", "static_assert", "throw_exception", "type_traits"],
+    "spirit": ["array", "assert", "config", "core", "endian", "function", "function_types", "fusion", "integer", "io", "iterator", "move", "mpl", "optional", "phoenix", "pool", "preprocessor", "proto", "range", "regex", "smart_ptr", "static_assert", "thread", "throw_exception", "type_traits", "typeof", "unordered", "utility", "variant"],
     "stacktrace": ["array", "config", "container_hash", "core", "predef", "static_assert", "type_traits", "winapi"],
     "static_assert": ["config"],
+    "system": ["assert", "config", "throw_exception", "variant2", "winapi"],
     "throw_exception": ["assert", "config"],
+    "tokenizer": ["assert", "config", "iterator", "mpl", "throw_exception", "type_traits"],
+    "tti": ["config", "function_types", "mpl", "preprocessor", "type_traits"],
+    "tuple": ["config", "core", "static_assert", "type_traits"],
+    "type_traits": ["config", "static_assert"],
+    "type_index": ["config", "container_hash", "core", "preprocessor", "smart_ptr", "static_assert", "throw_exception", "type_traits"],
+    "typeof": ["config"],
+    "unordered": ["assert", "config", "container", "container_hash", "core", "detail", "move", "predef", "preprocessor", "smart_ptr", "throw_exception", "tuple"],
+    "utility": ["config", "core", "io", "preprocessor", "static_assert", "throw_exception", "type_traits"],
+    "variant": ["assert", "bind", "config", "container_hash", "core", "detail", "integer", "move", "mpl", "preprocessor", "static_assert", "throw_exception", "type_index", "type_traits", "utility"],
+    "variant2": ["assert", "config", "mp11"],
+    "winapi": ["config", "predef"],
+    "xpressive": ["assert", "config", "conversion", "core", "exception", "fusion", "integer", "iterator", "lexical_cast", "mpl", "numeric_conversion", "optional", "preprocessor", "proto", "range", "smart_ptr", "static_assert", "throw_exception", "type_traits", "typeof", "utility"]
 }
 
 def source(self):
@@ -65,7 +90,6 @@ def requirements(self):
     self.requires("zlib/[>=1.2.11 <2]")
     boost_deps = DEPENDENCIES.get(self.module, [])
     boost_deps += self._boost_deps
-    print(self.module, boost_deps)
     for dep in boost_deps:
         self.requires(
             f"boost-{dep}/{self.version}@luxcorewheels/luxcorewheels",
