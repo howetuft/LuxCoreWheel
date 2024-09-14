@@ -32,6 +32,7 @@ class BoostBoost(ConanFile):
                 headers=True,
                 libs=True,
             )
+            print(f"Boost package: requires {dep}")
 
 
     def layout(self):
