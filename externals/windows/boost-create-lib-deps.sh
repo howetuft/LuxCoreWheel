@@ -12,7 +12,6 @@
 deps=(
   exception
   atomic
-  container
   date_time
   random
   math

@@ -9,72 +9,9 @@ from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import *
 
-BOOST_VERSION = "1.78.0"
+from boost_data import DEPENDENCIES, LIBRARIES
 
-DEPENDENCIES = {
-    "algorithm": ["array", "assert", "bind", "concept_check", "config", "core", "exception", "function", "iterator", "mpl", "range", "regex", "static_assert", "throw_exception", "tuple", "type_traits", "unordered"],
-    "align": ["assert", "config", "core", "static_assert"],
-    "any": ["config", "throw_exception", "type_index"],
-    "array": ["assert", "config", "core", "static_assert", "throw_exception"],
-    "assert": ["config"],
-    "bimap": ["concept_check", "config", "container_hash", "core", "iterator", "lambda", "mpl", "multi_index", "preprocessor", "static_assert", "throw_exception", "type_traits", "utility"],
-    "bind": ["config", "core"],
-    "concept_check": ["config", "preprocessor", "static_assert", "type_traits"],
-    "config": [],
-    "container_hash": ["config", "describe", "mp11"],
-    "conversion": ["assert", "config","smart_ptr"],
-    "core": ["assert", "config", "static_assert", "throw_exception"],
-    "describe": ["mp11"],
-    "detail": ["config", "core", "preprocessor", "static_assert", "type_traits"],
-    "dynamic_bitset": ["assert", "config", "container_hash", "core", "integer", "move", "static_assert", "throw_exception"],
-    "endian": ["config", "core", "static_assert", "type_traits"],
-    "foreach": ["config", "core", "iterator", "mpl", "range", "type_traits"],
-    "format": ["assert", "config", "core", "optional", "smart_ptr", "throw_exception", "utility"],
-    "function": ["assert", "bind", "config", "core", "throw_exception"],
-    "function_types": ["config", "core", "detail", "mpl", "preprocessor", "type_traits"],
-    "fusion": ["config", "container_hash", "core", "function_types", "mpl", "preprocessor", "static_assert", "tuple", "type_traits", "typeof", "utility"],
-    "integer": ["assert", "config", "core", "static_assert", "throw_exception", "type_traits"],
-    "intrusive": ["assert", "config", "move"],
-    "io": ["config"],
-    "iterator": ["assert", "concept_check", "config", "core", "detail", "function_types", "fusion", "mpl", "optional", "smart_ptr", "static_assert", "type_traits", "utility"],
-    "lambda": ["bind", "config", "core", "detail", "iterator", "mpl", "preprocessor", "tuple", "type_traits", "utility"],
-    "lexical_cast": ["config", "container", "core", "throw_exception", "type_traits"],
-    "move": ["config"],
-    "mpl": ["config", "core", "predef", "preprocessor", "static_assert", "type_traits", "utility"],
-    "mp11": [],
-    "multi_index": ["assert", "bind", "config", "container_hash", "core", "integer", "iterator", "move", "mpl", "preprocessor", "smart_ptr", "static_assert", "throw_exception", "tuple", "type_traits", "utility"],
-    "numeric_conversion": ["config", "conversion", "core", "mpl", "preprocessor", "throw_exception", "type_traits"],
-    "optional": ["assert", "config", "core", "move", "static_assert", "throw_exception", "type_traits"],
-    "parameter": ["config", "core", "function", "fusion", "mp11", "mpl", "optional", "preprocessor", "type_traits", "utility"],
-    "phoenix": ["assert", "bind", "config", "core", "function", "fusion", "mpl", "predef", "preprocessor", "proto", "range", "smart_ptr", "type_traits", "utility"],
-    "pool": ["assert", "config", "integer", "throw_exception", "type_traits", "winapi"],
-    "predef": [],
-    "preprocessor": [],
-    "property_map": ["any", "assert", "concept_check", "config", "core", "function", "iterator", "lexical_cast", "mpl", "smart_ptr", "static_assert", "throw_exception", "type_traits", "utility"],
-    "proto": ["config", "core", "fusion", "mpl", "preprocessor", "range", "static_assert", "type_traits", "typeof", "utility"],
-    "range": ["array", "assert", "concept_check", "config", "container_hash", "conversion", "core", "detail", "iterator", "mpl", "optional", "preprocessor", "regex", "static_assert", "tuple", "type_traits", "utility"],
-    "ratio": ["config", "core", "integer", "mpl", "rational", "static_assert", "type_traits"],
-    "rational": ["assert", "config", "core", "integer", "static_assert", "throw_exception", "type_traits", "utility"],
-    "regex": ["config", "throw_exception", "predef", "assert"],
-    "smart_ptr": ["assert", "config", "core", "move", "static_assert", "throw_exception", "type_traits"],
-    "spirit": ["array", "assert", "config", "core", "endian", "function", "function_types", "fusion", "integer", "io", "iterator", "move", "mpl", "optional", "phoenix", "pool", "preprocessor", "proto", "range", "regex", "smart_ptr", "static_assert", "thread", "throw_exception", "type_traits", "typeof", "unordered", "utility", "variant"],
-    "stacktrace": ["array", "config", "container_hash", "core", "predef", "static_assert", "type_traits", "winapi"],
-    "static_assert": ["config"],
-    "system": ["assert", "config", "throw_exception", "variant2", "winapi"],
-    "throw_exception": ["assert", "config"],
-    "tokenizer": ["assert", "config", "iterator", "mpl", "throw_exception", "type_traits"],
-    "tti": ["config", "function_types", "mpl", "preprocessor", "type_traits"],
-    "tuple": ["config", "core", "static_assert", "type_traits"],
-    "type_traits": ["config", "static_assert"],
-    "type_index": ["config", "container_hash", "core", "preprocessor", "smart_ptr", "static_assert", "throw_exception", "type_traits"],
-    "typeof": ["config"],
-    "unordered": ["assert", "config", "container", "container_hash", "core", "detail", "move", "predef", "preprocessor", "smart_ptr", "throw_exception", "tuple"],
-    "utility": ["config", "core", "io", "preprocessor", "static_assert", "throw_exception", "type_traits"],
-    "variant": ["assert", "bind", "config", "container_hash", "core", "detail", "integer", "move", "mpl", "preprocessor", "static_assert", "throw_exception", "type_index", "type_traits", "utility"],
-    "variant2": ["assert", "config", "mp11"],
-    "winapi": ["config", "predef"],
-    "xpressive": ["assert", "config", "conversion", "core", "exception", "fusion", "integer", "iterator", "lexical_cast", "mpl", "numeric_conversion", "optional", "preprocessor", "proto", "range", "smart_ptr", "static_assert", "throw_exception", "type_traits", "typeof", "utility"]
-}
+BOOST_VERSION = "1.78.0"
 
 def source(self):
     print(f"BoostMeta -- Source {self.module}")
@@ -116,7 +53,8 @@ def layout(self):
     self.folders.generators = os.path.join(self.folders.build, "generators")
 
     # Describe package
-    self.cpp.package.libs = self.libs
+    libs = self.libs + LIBRARIES.get(self.module, [])
+    self.cpp.package.libs = libs
     self.cpp.package.includedirs = ["include"]
     self.cpp.package.libdirs += [
         self.folders.build,
