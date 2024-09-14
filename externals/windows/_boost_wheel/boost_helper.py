@@ -4,6 +4,7 @@
 
 import traceback
 import os
+import re
 
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
@@ -22,6 +23,32 @@ def source(self):
     )
     if self.boost_post_source:
         self.boost_post_source()
+
+def _math_post_source(self):
+    print(f"BoostMeta -- Post source {self.module}")
+    # Remove test build
+    cmakelists_file = os.path.join(self.source_folder, "CMakeLists.txt")
+    with open(cmakelists_file, encoding="utf-8") as f:
+        read_data = f.read()
+
+    write_data = re.sub(r"(add_subdirectory\(test\))", "", read_data)
+    write_data = re.sub(r"(include\(CTest\))", "", write_data)
+
+    with open(cmakelists_file, "w", encoding="utf-8") as f:
+        f.write(write_data)
+
+
+def _property_tree_post_source(self):
+    print(f"BoostMeta -- Post source {self.module}")
+    # Remove test build
+    cmakelists_file = os.path.join(self.source_folder, "CMakeLists.txt")
+    with open(cmakelists_file, encoding="utf-8") as f:
+        read_data = f.read()
+
+    with open(cmakelists_file, "w", encoding="utf-8") as f:
+        f.write(f'set(BOOST_SUPERPROJECT_VERSION "{self.version}")\n')
+        f.write(read_data)
+
 
 def requirements(self):
     self.requires("zlib/[>=1.2.11 <2]")
@@ -161,10 +188,20 @@ class BoostMeta(type):
         boost_version = BOOST_VERSION
         boost_deps = list(kwargs.get("boost_deps", []))
         other_deps = list(kwargs.get("other_deps", []))
-        boost_post_source = kwargs.get("boost_post_source", None)
+        if module == "math":
+            boost_post_source = _math_post_source
+        elif module == "property_tree":
+            boost_post_source = _property_tree_post_source
+        else:
+            boost_post_source = None
+
         # requires = [f"boost/{boost_version}"]
 
-        package_type = kwargs.get("package_type", "library")
+        if module in LIBRARIES:
+            package_type = "static-library"
+        else:
+            package_type = "header-library"
+
         libs = kwargs.get("libs", [])
 
         new_attrs = dict(

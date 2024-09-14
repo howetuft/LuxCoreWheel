@@ -13,29 +13,37 @@ deps=(
   any
   array
   assert
+  atomic
   bimap
   bind
+  chrono
   concept_check
   config
   container
   container_hash
   conversion
   core
+  date_time
   describe
   detail
   dynamic_bitset
   endian
+  exception
+  filesystem
   foreach
   format
   function
   function_types
   fusion
+  graph
   integer
   intrusive
   io
+  iostreams
   iterator
   lambda
   lexical_cast
+  math
   move
   mpl
   mp11
@@ -47,17 +55,23 @@ deps=(
   pool
   predef
   preprocessor
+  program_options
   property_map
+  property_tree
   proto
+  python
+  random
   range
   ratio
   rational
   regex
+  serialization
   smart_ptr
   spirit
   stacktrace
   static_assert
   system
+  thread
   throw_exception
   tokenizer
   tti

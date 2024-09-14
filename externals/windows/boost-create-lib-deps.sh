@@ -10,20 +10,6 @@
 
 
 deps=(
-  exception
-  atomic
-  date_time
-  random
-  math
-  chrono
-  iostreams
-  thread
-  serialization
-  property_tree
-  filesystem
-  graph
-  program_options
-  python
 )
 
 conan_create_recipe() {
