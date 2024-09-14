@@ -28,7 +28,7 @@ DEPENDENCIES = {
     "any": ["config", "throw_exception", "type_index"],
     "array": ["assert", "config", "core", "static_assert", "throw_exception"],
     "assert": ["config"],
-    "atomic": ["assert", "config", "static_assert", "type_traits", "align", "predef", "preprocessor"],
+    "atomic": ["assert", "config", "static_assert", "type_traits", "align", "predef", "preprocessor", "winapi"],
     "bimap": [
         "concept_check",
         "config",
