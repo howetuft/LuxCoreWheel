@@ -288,9 +288,9 @@ class OpenImageIOConan(ConanFile):
         open_image_io_util.libs = ["OpenImageIO_Util"]
         open_image_io_util.requires = [
             "boost-filesystem::boost-filesystem",
-            "Boost::thread",
-            "Boost::system",
-            "Boost::regex",
+            "boost-thread::boost-thread",
+            "boost-system::boost-system",
+            "boost-regex::boost-regex",
             # "imath::imath",  # Modified (relies on openexr)
             "openexr::openexr",
         ]
@@ -307,11 +307,11 @@ class OpenImageIOConan(ConanFile):
         open_image_io.requires = [
             "openimageio_openimageio_util",
             "zlib::zlib",
-            "Boost::thread",
-            "Boost::system",
-            "Boost::container",
-            "Boost::regex",
-            "Boost::filesystem",
+            "boost-thread::boost-thread",
+            "boost-system::boost-system",
+            "boost-container::boost-container",
+            "boost-regex::boost-regex",
+            "boost-filesystem::boost-filesystem",
             "libtiff::libtiff",
             "pugixml::pugixml",
             "tsl-robin-map::tsl-robin-map",
