@@ -13,6 +13,7 @@ deps=(
   any
   array
   assert
+  asio
   atomic
   bimap
   bind
