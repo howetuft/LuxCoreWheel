@@ -641,6 +641,7 @@ DEPENDENCIES = {
         "date_time",
         "exception",
         "function",
+        "intrusive",
         "io",
         "move",
         "optional",
@@ -654,6 +655,9 @@ DEPENDENCIES = {
         "type_traits",
         "utility",
         "winapi",
+        # Private
+        "algorithm",
+        "lexical_cast",
     ],
     "tti": ["config", "function_types", "mpl", "preprocessor", "type_traits"],
     "tuple": ["config", "core", "static_assert", "type_traits"],
