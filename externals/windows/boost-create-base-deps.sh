@@ -40,6 +40,7 @@ deps=(
   fusion
   graph
   integer
+  interprocess
   intrusive
   io
   iostreams
