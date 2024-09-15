@@ -40,6 +40,7 @@ deps=(
   function_types
   fusion
   graph
+  heap
   integer
   interprocess
   intrusive
