@@ -88,24 +88,24 @@ runs:
         #done
       #shell: bash
 
-    - name: create boost-deps (header only)
+    - name: create boost dependencies
       working-directory: ${{ github.workspace }}/externals/windows
       run: |
         ./boost-create-base-deps.sh
       shell: bash
 
-    - name: create boost-deps (libs)
-      working-directory: ${{ github.workspace }}/externals/windows
-      run: |
-        export SCCACHE_GHA_ENABLED
-        export SCCACHE_C_CUSTOM_CACHE_BUSTER
-        export SCCACHE_CONF
-        export SCCACHE_DIRECT
-        export CMAKE_CXX_COMPILER_LAUNCHER
-        export CMAKE_C_COMPILER_LAUNCHER
+    #- name: create boost-deps (libs)
+      #working-directory: ${{ github.workspace }}/externals/windows
+      #run: |
+        #export SCCACHE_GHA_ENABLED
+        #export SCCACHE_C_CUSTOM_CACHE_BUSTER
+        #export SCCACHE_CONF
+        #export SCCACHE_DIRECT
+        #export CMAKE_CXX_COMPILER_LAUNCHER
+        #export CMAKE_C_COMPILER_LAUNCHER
 
-        ./boost-create-lib-deps.sh
-      shell: bash
+        #./boost-create-lib-deps.sh
+      #shell: bash
 
     ## Debug
     #- uses: mxschmitt/action-tmate@v3
