@@ -28,6 +28,7 @@ target_link_libraries(boost
     Boost::function
     Boost::fusion
     Boost::integer
+    Boost::interprocess
     Boost::intrusive
     Boost::io
     Boost::iterator
