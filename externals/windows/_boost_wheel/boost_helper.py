@@ -14,15 +14,17 @@ from boost_data import DEPENDENCIES, LIBRARIES
 
 BOOST_VERSION = "1.78.0"
 
+
 def source(self):
     print(f"BoostMeta -- Source {self.module}")
     get(
         self,
         f"https://github.com/boostorg/{self.module}/archive/refs/tags/boost-{self.version}.zip",
-        strip_root=True
+        strip_root=True,
     )
     if self.boost_post_source:
         self.boost_post_source()
+
 
 def _math_post_source(self):
     print(f"BoostMeta -- Post source {self.module}")
@@ -57,7 +59,7 @@ def requirements(self):
     for dep in boost_deps:
         self.requires(
             f"boost-{dep}/{self.version}@luxcorewheels/luxcorewheels",
-            transitive_headers=True
+            transitive_headers=True,
         )
 
 
@@ -65,9 +67,11 @@ def config_options(self):
     if self.settings.os == "Windows":
         self.options.rm_safe("fPIC")
 
+
 def configure(self):
     if self.options.shared:
         self.options.rm_safe("fPIC")
+
 
 def layout(self):
     cmake_layout(self)
@@ -85,7 +89,7 @@ def layout(self):
     self.cpp.package.includedirs = ["include"]
     self.cpp.package.libdirs += [
         self.folders.build,
-        os.path.join(self.folders.build, "lib")
+        os.path.join(self.folders.build, "lib"),
     ]
 
     # Describe what changes between package and editable
@@ -100,8 +104,6 @@ def layout(self):
     self.cpp.build.libdirs = ["."]
 
 
-
-
 def generate(self):
     deps = CMakeDeps(self)
     deps.generate()
@@ -114,7 +116,8 @@ def generate(self):
     finds.append("enable_language(CXX)\n")
     finds += [
         f"find_package(Boost_{dep})\ninclude_directories(${{Boost_{dep}_INCLUDE_DIRS}})\n"
-        for dep in boost_deps if dep != "boost"
+        for dep in boost_deps
+        if dep != "boost"
     ]
     finds.append("cmake_policy(SET CMP0167 OLD)\n")
     finds.append("cmake_policy(SET CMP0169 OLD)\n")
@@ -130,29 +133,55 @@ def generate(self):
 
     tc.generate()
 
+
 def build(self):
     cmake = CMake(self)
     cmake.configure()
     cmake.build()
 
+
 def package(self):
     cmake = CMake(self)
     cmake.install()
-    copy(self, "*.h", src=self.source_folder,
-         dst=os.path.join(self.package_folder, "include"))
-    copy(self, "*.hpp", src=self.source_folder,
-         dst=os.path.join(self.package_folder, "include"))
-    copy(self, "*.lib", src=self.build_folder,
-         dst=os.path.join(self.package_folder, "lib"), keep_path=False)
-    copy(self, "*.a", src=self.build_folder,
-         dst=os.path.join(self.package_folder, "lib"), keep_path=False)
-    copy(self, "*.cmake", src=self.build_folder,
-         dst=os.path.join(self.package_folder, "lib", "cmake"), keep_path=False)
+    copy(
+        self,
+        "*.h",
+        src=self.source_folder,
+        dst=os.path.join(self.package_folder, "include"),
+    )
+    copy(
+        self,
+        "*.hpp",
+        src=self.source_folder,
+        dst=os.path.join(self.package_folder, "include"),
+    )
+    copy(
+        self,
+        "*.lib",
+        src=self.build_folder,
+        dst=os.path.join(self.package_folder, "lib"),
+        keep_path=False,
+    )
+    copy(
+        self,
+        "*.a",
+        src=self.build_folder,
+        dst=os.path.join(self.package_folder, "lib"),
+        keep_path=False,
+    )
+    copy(
+        self,
+        "*.cmake",
+        src=self.build_folder,
+        dst=os.path.join(self.package_folder, "lib", "cmake"),
+        keep_path=False,
+    )
+
 
 def package_info(self):
     self.cpp_info.bindirs = []
     self.cpp_info.libdirs = []
-    #self.cpp_info.libs = [f"boost_{self.module}"]
+    # self.cpp_info.libs = [f"boost_{self.module}"]
     self.cpp_info.set_property("cmake_file_name", f"Boost_{self.module}")
     self.cpp_info.set_property("cmake_target_name", f"Boost::{self.module}")
     self.cpp_info.set_property("cmake_target_aliases", [f"boost::{self.module}"])
@@ -168,6 +197,7 @@ def package_id(self):
 
 class BoostMeta(type):
     """Metaclass to create the ConanFile class."""
+
     # Sources are located in the same place as this recipe, copy them to the recipe
 
     data_cache = dict()
@@ -225,9 +255,9 @@ class BoostMeta(type):
             package=package,
             package_info=package_info,
             package_id=package_id,
-            user = "luxcorewheels",
-            channel = "luxcorewheels",
-            revision_mode = "scm_folder",
+            user="luxcorewheels",
+            channel="luxcorewheels",
+            revision_mode="scm_folder",
             libs=libs,
             _boost_deps=boost_deps,
             _other_deps=other_deps,
