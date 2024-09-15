@@ -113,9 +113,11 @@ conan_build_recipe() {
 
 }
 
+set -eo pipefail
+
 echo ""
 echo "*******************************************"
-echo "*         Boost base dependencies         *"
+echo "*            Boost dependencies           *"
 echo "*******************************************"
 echo ""
 
@@ -142,5 +144,16 @@ for dep in ${deps[@]}; do
   conan_build_recipe $dep
 done
 
+echo "LuxCoreWheels - BUILDING BOOST"
 
-echo "Boost base dependencies: done"
+# Create boost package
+boost_destdir=~/.boost_conan/boost
+cp -R boost-boost ${boost_destdir}
+conan editable add ${boost_destdir}
+conan install ${boost_destdir} --build=editable -s build_type=Release
+conan build ${boost_destdir} -s build_type=Release
+
+
+echo "*******************************************"
+echo "*        Boost dependencies: done         *"
+echo "*******************************************"
