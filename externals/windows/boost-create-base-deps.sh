@@ -83,6 +83,7 @@ deps=(
   type_traits
   type_index
   typeof
+  uuid
   unordered
   utility
   variant
