@@ -46,6 +46,7 @@ if(WIN32)
     c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
     Boost::chrono Boost::system Boost::filesystem Boost::container
     Boost::date_time Boost::iostreams Boost::program_options Boost::random
-    Boost::serialization Boost::thread boost::boost OpenColorIO::OpenColorIO
+    Boost::serialization Boost::thread boost::boost
+    OpenColorIO::OpenColorIO
   )
 endif(WIN32)

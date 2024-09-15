@@ -6,10 +6,11 @@ from conan import ConanFile
 
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 
+_boost_version = "1.78.0"
+
 class LuxCore(ConanFile):
     name = "LuxCoreWheels"
 
-    _boost_version = "1.78.0"
 
     requires = [
         "onetbb/2020.3",
@@ -23,7 +24,6 @@ class LuxCore(ConanFile):
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
         # f"boost/{_boost_version}",
         f"boost/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-interprocess/{_boost_version}@luxcorewheels/luxcorewheels",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
         f"boost-atomic/{_boost_version}@luxcorewheels/luxcorewheels",
         f"boost-chrono/{_boost_version}@luxcorewheels/luxcorewheels",

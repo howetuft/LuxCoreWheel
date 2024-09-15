@@ -187,7 +187,7 @@ def package_info(self):
     self.cpp_info.set_property("cmake_target_aliases", [f"boost::{self.module}"])
     # self.cpp_info.set_property("cmake_target_aliases", [f"Boost::{self.module}"])
     self.cpp_info.set_property("cmake_find_mode", "both")
-    self.cpp_info.libs = self.libs
+    self.cpp_info.libs = self.libs + LIBRARIES.get(self.module, [])
 
 
 def package_id(self):
