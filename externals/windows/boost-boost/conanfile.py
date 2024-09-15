@@ -103,7 +103,9 @@ class BoostBoost(ConanFile):
             component = self.cpp_info.components[dep]
             component.set_property("cmake_target_name", f"boost::{dep}")
             component.set_property("cmake_target_aliases", [f"Boost::{dep}"])
-            component.requires = [f"boost-{dep}"]
+            component.requires = [
+                f"boost-{dep}/{self.version}@luxcorewheels/luxcorewheels"
+            ]
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
