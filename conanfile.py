@@ -23,6 +23,7 @@ class LuxCore(ConanFile):
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
         # f"boost/{_boost_version}",
         f"boost/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost-interprocess/{_boost_version}@luxcorewheels/luxcorewheels",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
         f"boost-atomic/{_boost_version}@luxcorewheels/luxcorewheels",
         f"boost-chrono/{_boost_version}@luxcorewheels/luxcorewheels",
