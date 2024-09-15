@@ -99,11 +99,11 @@ class BoostBoost(ConanFile):
         self.cpp_info.set_property("cmake_find_mode", "both")
 
         # Add components
-        for dep in DEPENDENCIES:
-            component = self.cpp_info.components[dep]
-            component.set_property("cmake_target_name", f"boost::{dep}")
-            component.set_property("cmake_target_aliases", [f"Boost::{dep}"])
-            component.requires = DEPENDENCIES[dep]
+        # for dep in DEPENDENCIES:
+            # component = self.cpp_info.components[dep]
+            # component.set_property("cmake_target_name", f"boost::{dep}")
+            # component.set_property("cmake_target_aliases", [f"Boost::{dep}"])
+            # component.requires = DEPENDENCIES[dep]
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
