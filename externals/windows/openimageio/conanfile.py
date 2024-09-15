@@ -291,6 +291,7 @@ class OpenImageIOConan(ConanFile):
         open_image_io_util = self._add_component("OpenImageIO_Util")
         open_image_io_util.libs = ["OpenImageIO_Util"]
         open_image_io_util.requires = [
+            "boost::boost",
             "boost-filesystem::boost-filesystem",
             "boost-thread::boost-thread",
             "boost-system::boost-system",
@@ -311,6 +312,7 @@ class OpenImageIOConan(ConanFile):
         open_image_io.requires = [
             "openimageio_openimageio_util",
             "zlib::zlib",
+            "boost::boost",
             "boost-thread::boost-thread",
             "boost-system::boost-system",
             "boost-container::boost-container",
