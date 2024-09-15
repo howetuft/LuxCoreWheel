@@ -18,6 +18,7 @@ deps=(
   bimap
   bind
   chrono
+  circular_buffer
   concept_check
   config
   container

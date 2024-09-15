@@ -89,6 +89,16 @@ DEPENDENCIES = {
         "utility",
         "winapi",
     ],
+    "circular_buffer": [
+        "assert",
+        "concept_check",
+        "config",
+        "core",
+        "move",
+        "static_assert",
+        "throw_exception",
+        "type_traits",
+    ],
     "concept_check": ["config", "preprocessor", "static_assert", "type_traits"],
     "config": [],
     "container": [
