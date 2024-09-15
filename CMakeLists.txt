@@ -34,6 +34,11 @@ if(WIN32)
   find_package(Boost_interprocess REQUIRED)
   find_package(Boost REQUIRED)
   target_link_libraries(bcd PRIVATE boost::boost)
+  target_link_libraries(openvdb PRIVATE boost::boost)
+  target_link_libraries(opensubdiv PRIVATE boost::boost)
+  target_link_libraries(slg-core PRIVATE boost::boost)
+  target_link_libraries(slg-kernels PRIVATE boost::boost)
+  target_link_libraries(slg-films PRIVATE boost::boost)
   target_link_libraries(pyluxcore PRIVATE
     slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
     TBB::TBB MINIZIP::minizip spdlog::spdlog openexr::openexr embree
