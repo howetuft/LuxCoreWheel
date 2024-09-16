@@ -130,6 +130,7 @@ def generate(self):
     with open(filepath, "w+") as f:
         f.writelines(finds)
     tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
+    tc.cache_variables["BOOST_INSTALL_LAYOUT"] = "system"
 
     tc.generate()
 
