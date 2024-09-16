@@ -49,4 +49,5 @@ if(WIN32)
     Boost::serialization Boost::thread boost::boost
     OpenColorIO::OpenColorIO
   )
+  add_link_options(pyluxcore "LINKER:/VERBOSE")
 endif(WIN32)
