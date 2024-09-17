@@ -130,7 +130,9 @@ def generate(self):
         f.writelines(finds)
     tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
     tc.cache_variables["BOOST_INSTALL_LAYOUT"] = "system"
+    tc.cache_variables["BOOST_INSTALL_LAYOUT"] = "system"
     tc.extra_sharedlinkflags=["/VERBOSE"]
+    tc.cache_variables["CMAKE_VERBOSE_MAKEFILE"] = "TRUE"
 
     tc.generate()
 
