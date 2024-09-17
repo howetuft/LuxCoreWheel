@@ -113,14 +113,13 @@ def generate(self):
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
     finds = ['message(STATUS "BoostMeta -- find packages")\n']
+    finds.append("cmake_policy(SET CMP0167 NEW)\n")  # Remove cmake FindBoost
     finds.append("enable_language(CXX)\n")
     finds += [
         f"find_package(Boost_{dep})\ninclude_directories(${{Boost_{dep}_INCLUDE_DIRS}})\n"
         for dep in boost_deps
         if dep != "boost"
     ]
-    finds.append("cmake_policy(SET CMP0167 OLD)\n")
-    finds.append("cmake_policy(SET CMP0169 OLD)\n")
     # finds.append("find_package(Boost)\n")  # TODO
     finds.append("find_package(ZLIB)\n")
     finds.append("unset(ZLIB_FIND_QUIETLY)\n")
@@ -131,6 +130,7 @@ def generate(self):
         f.writelines(finds)
     tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
     tc.cache_variables["BOOST_INSTALL_LAYOUT"] = "system"
+    tc.extra_sharedlinkflags=["/VERBOSE"]
 
     tc.generate()
 
