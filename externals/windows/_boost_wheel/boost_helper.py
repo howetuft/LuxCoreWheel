@@ -133,6 +133,8 @@ def generate(self):
     tc.cache_variables["BOOST_INSTALL_LAYOUT"] = "system"
     tc.extra_sharedlinkflags=["/VERBOSE"]
     tc.cache_variables["CMAKE_VERBOSE_MAKEFILE"] = "TRUE"
+    if self.module in ["thread"]:
+        tc.cache_variables["CMAKE_MESSAGE_LOG_LEVEL"] = "TRACE"
 
     tc.generate()
 
