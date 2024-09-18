@@ -137,7 +137,7 @@ def generate(self):
 
 
 def build(self):
-    _cli_args = ["--trace-expand"] if self.module in ["thread"] else None
+    _cli_args = ["--trace-expand"] if self.module in [] else None
     cmake = CMake(self)
     cmake.configure(cli_args=_cli_args)
     cmake.build()
