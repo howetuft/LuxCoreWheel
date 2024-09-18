@@ -37,7 +37,7 @@ runs:
       uses: mozilla-actions/sccache-action@v0.0.5
 
     # For main compilation
-    #- uses: ilammy/msvc-dev-cmd@v1
+    - uses: ilammy/msvc-dev-cmd@v1
 
     #- name: Initialize VC
       #run: |
@@ -121,13 +121,13 @@ runs:
         # Keep install before source, otherwise settings.build_type won't be set
         # when running layout()
         conan editable add .
-        conan install . -s build_type=Release --build=boost-filesystem
+        #conan install . -s build_type=Release --build=boost-filesystem
         conan source .
-        cp -R src/include .
+        #cp -R src/include .
 
-        conan build .
-        cp -R build/Release/lib .
-        cp -R build/Release/include/* include
+        #conan build .
+        #cp -R build/Release/lib .
+        #cp -R build/Release/include/* include
 
       shell: bash
 
@@ -140,7 +140,7 @@ runs:
       run: |
         # oidn
         conan editable add .
-        conan install . -s build_type=Release
+        #conan install . -s build_type=Release
         conan source .
       shell: bash
 
@@ -154,13 +154,13 @@ runs:
 
     #- uses: mxschmitt/action-tmate@v3
 
-    - name: Run conan
-      working-directory: ${{ github.workspace }}
-      env:
-        PKG_CONFIG_PATH: .
-      run: |
-        conan install --build=missing . -s build_type=Release
-      shell: bash
+    #- name: Run conan
+      #working-directory: ${{ github.workspace }}
+      #env:
+        #PKG_CONFIG_PATH: .
+      #run: |
+        #conan install --build=missing . -s build_type=Release
+      #shell: bash
 
     # Copy config to project
     - name: "Install Config_Windows-Wheel.cmake"
