@@ -199,6 +199,8 @@ def package_info(self):
     self.cpp_info.set_property("cmake_find_mode", "both")
     self.cpp_info.libs = self.libs + LIBRARIES.get(self.module, [])
 
+    self.conf_info.define("boost:magic_autolink", False)
+
 
 def package_id(self):
     # We clear everything in order to have a constant package_id and use the cache
