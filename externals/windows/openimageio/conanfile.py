@@ -152,18 +152,24 @@ class OpenImageIOConan(ConanFile):
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
         #cp -R src/include .
-
         #conan build .
         #cp -R build/Release/lib .
         #cp -R build/Release/include/* include
 
         # Describe package
         self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.package.includedirs += [
+        self.cpp.package.includedirs = [
             os.path.join("src", "include"),
             os.path.join(self.folders.build, "include"),
         ]
-        self.cpp.package.libdirs.append(os.path.join(self.folders.build, "lib"))
+        self.cpp.package.libdirs.append(
+            self.folders.build,
+            os.path.join(self.folders.build, "lib"),
+        )
+
+
+        self.cpp.source.includedirs = ["include"]
+        self.cpp.build.libdirs = ["lib"]
 
         # self.cpp.build.libdirs.append("lib")
         # self.cpp.build.includedirs.append("include")
