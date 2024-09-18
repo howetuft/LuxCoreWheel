@@ -39,22 +39,22 @@ runs:
     # For main compilation
     #- uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Initialize VC
-      run: |
-        @echo off
+    #- name: Initialize VC
+      #run: |
+        #@echo off
 
-        for /f "usebackq tokens=*" %%i in (`vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
-          set InstallDir=%%i
-        )
+        #for /f "usebackq tokens=*" %%i in (`vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
+          #set InstallDir=%%i
+        #)
 
-        if exist "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" (
-          @echo "Running %InstallDir%\VC\Auxiliary\Build\vcvars64.bat..."
-          "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" %*
+        #if exist "%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" (
+          #@echo "Running %InstallDir%\VC\Auxiliary\Build\vcvars64.bat..."
+          #"%InstallDir%\VC\Auxiliary\Build\vcvars64.bat" %*
 
-          @echo "Exporting..."
-          set > %GITHUB_ENV%
-        )
-      shell: cmd
+          #@echo "Exporting..."
+          #set > %GITHUB_ENV%
+        #)
+      #shell: cmd
       #
     ## Debug
     #- uses: mxschmitt/action-tmate@v3

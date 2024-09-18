@@ -83,7 +83,7 @@ class OpenImageIOConan(ConanFile):
         self.requires("boost-system/1.78.0@luxcorewheels/luxcorewheels")
         self.requires("boost-container/1.78.0@luxcorewheels/luxcorewheels")
         self.requires("boost-regex/1.78.0@luxcorewheels/luxcorewheels")
-        self.requires("openexr/2.5.7", transitive_headers=True)  # Modified
+        self.requires("openexr/2.5.7", transitive_headers=True, transitive_libs=True)  # Modified
         self.requires("zlib/[>=1.2.11 <2]")
         self.requires("libtiff/4.3.0")
         # self.requires("imath/3.1.9", transitive_headers=True)  # Modified (relies on openexr)
@@ -192,6 +192,7 @@ class OpenImageIOConan(ConanFile):
         tc = CMakeToolchain(self)
 
         # CMake options
+        tc.cache_variables["BUILD_SHARED_LIBS"] = False
         tc.variables["CMAKE_DEBUG_POSTFIX"] = ""  # Needed for 2.3.x.x+ versions
         tc.cache_variables["OIIO_BUILD_TOOLS"] = False
         tc.cache_variables["OIIO_BUILD_TESTS"] = False
