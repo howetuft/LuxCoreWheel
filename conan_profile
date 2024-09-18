@@ -12,3 +12,4 @@ tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
 tools.build:verbosity=verbose
 tools.build:cxxflags=["/openmp"]
+boost:magic_autolink=False

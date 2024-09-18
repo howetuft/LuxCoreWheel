@@ -14,6 +14,13 @@ from boost_data import DEPENDENCIES, LIBRARIES
 
 BOOST_VERSION = "1.78.0"
 
+# TODO
+def _boost_libname(self, libname):
+    short_version = BOOST_VERSION[:3]
+    toolset = self.settings.compiler.version
+    arch = self.settings.arch
+    name = f"lib{libname}-vc{toolset}-mt-{arch}-{short_version}.lib"
+    return name
 
 def source(self):
     print(f"BoostMeta -- Source {self.module}")
@@ -62,10 +69,10 @@ def requirements(self):
             transitive_headers=True,
         )
 
-
 def config_options(self):
     if self.settings.os == "Windows":
         self.options.rm_safe("fPIC")
+
 
 
 def configure(self):
@@ -112,27 +119,26 @@ def generate(self):
 
     # Generate also luxcore.cmake
     tc = CMakeToolchain(self)
-    finds = ['message(STATUS "BoostMeta -- find packages")\n']
-    finds.append("cmake_policy(SET CMP0167 NEW)\n")  # Remove cmake FindBoost
-    finds.append("enable_language(CXX)\n")
-    finds += [
-        f"find_package(Boost_{dep})\ninclude_directories(${{Boost_{dep}_INCLUDE_DIRS}})\n"
+    luxcore = ['message(STATUS "BoostMeta -- find packages")\n']
+    luxcore.append("cmake_policy(SET CMP0167 NEW)\n")  # Remove cmake FindBoost
+    luxcore.append("enable_language(CXX)\n")
+    luxcore += [
+        f"find_package(Boost_{dep} REQUIRED)\ninclude_directories(${{Boost_{dep}_INCLUDE_DIRS}})\n"
         for dep in boost_deps
         if dep != "boost"
     ]
-    # finds.append("find_package(Boost)\n")  # TODO
-    finds.append("find_package(ZLIB)\n")
-    finds.append("unset(ZLIB_FIND_QUIETLY)\n")
-    finds.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
-    finds.append('message(STATUS "Zlib include: ${ZLIB_INCLUDE_DIRS}")\n')
+    # luxcore.append("find_package(Boost)\n")  # TODO
+    luxcore.append("find_package(ZLIB)\n")
+    luxcore.append("unset(ZLIB_FIND_QUIETLY)\n")
+    luxcore.append("include_directories(${ZLIB_INCLUDE_DIRS})\n")
+    luxcore.append('message(STATUS "Zlib include: ${ZLIB_INCLUDE_DIRS}")\n')
     filepath = os.path.join(self.source_folder, "luxcore.cmake")
     with open(filepath, "w+") as f:
-        f.writelines(finds)
+        f.writelines(luxcore)
     tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
-    tc.cache_variables["BOOST_INSTALL_LAYOUT"] = "system"
-    tc.cache_variables["BOOST_INSTALL_LAYOUT"] = "system"
     tc.extra_sharedlinkflags=["/VERBOSE"]
     tc.cache_variables["CMAKE_VERBOSE_MAKEFILE"] = "TRUE"
+    tc.preprocessor_definitions["BOOST_ALL_NO_LIB"] = None  # No automagic linking
 
     tc.generate()
 
