@@ -153,8 +153,8 @@ echo "LuxCoreWheels - BUILDING BOOST"
 # Create boost package
 boost_destdir=~/.boost_conan/boost
 cp -R boost-boost ${boost_destdir}
-conan editable add ${boost_destdir}
 conan source ${boost_destdir}  # Create CMakeLists
+conan editable add ${boost_destdir}
 #conan install ${boost_destdir} --build=editable -s build_type=Release
 #conan build ${boost_destdir} -s build_type=Release
 
