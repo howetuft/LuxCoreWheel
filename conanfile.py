@@ -22,6 +22,7 @@ class LuxCore(ConanFile):
         "embree3/3.13.1",
         "c-blosc/1.21.5",
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
+        "openexr/2.5.7",
         # f"boost/{_boost_version}",
         f"boost/{_boost_version}@luxcorewheels/luxcorewheels",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",

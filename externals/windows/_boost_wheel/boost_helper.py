@@ -14,13 +14,6 @@ from boost_data import DEPENDENCIES, LIBRARIES
 
 BOOST_VERSION = "1.78.0"
 
-# TODO
-def _boost_libname(self, libname):
-    short_version = BOOST_VERSION[:3]
-    toolset = self.settings.compiler.version
-    arch = self.settings.arch
-    name = f"lib{libname}-vc{toolset}-mt-{arch}-{short_version}.lib"
-    return name
 
 def source(self):
     print(f"BoostMeta -- Source {self.module}")
