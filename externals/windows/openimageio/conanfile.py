@@ -145,17 +145,34 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         cmake_layout(self)
+
+        # Set folders
+        self.folders.source = "."
+        self.folders.build = os.path.join("build", str(self.settings.build_type))
+        self.folders.generators = os.path.join(self.folders.build, "generators")
+
+        #cp -R src/include .
+
+        #conan build .
+        #cp -R build/Release/lib .
+        #cp -R build/Release/include/* include
+
+        # Describe package
         self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.package.includedirs = ["include"]
+        self.cpp.package.includedirs += [
+            os.path.join("src", "include"),
+            os.path.join(self.folders.build, "include"),
+        ]
         self.cpp.package.libdirs.append(os.path.join(self.folders.build, "lib"))
-        self.cpp.build.libdirs.append("lib")
-        self.cpp.build.includedirs.append("include")
-        self.cpp.source.libdirs = [os.path.join(self.folders.build, "lib")]
-        print("oiio layout:")
-        print(f"build: {self.folders.build}")
-        print(f"build.lib: {self.cpp.build.libdirs}")
-        print(f"build.include: {self.cpp.build.includedirs}")
-        print(f"source.include: {self.cpp.source.includedirs}")
+
+        # self.cpp.build.libdirs.append("lib")
+        # self.cpp.build.includedirs.append("include")
+        # self.cpp.source.libdirs = [os.path.join(self.folders.build, "lib")]
+        # print("oiio layout:")
+        # print(f"build: {self.folders.build}")
+        # print(f"build.lib: {self.cpp.build.libdirs}")
+        # print(f"build.include: {self.cpp.build.includedirs}")
+        # print(f"source.include: {self.cpp.source.includedirs}")
         return
 
         # define project folder structure for editable mode
