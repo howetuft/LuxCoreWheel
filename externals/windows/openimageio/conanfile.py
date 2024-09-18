@@ -162,10 +162,9 @@ class OpenImageIOConan(ConanFile):
             os.path.join("src", "include"),
             os.path.join(self.folders.build, "include"),
         ]
-        self.cpp.package.libdirs.append(
-            self.folders.build,
-            os.path.join(self.folders.build, "lib"),
-        )
+        self.cpp.package.libdirs += [
+            self.folders.build, os.path.join(self.folders.build, "lib"),
+        ]
 
 
         self.cpp.source.includedirs = ["include"]
