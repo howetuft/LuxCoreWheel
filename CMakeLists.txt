@@ -41,8 +41,19 @@ if(WIN32)
   target_link_libraries(slg-film PRIVATE boost::boost)
   target_link_libraries(pyluxcore PRIVATE
     slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
-    TBB::TBB MINIZIP::minizip spdlog::spdlog openexr::openexr embree
-    openimageio::openimageio PNG::PNG
+    TBB::TBB MINIZIP::minizip spdlog::spdlog
+    openexr::openexr
+    OpenEXR::IlmImfConfig
+    IlmBase::IlmBaseConfig
+    IlmBase::Half
+    IlmBase::Iex
+    IlmBase::IexMath
+    IlmBase::IlmThread
+    IlmBase::IMath
+    OpenEXR::IlmImf
+    openexr::ilmbase_conan_pkgconfig
+    OpenEXR::IlmImfUtil
+    embree openimageio::openimageio PNG::PNG
     c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
     Boost::chrono Boost::system Boost::filesystem Boost::container
     Boost::date_time Boost::iostreams Boost::program_options Boost::random
