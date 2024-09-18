@@ -40,6 +40,7 @@ class LuxCore(ConanFile):
 
     default_options = {
         "fmt/*:header_only": True,
+        "spdlog/*:header_only": True,
     }
 
     def generate(self):
