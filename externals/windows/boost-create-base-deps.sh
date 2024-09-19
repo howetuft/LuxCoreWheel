@@ -105,7 +105,7 @@ conan_create_recipe() {
 
   sed "s/MODULE/$1/" ${origdir}/boost-base-dep-template.txt > ${destdir}/conanfile.py
 
-  conan editable add $destdir
+  #conan editable add $destdir
 
 }
 
@@ -149,6 +149,12 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
+# Put in editable mode (warning: conan not thread-safe, do not parallelize)
+#cd ~/.boost_conan
+for dep in ${deps[@]}; do
+  conan add editable $dep
+done
+
 # Launch parallel build
 pids=()
 for i in ${!deps[@]}; do
@@ -162,11 +168,6 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
-## Put in editable mode (warning: conan not thread-safe, do not parallelize)
-##cd ~/.boost_conan
-#for dep in ${deps[@]}; do
-  #conan_build_recipe $dep
-#done
 
 echo "LuxCoreWheels - BUILDING BOOST"
 
