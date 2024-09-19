@@ -43,6 +43,8 @@ class LuxCore(ConanFile):
         "spdlog/*:header_only": True,
     }
 
+    settings = "os", "compiler", "build_type", "arch"
+
     def generate(self):
         tc = CMakeToolchain(self)
         tc.generate()
@@ -52,7 +54,9 @@ class LuxCore(ConanFile):
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
         cd.generate()
 
-    settings = "os", "compiler", "build_type", "arch"
+    def layout(self):
+        cmake_layout(self)
+
 
 
     def package_info(self):
