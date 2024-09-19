@@ -98,7 +98,7 @@ conan_create_recipe() {
 
   # Create recipe
   local destdir=~/.boost_conan/${1}
-  local origdir=external/windows
+  local origdir=`cygpath -u $GITHUB_WORKSPACE`/external/windows
   echo "Creating ${destdir}"
   mkdir -p ${destdir}
 
