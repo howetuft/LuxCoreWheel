@@ -145,9 +145,10 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         cmake_layout(self)
+        print("OIIO LAYOUT")
 
         # Set folders
-        self.folders.source = "."
+        self.folders.source = "src"
         self.folders.build = os.path.join("build", str(self.settings.build_type))
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
@@ -317,7 +318,6 @@ class OpenImageIOConan(ConanFile):
             dst=os.path.join(self.package_folder, "lib", "cmake"),
             keep_path=False,
         )
-
 
         rmdir(self, os.path.join(self.package_folder, "share"))
         if self.settings.os == "Windows":
