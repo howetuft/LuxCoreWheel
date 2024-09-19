@@ -127,6 +127,8 @@ echo "*            Boost dependencies           *"
 echo "*******************************************"
 echo ""
 
+cd $GITHUB_WORKSPACE
+
 # Prerequisite
 #conan install --requires boost/1.78.0
 conan install --requires "zlib/[>=1.2.11 <2]"
