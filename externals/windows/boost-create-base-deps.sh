@@ -98,7 +98,7 @@ conan_create_recipe() {
 
   # Create recipe
   local destdir=~/.boost_conan/${1}
-  local origdir=$GITHUB_WORKSPACE/external/windows
+  local origdir=external/windows
   echo "Creating ${destdir}"
   mkdir -p ${destdir}
 
@@ -128,7 +128,6 @@ echo "*            Boost dependencies           *"
 echo "*******************************************"
 echo ""
 
-cd $GITHUB_WORKSPACE
 
 # Prerequisite
 #conan install --requires boost/1.78.0
@@ -157,7 +156,7 @@ echo "LuxCoreWheels - BUILDING BOOST"
 
 # Create boost package
 boost_destdir=~/.boost_conan/boost
-cp -R ${GITHUB_WORKSPACE}/external/windows/boost-boost ${boost_destdir}
+cp -R external/windows/boost-boost ${boost_destdir}
 conan source ${boost_destdir}  # Create CMakeLists
 conan editable add ${boost_destdir}
 #conan install ${boost_destdir} --build=editable -s build_type=Release
