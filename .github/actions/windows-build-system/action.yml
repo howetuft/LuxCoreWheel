@@ -89,11 +89,11 @@ runs:
         #done
       #shell: bash
 
-    - name: create boost dependencies
-      working-directory: ${{ github.workspace }}/externals/windows
-      run: |
-        ./boost-create-base-deps.sh
-      shell: bash
+    #- name: create boost dependencies
+      #working-directory: ${{ github.workspace }}/externals/windows
+      #run: |
+        #./boost-create-base-deps.sh
+      #shell: bash
 
     #- name: create boost-deps (libs)
       #working-directory: ${{ github.workspace }}/externals/windows
@@ -115,34 +115,34 @@ runs:
     # We use editable mode, otherwise a random revision is computed and makes
     # sccache inefficient
 
-    - name: openimageio
-      working-directory: ${{ github.workspace }}/externals/windows/openimageio
-      run: |
-        # Keep install before source, otherwise settings.build_type won't be set
-        # when running layout()
-        conan editable add .
-        #conan install . -s build_type=Release --build=boost-filesystem
-        conan source .
-        #cp -R src/include .
+    #- name: openimageio
+      #working-directory: ${{ github.workspace }}/externals/windows/openimageio
+      #run: |
+        ## Keep install before source, otherwise settings.build_type won't be set
+        ## when running layout()
+        #conan editable add .
+        #conan install . -s build_type=Release
+        #conan source .
+        ##cp -R src/include .
 
-        #conan build .
-        #cp -R build/Release/lib .
-        #cp -R build/Release/include/* include
+        ##conan build .
+        ##cp -R build/Release/lib .
+        ##cp -R build/Release/include/* include
 
-      shell: bash
+      #shell: bash
 
     ## Debug
     #- uses: mxschmitt/action-tmate@v3
 
 
-    - name: oidn
-      working-directory: ${{ github.workspace }}/externals/windows/oidn
-      run: |
-        # oidn
-        conan editable add .
+    #- name: oidn
+      #working-directory: ${{ github.workspace }}/externals/windows/oidn
+      #run: |
+        ## oidn
+        #conan editable add .
         #conan install . -s build_type=Release
-        conan source .
-      shell: bash
+        #conan source .
+      #shell: bash
 
     #- name: test
       #working-directory: ${{ github.workspace }}/externals/windows/test

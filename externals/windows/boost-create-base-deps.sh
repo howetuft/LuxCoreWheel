@@ -103,6 +103,8 @@ conan_create_recipe() {
 
   sed "s/MODULE/$1/" boost-base-dep-template.txt > ${destdir}/conanfile.py
 
+  conan install "${destdir}" -s build_type=Release
+
   conan source "${destdir}"
 }
 
