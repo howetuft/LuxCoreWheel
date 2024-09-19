@@ -107,15 +107,15 @@ conan_create_recipe() {
 
   conan editable add $destdir
 
-  conan install "${destdir}" -s build_type=Release
-
-  conan source "${destdir}"
 }
 
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
 
-  conan editable add $destdir
+  conan install "${destdir}" -s build_type=Release
+
+  conan source "${destdir}"
+  #conan editable add $destdir
   #conan install "${destdir}" -s build_type=Release
   #conan build "${destdir}"
 
@@ -149,11 +149,24 @@ for pid in ${pids[*]}; do
     wait $pid
 done
 
-# Put in editable mode (warning: conan not thread-safe, do not parallelize)
-#cd ~/.boost_conan
-for dep in ${deps[@]}; do
-  conan_build_recipe $dep
+# Launch parallel build
+pids=()
+for i in ${!deps[@]}; do
+  dep=${deps[$i]}
+  conan_build_recipe $dep &
+  pids[${i}]=$!
 done
+
+# Wait for all treatments to finish
+for pid in ${pids[*]}; do
+    wait $pid
+done
+
+## Put in editable mode (warning: conan not thread-safe, do not parallelize)
+##cd ~/.boost_conan
+#for dep in ${deps[@]}; do
+  #conan_build_recipe $dep
+#done
 
 echo "LuxCoreWheels - BUILDING BOOST"
 
