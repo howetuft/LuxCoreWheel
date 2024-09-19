@@ -94,7 +94,7 @@ deps=(
   xpressive
 )
 
-origdir=`cygpath -u $GITHUB_WORKSPACE`/../externals/windows
+origdir=`cygpath -u $GITHUB_WORKSPACE`/externals/windows
 
 conan_create_recipe() {
 
