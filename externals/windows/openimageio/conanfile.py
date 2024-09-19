@@ -169,7 +169,7 @@ class OpenImageIOConan(ConanFile):
 
 
         self.cpp.source.includedirs = ["include"]
-        self.cpp.build.libdirs = ["lib"]
+        self.cpp.build.libdirs.append("lib")
         print("OIIO build libdirs", self.cpp.build.libdirs)
 
         # self.cpp.build.libdirs.append("lib")
@@ -280,15 +280,51 @@ class OpenImageIOConan(ConanFile):
         cmake.build()
 
     def package(self):
+        print("Packaging OIIO")
         copy(self, "LICENSE*.md", src=self.source_folder, dst=os.path.join(self.package_folder, "licenses"))
         cmake = CMake(self)
         cmake.install()
+        copy(
+            self,
+            "*.h",
+            src=self.source_folder,
+            dst=os.path.join(self.package_folder, "include"),
+        )
+        copy(
+            self,
+            "*.hpp",
+            src=self.source_folder,
+            dst=os.path.join(self.package_folder, "include"),
+        )
+        copy(
+            self,
+            "*.lib",
+            src=self.build_folder,
+            dst=os.path.join(self.package_folder, "lib"),
+            keep_path=False,
+        )
+        copy(
+            self,
+            "*.a",
+            src=self.build_folder,
+            dst=os.path.join(self.package_folder, "lib"),
+            keep_path=False,
+        )
+        copy(
+            self,
+            "*.cmake",
+            src=self.build_folder,
+            dst=os.path.join(self.package_folder, "lib", "cmake"),
+            keep_path=False,
+        )
+
+
         rmdir(self, os.path.join(self.package_folder, "share"))
         if self.settings.os == "Windows":
             for vc_file in ("concrt", "msvcp", "vcruntime"):
                 rm(self, f"{vc_file}*.dll", os.path.join(self.package_folder, "bin"))
-        rmdir(self, os.path.join(self.package_folder, "lib", "pkgconfig"))
-        rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
+        # rmdir(self, os.path.join(self.package_folder, "lib", "pkgconfig"))
+        # rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
