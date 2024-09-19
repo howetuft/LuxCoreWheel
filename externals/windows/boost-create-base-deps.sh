@@ -104,6 +104,7 @@ conan_create_recipe() {
   mkdir -p ${destdir}
 
   sed "s/MODULE/$1/" ${origdir}/boost-base-dep-template.txt > ${destdir}/conanfile.py
+  ls ${destdir}
 
   #conan editable add $destdir
 
