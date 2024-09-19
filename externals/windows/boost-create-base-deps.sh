@@ -104,7 +104,6 @@ conan_create_recipe() {
   mkdir -p ${destdir}
 
   sed "s/MODULE/$1/" ${origdir}/boost-base-dep-template.txt > ${destdir}/conanfile.py
-  ls ${destdir}
 
   #conan editable add $destdir
 
@@ -155,6 +154,7 @@ done
 #cd ~/.boost_conan
 for dep in ${deps[@]}; do
   conan editable add ~/.boost_conan/$dep
+  conan install ~/.boost_conan/$dep -s build_type=Release  --build=missing
 done
 
 # Launch parallel build
