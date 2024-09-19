@@ -112,7 +112,7 @@ conan_create_recipe() {
 conan_build_recipe() {
   local destdir=~/.boost_conan/${1}
 
-  conan install "${destdir}" -s build_type=Release
+  conan install "${destdir}" -s build_type=Release --build=missing
 
   conan source "${destdir}"
   #conan editable add $destdir
