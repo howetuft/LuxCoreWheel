@@ -153,7 +153,7 @@ done
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
 #cd ~/.boost_conan
 for dep in ${deps[@]}; do
-  conan editable add $dep
+  conan editable add ~/.boost_conan/$dep
 done
 
 # Launch parallel build
