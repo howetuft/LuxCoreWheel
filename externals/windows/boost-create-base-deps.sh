@@ -164,7 +164,7 @@ done
 pids=()
 for i in ${!deps[@]}; do
   dep=${deps[$i]}
-  conan build $dep &
+  conan build ~/.boost_conan/$dep &
   pids[${i}]=$!
 done
 
