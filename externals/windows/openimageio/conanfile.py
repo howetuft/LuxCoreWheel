@@ -144,12 +144,13 @@ class OpenImageIOConan(ConanFile):
             )
 
     def layout(self):
+        build_type = self.settings.get_safe("build_type", default="Release")
         cmake_layout(self)
         print("OIIO LAYOUT")
 
         # Set folders
         self.folders.source = "src"
-        self.folders.build = os.path.join("build", str(self.settings.build_type))
+        self.folders.build = os.path.join("build", build_type)
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
         #cp -R src/include .

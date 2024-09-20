@@ -12,13 +12,14 @@ class OidnConan(ConanFile):
     channel = "luxcorewheels"
 
     def layout(self):
+        build_type = self.settings.get_safe("build_type", default="Release")
         # Define project folder structure
         # We directly download binaries, so it's a very simplified layout
         # (no build)...
 
         self.folders.source = "."
         base = f"oidn-{self.version}.x64.windows"
-        self.folders.build = os.path.join("build", str(self.settings.build_type))
+        self.folders.build = os.path.join("build", build_type)
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
         ## cpp.source and cpp.build information is specifically designed
