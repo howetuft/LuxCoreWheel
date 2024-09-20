@@ -157,6 +157,7 @@ for dep in ${deps[@]}; do
 done
 
 for dep in ${deps[@]}; do
+  conan install ~/.boost_conan/$dep --build=missing -s build_type=Release
   conan build ~/.boost_conan/$dep
 done
 #for dep in ${deps[@]}; do
