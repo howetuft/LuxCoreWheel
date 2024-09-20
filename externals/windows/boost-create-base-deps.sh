@@ -154,9 +154,11 @@ done
 #cd ~/.boost_conan
 for dep in ${deps[@]}; do
   conan editable add ~/.boost_conan/$dep
-  conan build ~/.boost_conan/$dep
 done
 
+for dep in ${deps[@]}; do
+  conan build ~/.boost_conan/$dep
+done
 #for dep in ${deps[@]}; do
   #conan install ~/.boost_conan/$dep --no-remote --build=missing -s build_type=Release
 #done
