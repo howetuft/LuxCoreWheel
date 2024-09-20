@@ -160,18 +160,18 @@ done
   #conan install ~/.boost_conan/$dep --no-remote --build=missing -s build_type=Release
 #done
 
-## Launch parallel build
-#pids=()
-#for i in ${!deps[@]}; do
-  #dep=${deps[$i]}
-  #conan_build_recipe $dep &
-  #pids[${i}]=$!
-#done
+# Launch parallel build
+pids=()
+for i in ${!deps[@]}; do
+  dep=${deps[$i]}
+  conan build $dep &
+  pids[${i}]=$!
+done
 
-## Wait for all treatments to finish
-#for pid in ${pids[*]}; do
-    #wait $pid
-#done
+# Wait for all treatments to finish
+for pid in ${pids[*]}; do
+    wait $pid
+done
 
 
 echo "LuxCoreWheels - BUILDING BOOST"
