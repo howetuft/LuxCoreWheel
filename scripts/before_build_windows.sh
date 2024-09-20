@@ -4,13 +4,13 @@ source $GITHUB_WORKSPACE/externals/windows/boost-create-base-deps.sh
 echo "CIBW_BEFORE_BUILD: OIIO"
 oiio=$GITHUB_WORKSPACE/externals/windows/openimageio
 conan editable add ${oiio}
-conan install ${oiio} -s build_type=Release
+#conan install ${oiio} -s build_type=Release
 conan source ${oiio}
 
 echo "CIBW_BEFORE_BUILD: OIDN"
 oidn=$GITHUB_WORKSPACE/externals/windows/oidn
 conan editable add ${oidn}
-conan install ${oidn} -s build_type=Release
+#conan install ${oidn} -s build_type=Release
 conan source ${oidn}
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
