@@ -14,4 +14,5 @@ conan install ${oidn} -s build_type=Release
 conan source ${oidn}
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
-conan install $GITHUB_WORKSPACE -s build_type=Release --build=missing
+conan install $GITHUB_WORKSPACE -s build_type=Release --build=missing --build=editable
+conan build $GITHUB_WORKSPACE
