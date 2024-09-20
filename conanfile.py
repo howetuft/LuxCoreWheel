@@ -47,6 +47,7 @@ class LuxCore(ConanFile):
 
     def generate(self):
         tc = CMakeToolchain(self)
+        tc.absolute_paths = True
         tc.generate()
 
         cd = CMakeDeps(self)
