@@ -182,6 +182,7 @@ cp -R $origdir/boost-boost ${boost_destdir}
 conan install ${boost_destdir} --no-remote --build=missing -s build_type=Release
 conan source ${boost_destdir}  # Create CMakeLists
 conan editable add ${boost_destdir}
+conan build ${boost_destdir}
 #conan build ${boost_destdir} -s build_type=Release
 
 
