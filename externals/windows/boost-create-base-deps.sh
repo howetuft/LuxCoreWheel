@@ -156,9 +156,9 @@ for dep in ${deps[@]}; do
   conan editable add ~/.boost_conan/$dep
 done
 
-for dep in ${deps[@]}; do
-  conan install ~/.boost_conan/$dep --no-remote --build=missing -s build_type=Release
-done
+#for dep in ${deps[@]}; do
+  #conan install ~/.boost_conan/$dep --no-remote --build=missing -s build_type=Release
+#done
 
 ## Launch parallel build
 #pids=()
@@ -179,9 +179,9 @@ echo "LuxCoreWheels - BUILDING BOOST"
 # Create boost package
 boost_destdir=~/.boost_conan/boost
 cp -R $origdir/boost-boost ${boost_destdir}
+conan install ${boost_destdir} --no-remote --build=missing -s build_type=Release
 conan source ${boost_destdir}  # Create CMakeLists
 conan editable add ${boost_destdir}
-#conan install ${boost_destdir} --build=editable -s build_type=Release
 #conan build ${boost_destdir} -s build_type=Release
 
 
