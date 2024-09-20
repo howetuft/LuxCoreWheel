@@ -157,7 +157,7 @@ for dep in ${deps[@]}; do
 done
 
 for dep in ${deps[@]}; do
-  conan install ~/.boost_conan/$dep --build=missing -s build_type=Release
+  conan install ~/.boost_conan/$dep --build=editable --no-remote -s build_type=Release
 done
 
 for dep in ${deps[@]}; do
