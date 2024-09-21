@@ -160,8 +160,7 @@ class OpenImageIOConan(ConanFile):
 
         # Describe package
         self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.package.includedirs = [
-            "src/include",
+        self.cpp.package.includedirs += [
             os.path.join(self.folders.build, "include"),
         ]
         self.cpp.package.libdirs += [
