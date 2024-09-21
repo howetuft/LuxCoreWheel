@@ -96,7 +96,7 @@ jobs:
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG=debug
             LIBDIR='${{ env.Python_ROOT_DIR }}'
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE;--trace-expand'
             PYTHON_V=''
             SPDLOG_FMT_EXTERNAL=on
             #CMAKE_LIBRARY_PATH='${{ env.PYTHONLOCATION }}\libs'
@@ -118,9 +118,9 @@ jobs:
             config-file: "{package}/pyproject.toml"
 
 
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+        #if: ${{ failure() }}
+        #uses: mxschmitt/action-tmate@v3
 
       ## Upload sccache log (debug)
       #- uses: actions/upload-artifact@v4

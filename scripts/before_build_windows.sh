@@ -10,7 +10,7 @@ conan source ${oiio}
 echo "CIBW_BEFORE_BUILD: OIDN"
 oidn=$GITHUB_WORKSPACE/externals/windows/oidn
 conan editable add ${oidn}
-#conan install ${oidn} -s build_type=Release
+conan install ${oidn} -s build_type=Release
 conan source ${oidn}
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
