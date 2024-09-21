@@ -145,6 +145,7 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         build_type = self.settings.get_safe("build_type", default="Release")
+        cmake_layout(self)
         print("OIIO LAYOUT")
 
         # Set folders
@@ -181,7 +182,6 @@ class OpenImageIOConan(ConanFile):
         # print(f"build.lib: {self.cpp.build.libdirs}")
         # print(f"build.include: {self.cpp.build.includedirs}")
         # print(f"source.include: {self.cpp.source.includedirs}")
-        cmake_layout(self)
         return
 
         # define project folder structure for editable mode
