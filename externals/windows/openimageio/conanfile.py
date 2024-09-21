@@ -175,8 +175,8 @@ class OpenImageIOConan(ConanFile):
         print("OIIO build libdirs", self.cpp.build.libdirs)
 
         # Components
-        self.cpp.build.components["OpenImageIO"].libdirs = "toto"
-        self.cpp.build.components["OpenImageIO_Util"].libdirs = "tata"
+        self.cpp.build.components["OpenImageIO"].libdirs = ["toto"]
+        self.cpp.build.components["OpenImageIO_Util"].libdirs = ["tata"]
 
         # self.cpp.build.libdirs.append("lib")
         # self.cpp.build.includedirs.append("include")
