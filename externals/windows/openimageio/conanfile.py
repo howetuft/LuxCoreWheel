@@ -216,6 +216,7 @@ class OpenImageIOConan(ConanFile):
 
     def generate(self):
         tc = CMakeToolchain(self)
+        tc.absolute_paths = True
 
         # CMake options
         tc.cache_variables["BUILD_SHARED_LIBS"] = False
