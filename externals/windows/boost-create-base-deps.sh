@@ -110,19 +110,19 @@ conan_create_recipe() {
 
 }
 
-conan_build_recipe() {
-  local destdir=~/.boost_conan/${1}
+#conan_build_recipe() {
+  #local destdir=~/.boost_conan/${1}
 
-  #conan install "${destdir}" --build=missing -s build_type=Release
-  conan install "${destdir}" -s build_type=Release
-
-  #conan editable add $destdir
+  ##conan install "${destdir}" --build=missing -s build_type=Release
   #conan install "${destdir}" -s build_type=Release
-  #conan build "${destdir}"
 
-  echo "LuxCoreWheels - Module ${1} created in ${destdir}"
+  ##conan editable add $destdir
+  ##conan install "${destdir}" -s build_type=Release
+  ##conan build "${destdir}"
 
-}
+  #echo "LuxCoreWheels - Module ${1} created in ${destdir}"
+
+#}
 
 set -eo pipefail
 
