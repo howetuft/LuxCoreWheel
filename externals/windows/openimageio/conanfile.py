@@ -345,6 +345,8 @@ class OpenImageIOConan(ConanFile):
         return component
 
     def package_info(self):
+        self.cpp_info.bindirs = []
+        self.cpp_info.libdirs = ["toto"]
         self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
         self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
 
