@@ -145,7 +145,7 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         build_type = self.settings.get_safe("build_type", default="Release")
-        cmake_layout(self)
+        # cmake_layout(self)
         print("OIIO LAYOUT")
 
         # Set folders
@@ -267,6 +267,7 @@ class OpenImageIOConan(ConanFile):
         tc.variables["USE_OPENJPEG"] = self.options.with_openjpeg
 
         tc.generate()
+
         cd = CMakeDeps(self)
         if self.options.with_libwebp:
             cd.set_property("libwebp::webp", "cmake_target_name", "WebP::WebP")
@@ -277,6 +278,7 @@ class OpenImageIOConan(ConanFile):
         cd.generate()
 
     def build(self):
+        print("Building OIIO")
         apply_conandata_patches(self)
         cmake = CMake(self)
         cmake.configure()
@@ -345,7 +347,7 @@ class OpenImageIOConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.bindirs = []
-        self.cpp_info.libdirs = ["toto"]
+        self.cpp_info.libdirs = ["toto"]  # TODO
         self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
         self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
 
