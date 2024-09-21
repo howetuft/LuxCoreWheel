@@ -160,19 +160,19 @@ class OpenImageIOConan(ConanFile):
         #cp -R build/Release/include/* include
 
         # Describe package
-        self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.package.includedirs += [
-            os.path.join(self.folders.build, "include"),
-        ]
-        self.cpp.package.libdirs += [
-            self.folders.build, os.path.join(self.folders.build, "lib"),
-        ]
-        print("OIIO package libdirs", self.cpp.package.libdirs)
+        # self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        # self.cpp.package.includedirs += [
+            # os.path.join(self.folders.build, "include"),
+        # ]
+        # self.cpp.package.libdirs += [
+            # self.folders.build, os.path.join(self.folders.build, "lib"),
+        # ]
+        # print("OIIO package libdirs", self.cpp.package.libdirs)
 
 
-        self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        # self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
         self.cpp.source.includedirs += ["src/include"]
-        self.cpp.build.libdirs = ["lib"]
+        self.cpp.build.libdirs += ["lib"]
         print("OIIO build libdirs", self.cpp.build.libdirs)
 
         # Components
