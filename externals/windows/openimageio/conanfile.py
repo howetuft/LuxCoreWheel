@@ -145,7 +145,7 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         build_type = self.settings.get_safe("build_type", default="Release")
-        # cmake_layout(self)
+        cmake_layout(self)
         print("OIIO LAYOUT")
 
         # Set folders
@@ -173,6 +173,10 @@ class OpenImageIOConan(ConanFile):
         self.cpp.source.includedirs += ["include"]
         self.cpp.build.libdirs += ["lib"]
         print("OIIO build libdirs", self.cpp.build.libdirs)
+
+        # Components
+        self.cpp.build.components["OpenImageIO"].libdirs = "toto"
+        self.cpp.build.components["OpenImageIO_Util"].libdirs = "tata"
 
         # self.cpp.build.libdirs.append("lib")
         # self.cpp.build.includedirs.append("include")
