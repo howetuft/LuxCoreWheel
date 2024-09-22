@@ -7,7 +7,7 @@ oiio=$GITHUB_WORKSPACE/externals/windows/openimageio
 conan install ${oiio} --build=editable -s build_type=Release
 conan source ${oiio}
 conan build ${oiio}
-conan export-pkg ${oiio}
+conan export-pkg ${oiio} --output-folder=~/.oiio
 
 #conan install ${oiio} --profile=conan_profile -s build_type=Release
 #conan build ${oiio} --build=editable -s build_type=Release
