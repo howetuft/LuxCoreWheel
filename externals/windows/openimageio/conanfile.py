@@ -145,7 +145,7 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         build_type = self.settings.get_safe("build_type", default="Release")
-        # cmake_layout(self)
+        cmake_layout(self)
         print("OIIO LAYOUT")
 
         # Set folders
