@@ -145,14 +145,12 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         build_type = self.settings.get_safe("build_type", default="Release")
-        cmake_layout(self)
+        cmake_layout(self, src_folder="src")
         print("OIIO LAYOUT")
 
         # Set folders
-        self.folders.root = "."
-        self.folders.source = "."
-        self.folders.build = os.path.join("build", build_type)
-        self.folders.generators = os.path.join(self.folders.build, "generators")
+        # self.folders.build = os.path.join("build", build_type)
+        self.folders.generators = os.path.join("build", build_type, "generators")
 
         #cp -R src/include .
         #conan build .
@@ -171,13 +169,15 @@ class OpenImageIOConan(ConanFile):
 
 
         # self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.source.includedirs += ["src/include"]
-        self.cpp.build.libdirs += ["lib"]
+        # self.cpp.source.includedirs += ["src/include"]
+        # self.cpp.build.libdirs += ["lib"]
         print("OIIO build libdirs", self.cpp.build.libdirs)
 
         # Components
-        self.cpp.build.components["OpenImageIO"].libdirs += ["lib"]
-        self.cpp.build.components["OpenImageIO_Util"].libdirs += ["lib"]
+        self.cpp.source.components["OpenImageIO"].includedirs = ["."]
+        self.cpp.source.components["OpenImageIO_Util"].includedirs = ["."]
+        self.cpp.build.components["OpenImageIO"].libdirs = ["lib"]
+        self.cpp.build.components["OpenImageIO_Util"].libdirs = ["lib"]
 
         # self.cpp.build.libdirs.append("lib")
         # self.cpp.build.includedirs.append("include")
@@ -353,8 +353,11 @@ class OpenImageIOConan(ConanFile):
     def package_info(self):
         # self.cpp_info.bindirs = []
         # self.cpp_info.libdirs += ["lib"]
+
+
         self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
         self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
+        self.cpp_info.set_property("cmake_target_name", "openimageio::openimageio")
 
         self.cpp_info.names["cmake_find_package"] = "OpenImageIO"
         self.cpp_info.names["cmake_find_package_multi"] = "OpenImageIO"
