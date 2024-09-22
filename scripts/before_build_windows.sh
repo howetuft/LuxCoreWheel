@@ -18,7 +18,8 @@ conan source ${oidn}
 #conan build ${oidn} --build=editable -s build_type=Release
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
-#conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0
+eonan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
+conan install --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels --profile=conan_profile --build=editable -s build_type=Release
 #conan install $GITHUB_WORKSPACE --profile=conan_profile -s build_type=Release
 #conan source $GITHUB_WORKSPACE
 #conan build $GITHUB_WORKSPACE --build=editable -s build_type=Release
