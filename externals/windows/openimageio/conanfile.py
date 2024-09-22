@@ -149,6 +149,7 @@ class OpenImageIOConan(ConanFile):
         print("OIIO LAYOUT")
 
         # Set folders
+        self.folders.source = "."
         self.folders.build = os.path.join("build", build_type)
         self.folders.generators = os.path.join("build", build_type, "generators")
 
@@ -172,18 +173,22 @@ class OpenImageIOConan(ConanFile):
         # self.cpp.source.includedirs += ["src/include"]
         # self.cpp.build.libdirs += ["lib"]
         print("OIIO build libdirs", self.cpp.build.libdirs)
+        # https://github.com/conan-io/conan/issues/13400
 
         # Main
-        self.cpp.build.libs = []
-        self.cpp.build.libdirs = [os.path.join("build", "Release", "lib")]
+        self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        self.cpp.source.includedirs = ["src/include"]
+        self.cpp.build.libdirs = ["lib"]
 
         # Components
-        self.cpp.source.components["OpenImageIO"].includedirs = ["."]
-        self.cpp.source.components["OpenImageIO_Util"].includedirs = ["."]
         self.cpp.build.components["OpenImageIO"].libs = ["OpenImageIO"]
-        self.cpp.build.components["OpenImageIO"].libdirs = ["lib"]
+        self.cpp.source.components["OpenImageIO"].includedirs = self.cpp.source.includedirs
+        self.cpp.build.components["OpenImageIO"].libdirs = self.cpp.build.libdirs
+
+
         self.cpp.build.components["OpenImageIO_Util"].libs = ["OpenImageIO_Util"]
-        self.cpp.build.components["OpenImageIO_Util"].libdirs = ["lib"]
+        self.cpp.source.components["OpenImageIO_Util"].includedirs = self.cpp.source.includedirs
+        self.cpp.build.components["OpenImageIO_Util"].libdirs = self.cpp.build.libdirs
 
         # self.cpp.build.libdirs.append("lib")
         # self.cpp.build.includedirs.append("include")
