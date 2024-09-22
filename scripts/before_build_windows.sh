@@ -3,10 +3,11 @@ source $GITHUB_WORKSPACE/externals/windows/boost-create-base-deps.sh
 
 echo "CIBW_BEFORE_BUILD: OIIO"
 oiio=$GITHUB_WORKSPACE/externals/windows/openimageio
-conan editable add ${oiio}
+conan install ${oiio} --build=editable -s build_type=Release openimageio/2.2.13.1@LuxCoreWheels/LuxCoreWheels
 conan source ${oiio}
-conan install --requires=openimageio/2.2.13.1@luxcorewheels/luxcorewheels \
-  --build=editable -s build_type=Release
+conan build ${oiio}
+conan editable add ${oiio} openimageio/2.2.13.1@LuxCoreWheels/LuxCoreWheels
+
 #conan install ${oiio} --profile=conan_profile -s build_type=Release
 #conan build ${oiio} --build=editable -s build_type=Release
 
