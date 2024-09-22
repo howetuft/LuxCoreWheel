@@ -5,6 +5,8 @@ echo "CIBW_BEFORE_BUILD: OIIO"
 oiio=$GITHUB_WORKSPACE/externals/windows/openimageio
 conan editable add ${oiio}
 conan source ${oiio}
+conan install --requires=openimageio/2.2.13.1@luxcorewheels/luxcorewheels \
+  --build=editable -s build_type=Release
 #conan install ${oiio} --profile=conan_profile -s build_type=Release
 #conan build ${oiio} --build=editable -s build_type=Release
 
@@ -16,7 +18,7 @@ conan source ${oidn}
 #conan build ${oidn} --build=editable -s build_type=Release
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
-conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0
-conan install $GITHUB_WORKSPACE --profile=conan_profile -s build_type=Release
-conan source $GITHUB_WORKSPACE
-conan build $GITHUB_WORKSPACE --build=editable -s build_type=Release
+#conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0
+#conan install $GITHUB_WORKSPACE --profile=conan_profile -s build_type=Release
+#conan source $GITHUB_WORKSPACE
+#conan build $GITHUB_WORKSPACE --build=editable -s build_type=Release

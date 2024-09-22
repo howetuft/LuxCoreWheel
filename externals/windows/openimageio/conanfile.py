@@ -294,13 +294,6 @@ class OpenImageIOConan(ConanFile):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
-        copy(
-            self,
-            "*.lib",
-            src=self.build_folder,
-            dst=os.path.join(self.package_folder, "lib"),
-            keep_path=False,
-        )
 
     def package(self):
         print("Packaging OIIO")
