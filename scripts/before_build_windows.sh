@@ -3,10 +3,10 @@ source $GITHUB_WORKSPACE/externals/windows/boost-create-base-deps.sh
 
 echo "CIBW_BEFORE_BUILD: OIIO"
 oiio=$GITHUB_WORKSPACE/externals/windows/openimageio
-conan editable add ${oiio} --output-folder=build
+conan editable add ${oiio} --output-folder=${oiio}/build
 conan source ${oiio}
-conan install ${oiio} --profile=conan_profile -s build_type=Release
-conan build ${oiio} --build=editable -s build_type=Release
+#conan install ${oiio} --profile=conan_profile -s build_type=Release
+#conan build ${oiio} --build=editable -s build_type=Release
 
 echo "CIBW_BEFORE_BUILD: OIDN"
 oidn=$GITHUB_WORKSPACE/externals/windows/oidn
