@@ -318,7 +318,7 @@ class OpenImageIOConan(ConanFile):
             "*.h",
             src=fmt_includes[0],
             dst=PurePosixPath(
-                self.source_folder, "src", "include", "OpenImageIO", "detail"
+                self.source_folder, "src", "include", "OpenImageIO", "detail", "fmt"
             )
         )
 
