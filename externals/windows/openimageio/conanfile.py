@@ -316,7 +316,7 @@ class OpenImageIOConan(ConanFile):
         copy(
             self,
             "*.h",
-            src=fmt_includes,
+            src=fmt_includes[0],
             dst=PurePosixPath(
                 self.source_folder, "src", "include", "OpenImageIO", "detail"
             )
