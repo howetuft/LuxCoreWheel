@@ -189,7 +189,7 @@ class OpenImageIOConan(ConanFile):
         # cpp.source and cpp.build information is specifically designed for
         # editable packages:
         # this information is relative to the source folder that is '.'
-        self.cpp.source.includedirs = ["include"]
+        self.cpp.source.includedirs = [PurePosixPath("src", "include")]
 
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
