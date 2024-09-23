@@ -176,19 +176,33 @@ class OpenImageIOConan(ConanFile):
         # https://github.com/conan-io/conan/issues/13400
 
         # Main
-        self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.source.includedirs = ["src/include"]
-        self.cpp.build.libdirs = ["lib"]
+        self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        self.cpp.package.includedirs = [os.path.join("src", "include")] # maps to ./include
+        self.cpp.package.libdirs += [
+            self.folders.build,
+            os.path.join(self.folders.build, "lib"),
+        ]
 
-        # Components
-        self.cpp.build.components["OpenImageIO"].libs = ["OpenImageIO"]
-        self.cpp.source.components["OpenImageIO"].includedirs = self.cpp.source.includedirs
-        self.cpp.build.components["OpenImageIO"].libdirs = self.cpp.build.libdirs
+        # Describe what changes between package and editable
+        #
+        # cpp.source and cpp.build information is specifically designed for
+        # editable packages:
+        # this information is relative to the source folder that is '.'
+        self.cpp.source.includedirs = ["include"]
+
+        # this information is relative to the build folder that is
+        # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
+        self.cpp.build.libdirs = ["."]
+        return
+        # # Components
+        # self.cpp.build.components["OpenImageIO"].libs = ["OpenImageIO"]
+        # self.cpp.source.components["OpenImageIO"].includedirs = self.cpp.source.includedirs
+        # self.cpp.build.components["OpenImageIO"].libdirs = self.cpp.build.libdirs
 
 
-        self.cpp.build.components["OpenImageIO_Util"].libs = ["OpenImageIO_Util"]
-        self.cpp.source.components["OpenImageIO_Util"].includedirs = self.cpp.source.includedirs
-        self.cpp.build.components["OpenImageIO_Util"].libdirs = self.cpp.build.libdirs
+        # self.cpp.build.components["OpenImageIO_Util"].libs = ["OpenImageIO_Util"]
+        # self.cpp.source.components["OpenImageIO_Util"].includedirs = self.cpp.source.includedirs
+        # self.cpp.build.components["OpenImageIO_Util"].libdirs = self.cpp.build.libdirs
 
         # self.cpp.build.libdirs.append("lib")
         # self.cpp.build.includedirs.append("include")
@@ -198,7 +212,6 @@ class OpenImageIOConan(ConanFile):
         # print(f"build.lib: {self.cpp.build.libdirs}")
         # print(f"build.include: {self.cpp.build.includedirs}")
         # print(f"source.include: {self.cpp.source.includedirs}")
-        return
 
         # define project folder structure for editable mode
 
@@ -374,6 +387,9 @@ class OpenImageIOConan(ConanFile):
         self.cpp_info.set_property("cmake_target_name", "openimageio::openimageio")
         self.cpp_info.libs = ["OpenImageIO", "OpenImageIO_Util"]
         self.cpp_info.libdirs = [os.path.join("build", "Release", "lib")]
+        if not self.options.shared:
+            self.cpp_info.defines.append("OIIO_STATIC_DEFINE")
+        return
 
         # self.cpp_info.set_property("cmake_find_package", "OpenImageIO")
         # self.cpp_info.set_property("cmake_find_package_multi", "OpenImageIO")
