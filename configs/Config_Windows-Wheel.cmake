@@ -12,14 +12,14 @@
 
 MESSAGE(STATUS "Using Windows wheel settings")
 
-#find_package(OpenImageIO REQUIRED)
-#if (OpenImageIO_FOUND)
-  #set(OPENIMAGEIO_FOUND "TRUE")
-  #MESSAGE(STATUS "LuxCoreWheel - OpenImageIO_INCLUDE_DIR: ${OpenImageIO_INCLUDE_DIR}")
-  #include_directories(${OpenImageIO_INCLUDE_DIR})
-#else()
-  #MESSAGE(STATUS "LuxCoreWheel - OpenImageIO NOT FOUND")
-#endif()
+find_package(OpenImageIO REQUIRED)
+if (OpenImageIO_FOUND)
+  set(OPENIMAGEIO_FOUND "TRUE")
+  MESSAGE(STATUS "LuxCoreWheel - OpenImageIO_INCLUDE_DIR: ${OpenImageIO_INCLUDE_DIR}")
+  include_directories(${OpenImageIO_INCLUDE_DIR})
+else()
+  MESSAGE(STATUS "LuxCoreWheel - OpenImageIO NOT FOUND")
+endif()
 
 find_package(embree REQUIRED)
 if (embree_FOUND)
