@@ -6,7 +6,7 @@ from conan.tools.microsoft import is_msvc, is_msvc_static_runtime
 from conan.tools.scm import Version
 from conan.errors import ConanInvalidConfiguration
 import os
-from pathlib import PosixPath
+from pathlib import PurePosixPath
 
 required_conan_version = ">=1.53.0"
 
@@ -151,8 +151,8 @@ class OpenImageIOConan(ConanFile):
 
         # Set folders
         self.folders.source = "."
-        self.folders.build = PosixPath("build", build_type)
-        self.folders.generators = PosixPath("build", build_type, "generators")
+        self.folders.build = PurePosixPath("build", build_type)
+        self.folders.generators = PurePosixPath("build", build_type, "generators")
 
         #cp -R src/include .
         #conan build .
@@ -178,10 +178,10 @@ class OpenImageIOConan(ConanFile):
 
         # Main
         self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        self.cpp.package.includedirs = [PosixPath("src", "include")] # maps to ./include
+        self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
         self.cpp.package.libdirs += [
             self.folders.build,
-            PosixPath(self.folders.build, "lib"),
+            PurePosixPath(self.folders.build, "lib"),
         ]
 
         # Describe what changes between package and editable
