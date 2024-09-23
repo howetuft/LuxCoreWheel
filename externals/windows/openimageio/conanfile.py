@@ -308,6 +308,22 @@ class OpenImageIOConan(ConanFile):
 
         cd.generate()
 
+        # Copy fmt files
+        print("Copy fmt files")
+        fmt = self.dependencies["fmt"]
+        fmt_includes = fmt.cpp_info.includedirs
+        self_includes = self.cpp_info
+        copy(
+            self,
+            "*.h",
+            src=fmt_includes,
+            dst=PurePosixPath(
+                self.source_folder, "src", "include", "OpenImageIO", "detail"
+            )
+        )
+
+
+
     def build(self):
         print("Building OIIO")
         apply_conandata_patches(self)
@@ -391,21 +407,6 @@ class OpenImageIOConan(ConanFile):
         self.cpp_info.libdirs = [os.path.join("build", "Release", "lib")]
         if not self.options.shared:
             self.cpp_info.defines.append("OIIO_STATIC_DEFINE")
-        self.cpp_info.requires = [
-            "zlib::zlib",
-            "boost::boost",
-            "boost-thread::boost-thread",
-            "boost-system::boost-system",
-            "boost-container::boost-container",
-            "boost-regex::boost-regex",
-            "boost-filesystem::boost-filesystem",
-            "libtiff::libtiff",
-            "pugixml::pugixml",
-            "tsl-robin-map::tsl-robin-map",
-            "fmt::fmt",
-            # "imath::imath",
-            "openexr::openexr",
-        ]
         return
 
         # self.cpp_info.set_property("cmake_find_package", "OpenImageIO")
