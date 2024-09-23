@@ -41,7 +41,7 @@ if(WIN32)
   target_link_libraries(slg-film PRIVATE boost::boost)
   target_link_libraries(pyluxcore PRIVATE
     slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
-    TBB::TBB MINIZIP::minizip spdlog::spdlog
+    TBB::TBB MINIZIP::minizip spdlog::spdlog_header_only
     openexr::openexr
     OpenEXR::IlmImfConfig
     IlmBase::IlmBaseConfig
