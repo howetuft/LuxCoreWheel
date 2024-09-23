@@ -193,7 +193,7 @@ class OpenImageIOConan(ConanFile):
 
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
-        self.cpp.build.libdirs = ["."]
+        self.cpp.build.libdirs = ["lib"]
         return
         # # Components
         # self.cpp.build.components["OpenImageIO"].libs = ["OpenImageIO"]
