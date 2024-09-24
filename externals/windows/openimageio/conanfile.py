@@ -312,15 +312,18 @@ class OpenImageIOConan(ConanFile):
         print("Copy fmt files")
         fmt = self.dependencies["fmt"]
         fmt_includes = fmt.cpp_info.includedirs
-        self_includes = self.cpp_info
-        copy(
-            self,
-            "*.h",
-            src=fmt_includes[0],
-            dst=PurePosixPath(
-                self.source_folder, "src", "include", "OpenImageIO", "detail", "fmt"
-            )
+        destination = PurePosixPath(
+            self.source_folder, "src", "include", "OpenImageIO", "detail", "fmt"
         )
+
+        for origin in fmt_includes:
+            copied = copy(
+                self,
+                "*.h",
+                src=origin,
+                dst=destination,
+            )
+            print(f"Copied '{copied}' from '{origin}' to '{destination}'...")
 
 
 
