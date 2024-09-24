@@ -258,7 +258,7 @@ class OpenImageIOConan(ConanFile):
         tc.cache_variables["INSTALL_DOCS"] = False
         tc.cache_variables["INSTALL_FONTS"] = False
         tc.cache_variables["INSTALL_CMAKE_HELPER"] = False
-        tc.variables["EMBEDPLUGINS"] = True
+        tc.cache_variables["EMBEDPLUGINS"] = True  # Modified (to cache variable)
         tc.cache_variables["USE_PYTHON"] = False
         tc.cache_variables["USE_EXTERNAL_PUGIXML"] = True
         tc.cache_variables["BUILD_MISSING_FMT"] = False
