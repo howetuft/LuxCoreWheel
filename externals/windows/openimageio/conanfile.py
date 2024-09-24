@@ -315,15 +315,19 @@ class OpenImageIOConan(ConanFile):
         destination = PurePosixPath(
             self.source_folder, "src", "include", "OpenImageIO", "detail", "fmt"
         )
+        headers = "core.h", "format-inl.h", "format.h", "ostream.h", "printf.h", "std.h", "base.h", "chrono.h"
 
-        for origin in fmt_includes:
-            copied = copy(
-                self,
-                "*.h",
-                src=origin,
-                dst=destination,
-            )
-            print(f"Copied '{copied}' from '{origin}' to '{destination}'...")
+        for header in headers:
+            for origin in fmt_includes:
+                copied = copy(
+                    self,
+                    header,
+                    src=origin,
+                    dst=destination,
+                    keep_path=False,
+                )
+                if copied:
+                    print(f"Copied '{copied}' from '{origin}' to '{destination}'...")
 
 
 
