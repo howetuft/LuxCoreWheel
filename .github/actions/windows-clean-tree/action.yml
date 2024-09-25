@@ -21,7 +21,9 @@ runs:
         for lib in opencolorio yaml expat spdlog
         do
           echo "LuxCoreWheel - Removing '${lib}'"
-          sed -i "/${lib}/d" src/slg/CMakeLists.txt
+          sed -i "/deps\/${lib}/d" src/slg/CMakeLists.txt
+          sed -i "/add_library(${lib}/d" src/slg/CMakeLists.txt
+          sed -i "/target_compile_definitions(${lib}/d" src/slg/CMakeLists.txt
           rm -rf deps/${lib}*
         done
       shell: bash
