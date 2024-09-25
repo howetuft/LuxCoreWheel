@@ -48,6 +48,7 @@ class LuxCore(ConanFile):
     def generate(self):
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
+        tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.generate()
 
         cd = CMakeDeps(self)
