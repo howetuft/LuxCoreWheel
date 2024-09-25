@@ -266,7 +266,7 @@ class OpenImageIOConan(ConanFile):
         tc.cache_variables["USE_Qt5"] = False
         tc.cache_variables["VERBOSE"] = True
         tc.cache_variables["USE_Libsquish"] = False
-        tc.cache_variables["CMAKE_CXX_STANDARD"] = 14
+        tc.cache_variables["CMAKE_CXX_STANDARD"] = self.settings.compiler.cppstd
 
 
         # Conan is normally not used for testing, so fixing this option to not build the tests
