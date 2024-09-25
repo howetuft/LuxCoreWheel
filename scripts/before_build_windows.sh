@@ -3,7 +3,7 @@ source $GITHUB_WORKSPACE/externals/windows/boost-create-base-deps.sh
 
 # https://github.com/conan-io/conan/issues/13400
 echo "CIBW_BEFORE_BUILD: OIIO"
-conan install --requires=openexr/2.5.7 --build=openexr/2.5.7 -s build_type=Release
+#conan install --requires=openexr/2.5.7 --build=openexr/2.5.7 -s build_type=Release
 oiio=$GITHUB_WORKSPACE/externals/windows/openimageio
 #conan install ${oiio} --build=editable -s build_type=Release
 conan editable add ${oiio}
