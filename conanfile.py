@@ -24,18 +24,6 @@ class LuxCore(ConanFile):
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
         "openexr/2.5.7",
         f"boost/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-atomic/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-chrono/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-system/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-filesystem/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-container/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-date_time/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-iostreams/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-program_options/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-random/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-serialization/{_boost_version}@luxcorewheels/luxcorewheels",
-        # f"boost-thread/{_boost_version}@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {
