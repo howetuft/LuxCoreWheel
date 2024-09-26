@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.30.0)
-project(cmake_wrapper)
+project(luxcore_wrapper)
 
 enable_language(C)
 enable_language(CXX)
 set (CMAKE_CXX_STANDARD 14)
 
-add_subdirectory(LuxCore)
 
 if(WIN32)
   message(STATUS "LuxCoreWheel - Add conan targets")
@@ -33,6 +32,47 @@ if(WIN32)
   find_package(Boost_thread REQUIRED)
   find_package(Boost_interprocess REQUIRED)
   find_package(Boost REQUIRED)
+
+  # Python
+  MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
+  find_package(Python COMPONENTS Interpreter Development.Module)
+  if (Python_FOUND)
+    MESSAGE(STATUS "LuxCoreWheel - Python includes: ${Python_INCLUDE_DIR}")
+    include_directories(${Python_INCLUDE_DIR})
+    add_definitions(-DBOOST_PYTHON_STATIC_LIB)
+
+    MESSAGE(STATUS "LuxCoreWheel - Python lib dir: ${Python_LIBRARY_DIRS}")
+    link_directories(${Python_LIBRARY_DIRS})
+  else()
+    MESSAGE(STATUS "LuxCoreWheel - Python NOT FOUND")
+  endif()
+
+  # If we are here, it means we have found all dependencies
+  # So let's tell LuxCore all is ok
+  # and include directories
+  set(OPENIMAGEIO_FOUND TRUE)
+  set(EMBREE_FOUND TRUE)
+  set(OIDN_FOUND TRUE)
+  set(BLOSC_FOUND TRUE)
+  include_directories(${OpenImageIO_INCLUDE_DIR})
+  include_directories(${embree_INCLUDE_DIR})
+  include_directories(${TBB_INCLUDE_DIR})
+  set(TBB_LIBRARY "${TBB_LIBRARIES}")  # TBB_LIBRARIES is referenced as TBB_LIBRARY in LuxCore...
+  include_directories(${ZLIB_INCLUDE_DIR})
+  include_directories(${oidn_INCLUDE_DIR})
+  include_directories(${fmt_INCLUDE_DIR})
+  include_directories(${Blosc_INCLUDE_DIR})
+
+  SET(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "Embedded")
+  CMAKE_POLICY(SET CMP0141 NEW)
+endif(WIN32)
+
+# Add LuxCore
+add_subdirectory(LuxCore)
+
+# Add deps targets to LuxCore libs
+if(WIN32)
+
   target_link_libraries(bcd PRIVATE boost::boost)
   target_link_libraries(openvdb PRIVATE boost::boost)
   target_link_libraries(opensubdiv PRIVATE boost::boost)

@@ -37,11 +37,14 @@ class LuxCore(ConanFile):
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
+        tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
         tc.generate()
 
         cd = CMakeDeps(self)
+        # Alternative filenames
         cd.set_property("openexr", "cmake_file_name", "OPENEXR")
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
+
         cd.generate()
 
     def layout(self):
