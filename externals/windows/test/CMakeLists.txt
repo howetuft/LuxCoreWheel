@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 3.30)
-project(test)
-add_executable(test "test.cpp")
-find_package(openimageio)
-find_package(oidn)
-target_link_libraries(test openimageio::openimageio oidn::oidn)
