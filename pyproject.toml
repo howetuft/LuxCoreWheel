@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = ["scikit-build-core"]
+requires = ["scikit-build-core", "numpy < 2.0"]
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "pyluxcore"
 version = "2.9.alpha1"
-dependencies = ["numpy<2"]
+dependencies = ["numpy < 2.0"]
 requires-python = ">=3.8"
 license = {text = "Apache-2.0"}
 authors = [{name="Howetuft"}]

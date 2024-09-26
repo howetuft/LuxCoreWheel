@@ -1,3 +1,7 @@
+echo "CIBW_BEFORE_BUILD: pip"
+pip install conan
+pip install $GITHUB_WORKSPACE/externals/windows/_boost_wheel
+
 echo "CIBW_BEFORE_BUILD: Boost"
 source $GITHUB_WORKSPACE/externals/windows/boost-create-base-deps.sh
 
