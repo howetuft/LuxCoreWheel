@@ -6,9 +6,6 @@ name: LuxCore Python wheels
 
 on: [push, pull_request]
 
-#permissions:
-#  id-token: write # Important for at least docker gha cache
-#  contents: write
 
 jobs:
   build_wheels:
@@ -40,11 +37,11 @@ jobs:
         with:
           python-version: '3.${{ matrix.python-minor }}'
 
-      - name: Windows - Prepare Python deps
-        if: ${{ runner.os }} == "Windows"
-        uses: ./.github/actions/windows-python-deps
-        with:
-          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+      #- name: Windows - Prepare Python deps
+        #if: ${{ runner.os }} == "Windows"
+        #uses: ./.github/actions/windows-python-deps
+        #with:
+          #job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
       - name: Windows - Set up build system
         if: ${{ runner.os }} == "Windows"
@@ -55,24 +52,6 @@ jobs:
       - name: Windows - Clean source tree
         if: ${{ runner.os }} == "Windows"
         uses: ./.github/actions/windows-clean-tree
-
-      # - name: Windows - Build boost-python and boost-numpy
-      #   if: ${{ runner.os }} == "Windows"
-      #   uses: ./.github/actions/windows-boost-python
-      #   with:
-      #     job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
-
-
-      # - name: Windows - Build oidn
-      #   if: ${{ runner.os }} == "Windows"
-      #   uses: ./.github/actions/windows-oidn
-      #   with:
-      #     job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
-
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
-
-
 
       # Build wheel
       - name: Build wheels
@@ -99,19 +78,6 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             PYTHON_V=''
             SPDLOG_FMT_EXTERNAL=on
-            #CMAKE_LIBRARY_PATH='${{ env.PYTHONLOCATION }}\libs'
-            #CMAKE_INCLUDE_PATH='${{ env.WINDOWS_DEPS }}\include'
-            #CMAKE_PREFIX_PATH='${{ env.WINDOWS_DEPS }}'
-            #BOOST_ROOT='${{ steps.boost.outputs.root }}'
-            #BOOST_LIBRARYDIR='${{ steps.boost.outputs.librarydir }}'
-            #CMAKE_BUILD_TYPE='Release'
-            #CMAKE_BUILD_PARALLEL_LEVEL='4'
-            #CXXFLAGS='-DBOOST_NO_CXX11_SCOPED_ENUMS -DBOOST_FILESYSTEM_VERSION=3'
-            #CFLAGS='-DXML_STATIC'
-            #CMAKE_CXX_COMPILER_LAUNCHER=sccache
-            #CMAKE_C_COMPILER_LAUNCHER=sccache
-            #CMAKE_CXX_STANDARD=17
-            #CMAKE_BUILD_TYPE='Release'
         with:
             package-dir: .
             output-dir: wheelhouse
@@ -121,14 +87,6 @@ jobs:
       #- name: Setup tmate session
         #if: ${{ failure() }}
         #uses: mxschmitt/action-tmate@v3
-
-      ## Upload sccache log (debug)
-      #- uses: actions/upload-artifact@v4
-        #if: always()
-        #with:
-          #name: sccache_${{ matrix.python-minor }}
-          #path: 'C:\hostedtoolcache\windows\sccache\sccache.log'
-
 
       - uses: actions/upload-artifact@v4
         with:

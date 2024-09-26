@@ -106,23 +106,8 @@ conan_create_recipe() {
   sed "s/MODULE/$1/" ${origdir}/boost-base-dep-template.txt > ${destdir}/conanfile.py
 
   conan source "${destdir}"
-  #conan editable add $destdir
 
 }
-
-#conan_build_recipe() {
-  #local destdir=~/.boost_conan/${1}
-
-  ##conan install "${destdir}" --build=missing -s build_type=Release
-  #conan install "${destdir}" -s build_type=Release
-
-  ##conan editable add $destdir
-  ##conan install "${destdir}" -s build_type=Release
-  ##conan build "${destdir}"
-
-  #echo "LuxCoreWheels - Module ${1} created in ${destdir}"
-
-#}
 
 set -eo pipefail
 
@@ -134,7 +119,6 @@ echo ""
 
 
 # Prerequisite
-#conan install --requires boost/1.78.0
 conan install --requires "zlib/[>=1.2.11 <2]"
 
 # Launch parallel build
@@ -151,45 +135,17 @@ for pid in ${pids[*]}; do
 done
 
 # Put in editable mode (warning: conan not thread-safe, do not parallelize)
-#cd ~/.boost_conan
 for dep in ${deps[@]}; do
   conan editable add ~/.boost_conan/$dep
 done
-
-#for dep in ${deps[@]}; do
-  #conan install ~/.boost_conan/$dep --build=editable --no-remote -s build_type=Release
-#done
-
-#for dep in ${deps[@]}; do
-  #conan build ~/.boost_conan/$dep
-#done
-#for dep in ${deps[@]}; do
-  #conan install ~/.boost_conan/$dep --no-remote --build=missing -s build_type=Release
-#done
-
-## Launch parallel build
-#pids=()
-#for i in ${!deps[@]}; do
-  #dep=${deps[$i]}
-  #pids[${i}]=$!
-#done
-
-## Wait for all treatments to finish
-#for pid in ${pids[*]}; do
-    #wait $pid
-#done
-
 
 echo "LuxCoreWheels - BUILDING BOOST"
 
 # Create boost package
 boost_destdir=~/.boost_conan/boost
 cp -R $origdir/boost-boost ${boost_destdir}
-#conan install ${boost_destdir} --no-remote --build=editable -s build_type=Release
 conan source ${boost_destdir}  # Create CMakeLists
 conan editable add ${boost_destdir}
-#conan build ${boost_destdir} --build=editable -s build_type=Release
-#conan build ${boost_destdir} -s build_type=Release
 
 
 echo "*******************************************"
