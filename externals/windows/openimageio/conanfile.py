@@ -79,11 +79,11 @@ class OpenImageIOConan(ConanFile):
     def requirements(self):
         # Required libraries
         self.requires("boost/1.78.0@luxcorewheels/luxcorewheels")  # Modified
-        self.requires("boost-filesystem/1.78.0@luxcorewheels/luxcorewheels")
-        self.requires("boost-thread/1.78.0@luxcorewheels/luxcorewheels")
-        self.requires("boost-system/1.78.0@luxcorewheels/luxcorewheels")
-        self.requires("boost-container/1.78.0@luxcorewheels/luxcorewheels")
-        self.requires("boost-regex/1.78.0@luxcorewheels/luxcorewheels")
+        # self.requires("boost-filesystem/1.78.0@luxcorewheels/luxcorewheels")
+        # self.requires("boost-thread/1.78.0@luxcorewheels/luxcorewheels")
+        # self.requires("boost-system/1.78.0@luxcorewheels/luxcorewheels")
+        # self.requires("boost-container/1.78.0@luxcorewheels/luxcorewheels")
+        # self.requires("boost-regex/1.78.0@luxcorewheels/luxcorewheels")
         self.requires("openexr/2.5.7", transitive_headers=True, transitive_libs=True)  # Modified
         self.requires("zlib/[>=1.2.11 <2]")
         self.requires("libtiff/4.3.0")
@@ -94,12 +94,7 @@ class OpenImageIOConan(ConanFile):
             self.requires("libjpeg-turbo/2.0.5")
         self.requires("pugixml/1.14")
         self.requires("tsl-robin-map/1.2.1")
-        # if Version(self.version) >= "2.4.17.0":
-            # self.requires("fmt/10.2.1", transitive_headers=True)
-        # else:
-            # self.requires("fmt/9.1.0", transitive_headers=True)
         self.requires("fmt/7.1.3", transitive_headers=True)
-        # self.requires("qt/5.15.14")
 
         # Optional libraries
         if self.options.with_libpng:
@@ -154,28 +149,6 @@ class OpenImageIOConan(ConanFile):
         self.folders.build = PurePosixPath("build", build_type)
         self.folders.generators = PurePosixPath("build", build_type, "generators")
 
-        #cp -R src/include .
-        #conan build .
-        #cp -R build/Release/lib .
-        #cp -R build/Release/include/* include
-
-        # Describe package
-        # self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        # self.cpp.package.includedirs += [
-            # os.path.join(self.folders.build, "include"),
-        # ]
-        # self.cpp.package.libdirs += [
-            # self.folders.build, os.path.join(self.folders.build, "lib"),
-        # ]
-        # print("OIIO package libdirs", self.cpp.package.libdirs)
-
-
-        # self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        # self.cpp.source.includedirs += ["src/include"]
-        # self.cpp.build.libdirs += ["lib"]
-        print("OIIO build libdirs", self.cpp.build.libdirs)
-        # https://github.com/conan-io/conan/issues/13400
-
         # Main
         self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
         self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
@@ -195,51 +168,6 @@ class OpenImageIOConan(ConanFile):
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
         self.cpp.build.libdirs = ["lib"]
         self.cpp.build.includedirs = ["include"]
-        return
-        # # Components
-        # self.cpp.build.components["OpenImageIO"].libs = ["OpenImageIO"]
-        # self.cpp.source.components["OpenImageIO"].includedirs = self.cpp.source.includedirs
-        # self.cpp.build.components["OpenImageIO"].libdirs = self.cpp.build.libdirs
-
-
-        # self.cpp.build.components["OpenImageIO_Util"].libs = ["OpenImageIO_Util"]
-        # self.cpp.source.components["OpenImageIO_Util"].includedirs = self.cpp.source.includedirs
-        # self.cpp.build.components["OpenImageIO_Util"].libdirs = self.cpp.build.libdirs
-
-        # self.cpp.build.libdirs.append("lib")
-        # self.cpp.build.includedirs.append("include")
-        # self.cpp.source.libdirs = [os.path.join(self.folders.build, "lib")]
-        # print("oiio layout:")
-        # print(f"build: {self.folders.build}")
-        # print(f"build.lib: {self.cpp.build.libdirs}")
-        # print(f"build.include: {self.cpp.build.includedirs}")
-        # print(f"source.include: {self.cpp.source.includedirs}")
-
-        # define project folder structure for editable mode
-
-        # self.folders.source = "."
-        # self.folders.build = os.path.join("build", str(self.settings.build_type))
-        # self.folders.generators = os.path.join(self.folders.build, "generators")
-        # print(f"build: {self.folders.build}")
-
-        # this information is relative to the source folder that is '.'
-        self.cpp.source.includedirs = [os.path.join("src", "include")] # maps to ./include
-
-        # this information is relative to the build folder that is './build/<build_type>', so it will
-        # self.cpp.build.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        # self.cpp.build.libdirs = [".", "lib"]  # map to ./build/<build_type> for libdirs
-        # self.cpp.build.includedirs = ["include"]  # map to ./build/<build_type> for libdirs
-        ## cpp.package information is for consumers to find the package contents in the Conan cache
-
-        # self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        # self.cpp.package.includedirs = ["include"] # includedirs is already set to 'include' by
-                                                   # # default, but declared for completion
-        # self.cpp.package.libdirs = ["lib"]         # libdirs is already set to 'lib' by
-                                                   # # default, but declared for completion
-
-        ## cpp.source and cpp.build information is specifically designed for editable packages:
-
-
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
@@ -396,108 +324,12 @@ class OpenImageIOConan(ConanFile):
         component = self.cpp_info.components[self._conan_comp(name)]
         component.set_property("cmake_target_name", f"OpenImageIO::{name}")
         component.set_property("cmake_file_name", name)
-        # component.set_property("cmake_find_package", name)
-        # component.set_property("cmake_find_package_multi", name)
-        # component.names["cmake_find_package"] = name
-        # component.names["cmake_find_package_multi"] = name
         return component
 
     def package_info(self):
-        # self.cpp_info.bindirs = []
-        # self.cpp_info.libdirs += ["lib"]
-
-
         self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
-        # self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
         self.cpp_info.set_property("cmake_target_name", "openimageio::openimageio")
         self.cpp_info.libs = ["OpenImageIO", "OpenImageIO_Util"]
         self.cpp_info.libdirs = [os.path.join("build", "Release", "lib")]
         if not self.options.shared:
             self.cpp_info.defines.append("OIIO_STATIC_DEFINE")
-        return
-
-        # self.cpp_info.set_property("cmake_find_package", "OpenImageIO")
-        # self.cpp_info.set_property("cmake_find_package_multi", "OpenImageIO")
-        # self.cpp_info.names["cmake_find_package"] = "OpenImageIO"
-        # self.cpp_info.names["cmake_find_package_multi"] = "OpenImageIO"
-
-        # OpenImageIO::OpenImageIO_Util
-        open_image_io_util = self._add_component("OpenImageIO_Util")
-        open_image_io_util.libs = ["OpenImageIO_Util"]
-        open_image_io_util.requires = [
-            "boost::boost",
-            "boost-filesystem::boost-filesystem",
-            "boost-thread::boost-thread",
-            "boost-system::boost-system",
-            "boost-regex::boost-regex",
-            # "imath::imath",  # Modified (relies on openexr)
-            "openexr::openexr",
-        ]
-        if self.settings.os in ["Linux", "FreeBSD"]:
-            open_image_io_util.system_libs.extend(
-                ["dl", "m", "pthread"]
-            )
-        if self.options.with_tbb:
-            open_image_io_util.requires.append("onetbb::onetbb")
-
-        # OpenImageIO::OpenImageIO
-        open_image_io = self._add_component("OpenImageIO")
-        open_image_io.libs = ["OpenImageIO"]
-        open_image_io.requires = [
-            "openimageio_openimageio_util",
-            "zlib::zlib",
-            "boost::boost",
-            "boost-thread::boost-thread",
-            "boost-system::boost-system",
-            "boost-container::boost-container",
-            "boost-regex::boost-regex",
-            "boost-filesystem::boost-filesystem",
-            "libtiff::libtiff",
-            "pugixml::pugixml",
-            "tsl-robin-map::tsl-robin-map",
-            "fmt::fmt",
-            # "imath::imath",
-            "openexr::openexr",
-        ]
-
-        print(f"OIIO Components: {self.cpp_info.components}")
-
-        if self.options.with_libjpeg == "libjpeg":
-            open_image_io.requires.append("libjpeg::libjpeg")
-        elif self.options.with_libjpeg == "libjpeg-turbo":
-            open_image_io.requires.append(
-                "libjpeg-turbo::libjpeg-turbo"
-            )
-        if self.options.with_libpng:
-            open_image_io.requires.append("libpng::libpng")
-        if self.options.with_freetype:
-            open_image_io.requires.append("freetype::freetype")
-        if self.options.with_hdf5:
-            open_image_io.requires.append("hdf5::hdf5")
-        if self.options.with_opencolorio:
-            open_image_io.requires.append("opencolorio::opencolorio")
-        if self.options.with_opencv:
-            open_image_io.requires.append("opencv::opencv")
-        if self.options.with_dicom:
-            open_image_io.requires.append("dcmtk::dcmtk")
-        if self.options.with_ffmpeg:
-            open_image_io.requires.append("ffmpeg::ffmpeg")
-        if self.options.with_giflib:
-            open_image_io.requires.append("giflib::giflib")
-        if self.options.with_libheif:
-            open_image_io.requires.append("libheif::libheif")
-        if self.options.with_raw:
-            open_image_io.requires.append("libraw::libraw")
-        if self.options.with_openjpeg:
-            open_image_io.requires.append("openjpeg::openjpeg")
-        if self.options.with_openvdb:
-            open_image_io.requires.append("openvdb::openvdb")
-        if self.options.with_ptex:
-            open_image_io.requires.append("ptex::ptex")
-        if self.options.with_libwebp:
-            open_image_io.requires.append("libwebp::libwebp")
-        if self.settings.os in ["Linux", "FreeBSD"]:
-            open_image_io.system_libs.extend(["dl", "m", "pthread"])
-
-        if not self.options.shared:
-            open_image_io.defines.append("OIIO_STATIC_DEFINE")
