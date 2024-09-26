@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         #python-minor: ['8', '9', '10', '11', '12']
-        python-minor: ['12']
+        python-minor: ['8']
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         os: [windows-latest]
     env:
