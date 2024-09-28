@@ -1,9 +1,12 @@
 echo "CIBW_BEFORE_BUILD: pip"
 pip install conan
-pip install $GITHUB_WORKSPACE/externals/windows/_boost_wheel
+pip install delvewheel
 
-echo "CIBW_BEFORE_BUILD: Boost"
-source $GITHUB_WORKSPACE/externals/windows/boost-create-base-deps.sh
+echo "CIBW_BEFORE_BUILD: Boost Python"
+boost_python=$GITHUB_WORKSPACE/externals/windows/boost-python
+conan editable add ${boost_python}
+conan source ${boost_python}
+#source $GITHUB_WORKSPACE/externals/windows/boost-create-base-deps.sh
 
 # https://github.com/conan-io/conan/issues/13400
 echo "CIBW_BEFORE_BUILD: OIIO"
@@ -18,4 +21,10 @@ conan source ${oidn}
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
-conan install --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels --profile=conan_profile --build=editable -s build_type=Release
+conan install \
+  --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
+  --profile=conan_profile \
+  --build=editable \
+  --deployer=runtime_deploy \
+  --deployer-folder=$GITHUB_WORKSPACE/libs \
+  -s build_type=Release

@@ -23,7 +23,8 @@ class LuxCore(ConanFile):
         "c-blosc/1.21.5",
         "oidn/2.3.0@luxcorewheels/luxcorewheels",
         "openexr/2.5.7",
-        f"boost/{_boost_version}@luxcorewheels/luxcorewheels",
+        f"boost/{_boost_version}",
+        f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {
