@@ -17,7 +17,7 @@ jobs:
         #python-minor: ['8', '9', '10', '11', '12']
         python-minor: ['8']
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-        os: [windows-latest]
+        os: [ubuntu-latest, windows-latest]
     env:
       GH_TOKEN: ${{ github.token }}
       SCCACHE_GHA_ENABLED: on
@@ -38,13 +38,13 @@ jobs:
           python-version: '3.${{ matrix.python-minor }}'
 
       - name: Windows - Set up build system
-        if: ${{ runner.os }} == "Windows"
+        if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-build-system
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
       - name: Windows - Clean source tree
-        if: ${{ runner.os }} == "Windows"
+        if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-clean-tree
 
       # Build wheel
