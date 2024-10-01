@@ -40,6 +40,13 @@ runs:
         sed -i "8i #include<cstring>" deps/opencolorio-2.0.0/src/OpenColorIO/FileRules.cpp
       shell: bash
 
+    - name: Fix libOpenImageDenoise version
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        sed -i "s/libOpenImageDenoise.so.0/libOpenImageDenoise.so.1/g" cmake/Packages/FindOidn.cmake
+      shell: bash
+
+
 
     - name: Remove Demos and Tests
       working-directory:  ${{ github.workspace }}/LuxCore
