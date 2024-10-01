@@ -94,3 +94,9 @@ if(WIN32)
     OpenColorIO::OpenColorIO
   )
 endif(WIN32)
+
+if(UNIX)
+  set(BOOST_INCLUDEDIR "/usr/include/boost1.78" CACHE PATH "" FORCE)
+  install(TARGETS pyluxcore LIBRARY DESTINATION lib)
+endif(UNIX)
+
