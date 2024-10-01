@@ -4,6 +4,8 @@ project(luxcore_wrapper)
 enable_language(C)
 enable_language(CXX)
 set (CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 
 
 if(WIN32)
@@ -58,6 +60,11 @@ endif(WIN32)
 
 if(UNIX)
   MESSAGE(STATUS "LuxCoreWheel: using Linux settings")
+
+  # TODO Harmonize with WIN32?
+  find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
+  include_directories(${Python3_INCLUDE_DIRS})
+
   set(OpenGL_GL_PREFERENCE "LEGACY")
   set(BOOST_LIBRARYDIR "/usr/lib64/boost1.78;/usr/lib64" CACHE PATH "" FORCE)
   set(BOOST_INCLUDEDIR "/usr/include/boost1.78;/usr/lib64" CACHE PATH "" FORCE)
