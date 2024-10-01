@@ -34,6 +34,13 @@ runs:
         #sed -i "/target_link_libraries(luxcore/d" src/luxcore/CMakeLists.txt
       #shell: bash
 
+    - name: Add missing include in OCIO dep
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        sed -i "8i #include<cstring>" deps/opencolorio-2.0.0/src/OpenColorIO/FileRules.cpp
+      shell: bash
+
+
     - name: Remove Demos and Tests
       working-directory:  ${{ github.workspace }}/LuxCore
       run: |
