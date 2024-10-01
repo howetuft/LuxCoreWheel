@@ -28,6 +28,12 @@ runs:
         done
       shell: bash
 
+    - name: Remove /TP compiler flag
+      working-directory:  ${{ github.workspace }}\LuxCore
+      run: |
+          sed -i "/\/TP/d" cmake/PlatformSpecific.cmake
+      shell: bash
+
     - name: Remove luxcore target_link_libraries
       working-directory:  ${{ github.workspace }}\LuxCore
       run: |
