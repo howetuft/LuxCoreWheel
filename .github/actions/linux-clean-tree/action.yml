@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: linux-clean-tree
+description: LuxCore Python Wheels - Clean/update source tree for Linux build
+runs:
+  using: 'composite'
+  steps:
+
+    #- name: Remove all Find*.cmake
+      #working-directory:  ${{ github.workspace }}
+      #run: |
+        #find . -wholename '${{ github.workspace }}/LuxCore/cmake/Packages/Find*.cmake' -delete
+      #shell: bash
+
+    #- name: Remove duplicate embedded libraries
+      #working-directory:  ${{ github.workspace }}/LuxCore
+      #run: |
+        #for lib in opencolorio yaml expat spdlog
+        #do
+          #echo "LuxCoreWheel - Removing '${lib}'"
+          #sed -i "/deps\/${lib}/d" src/slg/CMakeLists.txt
+          #sed -i "/add_library(${lib}/d" src/slg/CMakeLists.txt
+          #sed -i "/target_compile_definitions(${lib}/d" src/slg/CMakeLists.txt
+          #rm -rf deps/${lib}*
+        #done
+      #shell: bash
+
+    #- name: Remove luxcore target_link_libraries
+      #working-directory:  ${{ github.workspace }}/LuxCore
+      #run: |
+        #echo "Removing luxcore target_link_libraries"
+        #sed -i "/target_link_libraries(luxcore/d" src/luxcore/CMakeLists.txt
+      #shell: bash
+
+    - name: Remove Samples
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        sed -i "/samples/d" CMakeLists.txt 
+      shell: bash
+
+    - name: Remove GTK3
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        sed -i "/GTK3/d" cmake/Dependencies.cmake
+      shell: bash
+
+    - name: Switch CMAKE_SOURCE_DIR to PROJECT_SOURCE_DIR
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs sed -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
+      shell: bash
+
+    - name: Set CMAKE_CXX_STANDARD to 14
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs sed -i 's/11/14/g'
+      shell: bash

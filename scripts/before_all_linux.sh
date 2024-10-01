@@ -34,4 +34,4 @@ cp -r ${OIDN_DIR}/lib/* /usr/lib
 echo "Installing AlmaLinux packages"
 /usr/bin/crb enable
 dnf -y install epel-release
-dnf -y install libtiff-devel libjpeg-devel libpng-devel OpenImageIO-devel OpenEXR-devel flex tbb-devel blosc-devel gtk3-devel boost1.78-devel boost1.78-thread boost1.78-program-options boost1.78-filesystem boost1.78-serialization boost1.78-iostreams boost1.78-regex boost1.78-system boost1.78-python3 boost1.78-chrono boost1.78-serialization boost1.78-numpy3
+dnf -y install libtiff-devel libjpeg-devel libpng-devel OpenImageIO-devel OpenEXR-devel flex tbb-devel blosc-devel boost1.78-devel boost1.78-thread boost1.78-program-options boost1.78-filesystem boost1.78-serialization boost1.78-iostreams boost1.78-regex boost1.78-system boost1.78-python3 boost1.78-chrono boost1.78-serialization boost1.78-numpy3

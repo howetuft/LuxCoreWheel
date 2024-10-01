@@ -55,6 +55,11 @@ if(WIN32)
   CMAKE_POLICY(SET CMP0141 NEW)
 endif(WIN32)
 
+
+if(UNIX)
+  set(OpenGL_GL_PREFERENCE "LEGACY")
+endif(UNIX)
+
 # Add LuxCore
 add_subdirectory(LuxCore)
 

@@ -37,6 +37,10 @@ jobs:
         with:
           python-version: '3.${{ matrix.python-minor }}'
 
+      - name: Linux - Clean source tree
+        if: matrix.os == 'ubuntu-latest'
+        uses: ./.github/actions/linux-clean-tree
+
       - name: Windows - Set up build system
         if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-build-system

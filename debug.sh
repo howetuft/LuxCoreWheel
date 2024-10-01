@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# Debug linux build locally
+
+
 # Script to run build locally. You need 'act' to be installed in your
 # system
 
@@ -9,5 +12,5 @@
 act \
   --action-offline-mode \
   -s GITHUB_TOKEN="$(gh auth token)" \
-  --matrix os:ubuntu-latest --matrix python-minor:'12' \
+  --matrix os:ubuntu-latest --matrix python-minor:'8' \
   --artifact-server-path /tmp/artifacts
