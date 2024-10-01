@@ -37,7 +37,7 @@ runs:
     - name: Remove Samples
       working-directory:  ${{ github.workspace }}/LuxCore
       run: |
-        sed -i "/samples/d" CMakeLists.txt 
+        sed -i "/samples/d" CMakeLists.txt
       shell: bash
 
     - name: Remove GTK3
