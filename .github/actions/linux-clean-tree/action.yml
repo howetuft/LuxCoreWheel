@@ -34,6 +34,15 @@ runs:
         #sed -i "/target_link_libraries(luxcore/d" src/luxcore/CMakeLists.txt
       #shell: bash
 
+    - name: Remove Demos and Tests
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        for target in luxcoredemo luxcorescenedemo luxcoreimplserializationdemo luxcoreconsole pyunittests
+        do
+          sed -i "/${target}/d" CMakeLists.txt
+        done
+      shell: bash
+
     - name: Remove Samples
       working-directory:  ${{ github.workspace }}/LuxCore
       run: |

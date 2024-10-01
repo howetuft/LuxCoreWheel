@@ -28,6 +28,15 @@ runs:
         done
       shell: bash
 
+    - name: Remove Demos and Tests
+      working-directory:  ${{ github.workspace }}/LuxCore
+      run: |
+        for target in luxcoredemo luxcorescenedemo luxcoreimplserializationdemo luxcoreconsole pyunittests
+        do
+          sed -i "/${target}/d" CMakeLists.txt
+        done
+      shell: bash
+
     - name: Remove /TP compiler flag
       working-directory:  ${{ github.workspace }}\LuxCore
       run: |
