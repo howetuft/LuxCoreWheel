@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: all-clean-tree
+description: LuxCore Python Wheels - Clean/update source tree for all builds
+runs:
+  using: 'composite'
+  steps:
+
+    - name: Remove Demos, Tests and Samples
+      shell: 'bash'
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        useless_targets=(
+          luxcoredemo
+          luxcorescenedemo
+          luxcoreimplserializationdemo
+          luxcoreconsole
+          luxcoreui
+          pyunittests
+          samples
+        )
+        for target in "${useless_targets[@]}"
+        do
+          echo "Removing ${target}"
+          sed -i "/${target}/d" CMakeLists.txt
+        done
+
+    - name: Remove GTK3
+      shell: 'bash'
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        sed -i "/GTK3/d" cmake/Dependencies.cmake
+
+    - name: Switch CMAKE_SOURCE_DIR to PROJECT_SOURCE_DIR
+      shell: 'bash'
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs sed -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
+
+    - name: Set C++ to 14
+      shell: 'bash'
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs sed -i 's/11/14/g'
+
+    - name: Add missing code for {fmt} Camera
+      shell: 'bash'
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        snippet='
+        template <>
+        struct fmt::formatter<luxcore::Camera::CameraType> {
+            formatter() { std::cout << "formatter<luxcore::Camera::CameraType>()\n"; }
+
+            constexpr auto parse(fmt::format_parse_context& ctx) {
+                return ctx.begin();
+            }
+
+            auto format(const luxcore::Camera::CameraType& cam, fmt::format_context& ctx) const {
+                return fmt::format_to(ctx.out(), "{}", int(cam));
+            }
+        };'
+        echo "" >> src/luxcore/luxcoreimpl.cpp
+        echo $snippet >> src/luxcore/luxcoreimpl.cpp

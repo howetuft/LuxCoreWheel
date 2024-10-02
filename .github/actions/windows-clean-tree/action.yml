@@ -28,15 +28,6 @@ runs:
         done
       shell: bash
 
-    - name: Remove Demos and Tests
-      working-directory:  ${{ github.workspace }}/LuxCore
-      run: |
-        for target in luxcoredemo luxcorescenedemo luxcoreimplserializationdemo luxcoreconsole pyunittests
-        do
-          sed -i "/${target}/d" CMakeLists.txt
-        done
-      shell: bash
-
     - name: Remove /TP compiler flag
       working-directory:  ${{ github.workspace }}\LuxCore
       run: |
@@ -48,16 +39,4 @@ runs:
       run: |
         echo "Removing luxcore target_link_libraries"
         sed -i "/target_link_libraries(luxcore/d" src/luxcore/CMakeLists.txt
-      shell: bash
-
-    - name: Switch CMAKE_SOURCE_DIR to PROJECT_SOURCE_DIR
-      working-directory:  ${{ github.workspace }}\LuxCore
-      run: |
-        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs sed -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
-      shell: bash
-
-    - name: Set CMAKE_CXX_STANDARD to 14
-      working-directory:  ${{ github.workspace }}\LuxCore
-      run: |
-        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs sed -i 's/11/14/g'
       shell: bash

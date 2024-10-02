@@ -6,7 +6,6 @@ name: LuxCore Python wheels
 
 on: [push, pull_request]
 
-
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
@@ -31,6 +30,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 1
+
       - name: Configure sccache
         uses: actions/github-script@v6
         with:
@@ -43,19 +43,22 @@ jobs:
         with:
           python-version: '3.${{ matrix.python-minor }}'
 
+      - name: All - Clean source tree
+        uses: ./.github/actions/all-clean-tree
+
       - name: Linux - Clean source tree
         if: matrix.os == 'ubuntu-latest'
         uses: ./.github/actions/linux-clean-tree
+
+      - name: Windows - Clean source tree
+        if: matrix.os == 'windows-latest'
+        uses: ./.github/actions/windows-clean-tree
 
       - name: Windows - Set up build system
         if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-build-system
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
-
-      - name: Windows - Clean source tree
-        if: matrix.os == 'windows-latest'
-        uses: ./.github/actions/windows-clean-tree
 
       # Build wheel
       - name: Build wheels
@@ -96,6 +99,7 @@ jobs:
         #if: ${{ failure() }}
         #uses: mxschmitt/action-tmate@v3
 
+      # Upload artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
