@@ -116,5 +116,4 @@ if(UNIX)
   set(BOOST_INCLUDEDIR "/usr/include/boost1.78" CACHE PATH "" FORCE)
 endif(UNIX)
 
-install(TARGETS pyluxcore LIBRARY DESTINATION lib)
-
+install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)
