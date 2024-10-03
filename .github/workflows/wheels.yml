@@ -62,7 +62,7 @@ jobs:
 
       # Build wheel
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21.1
+        uses: pypa/cibuildwheel@v2.21.2
         env:
           SCCACHE_GHA_ENABLED: "true"
           CIBW_BUILD_FRONTEND: build
