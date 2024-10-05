@@ -3,9 +3,16 @@ project(luxcore_wrapper)
 
 enable_language(C)
 enable_language(CXX)
-set (CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+
+set(LUXRAYS_ENABLE_OPENCL TRUE)
+set(LUXRAYS_ENABLE_CUDA TRUE)
+set(LUXRAYS_ENABLE_OPTIX TRUE)
+unset(LUXRAYS_DISABLE_OPENCL)
+unset(LUXRAYS_DISABLE_CUDA)
+unset(LUXRAYS_DISABLE_OPTIX)
 
 
 if(WIN32)
@@ -22,6 +29,7 @@ if(WIN32)
   find_package(oidn REQUIRED)
   find_package(Boost_python REQUIRED)
   find_package(Boost REQUIRED)
+  find_package(OpenCL REQUIRED)
 
   # Python
   MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
