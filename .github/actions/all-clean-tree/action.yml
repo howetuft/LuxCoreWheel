@@ -17,10 +17,11 @@ runs:
           echo "SED=sed" >> $GITHUB_ENV
         fi
 
-    - name: Remove Platform Specifics
+    - name: Remove Platform Specifics and Configuration
       shell: bash
       run: |
-        $SED -i "/PlatformSpecific/d" CMakeLists.txt
+        $SED -i "/INCLUDE(PlatformSpecific)/d" CMakeLists.txt
+        $SED -i "/INCLUDE(Configuration)/d" CMakeLists.txt
 
     - name: Remove Demos, Tests and Samples
       shell: 'bash'
