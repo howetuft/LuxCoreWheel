@@ -18,6 +18,7 @@ runs:
         fi
 
     - name: Remove Platform Specifics and Configuration
+      working-directory: ${{ github.workspace }}/LuxCore
       shell: bash
       run: |
         $SED -i "/INCLUDE(PlatformSpecific)/d" CMakeLists.txt
