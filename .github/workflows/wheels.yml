@@ -40,7 +40,7 @@ jobs:
 
       - name: Macos - Prepare tools
         run: |
-          brew install gnu-sed --default-names
+          brew install gnu-sed
 
       - name: All - Clean source tree
         uses: ./.github/actions/all-clean-tree
