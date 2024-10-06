@@ -17,6 +17,11 @@ runs:
           echo "SED=sed" >> $GITHUB_ENV
         fi
 
+    - name: Remove Platform Specifics
+      shell: bash
+      run: |
+        $SED -i "PlatformSpecific/d" CMakeLists.txt
+
     - name: Remove Demos, Tests and Samples
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
