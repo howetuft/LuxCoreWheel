@@ -13,10 +13,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #python-minor: ['8', '9', '10', '11', '12', '13']
-        python-minor: ['8', '12']
+        python-minor: ['8', '9', '10', '11', '12', '13']
+        #python-minor: ['8']
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-        os: [ubuntu-latest, windows-latest]
+        os: [macos-13]
     env:
       GH_TOKEN: ${{ github.token }}
       SCCACHE_GHA_ENABLED: on
@@ -38,6 +38,10 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
+      - name: Macos - Prepare tools
+        run: |
+          brew install gnu-sed
+
       - name: All - Clean source tree
         uses: ./.github/actions/all-clean-tree
 
@@ -49,9 +53,19 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-clean-tree
 
+      - name: Macos-13 - Clean source tree
+        if: matrix.os == 'macos-13'
+        uses: ./.github/actions/macos-clean-tree
+
       - name: Windows - Set up build system
         if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-build-system
+        with:
+          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+
+      - name: Macos-13 - Set up build system
+        if: matrix.os == 'macos-13'
+        uses: ./.github/actions/macos-build-system
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
@@ -74,11 +88,25 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
           CIBW_BEFORE_BUILD_WINDOWS: |
             bash.exe %GITHUB_WORKSPACE%/scripts/before_build_windows.sh
+          CIBW_BEFORE_BUILD_MACOS: |
+            source $GITHUB_WORKSPACE/scripts/before_build_macos.sh  # TODO
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
             auditwheel repair -w {dest_dir} {wheel} --strip
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe %GITHUB_WORKSPACE%/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
+          CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
+            cp {wheel} $GITHUB_WORKSPACE
+            export DYLD_LIBRARY_PATH=${GITHUB_WORKSPACE}/libs
+            delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_ENVIRONMENT_WINDOWS: >-
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
+            SCCACHE_LOG=debug
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SPDLOG_FMT_EXTERNAL=on
+            BOOST_INSTALL_LAYOUT=system
+          CIBW_ENVIRONMENT_MACOS: >-
+            MACOSX_DEPLOYMENT_TARGET=11.0
+            CMAKE_INSTALL_NAME_DIR=${{ github.workspace }}/libs
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG=debug
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
@@ -91,6 +119,13 @@ jobs:
 
       #- name: Setup tmate session
         #uses: mxschmitt/action-tmate@v3
+
+      # Upload cache log (debug)
+      - uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with:
+          name: sccache-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ${{ github.workspace }}/sccache.log
 
       #- name: Setup tmate session
         #if: ${{ failure() }}

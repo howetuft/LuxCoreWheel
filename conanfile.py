@@ -39,6 +39,7 @@ class LuxCore(ConanFile):
         tc.absolute_paths = True
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
+        tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
         tc.generate()
 
         cd = CMakeDeps(self)
@@ -50,8 +51,6 @@ class LuxCore(ConanFile):
 
     def layout(self):
         cmake_layout(self)
-
-
 
     def package_info(self):
         self.conf_info.define("cmake.build:verbosity", "debug")

@@ -52,7 +52,7 @@ class OpenImageIOConan(ConanFile):
         "with_libjpeg": "libjpeg",
         "with_libpng": True,
         "with_freetype": True,
-        "with_hdf5": True,
+        "with_hdf5": False,
         "with_opencolorio": True,
         "with_opencv": False,
         "with_tbb": False,
@@ -133,7 +133,7 @@ class OpenImageIOConan(ConanFile):
 
     def validate(self):
         if self.settings.compiler.cppstd:
-            check_min_cppstd(self, 14)
+            check_min_cppstd(self, 11)
         if is_msvc(self) and is_msvc_static_runtime(self) and self.options.shared:
             raise ConanInvalidConfiguration(
                 "Building shared library with static runtime is not supported!"
