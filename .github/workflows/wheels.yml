@@ -38,6 +38,10 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
+      - name: Macos - Prepare tools
+        run: |
+          brew install gnu-sed --default-names
+
       - name: All - Clean source tree
         uses: ./.github/actions/all-clean-tree
 
