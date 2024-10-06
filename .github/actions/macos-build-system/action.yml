@@ -40,8 +40,6 @@ runs:
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
 
-    # For main compilation
-    - uses: ilammy/msvc-dev-cmd@v1
 
     # Initialize Conan with local packages
     - name: Initialize Conan
