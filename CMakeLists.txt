@@ -15,7 +15,7 @@ unset(LUXRAYS_DISABLE_CUDA)
 unset(LUXRAYS_DISABLE_OPTIX)
 
 
-if(WIN32)
+if(WIN32 OR APPLE)
   message(STATUS "LuxCoreWheel - Add conan targets")
   find_package(TBB REQUIRED)
   find_package(minizip REQUIRED)
@@ -59,13 +59,15 @@ if(WIN32)
   include_directories(${oidn_INCLUDE_DIR})
   include_directories(${fmt_INCLUDE_DIR})
   include_directories(${Blosc_INCLUDE_DIR})
+endif(WIN32 OR APPLE)
 
+if(MSVC)
   SET(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "Embedded")
   CMAKE_POLICY(SET CMP0141 NEW)
-endif(WIN32)
+endif(MSVC)
 
 
-if(UNIX)
+if(LINUX)
   MESSAGE(STATUS "LuxCoreWheel: using Linux settings")
 
   # TODO Harmonize with WIN32?
