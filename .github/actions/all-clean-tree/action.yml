@@ -46,7 +46,7 @@ runs:
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs sed -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
+        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs $SED -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
 
     - name: Set C++ to 14
       shell: 'bash'
