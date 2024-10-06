@@ -14,7 +14,7 @@ runs:
   steps:
     - name: Install OpenMP
       run: |
-        brew install libomp
+        brew install llvm libomp
         _openmp_root="OpenMP_ROOT=$(brew --prefix)/opt/libomp"
         echo $_openmp_root
         echo $_openmp_root >> $GITHUB_ENV
