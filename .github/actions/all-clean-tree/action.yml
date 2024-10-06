@@ -20,7 +20,7 @@ runs:
     - name: Remove Platform Specifics
       shell: bash
       run: |
-        $SED -i "PlatformSpecific/d" CMakeLists.txt
+        $SED -i "/PlatformSpecific/d" CMakeLists.txt
 
     - name: Remove Demos, Tests and Samples
       shell: 'bash'
