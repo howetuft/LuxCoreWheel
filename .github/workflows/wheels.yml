@@ -84,6 +84,8 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
           CIBW_BEFORE_BUILD_WINDOWS: |
             bash.exe %GITHUB_WORKSPACE%/scripts/before_build_windows.sh
+          CIBW_BEFORE_BUILD_MACOS: |
+            source $GITHUB_WORKSPACE/scripts/before_build_windows.sh  # TODO
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
             auditwheel repair -w {dest_dir} {wheel} --strip
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
