@@ -17,7 +17,6 @@ runs:
         echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
         echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
         echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
-        #echo "SCCACHE_DIRECT=False" >> $GITHUB_ENV
         echo "SCCACHE_ERROR_LOG=../../sccache.log" >> $GITHUB_ENV
         # LogLevel in {error, warn, info, debug, trace}, see parse.rs
         echo "SCCACHE_LOG=Info" >> $GITHUB_ENV

@@ -38,11 +38,6 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.${{ matrix.python-minor }}'
-
       - name: All - Clean source tree
         uses: ./.github/actions/all-clean-tree
 
@@ -77,18 +72,18 @@ jobs:
             ACTIONS_RUNTIME_TOKEN
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
-          CIBW_BEFORE_ALL_WINDOWS: pip install "numpy < 2.0"
-          CIBW_BEFORE_BUILD_WINDOWS: bash.exe %GITHUB_WORKSPACE%/scripts/before_build_windows.sh
+          CIBW_BEFORE_BUILD_WINDOWS: |
+            bash.exe %GITHUB_WORKSPACE%/scripts/before_build_windows.sh
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
             auditwheel repair -w {dest_dir} {wheel} --strip
-          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: bash.exe %GITHUB_WORKSPACE%/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
+            bash.exe %GITHUB_WORKSPACE%/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_ENVIRONMENT_WINDOWS: >-
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             SCCACHE_LOG=debug
-            LIBDIR='${{ env.Python_ROOT_DIR }}'
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            PYTHON_V=''
             SPDLOG_FMT_EXTERNAL=on
+            BOOST_INSTALL_LAYOUT=system
         with:
             package-dir: .
             output-dir: wheelhouse

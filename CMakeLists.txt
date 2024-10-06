@@ -29,7 +29,6 @@ if(WIN32)
   find_package(oidn REQUIRED)
   find_package(Boost_python REQUIRED)
   find_package(Boost REQUIRED)
-  find_package(OpenCL REQUIRED)
 
   # Python
   MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
