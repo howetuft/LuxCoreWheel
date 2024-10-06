@@ -59,6 +59,12 @@ jobs:
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
+      - name: Macos-13 - Set up build system
+        if: matrix.os == 'macos-13'
+        uses: ./.github/actions/macos-build-system
+        with:
+          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+
       # Build wheel
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.2
