@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: windows-build-system
+description: LuxCore Python Wheels - Build boost-python & boost-numpy for Windows build
+inputs:
+  job-id:
+    description: 'Job unique identifier (for caching)'
+    required: true
+    type: string
+runs:
+  using: 'composite'
+  steps:
+    - name: Install OpenMP
+      run: |
+        brew install llvm libomp
+        _openmp_root="OpenMP_ROOT=$(brew --prefix)/opt/libomp"
+        echo $_openmp_root
+        echo $_openmp_root >> $GITHUB_ENV
+      shell: bash
+
+    - name: Install Bison/Flex
+      run: |
+        brew install bison flex
+        #_path="PATH='$(brew --prefix bison)/bin:$PATH'"
+        #echo $_path >> $GITHUB_ENV
+      shell: bash
+
+    - name: Init environment
+      run: |
+        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
+        echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
+        echo "SCCACHE_ERROR_LOG=${{ github.workspace }}/sccache.log" >> $GITHUB_ENV
+        # LogLevel in {error, warn, info, debug, trace}, see parse.rs
+        echo "SCCACHE_LOG=debug" >> $GITHUB_ENV
+        echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        echo "BOOST_INSTALL_LAYOUT=system" >> $GITHUB_ENV
+      shell: bash
+    # Debug
+    #- uses: mxschmitt/action-tmate@v3
+
+    # Setup the build machine with the most recent versions of CMake and Ninja. Both are cached if not already: on subsequent runs both will be quickly restored from GitHub cache service.
+    # https://github.com/lukka/run-vcpkg
+    - uses: lukka/get-cmake@latest
+
+    - name: Setup sccache
+      id: sccache
+      uses: mozilla-actions/sccache-action@v0.0.5
+
+
+    # Initialize Conan with local packages
+    - name: Initialize Conan
+      working-directory: ${{ github.workspace }}/LuxCore
+      env:
+        PKG_CONFIG_PATH: .
+      run: |
+        # Copy profiles
+        mkdir -p ~/.conan2/profiles
+        cp ../conan_profile_macos ~/.conan2/profiles/default
+
+        cp ../conanfile.py .
+        unset ORIGINAL_PATH
+      shell: bash
