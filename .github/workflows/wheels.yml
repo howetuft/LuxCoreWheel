@@ -41,6 +41,7 @@ jobs:
       - name: Macos - Prepare tools
         run: |
           brew install gnu-sed
+          echo 'PATH="$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$PATH"' >> $GITHUB_ENV
 
       - name: All - Clean source tree
         uses: ./.github/actions/all-clean-tree
