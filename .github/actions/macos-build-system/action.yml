@@ -15,7 +15,9 @@ runs:
     - name: Install OpenMP
       run: |
         brew install libomp
-        echo "OpenMP_ROOT=$(brew --prefix)/opt/libomp" >> $GITHUB_ENV
+        _openmp_root="OpenMP_ROOT=$(brew --prefix)/opt/libomp"
+        echo $_openmp_root
+        echo $_openmp_root >> $GITHUB_ENV
       shell: bash
 
     - name: Init environment
