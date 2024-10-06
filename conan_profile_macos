@@ -10,4 +10,3 @@ os=Macos
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.build:verbosity=verbose
-tools.build:cxxflags=["/openmp", "/MP", "/DEBUG:FASTLINK"]
