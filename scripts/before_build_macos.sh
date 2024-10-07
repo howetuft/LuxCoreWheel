@@ -7,7 +7,6 @@ set -o pipefail
 echo "CIBW_BEFORE_BUILD: pip"
 pip install conan
 pip install "numpy < 2.0"
-pip install delvewheel &
 
 echo "CIBW_BEFORE_BUILD: Boost Python"
 boost_python=$GITHUB_WORKSPACE/externals/windows/boost-python
