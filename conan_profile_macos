@@ -2,9 +2,9 @@
 arch=x86_64
 build_type=Release
 compiler=apple-clang
-compiler.cppstd=17
+compiler.cppstd=11
 compiler.libcxx=libc++
-compiler.version=11
+compiler.version=16
 os=Macos
 
 [conf]
