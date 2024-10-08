@@ -10,4 +10,3 @@ os=Macos
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.build:verbosity=verbose
-core:warnings_as_errors=[]
