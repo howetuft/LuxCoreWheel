@@ -39,6 +39,7 @@ class LuxCore(ConanFile):
         tc.absolute_paths = True
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
+        tc.variable["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
         tc.generate()
 
         cd = CMakeDeps(self)
