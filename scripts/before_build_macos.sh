@@ -40,3 +40,5 @@ conan install \
   --deployer=runtime_deploy \
   --deployer-folder=$GITHUB_WORKSPACE/libs \
   -s build_type=Release
+
+echo "CI env variable ${CI}"
