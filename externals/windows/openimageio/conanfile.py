@@ -52,7 +52,7 @@ class OpenImageIOConan(ConanFile):
         "with_libjpeg": "libjpeg",
         "with_libpng": True,
         "with_freetype": True,
-        "with_hdf5": True,
+        "with_hdf5": False,
         "with_opencolorio": True,
         "with_opencv": False,
         "with_tbb": False,
@@ -229,7 +229,7 @@ class OpenImageIOConan(ConanFile):
         tc.variables["USE_OPENJPEG"] = self.options.with_openjpeg
 
         tc.preprocessor_definitions["BOOST_NO_CXX98_FUNCTION_BASE"] = None  # No deprecated functions (C++17)
-        tc.cache_variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
+        tc.cache_variables["STOP_ON_WARNING"] = False
 
         tc.generate()
 
