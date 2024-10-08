@@ -36,6 +36,7 @@ conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile=conan_profile_macos \
   --build=editable \
+  --build=missing \
   --deployer=runtime_deploy \
   --deployer-folder=$GITHUB_WORKSPACE/libs \
   -s build_type=Release
