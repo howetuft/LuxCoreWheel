@@ -16,6 +16,8 @@ class OidnConan(ConanFile):
             base = f"oidn-{self.version}.x64.windows"
         elif self.settings.os == "Macos":
             base = f"oidn-{self.version}.x86_64.macos"
+        else:
+            raise RuntimeError(f"OIDN: {self.settings.os} unhandled os")
 
         build_type = self.settings.get_safe("build_type", default="Release")
         # Define project folder structure
