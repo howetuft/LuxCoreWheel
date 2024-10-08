@@ -31,5 +31,14 @@ class OidnConan(ConanFile):
         self.cpp.source.bindirs = [os.path.join(base, "bin")]
 
     def source(self):
-        url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
+        if self.settings.os == "Windows":
+            url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
+        elif self.settings.os == "Macos":
+            arch = str(self.settings.arch).lower()
+            url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.{arch}.macos.zip"
+        else:
+            raise RuntimeError(
+                "Unhandled os/arch {self.settings.os}/{self.settings.arch}"
+            )
+
         get(self, url)
