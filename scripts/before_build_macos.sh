@@ -32,6 +32,7 @@ cp -rv $GITHUB_WORKSPACE/externals/windows/oidn/oidn-2.3.0.x64.windows/bin/. $GI
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
+unset CI
 conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile=conan_profile_macos \
@@ -40,5 +41,3 @@ conan install \
   --deployer=runtime_deploy \
   --deployer-folder=$GITHUB_WORKSPACE/libs \
   -s build_type=Release
-
-echo "CI env variable ${CI}"
