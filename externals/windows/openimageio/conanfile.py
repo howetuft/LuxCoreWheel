@@ -229,7 +229,7 @@ class OpenImageIOConan(ConanFile):
         tc.variables["USE_OPENJPEG"] = self.options.with_openjpeg
 
         tc.preprocessor_definitions["BOOST_NO_CXX98_FUNCTION_BASE"] = None  # No deprecated functions (C++17)
-        tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
+        tc.cache_variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
 
         tc.generate()
 
