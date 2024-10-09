@@ -20,9 +20,8 @@ conan editable add ${oiio}
 conan source ${oiio} &
 
 echo "CIBW_BEFORE_BUILD: OIDN"
-oidn=$GITHUB_WORKSPACE/externals/windows/oidn
+oidn=$GITHUB_WORKSPACE/externals/windows/oidn_macos13
 conan editable add ${oidn}
-conan install ${oidn} --profile=conan_profile_macos -s build_type=Release # For self.settings to be set
 conan source ${oidn} &
 
 wait
