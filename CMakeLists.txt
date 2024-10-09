@@ -6,6 +6,7 @@ enable_language(CXX)
 
 include(CMakePrintHelpers)
 set(CMAKE_FIND_DEBUG_MODE True)
+cmake_print_variables(CMAKE_MODULE_PATH)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
