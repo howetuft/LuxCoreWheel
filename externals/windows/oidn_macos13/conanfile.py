@@ -18,7 +18,7 @@ class OidnConan(ConanFile):
         # (no build)...
 
         self.folders.source = "."
-        base = f"oidn-{self.version}.x64.windows"
+        base = f"oidn-{self.version}.x86_64.macos"
         self.folders.build = os.path.join("build", build_type)
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
@@ -31,5 +31,5 @@ class OidnConan(ConanFile):
         self.cpp.source.bindirs = [os.path.join(base, "bin")]
 
     def source(self):
-        url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
+        url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x86_64.macos.zip"
         get(self, url)
