@@ -31,5 +31,5 @@ class OidnConan(ConanFile):
         self.cpp.source.bindirs = [os.path.join(base, "bin")]
 
     def source(self):
-        url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x86_64.macos.zip"
+        url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x86_64.macos.tar.gz"
         get(self, url)
