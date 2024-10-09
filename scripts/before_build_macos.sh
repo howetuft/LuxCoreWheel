@@ -28,7 +28,7 @@ wait
 
 # TODO In oidn conanfile?
 mkdir $GITHUB_WORKSPACE/libs
-cp -rv $GITHUB_WORKSPACE/externals/windows/oidn/oidn-2.3.0.x64.windows/bin/. $GITHUB_WORKSPACE/libs/
+cp -rv $GITHUB_WORKSPACE/externals/windows/oidn/oidn-2.3.0.x86_64.macos/bin/. $GITHUB_WORKSPACE/libs/
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
