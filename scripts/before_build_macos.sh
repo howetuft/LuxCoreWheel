@@ -7,6 +7,7 @@ set -o pipefail
 echo "CIBW_BEFORE_BUILD: pip"
 pip install conan
 pip install "numpy < 2.0"
+conan profile detect --force  # TODO
 
 echo "CIBW_BEFORE_BUILD: Boost Python"
 boost_python=$GITHUB_WORKSPACE/externals/windows/boost-python
@@ -21,6 +22,7 @@ conan source ${oiio} &
 echo "CIBW_BEFORE_BUILD: OIDN"
 oidn=$GITHUB_WORKSPACE/externals/windows/oidn
 conan editable add ${oidn}
+conan install ${oidn} --profile=conan_profile_macos -s build_type=Release # For self.settings to be set
 conan source ${oidn} &
 
 wait
@@ -31,7 +33,7 @@ cp -rv $GITHUB_WORKSPACE/externals/windows/oidn/oidn-2.3.0.x64.windows/bin/. $GI
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
-unset CI
+unset CI  # Otherwise OIIO passes -Werror to compiler!
 conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile=conan_profile_macos \

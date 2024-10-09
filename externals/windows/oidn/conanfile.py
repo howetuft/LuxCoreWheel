@@ -12,19 +12,13 @@ class OidnConan(ConanFile):
     channel = "luxcorewheels"
 
     def layout(self):
-        if self.settings.os == "Windows":
-            base = f"oidn-{self.version}.x64.windows"
-        elif self.settings.os == "Macos":
-            base = f"oidn-{self.version}.x86_64.macos"
-        else:
-            raise RuntimeError(f"OIDN: {self.settings.os} unhandled os")
-
         build_type = self.settings.get_safe("build_type", default="Release")
         # Define project folder structure
         # We directly download binaries, so it's a very simplified layout
         # (no build)...
 
         self.folders.source = "."
+        base = f"oidn-{self.version}.x64.windows"
         self.folders.build = os.path.join("build", build_type)
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
@@ -38,7 +32,4 @@ class OidnConan(ConanFile):
 
     def source(self):
         url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
-        get(self, url)
-
-        url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x86_64.macos.zip"
         get(self, url)
