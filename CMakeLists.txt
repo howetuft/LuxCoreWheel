@@ -101,7 +101,7 @@ endif(LINUX)
 add_subdirectory(LuxCore)
 
 # Add deps targets to LuxCore libs
-if(WIN32 OR APPLE)
+if(WIN32)
 
   target_link_libraries(bcd PRIVATE boost::boost)
   target_link_libraries(openvdb PRIVATE boost::boost)
@@ -130,7 +130,37 @@ if(WIN32 OR APPLE)
     Boost::serialization Boost::thread boost::boost
     OpenColorIO::OpenColorIO
   )
-endif(WIN32 OR APPLE)
+endif(WIN32)
+
+if(APPLE)
+  target_link_libraries(bcd PRIVATE boost::boost)
+  target_link_libraries(openvdb PRIVATE boost::boost)
+  target_link_libraries(opensubdiv PRIVATE boost::boost)
+  target_link_libraries(slg-core PRIVATE boost::boost OpenColorIO::OpenColorIO)
+  target_link_libraries(slg-kernels PRIVATE boost::boost)
+  target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
+  target_link_libraries(pyluxcore 
+    slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
+    TBB::TBB MINIZIP::minizip spdlog::spdlog_header_only
+    openexr::openexr
+    OpenEXR::IlmImfConfig
+    IlmBase::IlmBaseConfig
+    IlmBase::Half
+    IlmBase::Iex
+    IlmBase::IexMath
+    IlmBase::IlmThread
+    IlmBase::IMath
+    OpenEXR::IlmImf
+    openexr::ilmbase_conan_pkgconfig
+    OpenEXR::IlmImfUtil
+    embree openimageio::openimageio PNG::PNG
+    c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
+    Boost::chrono Boost::system Boost::filesystem Boost::container
+    Boost::date_time Boost::iostreams Boost::program_options Boost::random
+    Boost::serialization Boost::thread boost::boost
+    OpenColorIO::OpenColorIO
+  )
+endif(APPLE)
 
 if(UNIX)
   set(BOOST_INCLUDEDIR "/usr/include/boost1.78" CACHE PATH "" FORCE)
