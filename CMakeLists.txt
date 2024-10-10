@@ -62,6 +62,7 @@ if(WIN32 OR APPLE)
   include_directories(${oidn_INCLUDE_DIR})
   include_directories(${fmt_INCLUDE_DIR})
   include_directories(${Blosc_INCLUDE_DIR})
+  include_directories(${OpenEXR_INCLUDE_DIR})
 endif(WIN32 OR APPLE)
 
 if(MSVC)
@@ -100,7 +101,7 @@ endif(LINUX)
 add_subdirectory(LuxCore)
 
 # Add deps targets to LuxCore libs
-if(WIN32)
+if(WIN32 OR APPLE)
 
   target_link_libraries(bcd PRIVATE boost::boost)
   target_link_libraries(openvdb PRIVATE boost::boost)
