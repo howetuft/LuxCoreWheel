@@ -96,6 +96,12 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             SPDLOG_FMT_EXTERNAL=on
             BOOST_INSTALL_LAYOUT=system
+          CIBW_ENVIRONMENT_MACOS: >-
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
+            SCCACHE_LOG=debug
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SPDLOG_FMT_EXTERNAL=on
+            BOOST_INSTALL_LAYOUT=system
         with:
             package-dir: .
             output-dir: wheelhouse
