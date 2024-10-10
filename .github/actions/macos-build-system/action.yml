@@ -20,6 +20,11 @@ runs:
         echo $_openmp_root >> $GITHUB_ENV
       shell: bash
 
+    - name: Install Bison/Flex
+      run: |
+        brew install bison flex
+      shell: bash
+
     - name: Init environment
       run: |
         echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
