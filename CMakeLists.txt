@@ -76,8 +76,8 @@ if(APPLE)
   include_directories(${OpenMP_CXX_INCLUDE_DIRS})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 
-  cmake_print_variables(OpenEXR_INCLUDE_DIRS)
-  include_directories(${OpenEXR_INCLUDE_DIRS})
+  cmake_print_variables(OPENEXR_INCLUDE_DIRS)
+  include_directories(${OPENEXR_INCLUDE_DIRS})
 endif(APPLE)
 
 if(LINUX)
