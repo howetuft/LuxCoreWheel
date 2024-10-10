@@ -4,7 +4,7 @@ project(luxcore_wrapper)
 enable_language(C)
 enable_language(CXX)
 
-#include(CMakePrintHelpers)
+include(CMakePrintHelpers)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -70,14 +70,10 @@ if(MSVC)
 endif(MSVC)
 
 if(APPLE)
-  set(LLVM_PATH "/usr/local/opt/llvm")
+  # OpenMP
   find_package(OpenMP REQUIRED)
-  include_directories(OpenMP_INCLUDE_DIR)
-  set(OpenMP_CXX_FLAGS "-Xclang -fopenmp -I${LLVM_PATH}/include")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L${LLVM_PATH}/lib -lomp")
-  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L${LLVM_PATH}/lib -lomp")
-  MESSAGE(STATUS "OpenMP found")
+  cmake_print_variables(OpenMP_INCLUDE_DIR OpenMP_LIBRARIES)
+  include_directories(${OpenMP_INCLUDE_DIR})
 endif(APPLE)
 
 if(LINUX)
