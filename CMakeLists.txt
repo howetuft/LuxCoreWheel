@@ -72,7 +72,7 @@ endif(MSVC)
 if(APPLE)
   # Bison/Flex
   set(BISON_ROOT "/usr/local/opt/bison")
-  set(BISON_ROOT "/usr/local/opt/flex")
+  set(BISON_FLEX "/usr/local/opt/flex")
   find_package(BISON REQUIRED)
   find_package(FLEX REQUIRED)
 
