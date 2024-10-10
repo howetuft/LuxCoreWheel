@@ -70,6 +70,9 @@ if(MSVC)
 endif(MSVC)
 
 if(APPLE)
+  # Bison
+  find_package(Bison REQUIRED HINTS "/usr/local/opt/bison")
+
   # OpenMP
   find_package(OpenMP REQUIRED)
   cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_CXX_LIBRARIES)
