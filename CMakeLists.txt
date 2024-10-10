@@ -70,8 +70,9 @@ if(MSVC)
 endif(MSVC)
 
 if(APPLE)
-  # Bison
+  # Bison/Flex
   find_package(Bison REQUIRED HINTS "/usr/local/opt/bison")
+  find_package(Fles REQUIRED HINTS "/usr/local/opt/flex")
 
   # OpenMP
   find_package(OpenMP REQUIRED)
