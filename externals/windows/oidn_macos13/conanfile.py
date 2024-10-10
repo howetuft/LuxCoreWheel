@@ -25,7 +25,7 @@ class OidnConan(ConanFile):
         ## cpp.source and cpp.build information is specifically designed
         # for editable packages:
         # this information is relative to the source folder
-        self.cpp.source.libs = ["OpenImageDenoise", "OpenImageDenoise_core"]
+        self.cpp.source.libs = [ "OpenImageDenoise" ]
         self.cpp.source.includedirs = [os.path.join(base, "include")]
         self.cpp.source.libdirs = [os.path.join(base, "lib")]
         self.cpp.source.bindirs = [os.path.join(base, "bin")]
