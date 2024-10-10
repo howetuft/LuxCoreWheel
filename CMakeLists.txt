@@ -130,7 +130,7 @@ if(WIN32 OR APPLE)
     Boost::serialization Boost::thread boost::boost
     OpenColorIO::OpenColorIO
   )
-endif(WIN32)
+endif(WIN32 OR APPLE)
 
 if(UNIX)
   set(BOOST_INCLUDEDIR "/usr/include/boost1.78" CACHE PATH "" FORCE)
