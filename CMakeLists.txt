@@ -73,7 +73,8 @@ if(APPLE)
   # OpenMP
   find_package(OpenMP REQUIRED)
   cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_CXX_LIBRARIES)
-  include_directories(${OpenMP_CXX_INCLUDE_DIRs})
+  include_directories(${OpenMP_CXX_INCLUDE_DIRS})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif(APPLE)
 
 if(LINUX)
@@ -93,7 +94,7 @@ if(LINUX)
   SET(CMAKE_LIBRARY_PATH "${LuxRays_SOURCE_DIR}/../target-64-sse2/lib;${LuxRays_SOURCE_DIR}/../target-64-sse2")
   SET(Blosc_USE_STATIC_LIBS   "ON")
   SET(CMAKE_BUILD_TYPE "Release")
-endif(UNIX)
+endif(LINUX)
 
 # Add LuxCore
 add_subdirectory(LuxCore)
