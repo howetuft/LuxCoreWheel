@@ -71,8 +71,8 @@ endif(MSVC)
 
 if(APPLE)
   # Bison/Flex
-  find_package(Bison REQUIRED HINTS "/usr/local/opt/bison")
-  find_package(Fles REQUIRED HINTS "/usr/local/opt/flex")
+  find_package(BISON REQUIRED HINTS "/usr/local/opt/bison")
+  find_package(FLEX REQUIRED HINTS "/usr/local/opt/flex")
 
   # OpenMP
   find_package(OpenMP REQUIRED)
