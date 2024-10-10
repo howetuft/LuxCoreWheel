@@ -72,8 +72,8 @@ endif(MSVC)
 if(APPLE)
   # OpenMP
   find_package(OpenMP REQUIRED)
-  cmake_print_variables(OpenMP_INCLUDE_DIR OpenMP_LIBRARIES)
-  include_directories(${OpenMP_INCLUDE_DIR})
+  cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_CXX_LIBRARIES)
+  include_directories(${OpenMP_CXX_INCLUDE_DIRs})
 endif(APPLE)
 
 if(LINUX)
