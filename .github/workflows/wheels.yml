@@ -53,6 +53,10 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-clean-tree
 
+      - name: Macos-13 - Clean source tree
+        if: matrix.os == 'macos-13'
+        uses: ./.github/actions/macos-clean-tree
+
       - name: Windows - Set up build system
         if: matrix.os == 'windows-latest'
         uses: ./.github/actions/windows-build-system
