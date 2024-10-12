@@ -230,6 +230,7 @@ class OpenImageIOConan(ConanFile):
 
         tc.preprocessor_definitions["BOOST_NO_CXX98_FUNCTION_BASE"] = None  # No deprecated functions (C++17)
         tc.cache_variables["STOP_ON_WARNING"] = False
+        tc.cache_variables["USE_STD_REGEX"] = True
 
         tc.generate()
 
