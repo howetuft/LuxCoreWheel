@@ -72,13 +72,16 @@ endif(MSVC)
 
 if(APPLE)
   # Bison/Flex
-  set(BISON_ROOT "/usr/local/opt/bison")
-  set(BISON_FLEX "/usr/local/opt/flex")
+  #set(BISON_ROOT "/usr/local/opt/bison")
+  #set(BISON_FLEX "/usr/local/opt/flex")
+  set(BISON_ROOT "/opt/homebrew/opt/bison")
+  set(FLEX_ROOT "/opt/homebrew/opt/flex")
   find_package(BISON REQUIRED)
   find_package(FLEX REQUIRED)
 
   # OpenMP
-  find_package(OpenMP REQUIRED)
+  set(OpenMP_ROOT "/opt/homebrew/opt/libomp")
+  find_package(OpenMP)
   cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_CXX_LIBRARIES)
   include_directories(${OpenMP_CXX_INCLUDE_DIRS})
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")

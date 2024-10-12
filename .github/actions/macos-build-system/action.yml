@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: windows-build-system
-description: LuxCore Python Wheels - Build boost-python & boost-numpy for Windows build
+name: macos-build-system
+description: LuxCore Python Wheels - Build boost-python & boost-numpy for Macos build
 inputs:
   job-id:
     description: 'Job unique identifier (for caching)'
@@ -12,14 +12,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install OpenMP
-      run: |
-        brew install llvm libomp
-        _openmp_root="OpenMP_ROOT=$(brew --prefix)/opt/libomp"
-        echo $_openmp_root
-        echo $_openmp_root >> $GITHUB_ENV
-      shell: bash
-
     - name: Install Bison/Flex
       run: |
         brew install bison flex

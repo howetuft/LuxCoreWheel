@@ -13,10 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: ['8', '9', '10', '11', '12', '13']
-        #python-minor: ['8']
+        #python-minor: ['8', '9', '10', '11', '12', '13']
+        #python-minor: ['13']
+        python-minor: ['8', '9', '10', '11', '12']
         # os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-        os: [macos-13]
+        os: [ubuntu-latest, windows-latest, macos-13]
     env:
       GH_TOKEN: ${{ github.token }}
       SCCACHE_GHA_ENABLED: on
@@ -39,6 +40,7 @@ jobs:
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Macos - Prepare tools
+        if: startsWith(matrix.os, 'macos')
         run: |
           brew install gnu-sed
 
@@ -46,25 +48,25 @@ jobs:
         uses: ./.github/actions/all-clean-tree
 
       - name: Linux - Clean source tree
-        if: matrix.os == 'ubuntu-latest'
+        if: startsWith(matrix.os, 'ubuntu')
         uses: ./.github/actions/linux-clean-tree
 
       - name: Windows - Clean source tree
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows')
         uses: ./.github/actions/windows-clean-tree
 
-      - name: Macos-13 - Clean source tree
-        if: matrix.os == 'macos-13'
+      - name: Macos - Clean source tree
+        if: startsWith(matrix.os, 'macos')
         uses: ./.github/actions/macos-clean-tree
 
       - name: Windows - Set up build system
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows')
         uses: ./.github/actions/windows-build-system
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
-      - name: Macos-13 - Set up build system
-        if: matrix.os == 'macos-13'
+      - name: Macos - Set up build system
+        if: startsWIth(matrix.os, 'macos')
         uses: ./.github/actions/macos-build-system
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
@@ -79,13 +81,32 @@ jobs:
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
+          CIBW_ARCHS_MACOS: x86_64
           CIBW_ENVIRONMENT_PASS_LINUX: |
             SCCACHE_GHA_ENABLED
             SCCACHE_DIRECT
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-          CIBW_BEFORE_ALL_LINUX: source /project/scripts/before_all_linux.sh
+          CIBW_ENVIRONMENT_WINDOWS: >-
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
+            SCCACHE_LOG=debug
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SPDLOG_FMT_EXTERNAL=on
+            BOOST_INSTALL_LAYOUT=system
+          CIBW_ENVIRONMENT_MACOS: >-
+            MACOSX_DEPLOYMENT_TARGET=11.0
+            CMAKE_INSTALL_NAME_DIR='${{ github.workspace }}/libs'
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
+            SCCACHE_LOG=debug
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SPDLOG_FMT_EXTERNAL=on
+            BOOST_INSTALL_LAYOUT=system
+            USE_BOOST_REGEX=1
+            USE_STD_REGEX=0
+            USE_STD_REGEX_EXITCODE=0
+          CIBW_BEFORE_ALL_LINUX: |
+            source /project/scripts/before_all_linux.sh
           CIBW_BEFORE_BUILD_WINDOWS: |
             bash.exe %GITHUB_WORKSPACE%/scripts/before_build_windows.sh
           CIBW_BEFORE_BUILD_MACOS: |
@@ -98,20 +119,6 @@ jobs:
             cp {wheel} $GITHUB_WORKSPACE
             export DYLD_LIBRARY_PATH=${GITHUB_WORKSPACE}/libs
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
-          CIBW_ENVIRONMENT_WINDOWS: >-
-            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
-            SCCACHE_LOG=debug
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            SPDLOG_FMT_EXTERNAL=on
-            BOOST_INSTALL_LAYOUT=system
-          CIBW_ENVIRONMENT_MACOS: >-
-            MACOSX_DEPLOYMENT_TARGET=11.0
-            CMAKE_INSTALL_NAME_DIR=${{ github.workspace }}/libs
-            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
-            SCCACHE_LOG=debug
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            SPDLOG_FMT_EXTERNAL=on
-            BOOST_INSTALL_LAYOUT=system
         with:
             package-dir: .
             output-dir: wheelhouse
