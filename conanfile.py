@@ -55,6 +55,8 @@ class LuxCore(ConanFile):
         # Alternative filenames
         cd.set_property("openexr", "cmake_file_name", "OPENEXR")
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
+        if self.settings.os == "Macos" and self.settings.arch == "armv8":
+            cd.set_property("embree4", "cmake_file_name", "embree")
 
         cd.generate()
 
