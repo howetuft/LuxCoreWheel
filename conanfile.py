@@ -57,7 +57,6 @@ class LuxCore(ConanFile):
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
         if self.settings.os == "Macos" and self.settings.arch == "armv8":
             cd.set_property("embree4", "cmake_file_name", "embree")
-            cd.set_property("embree4", "cmake_target_name", "embree::embree")
 
         cd.generate()
 
