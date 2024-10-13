@@ -34,7 +34,7 @@ echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
 conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
-  --profile=conan_profile \
+  --profile=default \
   --build=editable \
   --deployer=runtime_deploy \
   --deployer-folder=$GITHUB_WORKSPACE/libs \

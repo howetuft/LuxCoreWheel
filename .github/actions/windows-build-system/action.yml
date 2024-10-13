@@ -46,7 +46,7 @@ runs:
       run: |
         # Copy profiles
         mkdir -p /c/users/runneradmin/.conan2/profiles
-        cp ../conan_profile /c/users/runneradmin/.conan2/profiles/default
+        cp ../conan_profile_windows /c/users/runneradmin/.conan2/profiles/default
 
         cp ../conanfile.py .
         unset ORIGINAL_PATH

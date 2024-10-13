@@ -12,14 +12,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    ## TODO
-    #- name: Install Bison/Flex
-      #run: |
-        #brew install bison flex
-        ##_path="PATH='$(brew --prefix bison)/bin:$PATH'"
-        ##echo $_path >> $GITHUB_ENV
-      #shell: bash
-
     - name: Init environment
       run: |
         echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
@@ -37,6 +29,13 @@ runs:
 
     # Setup the build machine with the most recent versions of CMake and Ninja. Both are cached if not already: on subsequent runs both will be quickly restored from GitHub cache service.
     # https://github.com/lukka/run-vcpkg
+    #
+    - name: Bison
+      run: |
+        brew install bison
+        echo "BISON_ROOT=$(brew --prefix bison)" >> $GITHUB_ENV
+      shell: bash
+
     - uses: lukka/get-cmake@latest
 
     - name: Setup sccache
@@ -50,9 +49,13 @@ runs:
       env:
         PKG_CONFIG_PATH: .
       run: |
+        set -o pipefail
+
         # Copy profiles
+        _profile="${{ github.workspace }}/conan_profile_${RUNNER_OS}_${RUNNER_ARCH}"
+        echo "Copying profile ${_profile}"
         mkdir -p ~/.conan2/profiles
-        cp ../conan_profile_macos ~/.conan2/profiles/default
+        cp ${_profile} ~/.conan2/profiles/default
 
         cp ../conanfile.py .
         unset ORIGINAL_PATH
