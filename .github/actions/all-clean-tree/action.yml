@@ -8,6 +8,15 @@ runs:
   using: 'composite'
   steps:
 
+    - name: Find sed
+      shell: 'bash'
+      run: |
+        if [[ $RUNNER_OS == "macOS" ]]; then
+          echo "SED=gsed" >> $GITHUB_ENV
+        else
+          echo "SED=sed" >> $GITHUB_ENV
+        fi
+
     - name: Remove Demos, Tests and Samples
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
@@ -24,26 +33,26 @@ runs:
         for target in "${useless_targets[@]}"
         do
           echo "Removing ${target}"
-          sed -i "/${target}/d" CMakeLists.txt
+          $SED -i "/${target}/d" CMakeLists.txt
         done
 
     - name: Remove GTK3
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        sed -i "/GTK3/d" cmake/Dependencies.cmake
+        $SED -i "/GTK3/d" cmake/Dependencies.cmake
 
     - name: Switch CMAKE_SOURCE_DIR to PROJECT_SOURCE_DIR
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs sed -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
+        grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs $SED -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
 
     - name: Set C++ to 14
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs sed -i 's/11/14/g'
+        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs $SED -i 's/11/14/g'
 
     - name: Add missing code for {fmt} Camera
       shell: 'bash'

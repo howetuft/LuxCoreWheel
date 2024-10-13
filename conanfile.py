@@ -34,11 +34,20 @@ class LuxCore(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
 
+    def requirements(self):
+        if self.settings.os == "Macos":
+            self.requires("llvm-openmp/18.1.8")
+        if self.settings.os != "Windows":
+            self.tool_requires("bison/3.8.2")
+        else:
+            self.tool_requires("winflexbison/2.5.25")
+
     def generate(self):
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
+        tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
         tc.generate()
 
         cd = CMakeDeps(self)
@@ -50,8 +59,6 @@ class LuxCore(ConanFile):
 
     def layout(self):
         cmake_layout(self)
-
-
 
     def package_info(self):
         self.conf_info.define("cmake.build:verbosity", "debug")

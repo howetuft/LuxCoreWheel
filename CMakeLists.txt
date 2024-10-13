@@ -3,9 +3,13 @@ project(luxcore_wrapper)
 
 enable_language(C)
 enable_language(CXX)
+
+include(CMakePrintHelpers)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
 
 set(LUXRAYS_ENABLE_OPENCL TRUE)
 set(LUXRAYS_ENABLE_CUDA TRUE)
@@ -15,7 +19,7 @@ unset(LUXRAYS_DISABLE_CUDA)
 unset(LUXRAYS_DISABLE_OPTIX)
 
 
-if(WIN32)
+if(WIN32 OR APPLE)
   message(STATUS "LuxCoreWheel - Add conan targets")
   find_package(TBB REQUIRED)
   find_package(minizip REQUIRED)
@@ -23,7 +27,7 @@ if(WIN32)
   find_package(openimageio REQUIRED)
   find_package(PNG REQUIRED)
   find_package(OpenColorIO REQUIRED)
-  find_package(OpenEXR)
+  find_package(OpenEXR REQUIRED)
   find_package(embree REQUIRED)
   find_package(Blosc REQUIRED)
   find_package(oidn REQUIRED)
@@ -59,13 +63,35 @@ if(WIN32)
   include_directories(${oidn_INCLUDE_DIR})
   include_directories(${fmt_INCLUDE_DIR})
   include_directories(${Blosc_INCLUDE_DIR})
+endif(WIN32 OR APPLE)
 
+if(MSVC)
   SET(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "Embedded")
   CMAKE_POLICY(SET CMP0141 NEW)
-endif(WIN32)
+endif(MSVC)
 
+if(APPLE)
+  # Bison/Flex
+  #set(BISON_ROOT "/usr/local/opt/bison")
+  #set(BISON_FLEX "/usr/local/opt/flex")
+  set(BISON_ROOT "/opt/homebrew/opt/bison")
+  set(FLEX_ROOT "/opt/homebrew/opt/flex")
+  find_package(BISON REQUIRED)
+  find_package(FLEX REQUIRED)
 
-if(UNIX)
+  # OpenMP
+  set(OpenMP_ROOT "/opt/homebrew/opt/libomp")
+  find_package(OpenMP)
+  cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_CXX_LIBRARIES)
+  include_directories(${OpenMP_CXX_INCLUDE_DIRS})
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xpreprocessor -fopenmp")
+
+  cmake_print_variables(OPENEXR_INCLUDE_DIRS)
+  include_directories(${OPENEXR_INCLUDE_DIRS})
+endif(APPLE)
+
+if(LINUX)
   MESSAGE(STATUS "LuxCoreWheel: using Linux settings")
 
   # TODO Harmonize with WIN32?
@@ -82,7 +108,7 @@ if(UNIX)
   SET(CMAKE_LIBRARY_PATH "${LuxRays_SOURCE_DIR}/../target-64-sse2/lib;${LuxRays_SOURCE_DIR}/../target-64-sse2")
   SET(Blosc_USE_STATIC_LIBS   "ON")
   SET(CMAKE_BUILD_TYPE "Release")
-endif(UNIX)
+endif(LINUX)
 
 # Add LuxCore
 add_subdirectory(LuxCore)
@@ -118,6 +144,36 @@ if(WIN32)
     OpenColorIO::OpenColorIO
   )
 endif(WIN32)
+
+if(APPLE)
+  target_link_libraries(bcd PRIVATE boost::boost)
+  target_link_libraries(openvdb PRIVATE boost::boost)
+  target_link_libraries(opensubdiv PRIVATE boost::boost)
+  target_link_libraries(slg-core PRIVATE boost::boost OpenColorIO::OpenColorIO)
+  target_link_libraries(slg-kernels PRIVATE boost::boost)
+  target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
+  target_link_libraries(pyluxcore
+    slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
+    TBB::TBB MINIZIP::minizip spdlog::spdlog_header_only
+    openexr::openexr
+    OpenEXR::IlmImfConfig
+    IlmBase::IlmBaseConfig
+    IlmBase::Half
+    IlmBase::Iex
+    IlmBase::IexMath
+    IlmBase::IlmThread
+    IlmBase::IMath
+    OpenEXR::IlmImf
+    openexr::ilmbase_conan_pkgconfig
+    OpenEXR::IlmImfUtil
+    embree openimageio::openimageio PNG::PNG
+    c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
+    Boost::chrono Boost::system Boost::filesystem Boost::container
+    Boost::date_time Boost::iostreams Boost::program_options Boost::random
+    Boost::serialization Boost::thread boost::boost
+    OpenColorIO::OpenColorIO
+  )
+endif(APPLE)
 
 if(UNIX)
   set(BOOST_INCLUDEDIR "/usr/include/boost1.78" CACHE PATH "" FORCE)
