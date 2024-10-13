@@ -7,7 +7,6 @@ set -o pipefail
 echo "CIBW_BEFORE_BUILD: pip"
 pip install conan
 pip install "numpy < 2.0"
-conan profile detect --force  # TODO
 
 echo "CIBW_BEFORE_BUILD: Boost Python"
 boost_python=$GITHUB_WORKSPACE/externals/windows/boost-python
@@ -36,7 +35,7 @@ conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user
 unset CI  # Otherwise OIIO passes -Werror to compiler!
 conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
-  --profile=conan_profile_macos \
+  --profile=default \
   --build=editable \
   --build=missing \
   --deployer=runtime_deploy \

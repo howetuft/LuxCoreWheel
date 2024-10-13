@@ -66,7 +66,7 @@ jobs:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
 
       - name: Macos - Set up build system
-        if: startsWIth(matrix.os, 'macos')
+        if: startsWith(matrix.os, 'macos')
         uses: ./.github/actions/macos-build-system
         with:
           job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
@@ -134,9 +134,9 @@ jobs:
           name: sccache-${{ matrix.os }}-${{ strategy.job-index }}
           path: ${{ github.workspace }}/sccache.log
 
-      #- name: Setup tmate session
-        #if: ${{ failure() }}
-        #uses: mxschmitt/action-tmate@v3
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
 
       # Upload artifacts
       - uses: actions/upload-artifact@v4

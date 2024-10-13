@@ -17,7 +17,7 @@ set(LUXRAYS_ENABLE_OPTIX TRUE)
 unset(LUXRAYS_DISABLE_OPENCL)
 unset(LUXRAYS_DISABLE_CUDA)
 unset(LUXRAYS_DISABLE_OPTIX)
-
+cmake_policy(SET CMP0074 NEW)  # *_ROOT variable
 
 if(WIN32 OR APPLE)
   message(STATUS "LuxCoreWheel - Add conan targets")
@@ -33,6 +33,10 @@ if(WIN32 OR APPLE)
   find_package(oidn REQUIRED)
   find_package(Boost_python REQUIRED)
   find_package(Boost REQUIRED)
+
+  # Bison/Flex
+  find_package(BISON REQUIRED)
+  find_package(FLEX REQUIRED)
 
   # Python
   MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
@@ -71,23 +75,11 @@ if(MSVC)
 endif(MSVC)
 
 if(APPLE)
-  # Bison/Flex
-  #set(BISON_ROOT "/usr/local/opt/bison")
-  #set(BISON_FLEX "/usr/local/opt/flex")
-  set(BISON_ROOT "/opt/homebrew/opt/bison")
-  set(FLEX_ROOT "/opt/homebrew/opt/flex")
-  find_package(BISON REQUIRED)
-  find_package(FLEX REQUIRED)
-
   # OpenMP
-  set(OpenMP_ROOT "/opt/homebrew/opt/libomp")
+  #set(OpenMP_ROOT "/opt/homebrew/opt/libomp")
   find_package(OpenMP)
-  cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_CXX_LIBRARIES)
   include_directories(${OpenMP_CXX_INCLUDE_DIRS})
-  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xpreprocessor -fopenmp")
-
-  cmake_print_variables(OPENEXR_INCLUDE_DIRS)
   include_directories(${OPENEXR_INCLUDE_DIRS})
 endif(APPLE)
 
