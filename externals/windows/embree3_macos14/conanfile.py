@@ -1,6 +1,6 @@
 import os
 import shutil
-from conan.tools.files import get, copy
+from conan.tools.files import get, copy, rename
 from conan import ConanFile
 
 
@@ -32,3 +32,4 @@ class Embree3Conan(ConanFile):
     def source(self):
         url = f"https://github.com/RenderKit/embree/releases/download/v{self.version}/embree-{self.version}.arm64.macosx.zip"
         get(self, url)
+        rename(self, "include/embree4", "include/embree3")
