@@ -12,12 +12,13 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install Bison/Flex
-      run: |
-        brew install bison flex
-        #_path="PATH='$(brew --prefix bison)/bin:$PATH'"
-        #echo $_path >> $GITHUB_ENV
-      shell: bash
+    ## TODO
+    #- name: Install Bison/Flex
+      #run: |
+        #brew install bison flex
+        ##_path="PATH='$(brew --prefix bison)/bin:$PATH'"
+        ##echo $_path >> $GITHUB_ENV
+      #shell: bash
 
     - name: Init environment
       run: |

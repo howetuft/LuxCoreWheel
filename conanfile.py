@@ -35,8 +35,12 @@ class LuxCore(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-      if self.settings.os == "Macos":
-         self.requires("llvm-openmp/18.1.8")
+        if self.settings.os == "Macos":
+            self.requires("llvm-openmp/18.1.8")
+        if self.settings.os != "Windows":
+            self.tool_requires("bison/3.8.2")
+        else:
+            self.tool_requires("winflexbison/2.5.25")
 
     def generate(self):
         tc = CMakeToolchain(self)
