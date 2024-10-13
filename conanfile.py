@@ -13,7 +13,6 @@ class LuxCore(ConanFile):
 
 
     requires = [
-        "onetbb/2020.3",
         "opencolorio/2.1.0",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
@@ -42,7 +41,9 @@ class LuxCore(ConanFile):
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
         if self.settings.os == "Macos" and "arm" in self.settings.arch:
-            self.requires("onetbb/2021.7.0", override=True)
+            self.requires("onetbb/2021.7.0")
+        else:
+            self.requires("onetbb/2020.3")
 
     def generate(self):
         tc = CMakeToolchain(self)
