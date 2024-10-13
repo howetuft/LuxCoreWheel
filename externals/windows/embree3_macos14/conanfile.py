@@ -18,7 +18,6 @@ class Embree3Conan(ConanFile):
         # (no build)...
 
         self.folders.source = "."
-        base = f"embree-{self.version}.arm64.macosx"
         self.folders.build = os.path.join("build", build_type)
         self.folders.generators = os.path.join(self.folders.build, "generators")
 
@@ -26,9 +25,9 @@ class Embree3Conan(ConanFile):
         # for editable packages:
         # this information is relative to the source folder
         self.cpp.source.libs = [ "embree4", "embree4.4" ]
-        self.cpp.source.includedirs = [os.path.join(base, "include")]
-        self.cpp.source.libdirs = [os.path.join(base, "lib")]
-        self.cpp.source.bindirs = [os.path.join(base, "bin")]
+        self.cpp.source.includedirs = ["include"]
+        self.cpp.source.libdirs = ["lib"]
+        self.cpp.source.bindirs = ["bin"]
 
     def source(self):
         url = f"https://github.com/RenderKit/embree/releases/download/v{self.version}/embree-{self.version}.arm64.macosx.zip"
