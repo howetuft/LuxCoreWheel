@@ -30,6 +30,8 @@ class LuxCore(ConanFile):
     default_options = {
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
+        "embree3/*:neon2x": True,
+        "embree3/*:with_tbb": True,
     }
 
     settings = "os", "compiler", "build_type", "arch"
@@ -46,10 +48,6 @@ class LuxCore(ConanFile):
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
-
-        # Embree
-        tc.variables["EMBREE_STATIC_LIB"] = True
-        tc.variables["EMBREE_ISA_SSE42"] = True
 
         tc.generate()
 
