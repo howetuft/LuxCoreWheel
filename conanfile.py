@@ -46,6 +46,11 @@ class LuxCore(ConanFile):
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
+
+        # Embree
+        tc.variables["EMBREE_STATIC_LIB"] = True
+        tc.variables["EMBREE_ISA_SSE42"] = True
+
         tc.generate()
 
         cd = CMakeDeps(self)
