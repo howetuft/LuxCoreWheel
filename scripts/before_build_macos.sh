@@ -23,13 +23,6 @@ oidn=$GITHUB_WORKSPACE/externals/windows/oidn_macos13
 conan editable add ${oidn}
 conan source ${oidn} &
 
-if [[ $RUNNER_ARCH = "ARM64" ]]; then
-  echo "CIBW_BEFORE_BUILD: EMBREE ARM64"
-  embree3_macos14=$GITHUB_WORKSPACE/externals/windows/embree3_macos14
-  conan editable add ${embree3_macos14}
-  conan source ${embree3_macos14} &
-fi
-
 wait
 
 # TODO In oidn conanfile?
