@@ -58,7 +58,8 @@ class LuxCore(ConanFile):
         # Alternative filenames
         cd.set_property("openexr", "cmake_file_name", "OPENEXR")
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
-        cd.set_property("onetbb", "cmake_target_aliases", ["TBB"])
+
+        cd.set_property("onetbb", "cmake_target_name", "TBB")
 
         cd.generate()
 
