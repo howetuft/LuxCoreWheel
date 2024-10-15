@@ -48,6 +48,9 @@ class LuxCore(ConanFile):
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
 
+        if self.settings.os == "Macos" and "arm" in self.settings.arch:
+            tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
+
         tc.generate()
 
         cd = CMakeDeps(self)
