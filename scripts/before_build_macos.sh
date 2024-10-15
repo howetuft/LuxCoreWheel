@@ -19,7 +19,14 @@ conan editable add ${oiio}
 conan source ${oiio} &
 
 echo "CIBW_BEFORE_BUILD: OIDN"
-oidn=$GITHUB_WORKSPACE/externals/windows/oidn_macos13
+if [[ $RUNNER_ARCH == "X64" ]]; then
+  oidn=$GITHUB_WORKSPACE/externals/windows/oidn_macos13
+elif [[ $RUNNER_ARCH == "ARM64" ]]; then
+  oidn=$GITHUB_WORKSPACE/externals/windows/oidn_macos14
+else
+  echo "ERROR: unhandled runner arch '${RUNNER_ARCH}'"
+  exit 64
+fi
 conan editable add ${oidn}
 conan source ${oidn} &
 
