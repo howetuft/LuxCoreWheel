@@ -13,6 +13,7 @@ class LuxCore(ConanFile):
 
 
     requires = [
+        "onetbb/2020.3",
         "opencolorio/2.1.0",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
@@ -30,7 +31,6 @@ class LuxCore(ConanFile):
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
         "embree3/*:neon": True,
-        "embree3/*:with_tbb": True,
     }
 
     settings = "os", "compiler", "build_type", "arch"
@@ -40,10 +40,6 @@ class LuxCore(ConanFile):
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
-        if self.settings.os == "Macos" and "arm" in self.settings.arch:
-            self.requires("onetbb/2021.7.0")
-        else:
-            self.requires("onetbb/2020.3")
 
     def generate(self):
         tc = CMakeToolchain(self)
@@ -58,8 +54,6 @@ class LuxCore(ConanFile):
         # Alternative filenames
         cd.set_property("openexr", "cmake_file_name", "OPENEXR")
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
-
-        cd.set_property("onetbb", "cmake_target_name", None)
 
         cd.generate()
 
