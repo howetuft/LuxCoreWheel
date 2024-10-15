@@ -38,8 +38,12 @@ if [[ $RUNNER_ARCH == "X64" ]]; then
   cp -rv \
     $GITHUB_WORKSPACE/externals/windows/oidn_macos13/oidn-2.3.0.x86_64.macos/bin/. \
     $GITHUB_WORKSPACE/libs/
+    $GITHUB_WORKSPACE/externals/windows/oidn_macos13/oidn-2.3.0.x86_64.macos/lib/. \
+    $GITHUB_WORKSPACE/libs/
 elif [[ $RUNNER_ARCH == "ARM64" ]]; then
   cp -rv \
+    $GITHUB_WORKSPACE/externals/windows/oidn_macos14/oidn-2.3.0.arm64.macos/bin/. \
+    $GITHUB_WORKSPACE/libs/
     $GITHUB_WORKSPACE/externals/windows/oidn_macos14/oidn-2.3.0.arm64.macos/lib/. \
     $GITHUB_WORKSPACE/libs/
 else
