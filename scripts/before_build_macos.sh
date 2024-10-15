@@ -34,8 +34,18 @@ wait
 
 # TODO In oidn conanfile?
 mkdir $GITHUB_WORKSPACE/libs
-cp -rv $GITHUB_WORKSPACE/externals/windows/oidn_macos13/oidn-2.3.0.x86_64.macos/bin/. $GITHUB_WORKSPACE/libs/
-cp -rv $GITHUB_WORKSPACE/externals/windows/oidn_macos13/oidn-2.3.0.x86_64.macos/lib/. $GITHUB_WORKSPACE/libs/
+if [[ $RUNNER_ARCH == "X64" ]]; then
+  cp -rv \
+    $GITHUB_WORKSPACE/externals/windows/oidn_macos13/oidn-2.3.0.x86_64.macos/bin/. \
+    $GITHUB_WORKSPACE/libs/
+elif [[ $RUNNER_ARCH == "ARM64" ]]; then
+  cp -rv \
+    $GITHUB_WORKSPACE/externals/windows/oidn_macos14/oidn-2.3.0.arm64.macos/lib/. \
+    $GITHUB_WORKSPACE/libs/
+else
+  echo "ERROR: unhandled runner arch '${RUNNER_ARCH}'"
+  exit 64
+fi
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
