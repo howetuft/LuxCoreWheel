@@ -30,6 +30,7 @@ class LuxCore(ConanFile):
     default_options = {
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
+        "embree3/*:neon": True,
     }
 
     settings = "os", "compiler", "build_type", "arch"
@@ -46,6 +47,10 @@ class LuxCore(ConanFile):
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
+
+        if self.settings.os == "Macos" and "arm" in self.settings.arch:
+            tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
+
         tc.generate()
 
         cd = CMakeDeps(self)
