@@ -32,7 +32,7 @@ class OidnConan(ConanFile):
             f"OpenImageDenoise_core.{self.version}",
             f"OpenImageDenoise_device_cpu.{self.version}",
             f"OpenImageDenoise_device_metal.{self.version}",
-            "libtbb.12.12",
+            "tbb.12.12",
         ]
         self.cpp.source.includedirs = [os.path.join(base, "include")]
         self.cpp.source.libdirs = [os.path.join(base, "lib")]
