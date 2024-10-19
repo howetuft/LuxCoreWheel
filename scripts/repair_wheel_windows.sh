@@ -14,9 +14,10 @@ echo "- wheel=${wheel}"
 echo "- dest_dir=${dest_dir}"
 echo "- VCToolsRedistDir=${VCToolsRedistDir}"
 
+pip install delvewheel
+
 # Find system folders
 # (list folders, enclose in double quotes and concat)
-# redist_paths=`find "${VCToolsRedistDir}" -type d | awk '{ print "\""$0"\""}' - | paste -s -d ":"`
 redist_paths=`find "${VCToolsRedistDir}" -type d | paste -s -d ":"`
 
 echo "Paths: ${redist_paths}"
@@ -26,5 +27,3 @@ delvewheel repair -v \
   --add-path="${redist_paths}" \
   -w "${dest_dir}" \
   "${wheel}"
-
-# ;$VCToolsInstallDir

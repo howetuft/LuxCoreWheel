@@ -8,7 +8,7 @@ The tool chain involves:
 - scikit-build-core
 - auditwheel (for Linux); delvewheel (for Windows)
 
-The entry point is .github/workflow/wheel.yml.
+The entry point is **.github/workflow/wheel.yml**
 It triggers `cibuildwheel`, which in turns triggers `build`, which in turns
 triggers `scikit-build-core` via `pyproject.toml`.
 
