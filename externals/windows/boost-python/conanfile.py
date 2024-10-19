@@ -7,7 +7,7 @@ from sys import version_info as vi
 
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
-from conan.tools.files import get, copy
+from conan.tools.files import get, copy, replace_in_file
 
 
 BOOST_VERSION = "1.78.0"
@@ -75,6 +75,12 @@ class BoostPythonConan(ConanFile):
             f"https://github.com/boostorg/python/archive/refs/tags/boost-{self.version}.zip",
             strip_root=True,
         )
+        replace_in_file(
+            self,
+            os.path.join(self.source_folder, "CMakeLists.txt"),
+            "find_package(Python REQUIRED COMPONENTS Development OPTIONAL_COMPONENTS NumPy)",
+            "find_package(Python REQUIRED COMPONENTS Development.Module OPTIONAL_COMPONENTS NumPy)",
+        )
 
     def requirements(self):
         self.requires("zlib/[>=1.2.11 <2]")
@@ -118,6 +124,7 @@ class BoostPythonConan(ConanFile):
 
     def generate(self):
         deps = CMakeDeps(self)
+        deps.set_property("python", "cmake_find_mode", "config")  # TODO
         deps.generate()
 
         # Generate also luxcore.cmake
@@ -145,7 +152,8 @@ class BoostPythonConan(ConanFile):
             f.writelines(luxcore)
         tc.cache_variables["CMAKE_PROJECT_INCLUDE"] = filepath
         tc.extra_sharedlinkflags = ["/VERBOSE"]
-        tc.cache_variables["CMAKE_VERBOSE_MAKEFILE"] = "TRUE"
+        tc.cache_variables["CMAKE_VERBOSE_MAKEFILE"] = True
+        # tc.cache_variables["CMAKE_FIND_DEBUG_MODE"] = True  # For debugging
         tc.preprocessor_definitions["BOOST_ALL_NO_LIB"] = None  # No automagic linking
         tc.preprocessor_definitions["BOOST_NO_CXX98_FUNCTION_BASE"] = None  # No deprecated functions (C++17)
         tc.generate()

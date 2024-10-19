@@ -59,6 +59,12 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         uses: ./.github/actions/macos-clean-tree
 
+      - name: Linux - Set up build system
+        if: startsWith(matrix.os, 'linux')
+        uses: ./.github/actions/linux-build-system
+        with:
+          job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
+
       - name: Windows - Set up build system
         if: startsWith(matrix.os, 'windows')
         uses: ./.github/actions/windows-build-system
@@ -81,11 +87,31 @@ jobs:
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
+          CIBW_ENVIRONMENT_LINUX: >-
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
+            SCCACHE_LOG=debug
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SPDLOG_FMT_EXTERNAL=on
+            BOOST_INSTALL_LAYOUT=system
+            PYTHON_TAG='cp3${{ matrix.python-minor }}'
+            Python_ROOT_DIR=/opt/python/cp3${{ matrix.python-minor }}-cp3${{ matrix.python-minor }}
+            Python_DIR=/opt/python/cp3${{ matrix.python-minor }}-cp3${{ matrix.python-minor }}
+            Python_FIND_STRATEGY="LOCATION"
+            CMAKE_C_COMPILER_LAUNCHER="sccache"
+            CMAKE_CXX_COMPILER_LAUNCHER="sccache"
           CIBW_ENVIRONMENT_PASS_LINUX: |
             SCCACHE_GHA_ENABLED
             SCCACHE_DIRECT
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
+            RUNNER_OS
+            RUNNER_ARCH
+            PYTHON_TAG
+            Python_ROOT_DIR
+            Python_DIR
+            Python_FIND_STRATEGY
+            CMAKE_C_COMPILER_LAUNCHER
+            CMAKE_CXX_COMPILER_LAUNCHER
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_ENVIRONMENT_WINDOWS: >-
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
@@ -106,12 +132,20 @@ jobs:
             USE_STD_REGEX_EXITCODE=0
           CIBW_BEFORE_ALL_LINUX: |
             source /project/scripts/before_all_linux.sh
+          CIBW_BEFORE_BUILD_LINUX: |
+            source /project/scripts/before_build_linux.sh
           CIBW_BEFORE_BUILD_WINDOWS: |
             bash.exe %GITHUB_WORKSPACE%/scripts/before_build_windows.sh
           CIBW_BEFORE_BUILD_MACOS: |
             source $GITHUB_WORKSPACE/scripts/before_build_macos.sh  # TODO
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
-            auditwheel repair -w {dest_dir} {wheel} --strip
+            LD_LIBRARY_PATH=/project/libs:$LD_LIBRARY_PATH
+            echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+            export LD_LIBRARY_PATH
+            auditwheel --verbose repair \
+              -w {dest_dir} \
+              {wheel} \
+              --strip
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe %GITHUB_WORKSPACE%/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |

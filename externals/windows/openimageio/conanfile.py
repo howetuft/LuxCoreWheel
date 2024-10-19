@@ -194,7 +194,7 @@ class OpenImageIOConan(ConanFile):
         tc.cache_variables["USE_Qt5"] = False
         tc.cache_variables["VERBOSE"] = True
         tc.cache_variables["USE_Libsquish"] = False
-        tc.cache_variables["CMAKE_CXX_STANDARD"] = str(self.settings.compiler.cppstd)
+        # tc.cache_variables["CMAKE_CXX_STANDARD"] = str(self.settings.compiler.cppstd)  # TODO
         tc.cache_variables["LINKSTATIC"] = True
 
 

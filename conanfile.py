@@ -21,7 +21,7 @@ class LuxCore(ConanFile):
         "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
         "embree3/3.13.1",
         "c-blosc/1.21.5",
-        "oidn/2.3.0@luxcorewheels/luxcorewheels",
+        "oidn/1.2.4@luxcorewheels/luxcorewheels",
         "openexr/2.5.7",
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
@@ -55,7 +55,7 @@ class LuxCore(ConanFile):
 
         cd = CMakeDeps(self)
         # Alternative filenames
-        cd.set_property("openexr", "cmake_file_name", "OPENEXR")
+        # cd.set_property("openexr", "cmake_file_name", "OPENEXR")
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
 
         cd.generate()
