@@ -11,6 +11,7 @@ inputs:
     type: string
 runs:
   using: 'composite'
+  steps:
 
     # Initialize Conan with local packages
     - name: Initialize Conan
