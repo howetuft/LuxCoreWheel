@@ -24,9 +24,9 @@ runs:
         $SED -i "/INCLUDE(PlatformSpecific)/d" CMakeLists.txt
         $SED -i "/INCLUDE(Configuration)/d" CMakeLists.txt
 
-    - name: Remove OpenColorIO
-      shell: 'bash'
-      working-directory: ${{ github.workspace }}/LuxCore
-      run: |
-        $SED -i "/add_library(opencolorio/d" src/slg/CMakeLists.txt
+    #- name: Remove OpenColorIO
+      #shell: 'bash'
+      #working-directory: ${{ github.workspace }}/LuxCore
+      #run: |
+        #$SED -i "/add_library(opencolorio/d" src/slg/CMakeLists.txt
 

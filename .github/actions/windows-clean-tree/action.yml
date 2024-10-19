@@ -8,25 +8,25 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Remove all Find*.cmake
-      working-directory:  ${{ github.workspace }}
-      run: |
-        cd '${{ github.workspace }}\LuxCore\cmake\Packages'
-        Remove-Item -Recurse -Force Find*.cmake
-      shell: pwsh
+    #- name: Remove all Find*.cmake
+      #working-directory:  ${{ github.workspace }}
+      #run: |
+        #cd '${{ github.workspace }}\LuxCore\cmake\Packages'
+        #Remove-Item -Recurse -Force Find*.cmake
+      #shell: pwsh
 
-    - name: Remove duplicate embedded libraries
-      working-directory:  ${{ github.workspace }}\LuxCore
-      run: |
-        for lib in opencolorio yaml expat spdlog
-        do
-          echo "LuxCoreWheel - Removing '${lib}'"
-          sed -i "/deps\/${lib}/d" src/slg/CMakeLists.txt
-          sed -i "/add_library(${lib}/d" src/slg/CMakeLists.txt
-          sed -i "/target_compile_definitions(${lib}/d" src/slg/CMakeLists.txt
-          rm -rf deps/${lib}*
-        done
-      shell: bash
+    #- name: Remove duplicate embedded libraries
+      #working-directory:  ${{ github.workspace }}\LuxCore
+      #run: |
+        #for lib in opencolorio yaml expat spdlog
+        #do
+          #echo "LuxCoreWheel - Removing '${lib}'"
+          #sed -i "/deps\/${lib}/d" src/slg/CMakeLists.txt
+          #sed -i "/add_library(${lib}/d" src/slg/CMakeLists.txt
+          #sed -i "/target_compile_definitions(${lib}/d" src/slg/CMakeLists.txt
+          #rm -rf deps/${lib}*
+        #done
+      #shell: bash
 
     - name: Remove /TP compiler flag
       working-directory:  ${{ github.workspace }}\LuxCore
@@ -34,9 +34,9 @@ runs:
           sed -i "s/\/TP//g" cmake/PlatformSpecific.cmake
       shell: bash
 
-    - name: Remove luxcore target_link_libraries
-      working-directory:  ${{ github.workspace }}\LuxCore
-      run: |
-        echo "Removing luxcore target_link_libraries"
-        sed -i "/target_link_libraries(luxcore/d" src/luxcore/CMakeLists.txt
-      shell: bash
+    #- name: Remove luxcore target_link_libraries
+      #working-directory:  ${{ github.workspace }}\LuxCore
+      #run: |
+        #echo "Removing luxcore target_link_libraries"
+        #sed -i "/target_link_libraries(luxcore/d" src/luxcore/CMakeLists.txt
+      #shell: bash
