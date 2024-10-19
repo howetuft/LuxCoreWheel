@@ -8,6 +8,8 @@ runs:
   using: 'composite'
   steps:
 
+    echo "void"
+
     # TODO
     #- name: Add missing include in OCIO dep
       #shell: 'bash'
