@@ -9,6 +9,7 @@ runs:
   steps:
 
     - name: Macos - Install sed
+      shell: 'bash'
       if: startsWith(matrix.os, 'macos')
       run: |
         brew install gnu-sed
