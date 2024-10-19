@@ -8,6 +8,7 @@ GITHUB_WORKSPACE="/project"
 
 echo "CIBW_BEFORE_BUILD: pip"
 pip install conan
+pip install ninja
 pip install "numpy < 2.0" &
 
 echo "CIBW_BEFORE_BUILD: Boost Python"
