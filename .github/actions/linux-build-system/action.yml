@@ -12,18 +12,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Init environment
-      run: |
-        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
-        echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
-        echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
-        echo "SCCACHE_ERROR_LOG=${{ github.workspace }}/sccache.log" >> $GITHUB_ENV
-        # LogLevel in {error, warn, info, debug, trace}, see parse.rs
-        echo "SCCACHE_LOG=debug" >> $GITHUB_ENV
-        echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
-        echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
-        echo "BOOST_INSTALL_LAYOUT=system" >> $GITHUB_ENV
-      shell: bash
+    #- name: Init environment
+      #run: |
+        #echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        #echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
+        #echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
+        #echo "SCCACHE_ERROR_LOG=${{ github.workspace }}/sccache.log" >> $GITHUB_ENV
+        ## LogLevel in {error, warn, info, debug, trace}, see parse.rs
+        #echo "SCCACHE_LOG=debug" >> $GITHUB_ENV
+        #echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        #echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        #echo "BOOST_INSTALL_LAYOUT=system" >> $GITHUB_ENV
+      #shell: bash
     # Debug
     #- uses: mxschmitt/action-tmate@v3
 
