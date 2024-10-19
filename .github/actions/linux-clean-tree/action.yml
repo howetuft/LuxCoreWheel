@@ -8,7 +8,10 @@ runs:
   using: 'composite'
   steps:
 
-    echo "void"
+    - name: Dummy
+      shell: 'bash'
+      run: |
+        echo "void"
 
     # TODO
     #- name: Add missing include in OCIO dep
