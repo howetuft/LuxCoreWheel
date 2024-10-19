@@ -21,7 +21,6 @@ class LuxCore(ConanFile):
         "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
         "embree3/3.13.1",
         "c-blosc/1.21.5",
-        "oidn/1.2.4@luxcorewheels/luxcorewheels",
         "openexr/2.5.7",
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
@@ -36,6 +35,10 @@ class LuxCore(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
+        if self.settings.os == "Linux":
+            self.requires("oidn/1.2.4@luxcorewheels/luxcorewheels")
+        else:
+            self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":
