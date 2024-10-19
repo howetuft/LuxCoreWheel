@@ -139,6 +139,9 @@ if(WIN32 OR LINUX)
   )
 endif(WIN32)
 
+
+# TODO Factorize
+
 if(APPLE)
   target_link_libraries(bcd PRIVATE boost::boost)
   target_link_libraries(openvdb PRIVATE boost::boost)
@@ -166,6 +169,7 @@ if(APPLE)
     Boost::date_time Boost::iostreams Boost::program_options Boost::random
     Boost::serialization Boost::thread boost::boost
     OpenColorIO::OpenColorIO
+    Python::Module
   )
 endif(APPLE)
 
