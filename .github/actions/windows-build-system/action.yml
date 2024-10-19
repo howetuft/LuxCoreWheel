@@ -12,18 +12,18 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Init environment
-      run: |
-        echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
-        echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
-        echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
-        echo "SCCACHE_ERROR_LOG=../../sccache.log" >> $GITHUB_ENV
-        # LogLevel in {error, warn, info, debug, trace}, see parse.rs
-        echo "SCCACHE_LOG=Info" >> $GITHUB_ENV
-        echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
-        echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
-        echo "BOOST_INSTALL_LAYOUT=system" >> $GITHUB_ENV
-      shell: bash
+    #- name: Init environment
+      #run: |
+        #echo "SCCACHE_GHA_ENABLED=true" >> $GITHUB_ENV
+        #echo "SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ inputs.job-id }}" >> $GITHUB_ENV
+        #echo "SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config" >> $GITHUB_ENV
+        #echo "SCCACHE_ERROR_LOG=../../sccache.log" >> $GITHUB_ENV
+        ## LogLevel in {error, warn, info, debug, trace}, see parse.rs
+        #echo "SCCACHE_LOG=Info" >> $GITHUB_ENV
+        #echo "CMAKE_CXX_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        #echo "CMAKE_C_COMPILER_LAUNCHER=sccache" >> $GITHUB_ENV
+        #echo "BOOST_INSTALL_LAYOUT=system" >> $GITHUB_ENV
+      #shell: bash
     # Debug
     #- uses: mxschmitt/action-tmate@v3
 
@@ -38,16 +38,16 @@ runs:
     # For main compilation
     - uses: ilammy/msvc-dev-cmd@v1
 
-    # Initialize Conan with local packages
-    - name: Initialize Conan
-      working-directory: ${{ github.workspace }}/LuxCore
-      env:
-        PKG_CONFIG_PATH: .
-      run: |
-        # Copy profiles
-        mkdir -p /c/users/runneradmin/.conan2/profiles
-        cp ../conan_profile_windows /c/users/runneradmin/.conan2/profiles/default
+    ## Initialize Conan with local packages
+    #- name: Initialize Conan
+      #working-directory: ${{ github.workspace }}/LuxCore
+      #env:
+        #PKG_CONFIG_PATH: .
+      #run: |
+        ## Copy profiles
+        #mkdir -p /c/users/runneradmin/.conan2/profiles
+        #cp ../conan_profile_windows /c/users/runneradmin/.conan2/profiles/default
 
-        cp ../conanfile.py .
-        unset ORIGINAL_PATH
-      shell: bash
+        #cp ../conanfile.py .
+        #unset ORIGINAL_PATH
+      #shell: bash
