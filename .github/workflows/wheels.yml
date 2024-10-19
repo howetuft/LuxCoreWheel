@@ -39,25 +39,27 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: Macos - Prepare tools
-        if: startsWith(matrix.os, 'macos')
-        run: |
-          brew install gnu-sed
+      # TODO Remove
+      #- name: Macos - Prepare tools
+        #if: startsWith(matrix.os, 'macos')
+        #run: |
+          #brew install gnu-sed
 
       - name: All - Clean source tree
         uses: ./.github/actions/all-clean-tree
 
-      - name: Linux - Clean source tree
-        if: startsWith(matrix.os, 'ubuntu')
-        uses: ./.github/actions/linux-clean-tree
+      # TODO Remove
+      #- name: Linux - Clean source tree
+        #if: startsWith(matrix.os, 'ubuntu')
+        #uses: ./.github/actions/linux-clean-tree
 
-      - name: Windows - Clean source tree
-        if: startsWith(matrix.os, 'windows')
-        uses: ./.github/actions/windows-clean-tree
+      #- name: Windows - Clean source tree
+        #if: startsWith(matrix.os, 'windows')
+        #uses: ./.github/actions/windows-clean-tree
 
-      - name: Macos - Clean source tree
-        if: startsWith(matrix.os, 'macos')
-        uses: ./.github/actions/macos-clean-tree
+      #- name: Macos - Clean source tree
+        #if: startsWith(matrix.os, 'macos')
+        #uses: ./.github/actions/macos-clean-tree
 
       - name: Linux - Set up build system
         if: startsWith(matrix.os, 'linux')

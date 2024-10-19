@@ -8,13 +8,10 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Remove all local Find*.cmake
-      working-directory:  ${{ github.workspace }}
+    - name: Macos - Install sed
+      if: startsWith(matrix.os, 'macos')
       run: |
-        cd '${{ github.workspace }}/LuxCore/cmake/Packages'
-        rm -vf Find*.cmake
-      shell: bash
-
+        brew install gnu-sed
 
     - name: Find sed
       shell: 'bash'
@@ -24,6 +21,13 @@ runs:
         else
           echo "SED=sed" >> $GITHUB_ENV
         fi
+
+    - name: Remove all local Find*.cmake
+      working-directory:  ${{ github.workspace }}
+      run: |
+        cd '${{ github.workspace }}/LuxCore/cmake/Packages'
+        rm -vf Find*.cmake
+      shell: bash
 
     - name: Remove Demos, Tests and Samples
       shell: 'bash'
@@ -109,3 +113,21 @@ runs:
         };'
         echo "" >> src/luxcore/luxcoreimpl.cpp
         echo $snippet >> src/luxcore/luxcoreimpl.cpp
+
+    # Specifics
+
+    - name: Macos - Remove Platform Specifics and Configuration
+      if: startsWith(matrix.os, 'macos')
+      working-directory: ${{ github.workspace }}/LuxCore
+      shell: bash
+      run: |
+        $SED -i "/INCLUDE(PlatformSpecific)/d" CMakeLists.txt
+        $SED -i "/INCLUDE(Configuration)/d" CMakeLists.txt
+
+    - name: Windows - Remove /TP compiler flag
+      if: startsWith(matrix.os, 'windows')
+      working-directory:  ${{ github.workspace }}\LuxCore
+      run: |
+          sed -i "s/\/TP//g" cmake/PlatformSpecific.cmake
+      shell: bash
+
