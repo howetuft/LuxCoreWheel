@@ -53,11 +53,6 @@ class LuxCore(ConanFile):
 
 
     def generate(self):
-        env = Environment()
-        if self.settings.os == "Macos":
-            env.define("BISON_ROOT", "/usr/local/opt/bison/bin")
-            env.define("FLEX_ROOT", "/usr/local/opt/flex/bin")
-
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
@@ -66,6 +61,13 @@ class LuxCore(ConanFile):
 
         if self.settings.os == "Macos" and "arm" in self.settings.arch:
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
+
+        if self.settings.os == "Macos":
+            buildenv = VirtualRunEnv()
+            buildenv.environment.define("BISON_ROOT", "/usr/local/opt/bison/bin")
+            buildenv.environment.define("FLEX_ROOT", "/usr/local/opt/flex/bin")
+            buildenv.generate()
+            tc.presets_build_environment = buildenv.environment()
 
         tc.generate()
 
