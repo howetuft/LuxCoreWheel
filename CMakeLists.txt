@@ -23,7 +23,6 @@ message(STATUS "LuxCoreWheel - Add conan targets")
 find_package(TBB REQUIRED)
 find_package(minizip REQUIRED)
 find_package(spdlog REQUIRED)
-#find_package(openimageio REQUIRED)  # TODO
 find_package(OpenImageIO REQUIRED)
 find_package(PNG REQUIRED)
 find_package(OpenColorIO REQUIRED)
@@ -77,30 +76,15 @@ endif(MSVC)
 
 if(APPLE)
   # OpenMP
-  #set(OpenMP_ROOT "/opt/homebrew/opt/libomp")  # TODO
   find_package(OpenMP)
   include_directories(${OpenMP_CXX_INCLUDE_DIRS})
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xpreprocessor -fopenmp")
+
   include_directories(${OPENEXR_INCLUDE_DIRS})
 endif(APPLE)
 
 if(LINUX)
   set(OpenGL_GL_PREFERENCE "LEGACY")
-  #MESSAGE(STATUS "LuxCoreWheel: using Linux settings")
-
-  ## TODO Harmonize with WIN32?
-  #find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
-  #include_directories(${Python3_INCLUDE_DIRS})
-
-  #set(BOOST_LIBRARYDIR "/usr/lib64/boost1.78;/usr/lib64" CACHE PATH "" FORCE)
-  #set(BOOST_INCLUDEDIR "/usr/include/boost1.78;/usr/lib64" CACHE PATH "" FORCE)
-  #set(Boost_NO_SYSTEM_PATHS ON CACHE BOOL "" FORCE)
-  #set(PYTHON_V "36")
-  #set(EMBREE_SEARCH_PATH "/usr/lib64")
-  #SET(CMAKE_INCLUDE_PATH "${LuxRays_SOURCE_DIR}/../target-64-sse2/include;${LuxRays_SOURCE_DIR}/../target-64-sse2")
-  #SET(CMAKE_LIBRARY_PATH "${LuxRays_SOURCE_DIR}/../target-64-sse2/lib;${LuxRays_SOURCE_DIR}/../target-64-sse2")
-  #SET(Blosc_USE_STATIC_LIBS   "ON")
-  #SET(CMAKE_BUILD_TYPE "Release")
 endif(LINUX)
 
 # Add LuxCore
