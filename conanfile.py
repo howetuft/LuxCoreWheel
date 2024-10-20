@@ -70,11 +70,11 @@ class LuxCore(ConanFile):
             brewpath = io.StringIO()
 
             self.run("brew --prefix bison", stdout=brewpath)
-            bison_root = os.path.join(brewpath,"bin")
+            bison_root = os.path.join(brewpath.getvalue(),"bin")
             buildenv.environment().define("BISON_ROOT", bison_root)
 
             self.run("brew --prefix flex", stdout=brewpath)
-            flex_root = os.path.join(brewpath,"bin")
+            flex_root = os.path.join(brewpath.getvalue(),"bin")
             buildenv.environment().define("FLEX_ROOT", flex_root)
 
             buildenv.generate()
