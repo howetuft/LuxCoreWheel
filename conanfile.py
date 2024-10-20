@@ -5,6 +5,7 @@
 from conan import ConanFile
 
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
+from conan.tools.system.package_manager import Brew,Yum
 
 _boost_version = "1.78.0"
 
@@ -43,9 +44,11 @@ class LuxCore(ConanFile):
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
-        else:
-            self.tool_requires("bison/3.8.2")
-            self.tool_requires("flex/2.6.4")
+
+    def system_requirements(self):
+        Yum(self).install("bison")
+        Brew(self).install("bison")
+
 
     def generate(self):
         tc = CMakeToolchain(self)
