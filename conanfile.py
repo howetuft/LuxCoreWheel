@@ -46,8 +46,8 @@ class LuxCore(ConanFile):
             self.tool_requires("winflexbison/2.5.25")
 
     def system_requirements(self):
-        Yum(self).install("bison")
-        Brew(self).install("bison")
+        Yum(self).install(["bison"])
+        Brew(self).install(["bison"])
 
 
     def generate(self):
