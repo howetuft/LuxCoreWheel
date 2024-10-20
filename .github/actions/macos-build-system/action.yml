@@ -36,11 +36,11 @@ runs:
         echo "BISON_ROOT=$(brew --prefix bison)" >> $GITHUB_ENV
       shell: bash
 
-    - uses: lukka/get-cmake@latest
+    #- uses: lukka/get-cmake@latest
 
-    - name: Setup sccache
-      id: sccache
-      uses: mozilla-actions/sccache-action@v0.0.5
+    #- name: Setup sccache
+      #id: sccache
+      #uses: mozilla-actions/sccache-action@v0.0.5
 
 
     ## Initialize Conan with local packages
