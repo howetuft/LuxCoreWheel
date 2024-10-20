@@ -43,6 +43,8 @@ class LuxCore(ConanFile):
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
+        else:
+            self.tool_requires("bison/3.8.2")  # Flex is in Bison's deps
 
     def generate(self):
         tc = CMakeToolchain(self)
@@ -58,7 +60,6 @@ class LuxCore(ConanFile):
 
         cd = CMakeDeps(self)
         # Alternative filenames
-        # cd.set_property("openexr", "cmake_file_name", "OPENEXR")
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
 
         cd.generate()

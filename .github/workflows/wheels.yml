@@ -45,24 +45,6 @@ jobs:
       - name: All - Prepare build
         uses: ./.github/actions/all-build-system
 
-      #- name: Linux - Set up build system
-        #if: startsWith(matrix.os, 'linux')
-        #uses: ./.github/actions/linux-build-system
-        #with:
-          #job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
-
-      #- name: Windows - Set up build system
-        #if: startsWith(matrix.os, 'windows')
-        #uses: ./.github/actions/windows-build-system
-        #with:
-          #job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
-
-      #- name: Macos - Set up build system
-        #if: startsWith(matrix.os, 'macos')
-        #uses: ./.github/actions/macos-build-system
-        #with:
-          #job-id: ${{ matrix.os }}-${{ matrix.python-minor }}
-
       # Build wheel
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.2

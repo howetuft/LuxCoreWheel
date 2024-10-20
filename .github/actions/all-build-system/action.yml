@@ -59,9 +59,9 @@ runs:
     - uses: ilammy/msvc-dev-cmd@v1
       if: startsWith(matrix.os, 'windows')
 
-    - name: Bison
-      if: startsWith(matrix.os, 'macos')
-      run: |
-        brew install bison
-        echo "BISON_ROOT=$(brew --prefix bison)" >> $GITHUB_ENV
-      shell: bash
+    #- name: Bison
+      #if: startsWith(matrix.os, 'macos')
+      #run: |
+        #brew install bison
+        #echo "BISON_ROOT=$(brew --prefix bison)" >> $GITHUB_ENV
+      #shell: bash
