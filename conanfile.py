@@ -63,7 +63,7 @@ class LuxCore(ConanFile):
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
 
         if self.settings.os == "Macos":
-            buildenv = VirtualBuildEnv()
+            buildenv = VirtualBuildEnv(self)
             buildenv.environment.define("BISON_ROOT", "/usr/local/opt/bison/bin")
             buildenv.environment.define("FLEX_ROOT", "/usr/local/opt/flex/bin")
             buildenv.generate()
