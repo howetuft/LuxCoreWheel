@@ -58,7 +58,7 @@ conan editable add $GITHUB_WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user
 unset CI  # Otherwise OIIO passes -Werror to compiler!
 conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
-  --profile=default \
+  --profile:all=conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
   --build=missing \
   --deployer=runtime_deploy \
