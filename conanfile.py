@@ -52,6 +52,7 @@ class LuxCore(ConanFile):
     def system_requirements(self):
         Yum(self).install(["bison", "flex"])
         Brew(self).install(["bison", "flex"])
+        self.run("arch -arm64 brew install bison flex")
 
 
 
