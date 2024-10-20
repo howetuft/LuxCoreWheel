@@ -46,8 +46,9 @@ class LuxCore(ConanFile):
             self.tool_requires("winflexbison/2.5.25")
 
     def system_requirements(self):
-        Yum(self).install(["bison"])
-        Brew(self).install(["bison"])
+        Yum(self).install(["bison", "flex"])
+        Brew(self).install(["bison", "flex"])
+
 
 
     def generate(self):
@@ -78,6 +79,8 @@ class LuxCore(ConanFile):
         self.conf_info.define("tools.build:sharedlinkflags", ["-VERBOSE"])
         self.conf_info.define("tools.build:exelinkflags", ["-VERBOSE"])
         self.conf_info.define("tools.build:verbosity", "verbose")
+        if self.settings.os == "Macos":
+            self.buildenv_info.append_path("PATH", "/usr/local/opt/bison/bin")
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
