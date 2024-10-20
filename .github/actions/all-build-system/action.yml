@@ -48,10 +48,10 @@ runs:
       shell: bash
 
     - uses: lukka/get-cmake@latest
-      if: not startsWith(matrix.os, 'linux')
+      if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
 
     - name: Setup sccache
-      if: startsWith(matrix.os, 'macos') or startsWith(matrix.os, 'windows')
+      if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
       id: sccache
       uses: mozilla-actions/sccache-action@v0.0.5
 
