@@ -64,8 +64,16 @@ class LuxCore(ConanFile):
 
         if self.settings.os == "Macos":
             buildenv = VirtualBuildEnv(self)
-            buildenv.environment().define("BISON_ROOT", "/usr/local/opt/bison/bin")
-            buildenv.environment().define("FLEX_ROOT", "/usr/local/opt/flex/bin")
+            if self.settings.arch == "armv8":
+                bison_root = "/opt/homebrew/opt/bison/bin"
+                flex_root = "/opt/homebrew/opt/flex/bin"
+            elif self.settings.arch == "x86_64":
+                bison_root = "/usr/local/opt/bison/bin"
+                flex_root = "/usr/local/opt/flex/bin"
+            else:
+                raise RuntimeError(f"Macos - Unhandled arch '{self.settings.arch}'")
+            buildenv.environment().define("BISON_ROOT", bison_root)
+            buildenv.environment().define("FLEX_ROOT", flex_root)
             buildenv.generate()
             tc.presets_build_environment = buildenv.environment()
 
