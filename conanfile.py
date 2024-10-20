@@ -6,6 +6,7 @@ from conan import ConanFile
 
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 from conan.tools.system.package_manager import Brew,Yum
+from conan.tools.env import Environment
 
 _boost_version = "1.78.0"
 
@@ -52,6 +53,11 @@ class LuxCore(ConanFile):
 
 
     def generate(self):
+        env = Environment()
+        if self.settings.os == "Macos":
+            env.define("BISON_ROOT", "/usr/local/opt/bison/bin")
+            env.define("FLEX_ROOT", "/usr/local/opt/flex/bin")
+
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
@@ -79,8 +85,6 @@ class LuxCore(ConanFile):
         self.conf_info.define("tools.build:sharedlinkflags", ["-VERBOSE"])
         self.conf_info.define("tools.build:exelinkflags", ["-VERBOSE"])
         self.conf_info.define("tools.build:verbosity", "verbose")
-        if self.settings.os == "Macos":
-            self.buildenv_info.append_path("PATH", "/usr/local/opt/bison/bin")
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
