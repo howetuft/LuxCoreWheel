@@ -26,22 +26,6 @@ runs:
         echo "BOOST_INSTALL_LAYOUT=system" >> $GITHUB_ENV
       shell: bash
 
-    ## Initialize Conan with local packages
-    #- name: Initialize Conan
-      #working-directory: ${{ github.workspace }}/LuxCore
-      #env:
-        #PKG_CONFIG_PATH: .
-      #run: |
-        ## Copy profiles
-        #_profile="${{ github.workspace }}/conan_profile_${RUNNER_OS}_${RUNNER_ARCH}"
-        #echo "Copying profile ${_profile}"
-        #mkdir -p ~/.conan2/profiles
-        #cp ${_profile} ~/.conan2/profiles/default
-
-        #cp ../conanfile.py .
-        #unset ORIGINAL_PATH
-      #shell: bash
-
     # Deploy profiles
     - name: Set conan profile
       working-directory: ${{ github.workspace }}/LuxCore
@@ -51,7 +35,7 @@ runs:
         set -o pipefail
 
         # Copy profiles
-        _profile="${{ github.workspace }}/conan_profile_${RUNNER_OS}_${RUNNER_ARCH}"
+        _profile="${{ github.workspace }}/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH}"
         echo "Copying profile ${_profile}"
         mkdir -p ~/.conan2/profiles
         cp ${_profile} ~/.conan2/profiles/default
