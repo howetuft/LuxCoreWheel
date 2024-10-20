@@ -64,8 +64,8 @@ class LuxCore(ConanFile):
 
         if self.settings.os == "Macos":
             buildenv = VirtualBuildEnv(self)
-            buildenv.environment.define("BISON_ROOT", "/usr/local/opt/bison/bin")
-            buildenv.environment.define("FLEX_ROOT", "/usr/local/opt/flex/bin")
+            buildenv.environment().define("BISON_ROOT", "/usr/local/opt/bison/bin")
+            buildenv.environment().define("FLEX_ROOT", "/usr/local/opt/flex/bin")
             buildenv.generate()
             tc.presets_build_environment = buildenv.environment()
 
