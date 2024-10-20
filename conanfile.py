@@ -75,7 +75,7 @@ class LuxCore(ConanFile):
 
             flexbrewpath = io.StringIO()
             self.run("brew --prefix flex", stdout=flexbrewpath)
-            flex_root = os.path.join(flexbrewpath.getvalue().rstrip,"bin")
+            flex_root = os.path.join(flexbrewpath.getvalue().rstrip(),"bin")
             buildenv.environment().define("FLEX_ROOT", flex_root)
 
             buildenv.generate()
