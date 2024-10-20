@@ -49,12 +49,6 @@ class LuxCore(ConanFile):
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
 
-    def system_requirements(self):
-        Yum(self).install(["bison", "flex"])
-        Brew(self).install(["bison", "flex"])
-        self.run("arch -arm64 brew install bison flex")
-
-
 
     def generate(self):
         tc = CMakeToolchain(self)

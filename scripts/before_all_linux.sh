@@ -16,3 +16,6 @@ mv sccache-v0.8.1-x86_64-unknown-linux-musl/sccache /usr/bin
 # Install Ninja
 echo "Installing ninja"
 pip install ninja
+
+# Install Bison/flex
+dnf install -y bison flex
