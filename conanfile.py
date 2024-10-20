@@ -67,14 +67,15 @@ class LuxCore(ConanFile):
 
         if self.settings.os == "Macos":
             buildenv = VirtualBuildEnv(self)
-            brewpath = io.StringIO()
 
-            self.run("brew --prefix bison", stdout=brewpath)
-            bison_root = os.path.join(brewpath.getvalue(),"bin")
+            bisonbrewpath = io.StringIO()
+            self.run("brew --prefix bison", stdout=bisonbrewpath)
+            bison_root = os.path.join(bisonbrewpath.getvalue().rstrip(),"bin")
             buildenv.environment().define("BISON_ROOT", bison_root)
 
-            self.run("brew --prefix flex", stdout=brewpath)
-            flex_root = os.path.join(brewpath.getvalue(),"bin")
+            flexbrewpath = io.StringIO()
+            self.run("brew --prefix flex", stdout=flexbrewpath)
+            flex_root = os.path.join(flexbrewpath.getvalue().rstrip,"bin")
             buildenv.environment().define("FLEX_ROOT", flex_root)
 
             buildenv.generate()
