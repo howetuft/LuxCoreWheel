@@ -69,18 +69,19 @@ jobs:
           CIBW_ENVIRONMENT_LINUX: >-
             SCCACHE_ERROR_LOG=/project/sccache.log
           CIBW_ENVIRONMENT_PASS_LINUX: |
+            SKBUILD_CMAKE_ARGS
             SCCACHE_GHA_ENABLED
+            SCCACHE_C_CUSTOM_CACHE_BUSTER
             SCCACHE_DIRECT
+            SCCACHE_LOG=debug
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
             RUNNER_OS
             RUNNER_ARCH
-            PYTHON_TAG
-            Python_ROOT_DIR
-            Python_DIR
-            Python_FIND_STRATEGY
             CMAKE_C_COMPILER_LAUNCHER
             CMAKE_CXX_COMPILER_LAUNCHER
+            BOOST_INSTALL_LAYOUT
+            SPDLOG_FMT_EXTERNAL
           CIBW_ENVIRONMENT_MACOS: >-
             MACOSX_DEPLOYMENT_TARGET=11.0
           CIBW_BEFORE_ALL_LINUX: |
