@@ -56,7 +56,7 @@ jobs:
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-          CIBW_ENVIRONMENT: >-
+          CIBW_ENVIRONMENT: >
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             SCCACHE_GHA_ENABLED=true
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
@@ -66,7 +66,7 @@ jobs:
             CMAKE_C_COMPILER_LAUNCHER=sccache
             BOOST_INSTALL_LAYOUT=system
             SPDLOG_FMT_EXTERNAL=on
-          CIBW_ENVIRONMENT_LINUX: >-
+          CIBW_ENVIRONMENT_LINUX: >
             SCCACHE_ERROR_LOG=/project/sccache.log
           CIBW_ENVIRONMENT_PASS_LINUX: |
             SKBUILD_CMAKE_ARGS
@@ -82,7 +82,7 @@ jobs:
             CMAKE_CXX_COMPILER_LAUNCHER
             BOOST_INSTALL_LAYOUT
             SPDLOG_FMT_EXTERNAL
-          CIBW_ENVIRONMENT_MACOS: >-
+          CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET=11.0
           CIBW_BEFORE_ALL_LINUX: |
             source /project/scripts/before_all_linux.sh
