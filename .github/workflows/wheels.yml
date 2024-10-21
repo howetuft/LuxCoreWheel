@@ -55,18 +55,17 @@ jobs:
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
-          CIBW_ENVIRONMENT_LINUX: >-
-            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
-            SCCACHE_LOG=debug
+          CIBW_ENVIRONMENT: >-
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            SPDLOG_FMT_EXTERNAL=on
+            SCCACHE_GHA_ENABLED=true
+            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
+            SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config
+            SCCACHE_ERROR_LOG=${{ github.workspace }}/sccache.log
+            SCCACHE_LOG=debug
+            CMAKE_CXX_COMPILER_LAUNCHER=sccache
+            CMAKE_C_COMPILER_LAUNCHER=sccache
             BOOST_INSTALL_LAYOUT=system
-            PYTHON_TAG='cp3${{ matrix.python-minor }}'
-            Python_ROOT_DIR=/opt/python/cp3${{ matrix.python-minor }}-cp3${{ matrix.python-minor }}
-            Python_DIR=/opt/python/cp3${{ matrix.python-minor }}-cp3${{ matrix.python-minor }}
-            Python_FIND_STRATEGY="LOCATION"
-            CMAKE_C_COMPILER_LAUNCHER="sccache"
-            CMAKE_CXX_COMPILER_LAUNCHER="sccache"
+            SPDLOG_FMT_EXTERNAL=on
           CIBW_ENVIRONMENT_PASS_LINUX: |
             SCCACHE_GHA_ENABLED
             SCCACHE_DIRECT
@@ -81,23 +80,8 @@ jobs:
             CMAKE_C_COMPILER_LAUNCHER
             CMAKE_CXX_COMPILER_LAUNCHER
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
-          CIBW_ENVIRONMENT_WINDOWS: >-
-            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
-            SCCACHE_LOG=debug
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            SPDLOG_FMT_EXTERNAL=on
-            BOOST_INSTALL_LAYOUT=system
           CIBW_ENVIRONMENT_MACOS: >-
             MACOSX_DEPLOYMENT_TARGET=11.0
-            CMAKE_INSTALL_NAME_DIR='${{ github.workspace }}/libs'
-            SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
-            SCCACHE_LOG=debug
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            SPDLOG_FMT_EXTERNAL=on
-            BOOST_INSTALL_LAYOUT=system
-            USE_BOOST_REGEX=1
-            USE_STD_REGEX=0
-            USE_STD_REGEX_EXITCODE=0
           CIBW_BEFORE_ALL_LINUX: |
             source /project/scripts/before_all_linux.sh
           CIBW_BEFORE_ALL_MACOS: |
