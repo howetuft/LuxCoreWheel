@@ -57,10 +57,10 @@ jobs:
           CIBW_ARCHS: auto64
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_ENVIRONMENT: >-
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-GNinja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             SCCACHE_GHA_ENABLED=true
             SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
-            SCCACHE_ERROR_LOG=${{ github.workspace }}/sccache.log
+            SCCACHE_ERROR_LOG='${{ github.workspace }}/sccache.log'
             SCCACHE_LOG=debug
             CMAKE_CXX_COMPILER_LAUNCHER=sccache
             CMAKE_C_COMPILER_LAUNCHER=sccache
