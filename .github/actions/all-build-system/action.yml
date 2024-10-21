@@ -41,6 +41,7 @@ runs:
 
 # TODO
           #CIBW_ENVIRONMENT_LINUX: >-
+            #SCCACHE_CONF=${GITHUB_WORKSPACE}/sccache_config
             #SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
             #BOOST_INSTALL_LAYOUT=system
             #PYTHON_TAG='cp3${{ matrix.python-minor }}'
@@ -56,3 +57,14 @@ runs:
             #SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             #SPDLOG_FMT_EXTERNAL=on
             #BOOST_INSTALL_LAYOUT=system
+          #CIBW_ENVIRONMENT_MACOS: >-
+            #MACOSX_DEPLOYMENT_TARGET=11.0
+            #CMAKE_INSTALL_NAME_DIR='${{ github.workspace }}/libs'
+            #SCCACHE_C_CUSTOM_CACHE_BUSTER='3.${{ matrix.python-minor }}'
+            #SCCACHE_LOG=debug
+            #SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            #SPDLOG_FMT_EXTERNAL=on
+            #BOOST_INSTALL_LAYOUT=system
+            #USE_BOOST_REGEX=1
+            #USE_STD_REGEX=0
+            #USE_STD_REGEX_EXITCODE=0
