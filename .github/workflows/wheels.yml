@@ -13,8 +13,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: ['8', '9', '10', '11', '12']
-        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        #python-minor: ['8', '9', '10', '11', '12']
+        #os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        python-minor: ['8']
+        os: [ubuntu-latest, windows-latest, macos-14]
     env:
       GH_TOKEN: ${{ github.token }}
 
@@ -107,6 +109,9 @@ jobs:
             cp {wheel} ${{ env.WORKSPACE }}
             export DYLD_LIBRARY_PATH=${{ env.WORKSPACE }}/libs
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
+          CIBW_TEST_COMMAND: |
+            cd ${{ env.WORKSPACE }}/LuxCore/pyunittests
+            python unittests.py
         with:
             package-dir: .
             output-dir: wheelhouse
