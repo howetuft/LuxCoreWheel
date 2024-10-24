@@ -8,7 +8,7 @@ on: [push, pull_request]
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheel ${{ matrix.os }}-3.${{ matrix.python-minor }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -118,7 +118,7 @@ jobs:
       # Upload cache log (debug)
       - uses: actions/upload-artifact@v4
         with:
-          name: sccache-${{ matrix.os }}-${{ strategy.job-index }}
+          name: sccache-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ${{ github.workspace }}/sccache.log
 
       #- name: Setup tmate session
@@ -128,5 +128,5 @@ jobs:
       # Upload artifacts
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          name: cibw-wheels-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ./wheelhouse/*.whl
