@@ -40,7 +40,6 @@ runs:
           luxcoreimplserializationdemo
           luxcoreconsole
           luxcoreui
-          pyunittests
           samples
         )
         for target in "${useless_targets[@]}"
