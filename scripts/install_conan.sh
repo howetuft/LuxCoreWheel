@@ -27,6 +27,14 @@ oidn=$conan_path/oidn_${RUNNER_OS}_${RUNNER_ARCH}
 conan editable add ${oidn}
 conan source ${oidn} &
 
+
+if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
+    echo "CIBW_BEFORE_BUILD: EMBREE3"
+    embree3=$conan_path/embree3
+    conan editable add ${embree3}
+    conan source ${embree3} &
+fi
+
 wait
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
@@ -35,7 +43,6 @@ conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
-  --build=missing \
   --deployer=runtime_deploy \
   --deployer-folder=$WORKSPACE/libs \
   -s build_type=Release
