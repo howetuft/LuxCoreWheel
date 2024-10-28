@@ -4,7 +4,15 @@
 
 name: LuxCore Python wheels
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - work
+  workflow_dispatch:
+  release:
+    types:
+      - published
 
 jobs:
   build_wheels:
@@ -81,16 +89,12 @@ jobs:
           verbose: 2
           max-size: ${{ env.CACHE_MAXSIZE }}
 
-
-      #- name: Setup tmate session
-        #uses: mxschmitt/action-tmate@v3
-
       - name: Get cmake
-        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
+        if: runner.os == 'macOS' || runner.os == 'Windows'
         uses: lukka/get-cmake@latest
 
       - name: Prepare msvc
-        if: startsWith(matrix.os, 'windows')
+        if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure clang
@@ -127,8 +131,8 @@ jobs:
             WORKSPACE
             CMAKE_CXX_COMPILER_LAUNCHER
             CMAKE_C_COMPILER_LAUNCHER
-            CCACHE_NODIRECT
-            CCACHE_NODEPEND
+            CCACHE_DIRECT
+            CCACHE_DEPEND
           CIBW_BEFORE_ALL_LINUX: |
             # install ccache
             source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
@@ -198,3 +202,61 @@ jobs:
         with:
           name: cibw-wheels-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ./wheelhouse/*.whl
+
+
+  upload_test:
+    needs: [build_wheels]
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/pyluxcore
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
+
+    runs-on: ubuntu-latest
+    if: ${{ github.ref_name }} == 'work'
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          verbose: true
+          verify-metadata: true
+          skip-existing: true
+
+
+  upload_prod:
+    needs: [build_wheels]
+    environment:
+      name: pypi
+      url: https://test.pypi.org/p/pyluxcore
+    permissions:
+      id-token: write
+      attestations: write
+      contents: read
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'published' && github.ref_name == 'master'
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
+
+      - name: Generate artifact attestations
+        uses: actions/attest-build-provenance@v1.4.3
+        with:
+          subject-path: "dist/*"
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          verbose: true
+          verify-metadata: true

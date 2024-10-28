@@ -3,36 +3,42 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = ["scikit-build-core", "numpy < 2.0"]
+requires = ["scikit-build-core"]
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "pyluxcore"
-version = "2.9.alpha1"
+version = "2.9a1.post0"
 dependencies = ["numpy < 2.0"]
-requires-python = ">=3.8"
-license = {text = "Apache-2.0"}
+requires-python = ">= 3.8"
+description = "LuxCore Python bindings"
 authors = [{name="Howetuft"}]
-# See https://pypi.org/classifiers/
+## See https://pypi.org/classifiers/
 classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Intended Audience :: Developers",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Development Status :: 7 - Inactive",
-    "Operating System :: POSIX :: Linux",
     "Topic :: Multimedia :: Graphics :: 3D Rendering",
 ]
-readme = "./LuxCore/README.md"
-keywords = ["raytracing", "ray tracing", "rendering", "pbr", "path tracing"]
+readme = "README.md"
+keywords = [
+  "raytracing",
+  "ray tracing",
+  "rendering",
+  "pbr",
+  "physical based rendering",
+  "path tracing",
+]
 
 [project.urls]
 Homepage = "https://luxcorerender.org/"
-Repository = "https://github.com/LuxCoreRender/LuxCore"
+Documentation = "http://wiki.luxcorerender.org/LuxCoreRender_Wiki"
+GitHub = "https://github.com/LuxCoreRender/LuxCore"
 
 [tool.scikit-build]
 logging.level = "DEBUG"
