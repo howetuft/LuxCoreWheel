@@ -42,12 +42,11 @@ build.targets = ["pyluxcore"]
 cmake.build-type = "Release"
 wheel.cmake = true
 wheel.packages = ["src/pyluxcore"]
+build-dir = "build"
 
 # Defines
 [tool.scikit-build.cmake.define]
 CMAKE_VERBOSE_MAKEFILE = "ON"
-CMAKE_C_COMPILER_LAUNCHER = "sccache"
-CMAKE_CXX_COMPILER_LAUNCHER = "sccache"
 OpenGL_GL_PREFERENCE = "LEGACY"
 
 [[tool.scikit-build.overrides]]

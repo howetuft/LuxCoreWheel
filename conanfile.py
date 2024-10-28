@@ -24,7 +24,6 @@ class LuxCore(ConanFile):
         "libpng/1.6.42",
         "spdlog/1.8.5",
         "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
-        "embree3/3.13.1",
         "c-blosc/1.21.5",
         "openexr/2.5.7",
         f"boost/{_boost_version}",
@@ -48,6 +47,11 @@ class LuxCore(ConanFile):
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
+
+        if self.settings.os == "Macos" and self.settings.arch == "armv8":
+            self.requires("embree3/3.13.1@luxcorewheels/luxcorewheels")
+        else:
+            self.requires("embree3/3.13.1")
 
 
     def generate(self):

@@ -39,7 +39,7 @@ find_package(FLEX REQUIRED)
 
 # Python
 MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
-find_package(Python COMPONENTS Interpreter Development.Module)
+find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 if (Python_FOUND)
   MESSAGE(STATUS "LuxCoreWheel - Python includes: ${Python_INCLUDE_DIR}")
   include_directories(${Python_INCLUDE_DIR})
@@ -69,16 +69,18 @@ include_directories(${oidn_INCLUDE_DIR})
 include_directories(${fmt_INCLUDE_DIR})
 include_directories(${Blosc_INCLUDE_DIR})
 
-if(MSVC)
-  SET(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "Embedded")
-  CMAKE_POLICY(SET CMP0141 NEW)
-endif(MSVC)
+# For caching with MSVC
+SET(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded)
+CMAKE_POLICY(SET CMP0141 NEW)
 
 if(APPLE)
   # OpenMP
-  find_package(OpenMP)
+  find_package(OpenMP REQUIRED)
   include_directories(${OpenMP_CXX_INCLUDE_DIRS})
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xpreprocessor -fopenmp")
+  include_directories(${OpenMP_C_INCLUDE_DIRS})
+  include_directories(${OpenMP_INCLUDE_DIRS})
+  cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_C_INCLUDE_DIRS OpenMP_INCLUDE_DIRS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fopenmp")
 
   include_directories(${OPENEXR_INCLUDE_DIRS})
 endif(APPLE)
@@ -128,7 +130,7 @@ endif(WIN32 OR LINUX)
 
 
 if(APPLE)
-  target_link_libraries(pyluxcore ${PYLUXCORE_TARGETS})
+  target_link_libraries(pyluxcore ${PYLUXCORE_TARGETS} llvm-openmp::llvm-openmp)
 endif(APPLE)
 
 install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)

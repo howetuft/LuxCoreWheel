@@ -8,7 +8,7 @@ on: [push, pull_request]
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheel ${{ matrix.os }}-3.${{ matrix.python-minor }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -26,28 +26,6 @@ jobs:
           submodules: recursive
           fetch-depth: 1
 
-      - name: Install sccache
-        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
-        uses: mozilla-actions/sccache-action@v0.0.5
-
-      - name: Configure sccache
-        uses: actions/github-script@v6
-        with:
-          script: |
-            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
-
-      - name: Get cmake
-        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
-        uses: lukka/get-cmake@latest
-
-      - name: Prepare msvc
-        if: startsWith(matrix.os, 'windows')
-        uses: ilammy/msvc-dev-cmd@v1
-
-      - name: All - Clean source tree
-        uses: ./.github/actions/all-clean-tree
-
       - name: Find workspace
         shell: bash
         run: |
@@ -59,9 +37,76 @@ jobs:
           esac
           echo "WORKSPACE=${_workspace}" >> "$GITHUB_ENV"
 
+      - name: Configure ccache
+        uses: actions/github-script@v7  # Javascript
+        with:
+          script: |
+            // Nota - Keep this script before ccache installation
+            // in order to set CCACHE_DIR before downloading previous cache
+
+            launcher = '${{ runner.os != 'Windows' && 'ccache' || 'sccache' }}'
+
+            core.exportVariable('CACHE_PROGRAM', launcher)
+            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', launcher);
+            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', launcher);
+            core.exportVariable('CMAKE_BUILD_TYPE', 'Release');
+
+            if (launcher == 'ccache') {
+              // CCACHE (LINUX AND MACOS)
+              core.exportVariable('CCACHE_CONFIGPATH', String.raw`${{ github.workspace }}/ccache.conf`);
+              core.exportVariable('CCACHE_DIR', String.raw`${{ github.workspace }}/.ccache`);
+              core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache_debug`);
+              core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
+              core.exportVariable('CACHE_MAXSIZE', '500M')
+            } else if (launcher == 'sccache') {
+              // SCCACHE (WINDOWS)
+              core.exportVariable('SCCACHE_CONF', String.raw`${{ github.workspace }}/sccache.conf`);
+              core.exportVariable('SCCACHE_ERROR_LOG', String.raw`${{ github.workspace }}/sccache.log`);
+              core.exportVariable('SCCACHE_DIR', String.raw`${{ github.workspace }}/.sccache`);
+              core.exportVariable('SCCACHE_DIRECT', 'true');
+              core.exportVariable('SCCACHE_LOCAL_RW_MODE', 'READ_WRITE');
+              core.exportVariable('SCCACHE_LOG', 'debug');
+              core.exportVariable('CACHE_MAXSIZE', '800M')
+            } else {
+              throw new Error("Launcher error")
+            }
+
+      - name: Install cache program
+        id: install_cache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          create-symlink: false  # Don't create symlinks, otherwise clang will not be selected for MacOS
+          variant: ${{ env.CACHE_PROGRAM }}
+          key: ${{ matrix.os }}-${{ matrix.python-minor }}
+          verbose: 2
+          max-size: ${{ env.CACHE_MAXSIZE }}
+
+
+      #- name: Setup tmate session
+        #uses: mxschmitt/action-tmate@v3
+
+      - name: Get cmake
+        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'windows')
+        uses: lukka/get-cmake@latest
+
+      - name: Prepare msvc
+        if: startsWith(matrix.os, 'windows')
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure clang
+        if: runner.os == 'macOS'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('CXX', 'clang++');
+            core.exportVariable('CC', 'clang');
+
+      - name: All - Clean source tree
+        uses: ./.github/actions/all-clean-tree
+
       # Build wheel
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21.2
+        uses: pypa/cibuildwheel@v2.21.3
         env:
           CIBW_BUILD_FRONTEND: build
           CIBW_BUILD_VERBOSITY: 1
@@ -71,14 +116,6 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_ENVIRONMENT: >
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            SCCACHE_GHA_ENABLED=on
-            SCCACHE_ERROR_LOG='${{ runner.os == 'Linux' && '/project' || github.workspace }}/sccache.log'
-            SCCACHE_LOG=debug
-            SCCACHE_CONF='${{ runner.os == 'Linux' && '/project' || github.workspace }}/sccache_config'
-            SCCACHE_DIRECT=true
-            SCCACHE_C_CUSTOM_CACHE_BUSTER=${{ matrix.os }}-${{ matrix.python-minor }}
-            CMAKE_CXX_COMPILER_LAUNCHER=sccache
-            CMAKE_C_COMPILER_LAUNCHER=sccache
             BOOST_INSTALL_LAYOUT=system
             SPDLOG_FMT_EXTERNAL=on
             MACOSX_DEPLOYMENT_TARGET=11.0
@@ -88,13 +125,17 @@ jobs:
             RUNNER_OS
             RUNNER_ARCH
             WORKSPACE
+            CMAKE_CXX_COMPILER_LAUNCHER
+            CMAKE_C_COMPILER_LAUNCHER
+            CCACHE_NODIRECT
+            CCACHE_NODEPEND
           CIBW_BEFORE_ALL_LINUX: |
-            # install sccache
-            tar -xzf $WORKSPACE/deps/linux/sccache-v0.8.1-x86_64-unknown-linux-musl.tar.gz -C .
-            mv sccache-v0.8.1-x86_64-unknown-linux-musl/sccache /usr/bin
+            # install ccache
+            source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
             # install others
             dnf install -y ninja-build bison flex
-          CIBW_BEFORE_ALL_MACOS: brew install bison flex
+          CIBW_BEFORE_ALL_MACOS: |
+            brew install bison flex
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
             LD_LIBRARY_PATH=$WORKSPACE/libs:$LD_LIBRARY_PATH
@@ -112,14 +153,41 @@ jobs:
             output-dir: wheelhouse
             config-file: "{package}/pyproject.toml"
 
+      - name: Download cache from Docker (Linux only)
+        if: ${{ runner.os == 'Linux' }}
+        # hack until https://github.com/pypa/cibuildwheel/issues/1030 is fixed
+        run: |
+          env
+          ccache -s
+          HOST_CCACHE_DIR="$(ccache -k cache_dir)"
+          rm -rf $HOST_CCACHE_DIR
+          mv ./wheelhouse/.ccache $HOST_CCACHE_DIR
+          ls -la $HOST_CCACHE_DIR
+          ccache -s -v
+
       #- name: Setup tmate session
         #uses: mxschmitt/action-tmate@v3
 
-      # Upload cache log (debug)
+      # Upload sccache log (debug)
       - uses: actions/upload-artifact@v4
+        if: env.SCCACHE_ERROR_LOG != ''
         with:
-          name: sccache-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ${{ github.workspace }}/sccache.log
+          name: sccache-${{ matrix.os }}-${{ matrix.python-minor }}
+          path: ${{ env.SCCACHE_ERROR_LOG }}
+
+      # Upload ccache log (debug)
+      - uses: actions/upload-artifact@v4
+        if: env.CCACHE_LOGFILE != ''
+        with:
+          name: ccache_log-${{ matrix.os }}-${{ matrix.python-minor }}
+          path: ${{ env.CCACHE_LOGFILE }}
+
+      # Upload cache debug (debug)
+      - uses: actions/upload-artifact@v4
+        if: env.CCACHE_DEBUGDIR != ''
+        with:
+          name: ccache_debug-${{ matrix.os }}-${{ matrix.python-minor }}
+          path: ${{ env.CCACHE_DEBUGDIR }}
 
       #- name: Setup tmate session
         #if: ${{ failure() }}
@@ -128,5 +196,5 @@ jobs:
       # Upload artifacts
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          name: cibw-wheels-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ./wheelhouse/*.whl
