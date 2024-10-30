@@ -235,14 +235,14 @@ jobs:
     needs: [build_wheels]
     environment:
       name: pypi
-      url: https://test.pypi.org/p/pyluxcore
+      url: https://pypi.org/p/pyluxcore
     permissions:
       id-token: write
       attestations: write
       contents: read
 
     runs-on: ubuntu-latest
-    if: github.event_name == 'release' && github.event.action == 'published' && github.ref_name == 'master'
+    if: github.event_name == 'release' && github.event.action == 'published'
     steps:
       - uses: actions/download-artifact@v4
         with:
