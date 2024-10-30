@@ -35,10 +35,17 @@ fi
 
 ls -la /output/
 
+
 ccache -o cache_dir="/output/.ccache"
-ccache -o direct_mode="false"
+ccache -o direct_mode="true"
+ccache -o depend_mode="true"
+
 # export CCACHE_DIR="/host/home/runner/work/klayout/klayout/.ccache"
 ccache -M 5 G  # set cache size to 5 G
+
+# Show ccache conf
+ccache -p
+
 
 # Show ccache stats
 echo "Cache stats:"
