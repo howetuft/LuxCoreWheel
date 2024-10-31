@@ -10,6 +10,7 @@ from pathlib import PurePosixPath
 
 required_conan_version = ">=1.53.0"
 
+BOOST_VERSION = os.environ["BOOST_VERSION"]
 
 class OpenImageIOConan(ConanFile):
     name = "openimageio"
@@ -78,12 +79,7 @@ class OpenImageIOConan(ConanFile):
 
     def requirements(self):
         # Required libraries
-        self.requires("boost/1.78.0")  # Modified
-        # self.requires("boost-filesystem/1.78.0@luxcorewheels/luxcorewheels")
-        # self.requires("boost-thread/1.78.0@luxcorewheels/luxcorewheels")
-        # self.requires("boost-system/1.78.0@luxcorewheels/luxcorewheels")
-        # self.requires("boost-container/1.78.0@luxcorewheels/luxcorewheels")
-        # self.requires("boost-regex/1.78.0@luxcorewheels/luxcorewheels")
+        self.requires(f"boost/{BOOST_VERSION}")  # Modified
         self.requires("openexr/2.5.7", transitive_headers=True, transitive_libs=True)  # Modified
         self.requires("zlib/[>=1.2.11 <2]")
         self.requires("libtiff/4.3.0")

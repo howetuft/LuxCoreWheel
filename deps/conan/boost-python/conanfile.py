@@ -10,7 +10,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import get, copy, replace_in_file
 
 
-BOOST_VERSION = os.env["BOOST_VERSION"]
+BOOST_VERSION = os.environ["BOOST_VERSION"]
 
 BOOST_PYTHON_DEPS = [
     "align",
