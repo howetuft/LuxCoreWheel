@@ -11,7 +11,7 @@ from conan.tools.env import VirtualBuildEnv
 import os
 import io
 
-_boost_version = "1.78.0"
+_boost_version = os.env["BOOST_VERSION"]
 
 class LuxCore(ConanFile):
     name = "LuxCoreWheels"
