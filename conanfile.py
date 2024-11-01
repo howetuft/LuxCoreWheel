@@ -39,7 +39,7 @@ class LuxCore(ConanFile):
 
 
     def requirements(self):
-        self.requires(f"boost/{_boost_version}", override=True)
+        self.requires(f"boost/{_boost_version}", force=True)
         self.requires(f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels")
         self.requires(f"fmt/10.2.1", override=True)
         if self.settings.os == "Linux":
