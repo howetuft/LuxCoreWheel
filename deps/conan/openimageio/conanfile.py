@@ -80,6 +80,7 @@ class OpenImageIOConan(ConanFile):
 
     def requirements(self):
         # Required libraries
+        self.requires("zlib/[>=1.2.11 <2]")
         self.requires(f"boost/{BOOST_VERSION}")  # Modified
         self.requires("libtiff/4.6.0")
         self.requires("imath/3.1.9", transitive_headers=True)
