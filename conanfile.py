@@ -57,7 +57,10 @@ class LuxCore(ConanFile):
 
         self.requires(
             "minizip-ng/4.0.3",
-            options={"with_libcomp": self.settings.os != "Macos"},
+            options={
+                "with_zlib": True,
+                "with_libcomp": self.settings.os != "Macos",
+            },
         )
 
     def generate(self):
