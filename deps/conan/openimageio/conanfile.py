@@ -235,7 +235,7 @@ class OpenImageIOConan(ConanFile):
         cd = CMakeDeps(self)
         if self.options.with_libwebp:
             cd.set_property("libwebp::webp", "cmake_target_name", "WebP::webp")
-            cd.set_property("libwebp::webpdemux", "cmake_target_name", "WebP::WebPDemux")
+            cd.set_property("libwebp::webpdemux", "cmake_target_name", "WebP::webpdemux")
         if self.options.with_freetype:
             cd.set_property("freetype", "cmake_find_mode", "module")
 
