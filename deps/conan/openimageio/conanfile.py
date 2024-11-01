@@ -67,7 +67,7 @@ class OpenImageIOConan(ConanFile):
         "with_openvdb": False,  # FIXME: broken on M1
         "with_ptex": True,
         "with_libwebp": True,
-        "fmt/*:header_only": True,
+        # "fmt/*:header_only": True,
         "openexr/*:shared": False
     }
 
@@ -234,7 +234,7 @@ class OpenImageIOConan(ConanFile):
 
         cd = CMakeDeps(self)
         if self.options.with_libwebp:
-            cd.set_property("libwebp::webp", "cmake_target_name", "WebP::WebP")
+            cd.set_property("libwebp::webp", "cmake_target_name", "WebP::webp")
             cd.set_property("libwebp::webpdemux", "cmake_target_name", "WebP::WebPDemux")
         if self.options.with_freetype:
             cd.set_property("freetype", "cmake_find_mode", "module")
