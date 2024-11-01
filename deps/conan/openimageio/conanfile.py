@@ -81,17 +81,20 @@ class OpenImageIOConan(ConanFile):
     def requirements(self):
         # Required libraries
         self.requires(f"boost/{BOOST_VERSION}")  # Modified
-        self.requires("openexr/2.5.7", transitive_headers=True, transitive_libs=True)  # Modified
-        self.requires("zlib/[>=1.2.11 <2]")
-        self.requires("libtiff/4.3.0")
-        # self.requires("imath/3.1.9", transitive_headers=True)  # Modified (relies on openexr)
+        self.requires("libtiff/4.6.0")
+        self.requires("imath/3.1.9", transitive_headers=True)
+        self.requires("openexr/3.2.3")
         if self.options.with_libjpeg == "libjpeg":
             self.requires("libjpeg/9e")
         elif self.options.with_libjpeg == "libjpeg-turbo":
-            self.requires("libjpeg-turbo/2.0.5")
+            self.requires("libjpeg-turbo/3.0.2")
         self.requires("pugixml/1.14")
+        self.requires("libsquish/1.15")
         self.requires("tsl-robin-map/1.2.1")
-        self.requires("fmt/7.1.3", transitive_headers=True)
+        if Version(self.version) >= "2.4.17.0":
+            self.requires("fmt/10.2.1", transitive_headers=True)
+        else:
+            self.requires("fmt/9.1.0", transitive_headers=True)
 
         # Optional libraries
         if self.options.with_libpng:
@@ -101,7 +104,7 @@ class OpenImageIOConan(ConanFile):
         if self.options.with_hdf5:
             self.requires("hdf5/1.14.3")
         if self.options.with_opencolorio:
-            self.requires("opencolorio/2.1.0")  # Modified
+            self.requires("opencolorio/2.3.1")
         if self.options.with_opencv:
             self.requires("opencv/4.8.1")
         if self.options.with_tbb:
@@ -109,7 +112,7 @@ class OpenImageIOConan(ConanFile):
         if self.options.with_dicom:
             self.requires("dcmtk/3.6.7")
         if self.options.with_ffmpeg:
-            self.requires("ffmpeg/4.3.2")
+            self.requires("ffmpeg/6.1")
         # TODO: Field3D dependency
         if self.options.with_giflib:
             self.requires("giflib/5.2.1")
@@ -125,8 +128,6 @@ class OpenImageIOConan(ConanFile):
             self.requires("ptex/2.4.2")
         if self.options.with_libwebp:
             self.requires("libwebp/1.3.2")
-        # TODO: R3DSDK dependency
-        # TODO: Nuke dependency
 
     def validate(self):
         if self.settings.compiler.cppstd:
