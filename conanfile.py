@@ -20,7 +20,7 @@ class LuxCore(ConanFile):
 
     requires = [
         "onetbb/2020.3",
-        # "opencolorio/2.3.1",  # TODO
+        "opencolorio/2.3.1",
         "minizip-ng/4.0.3",
         # "libpng/1.6.42",
         "spdlog/1.8.5",
