@@ -45,6 +45,7 @@ conan install \
   --build=editable \
   --deployer=runtime_deploy \
   --deployer-folder=$WORKSPACE/libs \
+  --build=minizip-ng/4.0.3 --build=opencolorio/2.3.1 \
   -s build_type=Release
 
 if [[ $RUNNER_OS == "Linux" ]]; then
