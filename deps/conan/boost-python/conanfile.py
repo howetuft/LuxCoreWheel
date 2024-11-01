@@ -156,6 +156,7 @@ class BoostPythonConan(ConanFile):
         # tc.cache_variables["CMAKE_FIND_DEBUG_MODE"] = True  # For debugging
         tc.preprocessor_definitions["BOOST_ALL_NO_LIB"] = None  # No automagic linking
         tc.preprocessor_definitions["BOOST_NO_CXX98_FUNCTION_BASE"] = None  # No deprecated functions (C++17)
+        tc.preprocessor_definitions["BOOST_NO_AUTO_PTR"] = None  # No auto_ptr
         tc.generate()
 
     def build(self):
