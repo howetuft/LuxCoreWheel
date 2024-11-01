@@ -160,7 +160,7 @@ jobs:
             config-file: "{package}/pyproject.toml"
 
       - name: Download cache from Docker (Linux only)
-        if: ${{ runner.os == 'Linux' }}
+        if: (success() || failure()) && runner.os == 'Linux'
         # hack until https://github.com/pypa/cibuildwheel/issues/1030 is fixed
         run: |
           env
