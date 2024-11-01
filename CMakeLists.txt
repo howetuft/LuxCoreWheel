@@ -39,9 +39,6 @@ find_package(FLEX REQUIRED)
 
 # spdlog
 find_package(spdlog REQUIRED)
-set(SPDLOG_FMT_EXTERNAL 1)
-set(SPDLOG_USE_STD_FORMAT 1)
-include_directories(${SPDLOG_INCLUDE_DIRS})
 
 # Python
 MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
@@ -117,6 +114,7 @@ set(PYLUXCORE_TARGETS
     Boost::serialization Boost::thread boost::boost
     OpenColorIO::OpenColorIO
     Python::Module
+    spdlog::spdlog
 )
 # TODO
     #OpenEXR::IlmImfConfig

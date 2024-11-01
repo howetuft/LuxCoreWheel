@@ -23,7 +23,7 @@ class LuxCore(ConanFile):
         "opencolorio/2.3.1",
         "minizip-ng/4.0.3",
         # "libpng/1.6.42",
-        "spdlog/1.8.5",
+        "spdlog/1.14.1",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
         "openexr/3.2.3",
@@ -32,6 +32,7 @@ class LuxCore(ConanFile):
     default_options = {
         # "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
+        "spdlog/*:use_std_fmt": True,
         "embree3/*:neon": True,
     }
 
