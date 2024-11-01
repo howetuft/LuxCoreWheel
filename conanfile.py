@@ -30,7 +30,7 @@ class LuxCore(ConanFile):
     ]
 
     default_options = {
-        "fmt/*:header_only": True,
+        # "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
         "embree3/*:neon": True,
     }
