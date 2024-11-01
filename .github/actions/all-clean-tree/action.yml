@@ -89,11 +89,11 @@ runs:
       run: |
         grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs $SED -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
 
-    - name: Set C++ to 17
-      shell: 'bash'
+    - name: Set C++ to 14
+      shell: bash
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs $SED -i 's/11/17/g'
+        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs $SED -i 's/11/14/g'
 
 
     - name: Boost > 1.79.0
