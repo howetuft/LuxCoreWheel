@@ -39,8 +39,8 @@ find_package(FLEX REQUIRED)
 
 # spdlog
 find_package(spdlog REQUIRED)
-add_definitions(-DSPDLOG_FMT_EXTERNAL=1)
-add_definitions(-DSPDLOG_USE_STD_FORMAT=1)
+set(SPDLOG_FMT_EXTERNAL 1)
+set(SPDLOG_USE_STD_FORMAT 1)
 include_directories(${SPDLOG_INCLUDE_DIRS})
 
 # Python
