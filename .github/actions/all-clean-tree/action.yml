@@ -128,7 +128,7 @@ runs:
         snippet='
         template <>
         struct fmt::formatter<luxcore::Camera::CameraType> {
-            formatter() { fmt::cout << "formatter<luxcore::Camera::CameraType>()\n"; }
+            formatter() { std::cout << "formatter<luxcore::Camera::CameraType>()\n"; }
 
             constexpr auto parse(fmt::format_parse_context& ctx) {
                 return ctx.begin();
