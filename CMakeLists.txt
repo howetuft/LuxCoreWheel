@@ -114,7 +114,7 @@ set(PYLUXCORE_TARGETS
     Boost::serialization Boost::thread boost::boost
     OpenColorIO::OpenColorIO
     Python::Module
-    spdlog::spdlog
+    spdlog::spdlog_header_only
 )
 # TODO
     #OpenEXR::IlmImfConfig
