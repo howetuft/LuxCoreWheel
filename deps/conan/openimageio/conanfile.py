@@ -341,8 +341,13 @@ class OpenImageIOConan(ConanFile):
         self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
         self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
 
+        self.cpp_info.set_property("cmake_target_name", "openimageio::openimageio")
+
         self.cpp_info.names["cmake_find_package"] = "OpenImageIO"
         self.cpp_info.names["cmake_find_package_multi"] = "OpenImageIO"
+
+        self.cpp_info.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        self.cpp_info.libdirs = [os.path.join("build", "Release", "lib")]
 
         # OpenImageIO::OpenImageIO_Util
         open_image_io_util = self._add_component("OpenImageIO_Util")
