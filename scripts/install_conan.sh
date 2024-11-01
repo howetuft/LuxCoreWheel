@@ -35,6 +35,13 @@ if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
     conan source ${embree3} &
 fi
 
+if [[ $RUNNER_OS == "macOS" ]]; then
+  conan source minizip-ng/4.0.3
+  conan editable add minizip-ng/4.0.3
+
+  conan source opencolorio/2.3.1
+  conan editable add opencolorio/2.3.1
+fi
 wait
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
@@ -45,7 +52,6 @@ conan install \
   --build=editable \
   --deployer=runtime_deploy \
   --deployer-folder=$WORKSPACE/libs \
-  --build=minizip-ng/4.0.3 --build=opencolorio/2.3.1 \
   -s build_type=Release
 
 if [[ $RUNNER_OS == "Linux" ]]; then
