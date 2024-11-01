@@ -27,8 +27,6 @@ class LuxCore(ConanFile):
         f"openimageio/{_oiio_version}",
         "c-blosc/1.21.5",
         "openexr/2.5.7",
-        f"boost/{_boost_version}",
-        f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {
@@ -41,6 +39,8 @@ class LuxCore(ConanFile):
 
 
     def requirements(self):
+        self.requires(f"boost/{_boost_version}", override=True)
+        self.requires(f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels")
         if self.settings.os == "Linux":
             self.requires("oidn/1.2.4@luxcorewheels/luxcorewheels")
         else:
