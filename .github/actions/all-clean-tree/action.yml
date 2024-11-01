@@ -122,6 +122,12 @@ runs:
         $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/cuda.cpp
         $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/ocl.cpp
 
+    - name: OpenEXR Half
+      shell: bash
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        grep -rl "#include<OpenEXR/half>" . --exclude-dir=.git | xargs $SED -i 's/OpenEXR/Imath/g'
+
 
     # Specifics
 
