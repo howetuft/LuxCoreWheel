@@ -11,6 +11,7 @@ from pathlib import PurePosixPath
 required_conan_version = ">=1.53.0"
 
 BOOST_VERSION = os.environ["BOOST_VERSION"]
+OIIO_VERSION = os.environ["OIIO_VERSION"]
 
 class OpenImageIOConan(ConanFile):
     name = "openimageio"
@@ -23,7 +24,7 @@ class OpenImageIOConan(ConanFile):
     topics = ("vfx", "image", "picture")
     license = "Apache-2.0", "BSD-3-Clause"
     homepage = "http://www.openimageio.org/"
-    version = "2.2.13.1"
+    version = OIIO_VERSION  # Reminder, last version: "2.2.13.1"
     user = "luxcorewheels"
     channel = "luxcorewheels"
     # revision_mode = "scm_folder"
