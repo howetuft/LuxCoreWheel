@@ -26,7 +26,7 @@ class LuxCore(ConanFile):
         "spdlog/1.8.5",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
-        # "openexr/2.5.7",  # TODO
+        "openexr/3.2.3",
     ]
 
     default_options = {
