@@ -66,6 +66,11 @@ jobs:
               core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache_debug`);
               core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
               core.exportVariable('CACHE_MAXSIZE', '500M')
+
+              // Create ccache dir for Linux
+              const io = require('@actions/io');
+              await io.mkdirP('${{ github.workspace }}/wheels/.ccache');
+
             } else if (launcher == 'sccache') {
               // SCCACHE (WINDOWS)
               core.exportVariable('SCCACHE_CONF', String.raw`${{ github.workspace }}/sccache.conf`);
