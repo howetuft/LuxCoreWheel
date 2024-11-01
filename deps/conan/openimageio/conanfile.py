@@ -66,7 +66,7 @@ class OpenImageIOConan(ConanFile):
         "with_openjpeg": True,
         "with_openvdb": False,  # FIXME: broken on M1
         "with_ptex": True,
-        "with_libwebp": True,
+        "with_libwebp": False,  # TODO
         "fmt/*:header_only": True,
         "openexr/*:shared": False
     }
