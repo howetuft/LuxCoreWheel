@@ -93,7 +93,7 @@ endif(LINUX)
 add_subdirectory(LuxCore)
 
 # Add deps targets to LuxCore libs
-#include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${OpenColorIO_INCLUDE_DIRS})
 target_link_libraries(bcd PRIVATE boost::boost Boost::chrono)
 target_link_libraries(openvdb PRIVATE boost::boost)
 target_link_libraries(opensubdiv PRIVATE boost::boost)
