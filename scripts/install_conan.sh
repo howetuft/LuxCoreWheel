@@ -7,7 +7,7 @@ set -o pipefail
 echo "CIBW_BEFORE_BUILD: pip"
 pip install conan
 pip install ninja
-pip install "numpy < 2.0" &
+pip install "numpy" &
 
 conan_path=$WORKSPACE/deps/conan
 
@@ -16,12 +16,11 @@ boost_python=$conan_path/boost-python
 conan editable add ${boost_python}
 conan source ${boost_python} &
 
-# TODO
-#echo "CIBW_BEFORE_BUILD: OIIO"
-#unset CI  # Otherwise OIIO passes -Werror to compiler (MacOS)!
-#oiio=$conan_path/openimageio
-#conan editable add ${oiio}
-#conan source ${oiio} &
+echo "CIBW_BEFORE_BUILD: OIIO"
+unset CI  # Otherwise OIIO passes -Werror to compiler (MacOS)!
+oiio=$conan_path/openimageio
+conan editable add ${oiio}
+conan source ${oiio} &
 
 echo "CIBW_BEFORE_BUILD: OIDN"
 oidn=$conan_path/oidn_${RUNNER_OS}_${RUNNER_ARCH}
