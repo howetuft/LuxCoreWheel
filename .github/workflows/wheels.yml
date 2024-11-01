@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: ['8', '9', '10', '11', '12']
+        python-minor: ['8', '9', '10', '11', '12', '13']
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
     env:
       GH_TOKEN: ${{ github.token }}
@@ -123,7 +123,7 @@ jobs:
             BOOST_INSTALL_LAYOUT=system
             SPDLOG_FMT_EXTERNAL=on
             MACOSX_DEPLOYMENT_TARGET=11.0
-            BOOST_VERSION=1.81.0
+            BOOST_VERSION=1.86.0
           CIBW_ENVIRONMENT_PASS_LINUX: |
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
