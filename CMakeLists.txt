@@ -37,6 +37,12 @@ find_package(Boost REQUIRED)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
+# spdlog
+find_package(spdlog REQUIRED)
+add_definitions(-DSPDLOG_FMT_EXTERNAL=1)
+add_definitions(-DSPDLOG_USE_STD_FORMAT=1)
+include_directories(${SPDLOG_INCLUDE_DIRS})
+
 # Python
 MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)

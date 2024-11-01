@@ -89,31 +89,12 @@ runs:
       run: |
         grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs $SED -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
 
-    - name: Set C++ to 14
+    - name: Set C++ to 20
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs $SED -i 's/11/14/g'
+        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs $SED -i 's/11/20/g'
 
-    - name: Add missing code for {fmt} Camera
-      shell: 'bash'
-      working-directory: ${{ github.workspace }}/LuxCore
-      run: |
-        snippet='
-        template <>
-        struct fmt::formatter<luxcore::Camera::CameraType> {
-            formatter() { std::cout << "formatter<luxcore::Camera::CameraType>()\n"; }
-
-            constexpr auto parse(fmt::format_parse_context& ctx) {
-                return ctx.begin();
-            }
-
-            auto format(const luxcore::Camera::CameraType& cam, fmt::format_context& ctx) const {
-                return fmt::format_to(ctx.out(), "{}", int(cam));
-            }
-        };'
-        echo "" >> src/luxcore/luxcoreimpl.cpp
-        echo $snippet >> src/luxcore/luxcoreimpl.cpp
 
     - name: Boost > 1.79.0
       shell: bash
@@ -128,6 +109,36 @@ runs:
       run: |
         grep -rl "#include *<OpenEXR/half.h>" . --exclude-dir=.git | xargs $SED -i 's/OpenEXR/Imath/g'
 
+
+    - name: spdlog
+      shell: bash
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        grep -rl '#include *"spdlog/spdlog.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/spdlog.h"/<spdlog\/spdlog.h>/g'
+        grep -rl '#include *"spdlog/sinks/rotating_file_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/rotating_file_sink.h"/<spdlog\/sinks\/rotating_file_sink.h>/g'
+        grep -rl '#include *"spdlog/sinks/null_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/null_sink.h"/<spdlog\/sinks\/null_sink.h>/g'
+        $SED -i '1s/^/#include <format> /' src/luxcore/luxcoreimpl.cpp
+
+
+    - name: Add missing code for {fmt} Camera
+      shell: bash
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        snippet='
+        template <>
+        struct std::formatter<luxcore::Camera::CameraType> {
+            formatter() { std::cout << "formatter<luxcore::Camera::CameraType>()\n"; }
+
+            constexpr auto parse(std::format_parse_context& ctx) {
+                return ctx.begin();
+            }
+
+            auto format(const luxcore::Camera::CameraType& cam, std::format_context& ctx) const {
+                return std::format_to(ctx.out(), "{}", int(cam));
+            }
+        };'
+        echo "" >> src/luxcore/luxcoreimpl.cpp
+        echo $snippet >> src/luxcore/luxcoreimpl.cpp
 
     # Specifics
 
