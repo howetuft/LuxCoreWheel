@@ -21,7 +21,6 @@ class LuxCore(ConanFile):
     requires = [
         "onetbb/2020.3",
         "opencolorio/2.3.1",
-        "minizip-ng/4.0.3",
         # "libpng/1.6.42",
         "spdlog/1.12.0",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
@@ -56,6 +55,10 @@ class LuxCore(ConanFile):
         else:
             self.requires("embree3/3.13.1")
 
+        self.requires(
+            "minizip-ng/4.0.3",
+            options={"with_libcomp": self.settings.os != "Macos"},
+        )
 
     def generate(self):
         tc = CMakeToolchain(self)
