@@ -115,6 +115,14 @@ runs:
         echo "" >> src/luxcore/luxcoreimpl.cpp
         echo $snippet >> src/luxcore/luxcoreimpl.cpp
 
+    - name: Boost > 1.79.0
+      shell: bash
+      working-directory: ${{ github.workspace }}/LuxCore
+      run: |
+        $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/cuda.cpp
+        $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/ocl.cpp
+
+
     # Specifics
 
     - name: Macos - Remove Platform Specifics and Configuration
