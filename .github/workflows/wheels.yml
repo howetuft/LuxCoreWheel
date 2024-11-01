@@ -111,6 +111,7 @@ jobs:
       # Build wheel
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.21.3
+        working-directory: ${{ github.workspace }}
         env:
           CIBW_BUILD_FRONTEND: build
           CIBW_BUILD_VERBOSITY: 1
