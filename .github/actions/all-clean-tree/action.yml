@@ -89,11 +89,11 @@ runs:
       run: |
         grep -rl "CMAKE_SOURCE_DIR" . --exclude-dir=.git | xargs $SED -i 's/CMAKE_SOURCE_DIR/PROJECT_SOURCE_DIR/g'
 
-    - name: Set C++ to 20
+    - name: Set C++ to 17
       shell: 'bash'
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs $SED -i 's/11/20/g'
+        grep -rl "CMAKE_CXX_STANDARD" . --exclude-dir=.git | xargs $SED -i 's/11/17/g'
 
 
     - name: Boost > 1.79.0
@@ -110,15 +110,15 @@ runs:
         grep -rl "#include *<OpenEXR/half.h>" . --exclude-dir=.git | xargs $SED -i 's/OpenEXR/Imath/g'
 
 
-    - name: spdlog
-      shell: bash
-      working-directory: ${{ github.workspace }}/LuxCore
-      run: |
-        grep -rl '#include *"spdlog/spdlog.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/spdlog.h"/<spdlog\/spdlog.h>/g'
-        grep -rl '#include *"spdlog/sinks/rotating_file_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/rotating_file_sink.h"/<spdlog\/sinks\/rotating_file_sink.h>/g'
-        grep -rl '#include *"spdlog/sinks/null_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/null_sink.h"/<spdlog\/sinks\/null_sink.h>/g'
-        $SED -i '1s/^/#include <format>\n/' src/luxcore/luxcoreimpl.cpp
-        grep -rl 'fmt::to_string(formatted).c_str()' . --exclude-dir=.git | xargs $SED -i 's/fmt::to_string(formatted).c_str()/formatted.c_str()/g'
+    #- name: spdlog
+      #shell: bash
+      #working-directory: ${{ github.workspace }}/LuxCore
+      #run: |
+        #grep -rl '#include *"spdlog/spdlog.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/spdlog.h"/<spdlog\/spdlog.h>/g'
+        #grep -rl '#include *"spdlog/sinks/rotating_file_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/rotating_file_sink.h"/<spdlog\/sinks\/rotating_file_sink.h>/g'
+        #grep -rl '#include *"spdlog/sinks/null_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/null_sink.h"/<spdlog\/sinks\/null_sink.h>/g'
+        #$SED -i '1s/^/#include <format>\n/' src/luxcore/luxcoreimpl.cpp
+        #grep -rl 'fmt::to_string(formatted).c_str()' . --exclude-dir=.git | xargs $SED -i 's/fmt::to_string(formatted).c_str()/formatted.c_str()/g'
 
 
     - name: Add missing code for {fmt} Camera
@@ -127,15 +127,15 @@ runs:
       run: |
         snippet='
         template <>
-        struct std::formatter<luxcore::Camera::CameraType> {
-            formatter() { std::cout << "formatter<luxcore::Camera::CameraType>()\n"; }
+        struct fmt::formatter<luxcore::Camera::CameraType> {
+            formatter() { fmt::cout << "formatter<luxcore::Camera::CameraType>()\n"; }
 
-            constexpr auto parse(std::format_parse_context& ctx) {
+            constexpr auto parse(fmt::format_parse_context& ctx) {
                 return ctx.begin();
             }
 
-            auto format(const luxcore::Camera::CameraType& cam, std::format_context& ctx) const {
-                return std::format_to(ctx.out(), "{}", int(cam));
+            auto format(const luxcore::Camera::CameraType& cam, fmt::format_context& ctx) const {
+                return fmt::format_to(ctx.out(), "{}", int(cam));
             }
         };'
         echo "" >> src/luxcore/luxcoreimpl.cpp
