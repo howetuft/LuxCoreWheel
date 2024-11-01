@@ -68,7 +68,7 @@ jobs:
               core.exportVariable('CACHE_MAXSIZE', '500M')
 
               // Create ccache dir for Linux
-              io.mkdirP('${{ github.workspace }}/wheels/.ccache');
+              io.mkdirP('${{ github.workspace }}/wheelhouse/.ccache');
 
             } else if (launcher == 'sccache') {
               // SCCACHE (WINDOWS)

@@ -117,7 +117,8 @@ runs:
         grep -rl '#include *"spdlog/spdlog.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/spdlog.h"/<spdlog\/spdlog.h>/g'
         grep -rl '#include *"spdlog/sinks/rotating_file_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/rotating_file_sink.h"/<spdlog\/sinks\/rotating_file_sink.h>/g'
         grep -rl '#include *"spdlog/sinks/null_sink.h"' . --exclude-dir=.git | xargs $SED -i 's/"spdlog\/sinks\/null_sink.h"/<spdlog\/sinks\/null_sink.h>/g'
-        $SED -i '1s/^/#include <format> /' src/luxcore/luxcoreimpl.cpp
+        $SED -i '1s/^/#include <format>\n/' src/luxcore/luxcoreimpl.cpp
+        grep -rl 'fmt::to_string(formatted).c_str()' . --exclude-dir=.git | xargs $SED -i 'fmt::to_string(formatted).c_str()/formatted.c_str()/g'
 
 
     - name: Add missing code for {fmt} Camera
