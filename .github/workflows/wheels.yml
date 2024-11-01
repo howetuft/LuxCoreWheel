@@ -167,7 +167,7 @@ jobs:
           ccache -s
           HOST_CCACHE_DIR="$(ccache -k cache_dir)"
           rm -rf $HOST_CCACHE_DIR
-          mv ./wheelhouse/.ccache $HOST_CCACHE_DIR
+          mv ${{ github.workspace }}/wheelhouse/.ccache $HOST_CCACHE_DIR
           ls -la $HOST_CCACHE_DIR
           ccache -s -v
 

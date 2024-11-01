@@ -59,7 +59,7 @@ runs:
           $SED -i "/deps\/${lib}/d" src/slg/CMakeLists.txt
           $SED -i "/add_library(${lib}/d" src/slg/CMakeLists.txt
           $SED -i "/target_compile_definitions(${lib}/d" src/slg/CMakeLists.txt
-          rm -rvf deps/${lib}*
+          rm -rf deps/${lib}*
         done
       shell: bash
 
@@ -126,7 +126,7 @@ runs:
       shell: bash
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
-        grep -rl "#include<OpenEXR/half>" . --exclude-dir=.git | xargs $SED -i 's/OpenEXR/Imath/g'
+        grep -rl "#include *<OpenEXR/half.h>" . --exclude-dir=.git | xargs $SED -i 's/OpenEXR/Imath/g'
 
 
     # Specifics
