@@ -67,9 +67,9 @@ include_directories(${TBB_INCLUDE_DIR})
 set(TBB_LIBRARY "${TBB_LIBRARIES}")  # TBB_LIBRARIES is referenced as TBB_LIBRARY in LuxCore...
 set(OPENEXR_LIBRARIES "${OpenEXR_LIBRARIES}")
 include_directories(${OpenEXR_INCLUDE_DIR})
-include_directories(${ZLIB_INCLUDE_DIR})
+#include_directories(${ZLIB_INCLUDE_DIR})
 include_directories(${oidn_INCLUDE_DIR})
-include_directories(${fmt_INCLUDE_DIR})
+#include_directories(${fmt_INCLUDE_DIR})
 include_directories(${Blosc_INCLUDE_DIR})
 
 # For caching with MSVC
@@ -96,7 +96,7 @@ endif(LINUX)
 add_subdirectory(LuxCore)
 
 # Add deps targets to LuxCore libs
-target_link_libraries(bcd PRIVATE boost::boost Boost::chrono)
+target_link_libraries(bcd PRIVATE boost::boost Boost::chrono ZLIB::ZLIB)
 target_link_libraries(openvdb PRIVATE boost::boost openexr::openexr)
 target_link_libraries(opensubdiv PRIVATE boost::boost)
 target_link_libraries(slg-core PRIVATE boost::boost OpenColorIO::OpenColorIO openexr::openexr)
