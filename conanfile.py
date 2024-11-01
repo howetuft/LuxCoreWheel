@@ -12,6 +12,7 @@ import os
 import io
 
 _boost_version = os.environ["BOOST_VERSION"]
+_oiio_version = os.environ["OIIO_VERSION"]
 
 class LuxCore(ConanFile):
     name = "LuxCoreWheels"
@@ -23,7 +24,7 @@ class LuxCore(ConanFile):
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
         "spdlog/1.8.5",
-        "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
+        "openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
         "openexr/2.5.7",
         f"boost/{_boost_version}",
