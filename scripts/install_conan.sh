@@ -16,11 +16,14 @@ boost_python=$conan_path/boost-python
 conan editable add ${boost_python}
 conan source ${boost_python} &
 
-echo "CIBW_BEFORE_BUILD: OIIO"
-unset CI  # Otherwise OIIO passes -Werror to compiler (MacOS)!
-oiio=$conan_path/openimageio
-conan editable add ${oiio}
-conan source ${oiio} &
+
+if [[ $RUNNER_OS == "macOS" ]]; then
+  echo "CIBW_BEFORE_BUILD: OIIO"
+  unset CI  # Otherwise OIIO passes -Werror to compiler (MacOS)!
+  oiio=$conan_path/openimageio
+  conan editable add ${oiio}
+  conan source ${oiio} &
+fi
 
 echo "CIBW_BEFORE_BUILD: OIDN"
 oidn=$conan_path/oidn_${RUNNER_OS}_${RUNNER_ARCH}
@@ -50,7 +53,7 @@ conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
-  --deployer=runtime_deploy \
+  --deployer=full_deploy \
   --deployer-folder=$WORKSPACE/libs \
   -s build_type=Release
 

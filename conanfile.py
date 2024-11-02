@@ -25,7 +25,6 @@ class LuxCore(ConanFile):
         "opencolorio/2.3.1",
         # "libpng/1.6.42",
         "spdlog/1.12.0",
-        f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
         "openexr/3.2.3",
         "openvdb/9.1.0",  # TODO increase version?
@@ -57,6 +56,11 @@ class LuxCore(ConanFile):
             self.requires("embree3/3.13.1@luxcorewheels/luxcorewheels")
         else:
             self.requires("embree3/3.13.1")
+
+        if self.settings.os == "Macos":
+            self.requires(f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels")
+        else:
+            self.requires(f"openimageio/{_oiio_version}")
 
         self.requires(
             "minizip-ng/4.0.3",
