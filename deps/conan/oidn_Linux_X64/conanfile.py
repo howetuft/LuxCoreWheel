@@ -3,7 +3,7 @@ import shutil
 from conan.tools.files import get, copy
 from conan import ConanFile
 
-version = os.env["OIIO_VERSION"]
+VERSION = "2.3.0"
 
 LIBS = [
     "libOpenImageDenoise.so",
@@ -31,7 +31,7 @@ LIBS = [
 
 class OidnConan(ConanFile):
     name = "oidn"
-    version = "2.3.0"
+    version = VERSION
     settings = "os", "arch", "compiler", "build_type"
     user = "luxcorewheels"
     channel = "luxcorewheels"
