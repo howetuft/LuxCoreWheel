@@ -105,7 +105,7 @@ target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
 set(PYLUXCORE_TARGETS
     slg-core slg-film slg-kernels luxrays bcd opensubdiv
     OpenVDB::openvdb
-    onetbb::onetbb
+    #onetbb::onetbb
     MINIZIP::minizip spdlog::spdlog_header_only
     openexr::openexr
     embree openimageio::openimageio PNG::PNG
