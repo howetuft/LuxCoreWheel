@@ -65,7 +65,7 @@ conan install \
   -s build_type=Release
 
 if [[ $RUNNER_OS == "Linux" ]]; then
-    oidn_version=1.2.4
+    oidn_version=2.3.0
     cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/bin/. $WORKSPACE/libs/
     cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/lib/. $WORKSPACE/libs/
 elif [[ $RUNNER_OS == "Windows" ]]; then
