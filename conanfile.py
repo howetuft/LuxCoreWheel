@@ -22,7 +22,7 @@ class LuxCore(ConanFile):
         "zlib/1.3.1",
         "onetbb/2021.10.0",
         # "onetbb/2020.3",  # TODO Do we need onetbb as a direct dep?
-        "opencolorio/2.3.1",
+        "opencolorio/2.4.0",
         # "libpng/1.6.42",
         "spdlog/1.12.0",
         "c-blosc/1.21.5",
