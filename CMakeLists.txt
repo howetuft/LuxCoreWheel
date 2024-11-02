@@ -140,4 +140,5 @@ if(APPLE)
 endif(APPLE)
 
 install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)
+cmake_print_variables(TBB_LIBRARIES)
 install(FILES ${TBB_LIBRARIES} DESTINATION libs)
