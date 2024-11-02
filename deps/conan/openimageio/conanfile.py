@@ -1,7 +1,7 @@
 from conan import ConanFile
 from conan.tools.build import check_min_cppstd
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
-from conan.tools.files import apply_conandata_patches, export_conandata_patches, copy, get, rm, rmdir
+from conan.tools.files import apply_conandata_patches, export_conandata_patches, copy, get, rm, rmdir, replace_in_file
 from conan.tools.microsoft import is_msvc, is_msvc_static_runtime
 from conan.tools.scm import Version
 from conan.errors import ConanInvalidConfiguration
@@ -67,7 +67,7 @@ class OpenImageIOConan(ConanFile):
         "with_openvdb": False,  # FIXME: broken on M1
         "with_ptex": True,
         "with_libwebp": True,
-        # "fmt/*:header_only": True,
+        "fmt/*:header_only": True,
         "openexr/*:shared": False
     }
 
@@ -77,6 +77,12 @@ class OpenImageIOConan(ConanFile):
 
     def export_sources(self):
         export_conandata_patches(self)
+        replace_in_file(
+            self,
+            os.path.join(self.source_folder, "src", "cmake", "externalpackages.cmake"),
+            "fmt::fmt",
+            "fmt::fmt-header-only",
+        )
 
     def requirements(self):
         # Required libraries
