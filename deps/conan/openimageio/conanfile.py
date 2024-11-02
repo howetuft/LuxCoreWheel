@@ -270,7 +270,13 @@ class OpenImageIOConan(ConanFile):
 
     def build(self):
         print("Building OIIO")
-        self.export_sources()
+        export_conandata_patches(self)
+        replace_in_file(
+            self,
+            os.path.join(self.source_folder, "src", "cmake", "externalpackages.cmake"),
+            "fmt::fmt",
+            "fmt::fmt-header-only",
+        )
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
