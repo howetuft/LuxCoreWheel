@@ -41,7 +41,7 @@ fi
 echo "CIBW_BEFORE_BUILD: OCIO"
 conan download opencolorio/2.3.1 --r conancenter
 folder=$(conan cache path opencolorio/2.3.1)
-cp $folder/../es/patches $folder/
+cp -rv $folder/../es/patches/ $folder/
 conan editable add $folder \
   --name=opencolorio \
   --version=2.3.1
