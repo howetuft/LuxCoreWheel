@@ -24,7 +24,7 @@ class OpenImageIOConan(ConanFile):
     topics = ("vfx", "image", "picture")
     license = "Apache-2.0", "BSD-3-Clause"
     homepage = "http://www.openimageio.org/"
-    version = OIIO_VERSION  # Reminder, last version: "2.2.13.1"
+    version = OIIO_VERSION  # Reminder, previous version: "2.2.13.1"
     user = "luxcorewheels"
     channel = "luxcorewheels"
     # revision_mode = "scm_folder"

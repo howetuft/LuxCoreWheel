@@ -35,13 +35,14 @@ if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
     conan source ${embree3} &
 fi
 
-echo "CIBW_BEFORE_BUILD: OCIO"
-conan download opencolorio/2.3.1 -r conancenter -m "*"
-folder=$(conan cache path opencolorio/2.3.1)
-cp -rv $folder/../es/patches/ $folder/
-conan editable add $folder \
-  --name=opencolorio \
-  --version=2.3.1
+# TODO
+#echo "CIBW_BEFORE_BUILD: OCIO"
+#conan download opencolorio/2.3.1 -r conancenter -m "*"
+#folder=$(conan cache path opencolorio/2.3.1)
+#cp -rv $folder/../es/patches/ $folder/
+#conan editable add $folder \
+  #--name=opencolorio \
+  #--version=2.3.1
 
 if [[ $RUNNER_OS == "macOS" ]]; then
   conan download minizip-ng/4.0.3 --r conancenter
