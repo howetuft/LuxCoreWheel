@@ -39,17 +39,18 @@ if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
 fi
 
 echo "CIBW_BEFORE_BUILD: OCIO"
-conan download opencolorio/2.3.1 --only-recipe --r conancenter
+conan download opencolorio/2.3.1 --r conancenter
 conan editable add $(conan cache path opencolorio/2.3.1) \
   --name=opencolorio \
   --version=2.3.1
 
 if [[ $RUNNER_OS == "macOS" ]]; then
-  conan download minizip-ng/4.0.3 --only-recipe --r conancenter
+  conan download minizip-ng/4.0.3 --r conancenter
   conan editable add $(conan cache path minizip-ng/4.0.3) \
     --name=minizip-ng \
     --version=4.0.3
 fi
+
 wait
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
