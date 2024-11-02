@@ -141,6 +141,4 @@ endif(APPLE)
 
 # Install
 install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)
-get_target_property(luxcorelibs pyluxcore LINK_LIBRARIES)
-cmake_print_variables(luxcorelibs)
-install(FILES ${luxcorelibs} DESTINATION libs)
+install(CODE [[ file(GET_RUNTIME_DEPENDENCIES) ]])
