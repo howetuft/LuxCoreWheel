@@ -77,6 +77,7 @@ class OpenImageIOConan(ConanFile):
 
     def export_sources(self):
         export_conandata_patches(self)
+        print(self.source_folder)
         replace_in_file(
             self,
             os.path.join(self.source_folder, "src", "cmake", "externalpackages.cmake"),
