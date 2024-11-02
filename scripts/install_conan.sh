@@ -53,7 +53,7 @@ conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
-  --deployer=direct_deploy \
+  --deployer=runtime_deploy \
   --deployer-folder=$WORKSPACE/libs \
   -s build_type=Release
 
@@ -69,11 +69,13 @@ elif [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "X64" ]]; then
     cp -rv $oidn/oidn-${oidn_version}.x86_64.macos/bin/. $WORKSPACE/libs/
     cp -rv $oidn/oidn-${oidn_version}.x86_64.macos/lib/. $WORKSPACE/libs/
 elif [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
-      oidn_version=2.3.0
-      cp -rv $oidn/oidn-${oidn_version}.arm64.macos/bin/. $WORKSPACE/libs/
-      cp -rv $oidn/oidn-${oidn_version}.arm64.macos/lib/. $WORKSPACE/libs/
- else
-      echo "ERROR: unhandled runner os/arch '${RUNNER_OS}/${RUNNER_ARCH}'"
-      exit 64
- fi
+     oidn_version=2.3.0
+     cp -rv $oidn/oidn-${oidn_version}.arm64.macos/bin/. $WORKSPACE/libs/
+     cp -rv $oidn/oidn-${oidn_version}.arm64.macos/lib/. $WORKSPACE/libs/
+else
+     echo "ERROR: unhandled runner os/arch '${RUNNER_OS}/${RUNNER_ARCH}'"
+     exit 64
+fi
+
+
 

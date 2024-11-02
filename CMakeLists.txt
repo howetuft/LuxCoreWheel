@@ -140,3 +140,4 @@ if(APPLE)
 endif(APPLE)
 
 install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)
+install(TARGETS onetbb::onetbb LIBRARY DESTINATION libs)
