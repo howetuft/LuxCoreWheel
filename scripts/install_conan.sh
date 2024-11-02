@@ -49,7 +49,7 @@ wait
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
-conan install \
+conan graph explain \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
