@@ -39,7 +39,7 @@ if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
 fi
 
 echo "CIBW_BEFORE_BUILD: OCIO"
-conan download opencolorio/2.3.1 --r conancenter
+conan download opencolorio/2.3.1 -r conancenter -m "*"
 folder=$(conan cache path opencolorio/2.3.1)
 cp -rv $folder/../es/patches/ $folder/
 conan editable add $folder \
