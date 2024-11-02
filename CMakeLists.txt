@@ -96,8 +96,8 @@ endif(LINUX)
 add_subdirectory(LuxCore)
 
 # Add deps targets to LuxCore libs
-target_link_libraries(bcd PRIVATE boost::boost Boost::chrono ZLIB::ZLIB)
-target_link_libraries(openvdb PRIVATE boost::boost openexr::openexr)
+target_link_libraries(bcd PRIVATE boost::boost Boost::chrono)
+target_link_libraries(openvdb PRIVATE boost::boost openexr::openexr ZLIB::ZLIB)
 target_link_libraries(opensubdiv PRIVATE boost::boost)
 target_link_libraries(slg-core PRIVATE boost::boost OpenColorIO::OpenColorIO openexr::openexr)
 target_link_libraries(slg-kernels PRIVATE boost::boost OpenColorIO::OpenColorIO)
