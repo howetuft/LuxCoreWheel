@@ -28,7 +28,7 @@ class LuxCore(ConanFile):
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
         "openexr/3.2.3",
-        "openvdb/11.0.0",
+        "openvdb/9.1.0",
     ]
 
     default_options = {
