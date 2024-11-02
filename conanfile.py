@@ -57,10 +57,12 @@ class LuxCore(ConanFile):
         else:
             self.requires("embree3/3.13.1")
 
-        if self.settings.os == "Macos":
-            self.requires(f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels")
-        else:
-            self.requires(f"openimageio/{_oiio_version}")
+        # TODO
+        # if self.settings.os == "Macos":
+            # self.requires(f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels")
+        # else:
+            # self.requires(f"openimageio/{_oiio_version}")
+        self.requires(f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels")
 
         self.requires(
             "minizip-ng/4.0.3",
