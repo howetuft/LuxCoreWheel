@@ -38,12 +38,14 @@ if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
     conan source ${embree3} &
 fi
 
+echo "CIBW_BEFORE_BUILD: OCIO"
+conan source opencolorio/2.3.1
+conan editable add $(conan cache path opencolorio/2.3.1)
+
 if [[ $RUNNER_OS == "macOS" ]]; then
   conan source minizip-ng/4.0.3
-  conan editable add minizip-ng/4.0.3
+  conan editable add $(conan cache path minizip-ng/4.0.3)
 
-  conan source opencolorio/2.3.1
-  conan editable add opencolorio/2.3.1
 fi
 wait
 
