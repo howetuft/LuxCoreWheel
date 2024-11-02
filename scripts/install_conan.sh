@@ -84,5 +84,5 @@ else
      exit 64
 fi
 
-
-
+echo "::Deployed:::"
+find $WORKSPACE/libs
