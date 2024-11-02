@@ -45,27 +45,22 @@ conan editable add $(conan cache path opencolorio/2.3.1) \
   --version=2.3.1
 
 if [[ $RUNNER_OS == "macOS" ]]; then
-  conan source minizip-ng/4.0.3
-  conan editable add $(conan cache path minizip-ng/4.0.3)
-
+  conan download minizip-ng/4.0.3 --only-recipe --r conancenter
+  conan editable add $(conan cache path minizip-ng/4.0.3) \
+    --name=minizip-ng \
+    --version=4.0.3
 fi
 wait
 
 echo "CIBW_BEFORE_BUILD: LuxCore"
 conan editable add $WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
-# TODO
-#conan install \
-  #--requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
-  #--profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
-  #--build=editable \
-  #--deployer=runtime_deploy \
-  #--deployer-folder=$WORKSPACE/libs \
-  #-s build_type=Release
 
-conan graph explain \
+conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
+  --deployer=runtime_deploy \
+  --deployer-folder=$WORKSPACE/libs \
   -s build_type=Release
 
 if [[ $RUNNER_OS == "Linux" ]]; then
