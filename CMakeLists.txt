@@ -98,7 +98,7 @@ add_subdirectory(LuxCore)
 target_link_libraries(bcd PRIVATE boost::boost Boost::chrono)
 #target_link_libraries(openvdb PRIVATE boost::boost openexr::openexr ZLIB::ZLIB) TODO
 target_link_libraries(opensubdiv PRIVATE boost::boost)
-target_link_libraries(slg-core PRIVATE boost::boost OpenColorIO::OpenColorIO openexr::openexr)
+target_link_libraries(slg-core PRIVATE boost::boost OpenColorIO::OpenColorIO openexr::openexr OpenVDB::openvdb)
 target_link_libraries(slg-kernels PRIVATE boost::boost OpenColorIO::OpenColorIO)
 target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
 
