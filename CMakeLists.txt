@@ -32,13 +32,11 @@ find_package(Blosc REQUIRED)
 find_package(oidn REQUIRED)
 find_package(Boost_python REQUIRED)
 find_package(Boost REQUIRED)
+find_package(ZLIB REQUIRED)
 
 # Bison/Flex
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
-
-# spdlog
-find_package(spdlog REQUIRED)
 
 # Python
 MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
