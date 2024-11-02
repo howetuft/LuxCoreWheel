@@ -43,10 +43,11 @@ class LuxCore(ConanFile):
         self.requires(f"boost/{_boost_version}", force=True)
         self.requires(f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels")
         self.requires(f"fmt/10.2.1", override=True)
-        if self.settings.os == "Linux":
-            self.requires("oidn/1.2.4@luxcorewheels/luxcorewheels")
-        else:
-            self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
+        # if self.settings.os == "Linux":
+            # self.requires("oidn/1.2.4@luxcorewheels/luxcorewheels")
+        # else:
+            # self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
+        self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":
