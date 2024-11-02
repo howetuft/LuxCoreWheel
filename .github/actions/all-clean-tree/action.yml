@@ -53,7 +53,7 @@ runs:
       working-directory:  ${{ github.workspace }}/LuxCore
       run: |
         pwd
-        for lib in opencolorio yaml expat spdlog
+        for lib in opencolorio yaml expat spdlog openvdb
         do
           echo "LuxCoreWheel - Removing '${lib}'"
           $SED -i "/deps\/${lib}/d" src/slg/CMakeLists.txt

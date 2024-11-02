@@ -20,6 +20,7 @@ unset(LUXRAYS_DISABLE_OPTIX)
 cmake_policy(SET CMP0074 NEW)  # *_ROOT variable
 
 message(STATUS "LuxCoreWheel - Add conan targets")
+find_package(ZLIB REQUIRED)
 find_package(TBB REQUIRED)
 find_package(minizip REQUIRED)
 find_package(spdlog REQUIRED)
@@ -32,7 +33,7 @@ find_package(Blosc REQUIRED)
 find_package(oidn REQUIRED)
 find_package(Boost_python REQUIRED)
 find_package(Boost REQUIRED)
-find_package(ZLIB REQUIRED)
+find_package(OpenVDB REQUIRED)
 
 # Bison/Flex
 find_package(BISON REQUIRED)
@@ -65,7 +66,7 @@ include_directories(${TBB_INCLUDE_DIR})
 set(TBB_LIBRARY "${TBB_LIBRARIES}")  # TBB_LIBRARIES is referenced as TBB_LIBRARY in LuxCore...
 set(OPENEXR_LIBRARIES "${OpenEXR_LIBRARIES}")
 include_directories(${OpenEXR_INCLUDE_DIR})
-#include_directories(${ZLIB_INCLUDE_DIR})
+#include_directories(${ZLIB_INCLUDE_DIRS})
 include_directories(${oidn_INCLUDE_DIR})
 #include_directories(${fmt_INCLUDE_DIR})
 include_directories(${Blosc_INCLUDE_DIR})
@@ -102,7 +103,8 @@ target_link_libraries(slg-kernels PRIVATE boost::boost OpenColorIO::OpenColorIO)
 target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
 
 set(PYLUXCORE_TARGETS
-    slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
+    slg-core slg-film slg-kernels luxrays bcd opensubdiv
+    OpenVDB::openvdb
     TBB::TBB MINIZIP::minizip spdlog::spdlog_header_only
     openexr::openexr
     embree openimageio::openimageio PNG::PNG
