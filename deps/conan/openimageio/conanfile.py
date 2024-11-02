@@ -271,6 +271,12 @@ class OpenImageIOConan(ConanFile):
             "fmt::fmt",
             "fmt::fmt-header-only",
         )
+        replace_in_file(
+            self,
+            os.path.join(self.source_folder, "src", "libutil", "CMakeLists.txt"),
+            "fmt::fmt",
+            "fmt::fmt-header-only",
+        )
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
