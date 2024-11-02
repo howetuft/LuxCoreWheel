@@ -139,6 +139,8 @@ if(APPLE)
   target_link_libraries(pyluxcore ${PYLUXCORE_TARGETS} llvm-openmp::llvm-openmp)
 endif(APPLE)
 
+# Install
 install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)
-cmake_print_variables(TBB_LIBRARIES)
-install(FILES ${TBB_LIBRARIES} DESTINATION libs)
+get_target_property(luxcorelibs pyluxcore LINK_LIBRARIES)
+cmake_print_variables(luxcorelibs)
+install(FILES ${luxcorelibs} DESTINATION libs)
