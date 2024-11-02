@@ -53,6 +53,7 @@ jobs:
             // in order to set CCACHE_DIR before downloading previous cache
 
             launcher = '${{ runner.os != 'Windows' && 'ccache' || 'sccache' }}'
+            launcher = 'sccache'  // TODO Debug
 
             core.exportVariable('CACHE_PROGRAM', launcher)
             core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', launcher);
