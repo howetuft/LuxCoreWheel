@@ -53,7 +53,7 @@ conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
-  --deployer=full_deploy \
+  --deployer=direct_deploy \
   --deployer-folder=$WORKSPACE/libs \
   -s build_type=Release
 
