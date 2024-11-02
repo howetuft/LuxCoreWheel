@@ -77,7 +77,6 @@ class OpenImageIOConan(ConanFile):
 
     def export_sources(self):
         export_conandata_patches(self)
-        print("OIIO export_sources", self.source_folder)
         replace_in_file(
             self,
             os.path.join(self.source_folder, "src", "cmake", "externalpackages.cmake"),
@@ -271,7 +270,7 @@ class OpenImageIOConan(ConanFile):
 
     def build(self):
         print("Building OIIO")
-        apply_conandata_patches(self)
+        self.export_sources()
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
