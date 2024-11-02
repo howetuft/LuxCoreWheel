@@ -22,7 +22,7 @@ class LuxCore(ConanFile):
         "zlib/1.3.1",
         "onetbb/2021.10.0",
         # "onetbb/2020.3",  # TODO Do we need onetbb as a direct dep?
-        "opencolorio/2.4.0",
+        # "opencolorio/2.4.0",  # TODO Already in oiio?
         # "libpng/1.6.42",
         "spdlog/1.12.0",
         "c-blosc/1.21.5",
@@ -43,7 +43,6 @@ class LuxCore(ConanFile):
         self.requires(f"boost/{_boost_version}", force=True)
         self.requires(f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels")
         self.requires(f"fmt/10.2.1", override=True)
-        self.requires("lcms/2.14", force=True)
         if self.settings.os == "Linux":
             self.requires("oidn/1.2.4@luxcorewheels/luxcorewheels")
         else:
