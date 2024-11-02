@@ -77,12 +77,6 @@ class OpenImageIOConan(ConanFile):
 
     def export_sources(self):
         export_conandata_patches(self)
-        replace_in_file(
-            self,
-            os.path.join(self.source_folder, "src", "cmake", "externalpackages.cmake"),
-            "fmt::fmt",
-            "fmt::fmt-header-only",
-        )
 
     def requirements(self):
         # Required libraries
@@ -270,7 +264,7 @@ class OpenImageIOConan(ConanFile):
 
     def build(self):
         print("Building OIIO")
-        export_conandata_patches(self)
+        apply_conandata_patches(self)
         replace_in_file(
             self,
             os.path.join(self.source_folder, "src", "cmake", "externalpackages.cmake"),
