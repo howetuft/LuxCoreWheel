@@ -190,7 +190,7 @@ class MinizipNgConan(ConanFile):
         self.cpp_info.set_property("cmake_file_name", "minizip")
         self.cpp_info.set_property("cmake_target_name", "MINIZIP::minizip")
         self.cpp_info.set_property("pkg_config_name", "minizip")
-        self.cpp_info.libs = ["libminizip-ng"]
+        self.cpp_info.libs = ["minizip-ng"]
 
         # TODO: back to global scope in conan v2 once cmake_find_package_* generators removed
         # prefix = "lib" if is_msvc(self) or self._is_clang_cl else ""
