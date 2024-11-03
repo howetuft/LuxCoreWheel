@@ -7,6 +7,7 @@ from conan.tools.gnu import PkgConfigDeps
 from conan.tools.microsoft import is_msvc
 from conan.tools.scm import Version
 import os
+from pathlib import PurePosixPath
 
 required_conan_version = ">=1.53.0"
 
