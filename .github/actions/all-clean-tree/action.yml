@@ -14,7 +14,7 @@ runs:
       run: |
         echo "::group::Macos - Install sed"
         brew install gnu-sed
-      echo "::endgroup::"
+        echo "::endgroup::"
 
     - name: Find sed
       shell: 'bash'
