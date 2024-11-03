@@ -50,7 +50,7 @@ class OpenColorIOConan(ConanFile):
 
     def layout(self):
         build_type = self.settings.get_safe("build_type", default="Release")
-        cmake_layout(self, src_folder="src")
+        cmake_layout(self)
 
         # Set folders
         self.folders.source = "."
@@ -58,11 +58,11 @@ class OpenColorIOConan(ConanFile):
         self.folders.generators = PurePosixPath("build", build_type, "generators")
 
         # Main
-        self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
+        self.cpp.package.libs = ["OpenImageIO"]
         self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
         self.cpp.package.libdirs += [
-            PurePosixPath(self.folders.build, "src", "OpenColorIO"),
-            PurePosixPath(self.folders.build, "src", "apputils"),
+            os.path.join(self.folders.build, "src", "OpenColorIO"),
+            os.path.join(self.folders.build, "src", "apputils"),
         ]
 
         # Describe what changes between package and editable
@@ -75,8 +75,8 @@ class OpenColorIOConan(ConanFile):
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
         self.cpp.build.libdirs += [
-            PurePosixPath(self.folders.build, "src", "OpenColorIO"),
-            PurePosixPath(self.folders.build, "src", "apputils"),
+            os.path.join(self.folders.build, "src", "OpenColorIO"),
+            os.path.join(self.folders.build, "src", "apputils"),
         ]
         self.cpp.build.includedirs = ["include"]
 
