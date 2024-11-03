@@ -44,6 +44,10 @@ if [[ $RUNNER_OS == "macOS" ]]; then
     --name=minizip-ng \
     --version=$MINIZIP_VERSION
   conan source $minizip_folder --version $MINIZIP_VERSION
+  conan install --requires minizip-ng/$MINIZIP_VERSION \
+    --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+    --build=editable \
+    -s build_type=Release
 fi
 
 if [[ $RUNNER_OS == "macOS" ]]; then
