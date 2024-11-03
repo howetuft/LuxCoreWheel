@@ -63,6 +63,13 @@ fi
 #fi
 
 if [[ $RUNNER_OS == "macOS" ]]; then
+  echo "CIBW_BEFORE_BUILD: MINIZIP"
+  minizip=$conan_path/minizip-ng
+  conan editable add ${minizip}
+  conan source ${minizip} &
+fi
+
+if [[ $RUNNER_OS == "macOS" ]]; then
   echo "CIBW_BEFORE_BUILD: OCIO"
   ocio=$conan_path/opencolorio
   conan editable add ${ocio}
