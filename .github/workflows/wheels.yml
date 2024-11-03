@@ -129,6 +129,7 @@ jobs:
             MACOSX_DEPLOYMENT_TARGET=10.13
             BOOST_VERSION=1.84.0
             OIIO_VERSION=2.5.16.0
+            OCIO_VERSION=2.3.1
           CIBW_ENVIRONMENT_PASS_LINUX: |
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
