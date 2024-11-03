@@ -88,7 +88,7 @@ class MinizipNgConan(ConanFile):
         self.folders.generators = PurePosixPath("build", build_type, "generators")
 
         # Main
-        self.cpp.package.libs = ["libminizip-ng"]
+        self.cpp.package.libs = ["minizip-ng"]
         self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
         self.cpp.package.libdirs += [
             self.folders.build,
