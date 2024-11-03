@@ -79,6 +79,7 @@ class MinizipNgConan(ConanFile):
             del self.options.with_zlib
 
     def layout(self):
+        build_type = self.settings.get_safe("build_type", default="Release")
         cmake_layout(self, src_folder="src")
 
         # Set folders
