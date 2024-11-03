@@ -61,6 +61,7 @@ class OpenColorIOConan(ConanFile):
         self.cpp.package.libs = ["OpenColorIO"]
         self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
         self.cpp.package.libdirs += [
+            self.folders.build,
             os.path.join(self.folders.build, "src", "OpenColorIO"),
             os.path.join(self.folders.build, "src", "apputils"),
         ]
@@ -75,8 +76,8 @@ class OpenColorIOConan(ConanFile):
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
         self.cpp.build.libdirs += [
-            os.path.join(self.folders.build, "src", "OpenColorIO"),
-            os.path.join(self.folders.build, "src", "apputils"),
+            os.path.join("src", "OpenColorIO"),
+            os.path.join("src", "apputils"),
         ]
         self.cpp.build.includedirs = ["include"]
 
