@@ -201,9 +201,9 @@ jobs:
           name: ccache_debug-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ${{ env.CCACHE_DEBUGDIR }}
 
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+        #if: ${{ failure() }}
+        #uses: mxschmitt/action-tmate@v3
 
       # Upload artifacts
       - uses: actions/upload-artifact@v4

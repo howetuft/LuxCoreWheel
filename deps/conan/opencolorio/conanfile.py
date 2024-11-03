@@ -59,7 +59,7 @@ class OpenColorIOConan(ConanFile):
 
         # Main
         self.cpp.package.libs = ["OpenColorIO"]
-        self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
+        self.cpp.package.includedirs = ["include"] # maps to ./include
         self.cpp.package.libdirs += [
             self.folders.build,
             os.path.join(self.folders.build, "src", "OpenColorIO"),
@@ -71,7 +71,7 @@ class OpenColorIOConan(ConanFile):
         # cpp.source and cpp.build information is specifically designed for
         # editable packages:
         # this information is relative to the source folder that is '.'
-        self.cpp.source.includedirs = [PurePosixPath("src", "include")]
+        self.cpp.source.includedirs = ["include"]
 
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
