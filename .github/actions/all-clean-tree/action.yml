@@ -9,7 +9,7 @@ runs:
   steps:
 
     - name: Macos - Install sed
-      shell: 'bash'
+      shell: bash
       if: startsWith(matrix.os, 'macos')
       run: |
         echo "::group::Macos - Install sed"
@@ -17,7 +17,7 @@ runs:
         echo "::endgroup::"
 
     - name: Find sed
-      shell: 'bash'
+      shell: bash
       run: |
         echo "::group::Find sed"
         if [[ $RUNNER_OS == "macOS" ]]; then
@@ -29,13 +29,15 @@ runs:
 
     - name: Remove all local Find*.cmake
       working-directory:  ${{ github.workspace }}
+      shell: bash
       run: |
+        echo "::group::Remove internal Find*.cmake"
         cd '${{ github.workspace }}/LuxCore/cmake/Packages'
         rm -vf Find*.cmake
-      shell: bash
+      echo "::endgroup"
 
     - name: Remove Demos, Tests and Samples
-      shell: 'bash'
+      shell: bash
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
         useless_targets=(
@@ -82,7 +84,7 @@ runs:
       shell: bash
 
     - name: Remove GTK3
-      shell: 'bash'
+      shell: bash
       working-directory: ${{ github.workspace }}/LuxCore
       run: |
         $SED -i "/GTK3/d" cmake/Dependencies.cmake

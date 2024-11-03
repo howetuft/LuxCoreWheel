@@ -35,39 +35,39 @@ if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
     conan source ${embree3} &
 fi
 
-if [[ $RUNNER_OS == "macOS" ]]; then
-  echo "CIBW_BEFORE_BUILD: MINIZIP-NG"
-  MINIZIP_VERSION=4.0.3
-  conan download minizip-ng/$MINIZIP_VERSION --r conancenter -m "*"
-  minizip_folder=$(conan cache path minizip-ng/$MINIZIP_VERSION)
-  conan editable add $minizip_folder \
-    --name=minizip-ng \
-    --version=$MINIZIP_VERSION
-  conan source $minizip_folder --version $MINIZIP_VERSION
-  conan install --requires minizip-ng/$MINIZIP_VERSION \
-    --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
-    --build=editable \
-    -s build_type=Release
-fi
+# TODO
+#if [[ $RUNNER_OS == "macOS" ]]; then
+  #echo "CIBW_BEFORE_BUILD: MINIZIP-NG"
+  #MINIZIP_VERSION=4.0.3
+  #conan download minizip-ng/$MINIZIP_VERSION --r conancenter -m "*"
+  #minizip_folder=$(conan cache path minizip-ng/$MINIZIP_VERSION)
+  #conan editable add $minizip_folder \
+    #--name=minizip-ng \
+    #--version=$MINIZIP_VERSION
+  #conan source $minizip_folder --version $MINIZIP_VERSION
+  #conan install --requires minizip-ng/$MINIZIP_VERSION \
+    #--profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+    #--build=editable \
+    #-s build_type=Release
+#fi
+
+#if [[ $RUNNER_OS == "macOS" ]]; then
+  #echo "CIBW_BEFORE_BUILD: OCIO"
+  #conan download opencolorio/${OCIO_VERSION} -r conancenter -m "*"
+  #ocio_folder=$(conan cache path opencolorio/${OCIO_VERSION})
+  #cp -rv $ocio_folder/../es/patches $ocio_folder/
+  #conan editable add $ocio_folder \
+    #--name=opencolorio \
+    #--version=${OCIO_VERSION}
+  #conan source $ocio_folder --version $OCIO_VERSION
+#fi
 
 if [[ $RUNNER_OS == "macOS" ]]; then
   echo "CIBW_BEFORE_BUILD: OCIO"
-  conan download opencolorio/${OCIO_VERSION} -r conancenter -m "*"
-  ocio_folder=$(conan cache path opencolorio/${OCIO_VERSION})
-  cp -rv $ocio_folder/../es/patches $ocio_folder/
-  conan editable add $ocio_folder \
-    --name=opencolorio \
-    --version=${OCIO_VERSION}
-  conan source $ocio_folder --version $OCIO_VERSION
+  ocio=$conan_path/opencolorio
+  conan editable add ${ocio}
+  conan source ${ocio} &
 fi
-
-# TODO
-#if [[ $RUNNER_OS == "macOS" ]]; then
-  #echo "CIBW_BEFORE_BUILD: OCIO"
-  #ocio=$conan_path/opencolorio
-  #conan editable add ${ocio}
-  #conan source ${ocio} &
-#fi
 
 wait
 
