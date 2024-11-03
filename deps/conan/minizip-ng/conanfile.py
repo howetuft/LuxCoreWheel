@@ -14,6 +14,8 @@ required_conan_version = ">=1.53.0"
 class MinizipNgConan(ConanFile):
     name = "minizip-ng"
     version = "4.0.3"
+    user = "luxcorewheels"
+    channel = "luxcorewheels"
     description = "Fork of the popular zip manipulation library found in the zlib distribution."
     license = "Zlib"
     url = "https://github.com/conan-io/conan-center-index"
@@ -77,6 +79,31 @@ class MinizipNgConan(ConanFile):
 
     def layout(self):
         cmake_layout(self, src_folder="src")
+
+        # Set folders
+        self.folders.source = "."
+        self.folders.build = PurePosixPath("build", build_type)
+        self.folders.generators = PurePosixPath("build", build_type, "generators")
+
+        # Main
+        self.cpp.package.libs = ["minizip-ng"]
+        self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
+        self.cpp.package.libdirs += [
+            self.folders.build,
+            PurePosixPath(self.folders.build, "lib"),
+        ]
+
+        # Describe what changes between package and editable
+        #
+        # cpp.source and cpp.build information is specifically designed for
+        # editable packages:
+        # this information is relative to the source folder that is '.'
+        self.cpp.source.includedirs = [PurePosixPath("src", "include")]
+
+        # this information is relative to the build folder that is
+        # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
+        self.cpp.build.libdirs = ["lib"]
+        self.cpp.build.includedirs = ["include"]
 
     def requirements(self):
         if self.options.get_safe("with_zlib"):
