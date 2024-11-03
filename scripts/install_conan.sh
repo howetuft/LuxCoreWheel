@@ -45,10 +45,18 @@ fi
   #--version=2.3.1
 
 if [[ $RUNNER_OS == "macOS" ]]; then
+  echo "CIBW_BEFORE_BUILD: MINIZIP-NG"
   conan download minizip-ng/4.0.3 --r conancenter
   conan editable add $(conan cache path minizip-ng/4.0.3) \
     --name=minizip-ng \
     --version=4.0.3
+fi
+
+if [[ $RUNNER_OS == "macOS" ]]; then
+  echo "CIBW_BEFORE_BUILD: MINIZIP-NG"
+  ocio=$conan_path/opencolorio
+  conan editable add ${ocio}
+  conan source ${ocio} &
 fi
 
 wait

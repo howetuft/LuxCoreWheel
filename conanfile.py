@@ -20,10 +20,8 @@ class LuxCore(ConanFile):
 
     requires = [
         "zlib/1.3.1",
-        # "onetbb/2021.10.0", # TODO
-        # "onetbb/2020.3",  # TODO Do we need onetbb as a direct dep?
+        "onetbb/2021.12.0",  # For OIDN Linux - upgrade as necessary
         "opencolorio/2.3.1",
-        # "libpng/1.6.42",  # TODO
         "spdlog/1.12.0",
         "c-blosc/1.21.5",
         "openexr/3.2.3",

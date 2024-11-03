@@ -21,7 +21,7 @@ cmake_policy(SET CMP0074 NEW)  # *_ROOT variable
 
 message(STATUS "LuxCoreWheel - Add conan targets")
 find_package(ZLIB REQUIRED)
-#find_package(TBB REQUIRED)  # TODO Useful?
+find_package(TBB REQUIRED)  # For OIDN
 find_package(minizip REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(OpenImageIO REQUIRED)
@@ -106,17 +106,20 @@ target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
 set(PYLUXCORE_TARGETS
     slg-core slg-film slg-kernels luxrays bcd opensubdiv
     OpenVDB::openvdb
-    #onetbb::onetbb  # TODO
-    MINIZIP::minizip spdlog::spdlog_header_only
+    onetbb::onetbb
+    MINIZIP::minizip
+    spdlog::spdlog_header_only
     openexr::openexr
-    embree openimageio::openimageio PNG::PNG
-    c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
-    Boost::chrono Boost::system Boost::filesystem Boost::container
-    Boost::date_time Boost::iostreams Boost::program_options Boost::random
-    Boost::serialization Boost::thread boost::boost
+    embree
+    openimageio::openimageio
+    PNG::PNG
+    c-blosc::c-blosc
+    oidn::oidn
+    Boost::python Boost::atomic Boost::chrono Boost::system Boost::filesystem
+    Boost::container Boost::date_time Boost::iostreams Boost::program_options
+    Boost::random Boost::serialization Boost::thread boost::boost
     OpenColorIO::OpenColorIO
     Python::Module
-    spdlog::spdlog_header_only
 )
 # TODO
     #OpenEXR::IlmImfConfig
