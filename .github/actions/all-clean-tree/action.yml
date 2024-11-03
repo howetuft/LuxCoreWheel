@@ -12,16 +12,20 @@ runs:
       shell: 'bash'
       if: startsWith(matrix.os, 'macos')
       run: |
+        echo "::group::Macos - Install sed"
         brew install gnu-sed
+      echo "::endgroup::"
 
     - name: Find sed
       shell: 'bash'
       run: |
+        echo "::group::Find sed"
         if [[ $RUNNER_OS == "macOS" ]]; then
           echo "SED=gsed" >> $GITHUB_ENV
         else
           echo "SED=sed" >> $GITHUB_ENV
         fi
+        echo "::endgroup::"
 
     - name: Remove all local Find*.cmake
       working-directory:  ${{ github.workspace }}

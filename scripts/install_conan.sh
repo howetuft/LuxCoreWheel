@@ -40,7 +40,7 @@ if [[ $RUNNER_OS == "macOS" ]]; then
   #OCIO_VERSION=2.3.1  TODO
   conan download opencolorio/${OCIO_VERSION} -r conancenter -m "*"
   folder=$(conan cache path opencolorio/${OCIO_VERSION})
-  cp -rv $folder/../es/patches/ $folder/
+  cp -rv $folder/../es/patches $folder/
   conan editable add $folder \
     --name=opencolorio \
     --version=${OCIO_VERSION}
