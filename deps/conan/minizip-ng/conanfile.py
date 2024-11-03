@@ -80,7 +80,7 @@ class MinizipNgConan(ConanFile):
 
     def layout(self):
         build_type = self.settings.get_safe("build_type", default="Release")
-        cmake_layout(self, src_folder="src")
+        cmake_layout(self)
 
         # Set folders
         self.folders.source = "."
@@ -89,7 +89,7 @@ class MinizipNgConan(ConanFile):
 
         # Main
         self.cpp.package.libs = ["minizip-ng"]
-        self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
+        self.cpp.package.includedirs = ["include"]
         self.cpp.package.libdirs += [
             self.folders.build,
             PurePosixPath(self.folders.build, "lib"),
@@ -100,12 +100,11 @@ class MinizipNgConan(ConanFile):
         # cpp.source and cpp.build information is specifically designed for
         # editable packages:
         # this information is relative to the source folder that is '.'
-        self.cpp.source.includedirs = [PurePosixPath("src", "include")]
+        self.cpp.source.includedirs = ["include"]
 
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
-        self.cpp.build.libdirs = ["lib"]
-        self.cpp.build.includedirs = ["include"]
+        self.cpp.build.libdirs = ["."]
 
     def requirements(self):
         if self.options.get_safe("with_zlib"):
