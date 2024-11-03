@@ -48,7 +48,6 @@ class LuxCore(ConanFile):
         # else:
             # self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
 
-        self.requires()
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":
