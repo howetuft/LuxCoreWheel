@@ -76,6 +76,8 @@ oidn_version=2.1.0
 if [[ $RUNNER_OS == "Linux" ]]; then
     cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/bin/. $WORKSPACE/libs/
     cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/lib/. $WORKSPACE/libs/
+    ln -s $WORKSPACE/libs/libtbbmalloc.so $WORKSPACE/libs/libtbbmalloc.so.2
+    ln -s $WORKSPACE/libs/libtbbmalloc_proxy.so $WORKSPACE/libs/libtbbmalloc_proxy.so.2
 elif [[ $RUNNER_OS == "Windows" ]]; then
     cp -rv $oidn/oidn-${oidn_version}.x64.windows/bin/. $WORKSPACE/libs/
 elif [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "X64" ]]; then
