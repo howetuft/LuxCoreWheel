@@ -74,7 +74,10 @@ class OpenColorIOConan(ConanFile):
 
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
-        self.cpp.build.libdirs = ["lib"]
+        self.cpp.build.libdirs += [
+            PurePosixPath(self.folders.build, "src", "OpenColorIO"),
+            PurePosixPath(self.folders.build, "src", "apputils"),
+        ]
         self.cpp.build.includedirs = ["include"]
 
     def requirements(self):
