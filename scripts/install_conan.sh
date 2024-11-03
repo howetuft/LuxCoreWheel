@@ -53,6 +53,7 @@ if [[ $RUNNER_OS == "macOS" ]]; then
   conan editable add $(conan cache path minizip-ng/4.0.3) \
     --name=minizip-ng \
     --version=4.0.3
+  conan source $folder --version 4.0.3
 fi
 
 # TODO
