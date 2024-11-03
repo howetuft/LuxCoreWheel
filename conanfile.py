@@ -20,12 +20,13 @@ class LuxCore(ConanFile):
 
     requires = [
         "zlib/1.3.1",
-        "onetbb/2021.12.0",  # For OIDN Linux - upgrade as necessary
+        "onetbb/2021.10.0",  # For OIDN Linux - upgrade as necessary
         "opencolorio/2.3.1",
         "spdlog/1.12.0",
         "c-blosc/1.21.5",
         "openexr/3.2.3",
         "openvdb/9.1.0",  # TODO increase version?
+        "oidn/2.1.0@luxcorewheels/luxcorewheels",  # 2.1.0 -> TBB 2021.10
     ]
 
     default_options = {
@@ -46,7 +47,8 @@ class LuxCore(ConanFile):
             # self.requires("oidn/1.2.4@luxcorewheels/luxcorewheels")
         # else:
             # self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
-        self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
+
+        self.requires()
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")
         if self.settings.os == "Windows":

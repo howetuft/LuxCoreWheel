@@ -6,7 +6,7 @@ from conan import ConanFile
 
 class OidnConan(ConanFile):
     name = "oidn"
-    version = "2.3.0"
+    version = "2.1.0"
     settings = "os", "arch", "compiler", "build_type"
     user = "luxcorewheels"
     channel = "luxcorewheels"
@@ -32,7 +32,7 @@ class OidnConan(ConanFile):
             f"OpenImageDenoise_core.{self.version}",
             f"OpenImageDenoise_device_cpu.{self.version}",
             f"OpenImageDenoise_device_metal.{self.version}",
-            "tbb.12.12",
+            "tbb.12.10",
         ]
         self.cpp.source.includedirs = [os.path.join(base, "include")]
         self.cpp.source.libdirs = [os.path.join(base, "lib")]

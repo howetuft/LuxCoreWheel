@@ -6,7 +6,7 @@ from conan import ConanFile
 
 class OidnConan(ConanFile):
     name = "oidn"
-    version = "2.3.0"
+    version = "2.1.0"
     settings = "os", "arch", "compiler", "build_type"
     user = "luxcorewheels"
     channel = "luxcorewheels"

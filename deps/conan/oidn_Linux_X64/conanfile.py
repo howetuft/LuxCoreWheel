@@ -3,10 +3,10 @@ import shutil
 from conan.tools.files import get, copy
 from conan import ConanFile
 
-VERSION = "2.3.0"
+VERSION = "2.1.0"
 
-# Specialized libs (device_cuda, device_hip etc.)
-# require additional deps
+# Specialized libs (device_cuda, device_hip etc.) require additional deps, and
+# make wheel repairing fail, so we won't embed them
 LIBS = [
     "libOpenImageDenoise.so",
     "libOpenImageDenoise.so.2",
@@ -18,16 +18,16 @@ LIBS = [
     # f"libOpenImageDenoise_device_sycl.so.{VERSION}",
     # "libpi_level_zero.so",
     # "libsycl.so.7",
-    # "libsycl.so.7.1.0-8",
+    # "libsycl.so.7.0.0-8",
     "libtbb.so",
     "libtbb.so.12",
-    "libtbb.so.12.12",
+    "libtbb.so.12.10",
     "libtbbbind.so.3",
-    "libtbbbind.so.3.12",
+    "libtbbbind.so.3.10",
     "libtbbbind_2_0.so.3",
-    "libtbbbind_2_0.so.3.12",
+    "libtbbbind_2_0.so.3.10",
     "libtbbbind_2_5.so.3",
-    "libtbbbind_2_5.so.3.12",
+    "libtbbbind_2_5.so.3.10",
 ]
 
 
