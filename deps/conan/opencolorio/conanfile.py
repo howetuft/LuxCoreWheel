@@ -10,8 +10,11 @@ import os
 
 required_conan_version = ">=1.53.0"
 
+_ocio_version = os.environ["OCIO_VERSION"]
+
 class OpenColorIOConan(ConanFile):
     name = "opencolorio"
+    version = _ocio_version
     description = "A color management framework for visual effects and animation."
     license = "BSD-3-Clause"
     homepage = "https://opencolorio.org/"
