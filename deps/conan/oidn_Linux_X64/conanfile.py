@@ -5,18 +5,20 @@ from conan import ConanFile
 
 VERSION = "2.3.0"
 
+# Specialized libs (device_cuda, device_hip etc.)
+# require additional deps
 LIBS = [
     "libOpenImageDenoise.so",
     "libOpenImageDenoise.so.2",
     f"libOpenImageDenoise.so.{VERSION}",
     f"libOpenImageDenoise_core.so.{VERSION}",
     f"libOpenImageDenoise_device_cpu.so.{VERSION}",
-    f"libOpenImageDenoise_device_cuda.so.{VERSION}",
-    f"libOpenImageDenoise_device_hip.so.{VERSION}",
-    f"libOpenImageDenoise_device_sycl.so.{VERSION}",
-    "libpi_level_zero.so",
-    "libsycl.so.7",
-    "libsycl.so.7.1.0-8",
+    # f"libOpenImageDenoise_device_cuda.so.{VERSION}",
+    # f"libOpenImageDenoise_device_hip.so.{VERSION}",
+    # f"libOpenImageDenoise_device_sycl.so.{VERSION}",
+    # "libpi_level_zero.so",
+    # "libsycl.so.7",
+    # "libsycl.so.7.1.0-8",
     "libtbb.so",
     "libtbb.so.12",
     "libtbb.so.12.12",

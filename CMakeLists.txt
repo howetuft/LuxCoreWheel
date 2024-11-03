@@ -21,7 +21,7 @@ cmake_policy(SET CMP0074 NEW)  # *_ROOT variable
 
 message(STATUS "LuxCoreWheel - Add conan targets")
 find_package(ZLIB REQUIRED)
-find_package(TBB REQUIRED)
+#find_package(TBB REQUIRED)  # TODO Useful?
 find_package(minizip REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(OpenImageIO REQUIRED)
@@ -62,13 +62,14 @@ set(OIDN_FOUND TRUE)
 set(BLOSC_FOUND TRUE)
 include_directories(${OpenImageIO_INCLUDE_DIR})
 include_directories(${embree_INCLUDE_DIR})
-include_directories(${TBB_INCLUDE_DIR})
-set(TBB_LIBRARY "${TBB_LIBRARIES}")  # TBB_LIBRARIES is referenced as TBB_LIBRARY in LuxCore...
+# TODO
+#include_directories(${TBB_INCLUDE_DIR})
+#set(TBB_LIBRARY "${TBB_LIBRARIES}")  # TBB_LIBRARIES is referenced as TBB_LIBRARY in LuxCore...
 set(OPENEXR_LIBRARIES "${OpenEXR_LIBRARIES}")
 include_directories(${OpenEXR_INCLUDE_DIR})
-#include_directories(${ZLIB_INCLUDE_DIRS})
+#include_directories(${ZLIB_INCLUDE_DIRS})  # TODO
 include_directories(${oidn_INCLUDE_DIR})
-#include_directories(${fmt_INCLUDE_DIR})
+#include_directories(${fmt_INCLUDE_DIR})  # TODO
 include_directories(${Blosc_INCLUDE_DIR})
 
 # For caching with MSVC
@@ -105,7 +106,7 @@ target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
 set(PYLUXCORE_TARGETS
     slg-core slg-film slg-kernels luxrays bcd opensubdiv
     OpenVDB::openvdb
-    #onetbb::onetbb
+    #onetbb::onetbb  # TODO
     MINIZIP::minizip spdlog::spdlog_header_only
     openexr::openexr
     embree openimageio::openimageio PNG::PNG
@@ -141,4 +142,4 @@ endif(APPLE)
 
 # Install
 install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)
-install(CODE [[ file(GET_RUNTIME_DEPENDENCIES) ]])
+#install(CODE [[ file(GET_RUNTIME_DEPENDENCIES) ]])  TODO
