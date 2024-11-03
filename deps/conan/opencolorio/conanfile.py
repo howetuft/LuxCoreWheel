@@ -58,7 +58,7 @@ class OpenColorIOConan(ConanFile):
         self.folders.generators = PurePosixPath("build", build_type, "generators")
 
         # Main
-        self.cpp.package.libs = ["OpenImageIO"]
+        self.cpp.package.libs = ["OpenColorIO"]
         self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
         self.cpp.package.libdirs += [
             os.path.join(self.folders.build, "src", "OpenColorIO"),
