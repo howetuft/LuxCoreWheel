@@ -89,7 +89,7 @@ class MinizipNgConan(ConanFile):
 
         # Main
         self.cpp.package.libs = ["minizip-ng"]
-        self.cpp.package.includedirs = [os.path.join("src", "include")]
+        self.cpp.package.includedirs = ["."]
         self.cpp.package.libdirs += [
             self.folders.build,
             PurePosixPath(self.folders.build, "lib"),
@@ -100,7 +100,7 @@ class MinizipNgConan(ConanFile):
         # cpp.source and cpp.build information is specifically designed for
         # editable packages:
         # this information is relative to the source folder that is '.'
-        self.cpp.source.includedirs = [os.path.join("src", "include")]
+        self.cpp.source.includedirs = ["."]
 
         # this information is relative to the build folder that is
         # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
