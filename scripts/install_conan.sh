@@ -54,7 +54,7 @@ if [[ $RUNNER_OS == "macOS" ]]; then
   conan editable add $minizip_folder \
     --name=minizip-ng \
     --version=$MINIZIP_VERSION
-  conan source $folder --version $MINIZIP_VERSION
+  conan source $minizip_folder --version $MINIZIP_VERSION
 fi
 
 # TODO
