@@ -13,7 +13,7 @@ required_conan_version = ">=1.53.0"
 
 class MinizipNgConan(ConanFile):
     name = "minizip-ng"
-    version = "2.0.3"
+    version = "4.0.3"
     description = "Fork of the popular zip manipulation library found in the zlib distribution."
     license = "Zlib"
     url = "https://github.com/conan-io/conan-center-index"
