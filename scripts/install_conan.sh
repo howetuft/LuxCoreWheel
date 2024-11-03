@@ -68,7 +68,7 @@ if [[ $RUNNER_OS == "macOS" ]]; then
   conan editable add ${minizip}
   conan source ${minizip} &
   conan install \
-    --requires=${minizip} \
+    --requires=minizip-ng/4.0.3 \
     --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
     --build=editable \
     -s build_type=Release
