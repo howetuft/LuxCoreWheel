@@ -13,6 +13,7 @@ import io
 
 _boost_version = os.environ["BOOST_VERSION"]
 _oiio_version = os.environ["OIIO_VERSION"]
+_ocio_version = os.environ["OCIO_VERSION"]
 
 class LuxCore(ConanFile):
     name = "LuxCoreWheels"
@@ -21,12 +22,12 @@ class LuxCore(ConanFile):
     requires = [
         "zlib/1.3.1",
         "onetbb/2021.10.0",  # For OIDN Linux - upgrade as necessary
-        "opencolorio/2.3.1",
+        f"opencolorio/{_ocio_version}",
         "spdlog/1.12.0",
         "c-blosc/1.21.5",
         "openexr/3.2.3",
         "openvdb/9.1.0",  # TODO increase version?
-        "oidn/2.1.0@luxcorewheels/luxcorewheels",  # 2.1.0 -> TBB 2021.10
+        "oidn/2.1.0@luxcorewheels/luxcorewheels",  # OIDN 2.1.0 -> TBB 2021.10
     ]
 
     default_options = {

@@ -37,8 +37,9 @@ fi
 
 if [[ $RUNNER_OS == "macOS" ]]; then
   echo "CIBW_BEFORE_BUILD: OCIO"
+  OCIO_VERSION=2.3.1
   conan download opencolorio/${OCIO_VERSION} -r conancenter -m "*"
-  folder=$(conan cache path opencolorio/2.3.1)
+  folder=$(conan cache path opencolorio/${OCIO_VERSION})
   cp -rv $folder/../es/patches/ $folder/
   conan editable add $folder \
     --name=opencolorio \
@@ -54,6 +55,7 @@ if [[ $RUNNER_OS == "macOS" ]]; then
     --version=4.0.3
 fi
 
+# TODO
 #if [[ $RUNNER_OS == "macOS" ]]; then
   #echo "CIBW_BEFORE_BUILD: OCIO"
   #ocio=$conan_path/opencolorio
