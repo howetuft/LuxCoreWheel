@@ -66,13 +66,14 @@ class LuxCore(ConanFile):
             # self.requires(f"openimageio/{_oiio_version}")
         self.requires(f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels")
 
-        self.requires(
-            "minizip-ng/4.0.3",
-            options={
-                "with_zlib": True,
-                "with_libcomp": self.settings.os != "Macos",
-            },
-        )
+        # TODO
+        # self.requires(
+            # "minizip-ng/4.0.3",
+            # options={
+                # "with_zlib": True,
+                # "with_libcomp": self.settings.os != "Macos",
+            # },
+        # )
 
     def generate(self):
         tc = CMakeToolchain(self)
