@@ -34,7 +34,7 @@ runs:
         echo "::group::Remove internal Find*.cmake"
         cd '${{ github.workspace }}/LuxCore/cmake/Packages'
         rm -vf Find*.cmake
-      echo "::endgroup"
+        echo "::endgroup"
 
     - name: Remove Demos, Tests and Samples
       shell: bash
