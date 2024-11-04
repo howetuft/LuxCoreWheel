@@ -58,7 +58,7 @@ class OpenColorIOConan(ConanFile):
         self.folders.generators = PurePosixPath("build", build_type, "generators")
 
         # Main
-        self.cpp.package.libs = ["OpenColorIO"]
+        self.cpp.package.libs = ["OpenColorIO", "apputils"]
         self.cpp.package.includedirs = ["include"] # maps to ./include
         self.cpp.package.libdirs += [
             self.folders.build,
@@ -79,7 +79,10 @@ class OpenColorIOConan(ConanFile):
             os.path.join("src", "OpenColorIO"),
             os.path.join("src", "apputils"),
         ]
-        self.cpp.build.includedirs = ["include"]
+        self.cpp.build.includedirs = [
+            "include",
+            os.path.join("include", "OpenColorIO"),
+        ]
 
     def requirements(self):
         self.requires("expat/[>=2.6.2 <3]")
