@@ -126,7 +126,7 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             BOOST_INSTALL_LAYOUT=system
             SPDLOG_FMT_EXTERNAL=on
-            MACOSX_DEPLOYMENT_TARGET=10.13
+            MACOSX_DEPLOYMENT_TARGET=11
             BOOST_VERSION=1.84.0
             OIIO_VERSION=2.5.16.0
             OCIO_VERSION=2.3.1
