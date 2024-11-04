@@ -6,6 +6,7 @@ compiler.cppstd=17
 compiler.libcxx=libc++
 compiler.version=13
 os=Macos
+os.version=13.0
 
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja

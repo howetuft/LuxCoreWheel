@@ -24,6 +24,7 @@ class LuxCore(ConanFile):
         "onetbb/2021.10.0",  # For OIDN Linux - upgrade as necessary
         f"opencolorio/{_ocio_version}",
         "spdlog/1.12.0",
+        "libpng/1.6.42",  # TODO
         "c-blosc/1.21.5",
         "openexr/3.2.3",
         "openvdb/9.1.0",  # TODO increase version?

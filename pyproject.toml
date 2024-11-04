@@ -40,6 +40,9 @@ Homepage = "https://luxcorerender.org/"
 Documentation = "http://wiki.luxcorerender.org/LuxCoreRender_Wiki"
 GitHub = "https://github.com/LuxCoreRender/LuxCore"
 
+[project.scripts]
+pyluxcoredemo = "pyluxcoredemo:main"
+
 [tool.scikit-build]
 logging.level = "DEBUG"
 build.verbose = true
@@ -47,7 +50,7 @@ cmake.source-dir = "."
 build.targets = ["pyluxcore"]
 cmake.build-type = "Release"
 wheel.cmake = true
-wheel.packages = ["src/pyluxcore"]
+wheel.packages = ["src/pyluxcore", "src/pyluxcoredemo"]
 build-dir = "build"
 
 # Defines
