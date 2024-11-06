@@ -48,44 +48,45 @@ def Clock():
 
 
 def PropertiesTests():
-    print("Properties examples...")
+    print("Properties examples...", flush=True)
     prop = pyluxcore.Property("test1.prop1", 0)
     prop.Set(0, 3705339624)
 
     prop = pyluxcore.Property("test1.prop1", 3705339624)
-    print("test1.prop1 => %s\n" % prop.GetInt(0))
+    print("test1.prop1 => %s\n" % prop.GetInt(0), flush=True)
 
     prop = pyluxcore.Property("test1.prop1", "aa")
-    print("test1.prop1 => %s\n" % prop.GetString(0))
+    print("test1.prop1 => %s\n" % prop.GetString(0), flush=True)
 
     prop.Clear().Add([0, 2]).Add([3])
     prop.Set(0, 1)
-    print("[%s]\n" % prop.ToString())
+    print("[%s]\n" % prop.ToString(), flush=True)
 
     print(
-        "[%s]\n" % pyluxcore.Property("test1.prop1").Add([1, 2, 3]).Add([1.0, 2.0, 3.0])
+        "[%s]\n" % pyluxcore.Property("test1.prop1").Add([1, 2, 3]).Add([1.0, 2.0, 3.0]),
+        flush=True,
     )
 
     prop.Set([3, 2, 1])
-    print("[%s]\n" % prop.ToString())
+    print("[%s]\n" % prop.ToString(), flush=True)
 
     pyvariable = 999
     prop = pyluxcore.Property("test1.prop1", [True, 1, 2.0, "aa", pyvariable])
-    print("[%s]" % prop)
-    print("Size: %d" % prop.GetSize())
-    print("List: %s" % str(prop.Get()))
-    print("[0]: %s" % prop.GetString())
-    print("[1]: %d\n" % prop.GetInt(1))
+    print("[%s]" % prop, flush=True)
+    print("Size: %d" % prop.GetSize(), flush=True)
+    print("List: %s" % str(prop.Get()), flush=True)
+    print("[0]: %s" % prop.GetString(), flush=True)
+    print("[1]: %d\n" % prop.GetInt(1), flush=True)
 
     props = pyluxcore.Properties()
     props.SetFromString(
         "test1.prop1 = 1 2.0 aa \"quoted\"\ntest2.prop2 = 1 2.0 'quoted' bb\ntest2.prop3 = 1"
     )
-    print("[\n%s]\n" % props)
+    print("[\n%s]\n" % props, flush=True)
 
-    print("%s" % props.GetAllNames())
-    print("%s" % props.GetAllNames("test1"))
-    print("%s\n" % props.GetAllUniqueSubNames("test2"))
+    print("%s" % props.GetAllNames(), flush=True)
+    print("%s" % props.GetAllNames("test1"), flush=True)
+    print("%s\n" % props.GetAllUniqueSubNames("test2"), flush=True)
 
     props0 = pyluxcore.Properties()
     props1 = (
@@ -95,12 +96,13 @@ def PropertiesTests():
     )
 
     props0.Set(props1, "prefix.")
-    print("[\n%s]\n" % props0)
+    print("[\n%s]\n" % props0, flush=True)
 
-    print("Get: %s" % props0.Get("prefix.test1.prop1"))
+    print("Get: %s" % props0.Get("prefix.test1.prop1"), flush=True)
     print(
         "Get default: %s\n"
-        % props0.Get("doesnt.exist", ["default_value0", "default_value1"])
+        % props0.Get("doesnt.exist", ["default_value0", "default_value1"]),
+        flush=True,
     )
 
     blob = bytearray(100)
@@ -110,34 +112,34 @@ def PropertiesTests():
     prop.Add([[1, 2, 3]])
 
     blob2 = prop.GetBlob()
-    print("Blob [0]:", end="")
+    print("Blob [0]:", end="", flush=True)
     for i in range(0, len(blob2)):
-        print(" %d" % blob2[i], end="")
-    print("")
+        print(" %d" % blob2[i], end="", flush=True)
+    print("", flush=True)
 
     blob2 = prop.GetBlob(1)
-    print("Blob [1]:", end="")
+    print("Blob [1]:", end="", flush=True)
     for i in range(0, len(blob2)):
-        print(" %d" % blob2[i], end="")
-    print("\n")
+        print(" %d" % blob2[i], end="", flush=True)
+    print("\n", flush=True)
 
     a = array("f", [1.0, 2.0, 3.0])
     prop = pyluxcore.Property("test.array", [])
     prop.AddAllFloat(a)
-    print("Array: ", end="")
+    print("Array: ", end="", flush=True)
     for i in range(3):
-        print(" %f" % prop.GetFloat(i), end="")
-    print("")
+        print(" %f" % prop.GetFloat(i), end="", flush=True)
+    print("", flush=True)
 
     a = [1.0, 2.0, 3.0]
     prop = pyluxcore.Property("test.array", [])
     prop.AddAllFloat(a)
-    print("List: ", end="")
+    print("List: ", end="", flush=True)
     for i in range(3):
-        print(" %f" % prop.GetFloat(i), end="")
-    print("")
+        print(" %f" % prop.GetFloat(i), end="", flush=True)
+    print("", flush=True)
 
-    print("")
+    print("", flush=True)
     size = 2000000
     a = array("f", [i for i in range(size)])
     prop = pyluxcore.Property("test.array", [])
@@ -146,21 +148,21 @@ def PropertiesTests():
     for i in range(size):
         prop.Add([a[i]])
     end = Clock()
-    print("Add test: %.2gs" % (end - start))
+    print("Add test: %.2gs" % (end - start), flush=True)
 
     prop = pyluxcore.Property("test.array", [])
 
     start = Clock()
     prop.AddAllFloat(a)
     end = Clock()
-    print("AddAll test: %.2gs" % (end - start))
+    print("AddAll test: %.2gs" % (end - start), flush=True)
 
     prop = pyluxcore.Property("test.array", [])
 
     start = Clock()
     prop.AddAllFloat(a, 3, 1)
     end = Clock()
-    print("AddAllStride test: %.2gs" % (end - start))
+    print("AddAllStride test: %.2gs" % (end - start), flush=True)
 
 
 ################################################################################
@@ -169,9 +171,9 @@ def PropertiesTests():
 
 
 def LuxRaysDeviceTests():
-    print("LuxRays device information example......")
+    print("LuxRays device information example......", flush=True)
     deviceList = pyluxcore.GetOpenCLDeviceList()
-    print("OpenCL device list: %s\n" % str(deviceList))
+    print("OpenCL device list: %s\n" % str(deviceList), flush=True)
 
 
 ################################################################################
@@ -180,7 +182,7 @@ def LuxRaysDeviceTests():
 
 
 def SimpleRender():
-    print("RenderConfig and RenderSession examples (requires scenes directory)...")
+    print("RenderConfig and RenderSession examples (requires scenes directory)...", flush=True)
 
     # Load the configuration from file
     props = pyluxcore.Properties(os.path.join(PATH_TO_SCENE, "luxball-hdr.cfg"))
@@ -215,7 +217,8 @@ def SimpleRender():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True,
         )
 
         if elapsedTime > 5.0:
@@ -227,7 +230,7 @@ def SimpleRender():
     # Save the rendered image
     session.GetFilm().Save()
 
-    print("Done.")
+    print("Done.", flush=True)
 
 
 ################################################################################
@@ -236,7 +239,7 @@ def SimpleRender():
 
 
 def GetOutputTest():
-    print("Film getOutput() example (requires scenes directory)...")
+    print("Film getOutput() example (requires scenes directory)...", flush=True)
 
     # Load the configuration from file
     props = pyluxcore.Properties(os.path.join(PATH_TO_SCENE, "luxball-hdr.cfg"))
@@ -284,7 +287,8 @@ def GetOutputTest():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True
         )
 
         # This is mostly for testing the PyLuxCore functionality, save an image every second
@@ -299,7 +303,7 @@ def GetOutputTest():
 
         # Save the imageBufferUChar buffer to a PPM file
         imageFileName = "image" + str(imageIndex) + ".ppm"
-        print("Saving image file: " + imageFileName)
+        print("Saving image file: " + imageFileName, flush=True)
         f = open(imageFileName, "w")
         f.write("P3\n")
         f.write(str(filmWidth) + " " + str(filmHeight) + "\n")
@@ -322,7 +326,7 @@ def GetOutputTest():
 
     session.Stop()
 
-    print("Done.")
+    print("Done.", flush=True)
 
 
 ################################################################################
@@ -331,7 +335,7 @@ def GetOutputTest():
 
 
 def ExtractConfiguration():
-    print("Extracting Film configuration example (requires scenes directory)...")
+    print("Extracting Film configuration example (requires scenes directory)...", flush=True)
 
     # Load the configuration from file
     props = pyluxcore.Properties(os.path.join(PATH_TO_SCENE, "luxball-hdr-comp.cfg"))
@@ -351,9 +355,9 @@ def ExtractConfiguration():
             ids.add(props.Get(i + ".id").GetInt())
 
     for i in ids:
-        print("MATERIAL_ID_MASK ID => %d" % i)
+        print("MATERIAL_ID_MASK ID => %d" % i, flush=True)
 
-    print("Done.")
+    print("Done.", flush=True)
 
 
 ################################################################################
@@ -381,7 +385,7 @@ def BuildPlane(objectName, materialName):
 
 
 def StrandsRender():
-    print("Strands example...")
+    print("Strands example...", flush=True)
 
     # Create the rendering configuration
     cfgProps = pyluxcore.Properties()
@@ -509,7 +513,8 @@ def StrandsRender():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True
         )
 
         if elapsedTime > 5.0:
@@ -521,7 +526,7 @@ def StrandsRender():
     # Save the rendered image
     session.GetFilm().Save()
 
-    print("Done.")
+    print("Done.", flush=True)
 
 
 ################################################################################
@@ -530,7 +535,7 @@ def StrandsRender():
 
 
 def ImagePipelineEdit():
-    print("Image pipeline editing examples (requires scenes directory)...")
+    print("Image pipeline editing examples (requires scenes directory)...", flush=True)
 
     # Load the configuration from file
     props = pyluxcore.Properties(os.path.join(PATH_TO_SCENE, "luxball-hdr.cfg"))
@@ -566,7 +571,8 @@ def ImagePipelineEdit():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True,
         )
 
         if elapsedTime > 5.0 and not imageSaved:
@@ -582,6 +588,9 @@ def ImagePipelineEdit():
                 film.imagepipeline.1.name = Ektachrome_320TCD
                 film.imagepipeline.2.type = GAMMA_CORRECTION
                 film.imagepipeline.2.value = 2.2
+                film.imagepipeline.3.type = INTEL_OIDN
+                film.noiseestimation.warmup = 20
+                film.noiseestimation.index = 1
                 """
             )
             session.Parse(props)
@@ -605,7 +614,7 @@ def ImagePipelineEdit():
     session.GetFilm().Save()
     os.rename("normal.png", "normal-edit2.png")
 
-    print("Done.")
+    print("Done.", flush=True)
 
 
 ################################################################################
@@ -614,7 +623,7 @@ def ImagePipelineEdit():
 
 
 def SaveResumeRenderingM():
-    print("Save and Resume example (requires scenes directory)...")
+    print("Save and Resume example - Multiple files (requires scenes directory)...", flush=True)
 
     # Load the configuration from file
     props = pyluxcore.Properties(os.path.join(PATH_TO_SCENE, "luxball-hdr.cfg"))
@@ -649,7 +658,8 @@ def SaveResumeRenderingM():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True,
         )
 
     session.Pause()
@@ -674,7 +684,7 @@ def SaveResumeRenderingM():
     session.Stop()
 
     # Resume rendering
-    print("Resume rendering")
+    print("Resume rendering - Multiple files", flush=True)
 
     session = pyluxcore.RenderSession(config, "test.rst", "test.flm")
 
@@ -702,7 +712,8 @@ def SaveResumeRenderingM():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True,
         )
 
     session.GetFilm().SaveOutput(
@@ -712,7 +723,7 @@ def SaveResumeRenderingM():
     )
     session.Stop()
 
-    print("Done.")
+    print("Done.", flush=True)
 
 
 ################################################################################
@@ -721,7 +732,7 @@ def SaveResumeRenderingM():
 
 
 def SaveResumeRenderingS():
-    print("Save and Resume example (requires scenes directory)...")
+    print("Save and Resume example - Single file (requires scenes directory)...", flush=True)
 
     # Load the configuration from file
     props = pyluxcore.Properties(os.path.join(PATH_TO_SCENE, "luxball-hdr.cfg"))
@@ -756,7 +767,8 @@ def SaveResumeRenderingS():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True,
         )
 
     session.Pause()
@@ -777,7 +789,7 @@ def SaveResumeRenderingS():
     session.Stop()
 
     # Resume rendering
-    print("Resume rendering")
+    print("Resume rendering - Single file", flush=True)
 
     (config, startState, startFilm) = pyluxcore.RenderConfig.LoadResumeFile("test.rsm")
     session = pyluxcore.RenderSession(config, startState, startFilm)
@@ -806,7 +818,8 @@ def SaveResumeRenderingS():
                     / 1000000.0
                 ),
                 (stats.Get("stats.dataset.trianglecount").GetFloat() / 1000.0),
-            )
+            ),
+            flush=True,
         )
 
     session.GetFilm().SaveOutput(
@@ -816,14 +829,14 @@ def SaveResumeRenderingS():
     )
     session.Stop()
 
-    print("Done.")
+    print("Done.", flush=True)
 
 
 ################################################################################
 
 
 def convert_folder_to_windows(folder, extension):
-    print(f"Converting *.{extension} files in '{folder}' to windows format")
+    print(f"Converting *.{extension} files in '{folder}' to windows format", flush=True)
 
     pathlist = Path(folder).glob(f"**/*.{extension}")
     for path in pathlist:
@@ -832,24 +845,27 @@ def convert_folder_to_windows(folder, extension):
             "luxball-cloth.ply"
         ):
             continue
-        print(f"Converting {path_in_str}")
+        print(f"Converting '{path_in_str}'", flush=True)
         with open(path_in_str, newline=None, encoding="ascii") as f:
             lines = f.readlines()
-        print(f"{len(lines)} lines")
+        print(f"{len(lines)} lines", flush=True)
         with open(path_in_str, mode="w", newline="\n", encoding="ascii") as f:
             f.write("".join(lines))
 
-        # print(path_in_str)
+        # print(path_in_str, flush=True)
 
 
 
 def main():
+
+    print("STARTING LUXCORETEST", flush=True)
     global PATH_TO_SCENE
+    current_path = os.getcwd()
     with tempfile.TemporaryDirectory() as tmpdir:
-        os.chdir(ROOT_PATH)
-        print(f"Copying '{ROOT_PATH}' into '{tmpdir}'")
+        os.chdir(tmpdir)
+        print(f"Copying '{ROOT_PATH}' into '{tmpdir}'", flush=True)
         shutil.copytree(os.path.join(ROOT_PATH, "scenes"), os.path.join(tmpdir, "scenes"))
-        PATH_TO_SCENE = os.path.join(ROOT_PATH, "scenes", "luxball")
+        PATH_TO_SCENE = os.path.join(tmpdir, "scenes", "luxball")
         if os.name == "nt":
             convert_folder_to_windows(PATH_TO_SCENE, "ply")
             convert_folder_to_windows(PATH_TO_SCENE, "cfg")
@@ -857,8 +873,8 @@ def main():
 
         pyluxcore.Init()
 
-        print("LuxCore %s" % pyluxcore.Version())
-        print("OS:", os.name)
+        print("LuxCore %s" % pyluxcore.Version(), flush=True)
+        print("OS:", os.name, flush=True)
 
         # os.chdir(os.path.dirname(__file__))
 
@@ -872,10 +888,25 @@ def main():
         SaveResumeRenderingM()
         SaveResumeRenderingS()
 
+        print("Copying results", flush=True)
+
         if os.name == "posix":
             import resource
 
-            print("Max. memory usage:", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+            print("Max. memory usage:", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, flush=True)
+
+        final_folder = os.path.join(current_path, "pyluxcoretest-out")
+        ignore_files = shutil.ignore_patterns("pyluxcoretest.py", "scenes", "__*")
+        if os.path.exists(final_folder):
+            shutil.rmtree(final_folder)
+        shutil.copytree(
+            tmpdir,
+            final_folder,
+            ignore=ignore_files,
+        )
+        print(f"Results copied in {final_folder}", flush=True)
+        os.chdir(current_path)  # For Windows: free tmp dir before deletion
+    print("EXITING LUXCORETEST", flush=True)
 
 
 if __name__ == "__main__":

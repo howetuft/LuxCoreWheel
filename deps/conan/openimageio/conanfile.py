@@ -1,7 +1,7 @@
 from conan import ConanFile
 from conan.tools.build import check_min_cppstd
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
-from conan.tools.files import apply_conandata_patches, export_conandata_patches, copy, get, rm, rmdir
+from conan.tools.files import apply_conandata_patches, export_conandata_patches, copy, get, rm, rmdir, replace_in_file
 from conan.tools.microsoft import is_msvc, is_msvc_static_runtime
 from conan.tools.scm import Version
 from conan.errors import ConanInvalidConfiguration
@@ -11,6 +11,7 @@ from pathlib import PurePosixPath
 required_conan_version = ">=1.53.0"
 
 BOOST_VERSION = os.environ["BOOST_VERSION"]
+OCIO_VERSION = os.environ["OCIO_VERSION"]
 
 class OpenImageIOConan(ConanFile):
     name = "openimageio"
@@ -23,7 +24,7 @@ class OpenImageIOConan(ConanFile):
     topics = ("vfx", "image", "picture")
     license = "Apache-2.0", "BSD-3-Clause"
     homepage = "http://www.openimageio.org/"
-    version = "2.2.13.1"
+    version = "2.5.16.0"
     user = "luxcorewheels"
     channel = "luxcorewheels"
     # revision_mode = "scm_folder"
@@ -79,18 +80,22 @@ class OpenImageIOConan(ConanFile):
 
     def requirements(self):
         # Required libraries
-        self.requires(f"boost/{BOOST_VERSION}")  # Modified
-        self.requires("openexr/2.5.7", transitive_headers=True, transitive_libs=True)  # Modified
         self.requires("zlib/[>=1.2.11 <2]")
-        self.requires("libtiff/4.3.0")
-        # self.requires("imath/3.1.9", transitive_headers=True)  # Modified (relies on openexr)
+        self.requires("boost/1.84.0")
+        self.requires("libtiff/4.6.0")
+        self.requires("imath/3.1.9", transitive_headers=True)
+        self.requires("openexr/3.1.9")
         if self.options.with_libjpeg == "libjpeg":
             self.requires("libjpeg/9e")
         elif self.options.with_libjpeg == "libjpeg-turbo":
-            self.requires("libjpeg-turbo/2.0.5")
+            self.requires("libjpeg-turbo/3.0.2")
         self.requires("pugixml/1.14")
+        self.requires("libsquish/1.15")
         self.requires("tsl-robin-map/1.2.1")
-        self.requires("fmt/7.1.3", transitive_headers=True)
+        if Version(self.version) >= "2.4.17.0":
+            self.requires("fmt/10.2.1", transitive_headers=True)
+        else:
+            self.requires("fmt/9.1.0", transitive_headers=True)
 
         # Optional libraries
         if self.options.with_libpng:
@@ -100,15 +105,15 @@ class OpenImageIOConan(ConanFile):
         if self.options.with_hdf5:
             self.requires("hdf5/1.14.3")
         if self.options.with_opencolorio:
-            self.requires("opencolorio/2.1.0")  # Modified
+            self.requires("opencolorio/2.3.1")
         if self.options.with_opencv:
             self.requires("opencv/4.8.1")
         if self.options.with_tbb:
-            self.requires("onetbb/2021.10.0")
+            self.requires("onetbb/2021.12.0")
         if self.options.with_dicom:
             self.requires("dcmtk/3.6.7")
         if self.options.with_ffmpeg:
-            self.requires("ffmpeg/4.3.2")
+            self.requires("ffmpeg/6.1")
         # TODO: Field3D dependency
         if self.options.with_giflib:
             self.requires("giflib/5.2.1")
@@ -190,7 +195,6 @@ class OpenImageIOConan(ConanFile):
         tc.cache_variables["USE_Qt5"] = False
         tc.cache_variables["VERBOSE"] = True
         tc.cache_variables["USE_Libsquish"] = False
-        # tc.cache_variables["CMAKE_CXX_STANDARD"] = str(self.settings.compiler.cppstd)  # TODO
         tc.cache_variables["LINKSTATIC"] = True
 
 
@@ -232,8 +236,8 @@ class OpenImageIOConan(ConanFile):
 
         cd = CMakeDeps(self)
         if self.options.with_libwebp:
-            cd.set_property("libwebp::webp", "cmake_target_name", "WebP::WebP")
-            cd.set_property("libwebp::webpdemux", "cmake_target_name", "WebP::WebPDemux")
+            cd.set_property("libwebp::webp", "cmake_target_name", "WebP::webp")
+            cd.set_property("libwebp::webpdemux", "cmake_target_name", "WebP::webpdemux")
         if self.options.with_freetype:
             cd.set_property("freetype", "cmake_find_mode", "module")
 
@@ -262,6 +266,8 @@ class OpenImageIOConan(ConanFile):
     def build(self):
         print("Building OIIO")
         apply_conandata_patches(self)
+        replace_in_file(self, os.path.join(self.source_folder, "src", "cmake", "externalpackages.cmake"), "fmt::fmt", "fmt::fmt-header-only")
+        replace_in_file(self, os.path.join(self.source_folder, "src", "libutil", "CMakeLists.txt"), "fmt::fmt", "fmt::fmt-header-only")
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
@@ -309,8 +315,6 @@ class OpenImageIOConan(ConanFile):
         if self.settings.os == "Windows":
             for vc_file in ("concrt", "msvcp", "vcruntime"):
                 rm(self, f"{vc_file}*.dll", os.path.join(self.package_folder, "bin"))
-        # rmdir(self, os.path.join(self.package_folder, "lib", "pkgconfig"))
-        # rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
@@ -328,8 +332,12 @@ class OpenImageIOConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
+        self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
+
         self.cpp_info.set_property("cmake_target_name", "openimageio::openimageio")
+
+        self.cpp_info.names["cmake_find_package"] = "OpenImageIO"
+        self.cpp_info.names["cmake_find_package_multi"] = "OpenImageIO"
+
         self.cpp_info.libs = ["OpenImageIO", "OpenImageIO_Util"]
         self.cpp_info.libdirs = [os.path.join("build", "Release", "lib")]
-        if not self.options.shared:
-            self.cpp_info.defines.append("OIIO_STATIC_DEFINE")

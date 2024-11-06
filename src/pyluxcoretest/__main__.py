@@ -2,4 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from .pyluxcoredemo import main
+from .pyluxcoretest import main
+
+main()
