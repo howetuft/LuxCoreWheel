@@ -8,7 +8,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "pyluxcore"
-version = "2.9a1.post2"
+version = "2.9a1.post3"
 dependencies = ["numpy < 2.0"]
 requires-python = ">= 3.8"
 description = "LuxCore Python bindings"
@@ -40,6 +40,9 @@ Homepage = "https://luxcorerender.org/"
 Documentation = "http://wiki.luxcorerender.org/LuxCoreRender_Wiki"
 GitHub = "https://github.com/LuxCoreRender/LuxCore"
 
+[project.scripts]
+pyluxcoretest = "pyluxcoretest:main"
+
 [tool.scikit-build]
 logging.level = "DEBUG"
 build.verbose = true
@@ -47,7 +50,7 @@ cmake.source-dir = "."
 build.targets = ["pyluxcore"]
 cmake.build-type = "Release"
 wheel.cmake = true
-wheel.packages = ["src/pyluxcore"]
+wheel.packages = ["src/pyluxcore", "src/pyluxcoretest"]
 build-dir = "build"
 
 # Defines

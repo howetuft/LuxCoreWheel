@@ -32,6 +32,9 @@ find_package(Blosc REQUIRED)
 find_package(oidn REQUIRED)
 find_package(Boost_python REQUIRED)
 find_package(Boost REQUIRED)
+find_package(OpenVDB REQUIRED)
+find_package(Imath REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 # Bison/Flex
 find_package(BISON REQUIRED)
@@ -40,34 +43,13 @@ find_package(FLEX REQUIRED)
 # Python
 MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
-if (Python_FOUND)
-  MESSAGE(STATUS "LuxCoreWheel - Python includes: ${Python_INCLUDE_DIR}")
-  include_directories(${Python_INCLUDE_DIR})
-  add_definitions(-DBOOST_PYTHON_STATIC_LIB)
-
-  MESSAGE(STATUS "LuxCoreWheel - Python lib dir: ${Python_LIBRARY_DIRS}")
-  link_directories(${Python_LIBRARY_DIRS})
-else()
-  MESSAGE(STATUS "LuxCoreWheel - Python NOT FOUND")
-endif()
 
 # If we are here, it means we have found all dependencies
 # So let's tell LuxCore all is ok
-# and include directories
 set(OPENIMAGEIO_FOUND TRUE)
 set(EMBREE_FOUND TRUE)
 set(OIDN_FOUND TRUE)
 set(BLOSC_FOUND TRUE)
-include_directories(${OpenImageIO_INCLUDE_DIR})
-include_directories(${embree_INCLUDE_DIR})
-include_directories(${TBB_INCLUDE_DIR})
-set(TBB_LIBRARY "${TBB_LIBRARIES}")  # TBB_LIBRARIES is referenced as TBB_LIBRARY in LuxCore...
-set(OPENEXR_LIBRARIES "${OpenEXR_LIBRARIES}")
-include_directories(${OpenEXR_INCLUDE_DIR})
-include_directories(${ZLIB_INCLUDE_DIR})
-include_directories(${oidn_INCLUDE_DIR})
-include_directories(${fmt_INCLUDE_DIR})
-include_directories(${Blosc_INCLUDE_DIR})
 
 # For caching with MSVC
 SET(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded)
@@ -76,13 +58,7 @@ CMAKE_POLICY(SET CMP0141 NEW)
 if(APPLE)
   # OpenMP
   find_package(OpenMP REQUIRED)
-  include_directories(${OpenMP_CXX_INCLUDE_DIRS})
-  include_directories(${OpenMP_C_INCLUDE_DIRS})
-  include_directories(${OpenMP_INCLUDE_DIRS})
-  cmake_print_variables(OpenMP_CXX_INCLUDE_DIRS OpenMP_C_INCLUDE_DIRS OpenMP_INCLUDE_DIRS)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fopenmp")
-
-  include_directories(${OPENEXR_INCLUDE_DIRS})
 endif(APPLE)
 
 if(LINUX)
@@ -93,44 +69,48 @@ endif(LINUX)
 add_subdirectory(LuxCore)
 
 # Add deps targets to LuxCore libs
-target_link_libraries(bcd PRIVATE boost::boost)
-target_link_libraries(openvdb PRIVATE boost::boost)
+target_link_libraries(luxrays embree openimageio::openimageio boost::boost)
 target_link_libraries(opensubdiv PRIVATE boost::boost)
-target_link_libraries(slg-core PRIVATE boost::boost OpenColorIO::OpenColorIO)
-target_link_libraries(slg-kernels PRIVATE boost::boost)
-target_link_libraries(slg-film PRIVATE boost::boost OpenColorIO::OpenColorIO)
-
-set(PYLUXCORE_TARGETS
-    slg-core slg-film slg-kernels luxrays bcd opensubdiv openvdb
-    TBB::TBB MINIZIP::minizip spdlog::spdlog_header_only
-    openexr::openexr
-    OpenEXR::IlmImfConfig
-    IlmBase::IlmBaseConfig
-    IlmBase::Half
-    IlmBase::Iex
-    IlmBase::IexMath
-    IlmBase::IlmThread
-    IlmBase::IMath
-    OpenEXR::IlmImf
-    openexr::ilmbase_conan_pkgconfig
-    OpenEXR::IlmImfUtil
-    embree openimageio::openimageio PNG::PNG
-    c-blosc::c-blosc oidn::oidn Boost::python Boost::atomic
-    Boost::chrono Boost::system Boost::filesystem Boost::container
-    Boost::date_time Boost::iostreams Boost::program_options Boost::random
-    Boost::serialization Boost::thread boost::boost
+target_link_libraries(bcd PRIVATE boost::boost Eigen3::Eigen)
+target_link_libraries(slg-core PRIVATE
+    boost::boost
     OpenColorIO::OpenColorIO
+    OpenVDB::openvdb
+    openexr::openexr
+    Imath::Imath
+    embree
+    openimageio::openimageio
+)
+target_link_libraries(slg-kernels PRIVATE boost::boost)
+target_link_libraries(slg-film PRIVATE
+    boost::boost
+    OpenColorIO::OpenColorIO
+    embree
+    oidn::oidn
+    openimageio::openimageio
+)
+
+target_link_libraries(pyluxcore PRIVATE
+    slg-core
+    slg-film
+    slg-kernels
+    luxrays
+    bcd
+    opensubdiv
+    OpenVDB::openvdb
+    spdlog::spdlog_header_only
+    Boost::python
+    boost::boost
     Python::Module
 )
 
-
-if(WIN32 OR LINUX)
-  target_link_libraries(pyluxcore PRIVATE ${PYLUXCORE_TARGETS})
-endif(WIN32 OR LINUX)
-
-
 if(APPLE)
-  target_link_libraries(pyluxcore ${PYLUXCORE_TARGETS} llvm-openmp::llvm-openmp)
+  target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)
+  target_link_libraries(bcd PRIVATE llvm-openmp::llvm-openmp)
+  target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
+  target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 endif(APPLE)
 
-install(TARGETS pyluxcore LIBRARY DESTINATION pyluxcore)
+
+
+INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)

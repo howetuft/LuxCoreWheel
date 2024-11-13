@@ -43,14 +43,17 @@ conan install \
   --requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=editable \
+  --build=missing \
   --deployer=runtime_deploy \
   --deployer-folder=$WORKSPACE/libs \
   -s build_type=Release
 
+echo "Installing oidn"
 if [[ $RUNNER_OS == "Linux" ]]; then
-    oidn_version=1.2.4
+    oidn_version=2.3.0
     cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/bin/. $WORKSPACE/libs/
     cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/lib/. $WORKSPACE/libs/
+    cp -rv $oidn/oneapi-tbb-2021.12.0/lib/intel64/gcc4.8/. $WORKSPACE/libs/
 elif [[ $RUNNER_OS == "Windows" ]]; then
     oidn_version=2.3.0
     cp -rv $oidn/oidn-${oidn_version}.x64.windows/bin/. $WORKSPACE/libs/
@@ -62,8 +65,7 @@ elif [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
       oidn_version=2.3.0
       cp -rv $oidn/oidn-${oidn_version}.arm64.macos/bin/. $WORKSPACE/libs/
       cp -rv $oidn/oidn-${oidn_version}.arm64.macos/lib/. $WORKSPACE/libs/
- else
+else
       echo "ERROR: unhandled runner os/arch '${RUNNER_OS}/${RUNNER_ARCH}'"
       exit 64
- fi
-
+fi

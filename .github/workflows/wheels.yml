@@ -25,6 +25,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
     env:
       GH_TOKEN: ${{ github.token }}
+      CACHE: True
 
     steps:
 
@@ -45,8 +46,25 @@ jobs:
           esac
           echo "WORKSPACE=${_workspace}" >> "$GITHUB_ENV"
 
+      # TODO Structure cache...
+      - name: Configure sccache
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+            core.exportVariable('SCCACHE_GHA_ENABLED', 'on');
+            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', 'sccache');
+            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', 'sccache');
+
+      - name: Run sccache-cache
+        if: env.CACHE == false
+        uses: mozilla-actions/sccache-action@v0.0.6
+
+
       - name: Configure ccache
         uses: actions/github-script@v7  # Javascript
+        if: env.CACHE
         with:
           script: |
             // Nota - Keep this script before ccache installation
@@ -82,6 +100,7 @@ jobs:
       - name: Install cache program
         id: install_cache
         uses: hendrikmuhs/ccache-action@v1.2
+        if: env.CACHE
         with:
           create-symlink: false  # Don't create symlinks, otherwise clang will not be selected for MacOS
           variant: ${{ env.CACHE_PROGRAM }}
@@ -106,7 +125,8 @@ jobs:
             core.exportVariable('CC', 'clang');
 
       - name: All - Clean source tree
-        uses: ./.github/actions/all-clean-tree
+        shell: bash
+        run: source $GITHUB_WORKSPACE/scripts/patch_source_tree.sh
 
       # Build wheel
       - name: Build wheels
@@ -122,8 +142,10 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
             BOOST_INSTALL_LAYOUT=system
             SPDLOG_FMT_EXTERNAL=on
-            MACOSX_DEPLOYMENT_TARGET=11.0
-            BOOST_VERSION=1.81.0
+            MACOSX_DEPLOYMENT_TARGET=11.3
+            BOOST_VERSION=1.84.0
+            OCIO_VERSION=2.3.1
+            TBB_VERSION=2021.12.0
           CIBW_ENVIRONMENT_PASS_LINUX: |
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
@@ -134,11 +156,16 @@ jobs:
             CMAKE_C_COMPILER_LAUNCHER
             CCACHE_DIRECT
             CCACHE_DEPEND
+            CACHE
           CIBW_BEFORE_ALL_LINUX: |
-            # install ccache
-            source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
+            if [[ ${{ env.CACHE }} ]]; then
+              # install ccache
+              source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
+            fi
             # install others
-            dnf install -y ninja-build bison flex
+            dnf install -y ninja-build bison flex wget
+            wget https://github.com/mozilla/sccache/releases/download/v0.8.2/sccache-v0.8.2-x86_64-unknown-linux-musl.tar.gz -O - | tar -xz
+            mv sccache-v0.8.2-x86_64-unknown-linux-musl/sccache /usr/bin
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
@@ -153,13 +180,20 @@ jobs:
             cp {wheel} ${{ env.WORKSPACE }}
             export DYLD_LIBRARY_PATH=${{ env.WORKSPACE }}/libs
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
+          CIBW_TEST_COMMAND_LINUX: pyluxcoretest
+          CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest
+          CIBW_TEST_COMMAND_MACOS: |
+            if [[ ${{ matrix.os }} == 'macos-13' ]]; then
+              # Only for Intel
+              pyluxcoretest
+            fi
         with:
             package-dir: .
             output-dir: wheelhouse
             config-file: "{package}/pyproject.toml"
 
       - name: Download cache from Docker (Linux only)
-        if: ${{ runner.os == 'Linux' }}
+        if: runner.os == 'Linux' && env.CACHE
         # hack until https://github.com/pypa/cibuildwheel/issues/1030 is fixed
         run: |
           env
@@ -175,21 +209,21 @@ jobs:
 
       # Upload sccache log (debug)
       - uses: actions/upload-artifact@v4
-        if: env.SCCACHE_ERROR_LOG != ''
+        if: env.SCCACHE_ERROR_LOG != '' && env.CACHE
         with:
           name: sccache-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ${{ env.SCCACHE_ERROR_LOG }}
 
       # Upload ccache log (debug)
       - uses: actions/upload-artifact@v4
-        if: env.CCACHE_LOGFILE != ''
+        if: env.CCACHE_LOGFILE != '' && env.CACHE
         with:
           name: ccache_log-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ${{ env.CCACHE_LOGFILE }}
 
       # Upload cache debug (debug)
       - uses: actions/upload-artifact@v4
-        if: env.CCACHE_DEBUGDIR != ''
+        if: env.CCACHE_DEBUGDIR != '' && env.CACHE
         with:
           name: ccache_debug-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ${{ env.CCACHE_DEBUGDIR }}

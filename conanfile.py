@@ -7,32 +7,42 @@ from conan import ConanFile
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 from conan.tools.system.package_manager import Brew, Yum
 from conan.tools.env import VirtualBuildEnv
+import random
+
+random.seed(0)
 
 import os
 import io
 
 _boost_version = os.environ["BOOST_VERSION"]
+_ocio_version = os.environ["OCIO_VERSION"]
 
 class LuxCore(ConanFile):
     name = "LuxCoreWheels"
 
 
     requires = [
-        "onetbb/2020.3",
-        "opencolorio/2.1.0",
+        f"opencolorio/{_ocio_version}",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
-        "spdlog/1.8.5",
-        "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",
+        "spdlog/1.14.1",
+        # "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",  # TODO
+        "openimageio/2.5.16.0@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
-        "openexr/2.5.7",
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
+        "openvdb/9.1.0",
+        "oidn/2.3.0@luxcorewheels/luxcorewheels",
+        "eigen/3.4.0",
     ]
 
     default_options = {
+        # TODO
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
+        # "spdlog/*:use_std_fmt": True,
+        "openimageio/*:with_ffmpeg": False,
+        "openimageio/*:with_ptex": False,
         "embree3/*:neon": True,
     }
 
@@ -40,12 +50,18 @@ class LuxCore(ConanFile):
 
 
     def requirements(self):
-        if self.settings.os == "Linux":
-            self.requires("oidn/1.2.4@luxcorewheels/luxcorewheels")
-        else:
-            self.requires("oidn/2.3.0@luxcorewheels/luxcorewheels")
+        self.requires(
+            "onetbb/2021.12.0",
+            override=True,
+            libs=True,
+            transitive_libs=True,
+        )  # For oidn
+        self.requires("imath/3.1.9", override=True)
+        self.requires("openexr/3.1.9", override=True)
+
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")
+
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
 
@@ -93,12 +109,27 @@ class LuxCore(ConanFile):
     def layout(self):
         cmake_layout(self)
 
+        if self.settings.os == "Linux":
+            self.cpp.package.libs = [
+                "pyluxcore",
+                "libtbb.so.12",
+                "libtbbmalloc_proxy.so.2",
+                "libtbbmalloc.so.2",
+            ]
+
     def package_info(self):
         self.conf_info.define("cmake.build:verbosity", "debug")
 
         self.conf_info.define("tools.build:sharedlinkflags", ["-VERBOSE"])
         self.conf_info.define("tools.build:exelinkflags", ["-VERBOSE"])
         self.conf_info.define("tools.build:verbosity", "verbose")
+        if self.settings.os == "Linux":
+            self.cpp_info.libs = [
+                "pyluxcore",
+                "libtbb.so.12",
+                "libtbbmalloc_proxy.so.2",
+                "libtbbmalloc.so.2",
+            ]
 
     def package_id(self):
         # We clear everything in order to have a constant package_id and use the cache
