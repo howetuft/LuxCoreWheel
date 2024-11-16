@@ -7,7 +7,11 @@ set -o pipefail
 echo "CIBW_BEFORE_BUILD: pip"
 pip install conan
 pip install ninja
-pip install "numpy < 2.0" &
+if [[ $PYTHON_MINOR == "8" ]]; then
+  pip install "numpy < 2" &
+else
+  pip install "numpy >= 2" &
+fi
 
 conan_path=$WORKSPACE/deps/conan
 
