@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - work
+      - debug
   workflow_dispatch:
   release:
     types:
