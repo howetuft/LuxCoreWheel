@@ -8,13 +8,11 @@ include(CMakePrintHelpers)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -static-libasan")
 set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-# TODO
-add_compile_options(-fsanitize=address -static-libasan)
-add_link_options(-fsanitize=address -static-libasan)
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
 
 set(LUXRAYS_ENABLE_OPENCL TRUE)
 set(LUXRAYS_ENABLE_CUDA TRUE)
