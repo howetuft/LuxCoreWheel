@@ -13,8 +13,9 @@ set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # TODO
-add_compile_options(-fsanitize=address -static-libasan)
-add_link_options(-fsanitize=address -static-libasan)
+set(CMAKE_BUILD_TYPE Debug)
+add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+add_link_options(-fsanitize=address)
 
 set(LUXRAYS_ENABLE_OPENCL TRUE)
 set(LUXRAYS_ENABLE_CUDA TRUE)
