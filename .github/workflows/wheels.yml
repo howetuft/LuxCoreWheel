@@ -146,6 +146,8 @@ jobs:
             BOOST_VERSION=1.84.0
             OCIO_VERSION=2.3.1
             TBB_VERSION=2021.12.0
+            CXX=clang++
+            CC=clang
           CIBW_ENVIRONMENT_PASS_LINUX: |
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
@@ -164,7 +166,7 @@ jobs:
               source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
             fi
             # install others
-            dnf install -y ninja-build bison flex wget libasan-devel
+            dnf install -y ninja-build bison flex wget
             wget https://github.com/mozilla/sccache/releases/download/v0.8.2/sccache-v0.8.2-x86_64-unknown-linux-musl.tar.gz -O - | tar -xz
             mv sccache-v0.8.2-x86_64-unknown-linux-musl/sccache /usr/bin
           CIBW_BEFORE_ALL_MACOS: |
