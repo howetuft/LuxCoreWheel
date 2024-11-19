@@ -142,7 +142,7 @@ jobs:
           CIBW_ARCHS: auto64
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_ENVIRONMENT: >
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_ARGS='--preset=conan-debug;-G Ninja;--log-level=VERBOSE'
             BOOST_INSTALL_LAYOUT=system
             SPDLOG_FMT_EXTERNAL=on
             MACOSX_DEPLOYMENT_TARGET=11.3
