@@ -78,7 +78,7 @@ jobs:
             core.exportVariable('CACHE_PROGRAM', launcher)
             core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', launcher);
             core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', launcher);
-            #core.exportVariable('CMAKE_BUILD_TYPE', 'Release');
+            // core.exportVariable('CMAKE_BUILD_TYPE', 'Release');
 
             if (launcher == 'ccache') {
               // CCACHE (LINUX AND MACOS)
