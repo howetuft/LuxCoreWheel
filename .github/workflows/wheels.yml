@@ -164,7 +164,7 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: |
             if [[ ${{ env.CACHE }} ]]; then
               # install ccache
-              source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
+              # source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh TODO
             fi
             # install others
             yum install -y ninja-build bison flex wget gcc-toolset-11-libasan-devel
