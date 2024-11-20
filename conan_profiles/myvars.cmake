@@ -1,4 +1,5 @@
 option(EMBREE_STACK_PROTECTOR "Embree stack protector" ON)
-if (${CMAKE_PROJECT_NAME} EQUAL "embree3")
+if (${CMAKE_PROJECT_NAME} STREQUAL "embree3")
+  message(STATUS "Embree3 add_compile_options")
   add_compile_options(-g -fno-common)
 endif()
