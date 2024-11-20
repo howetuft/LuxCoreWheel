@@ -50,7 +50,7 @@ conan install \
   --build=missing \
   --deployer=runtime_deploy \
   --deployer-folder=$WORKSPACE/libs \
-  -s build_type=Release
+  -s build_type=Debug
 
 echo "Installing oidn"
 if [[ $RUNNER_OS == "Linux" ]]; then

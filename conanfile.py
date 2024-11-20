@@ -116,6 +116,7 @@ class LuxCore(ConanFile):
                 "libtbbmalloc_proxy.so.2",
                 "libtbbmalloc.so.2",
             ]
+        self.folders.build_folder_vars = ["const.luxcore"]
 
     def package_info(self):
         self.conf_info.define("cmake.build:verbosity", "debug")
