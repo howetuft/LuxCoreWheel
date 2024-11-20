@@ -12,5 +12,4 @@ tools.cmake.cmaketoolchain:generator=Ninja
 tools.build:verbosity=quiet
 tools.system.package_manager:mode=install
 tools.deployer:symlinks=True
-tools.build:cxxflags=["-g"]
-tools.build:cflags=["-g"]
+tools.cmake.cmaketoolchain:user_toolchain+={{profile_dir}}/myvars.cmake
