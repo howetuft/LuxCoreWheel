@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - work
+      - cache
   workflow_dispatch:
   release:
     types:
@@ -21,11 +22,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: ['8', '9', '10', '11', '12', '13']
+        python-minor: [8, 9, 10, 11, 12, 13]
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
     env:
       GH_TOKEN: ${{ github.token }}
-      CACHE: True
       PYTHON_MINOR: ${{ matrix.python-minor }}
 
     steps:
@@ -58,55 +58,7 @@ jobs:
             core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', 'sccache');
 
       - name: Run sccache-cache
-        if: env.CACHE == false
         uses: mozilla-actions/sccache-action@v0.0.6
-
-
-      - name: Configure ccache
-        uses: actions/github-script@v7  # Javascript
-        if: env.CACHE
-        with:
-          script: |
-            // Nota - Keep this script before ccache installation
-            // in order to set CCACHE_DIR before downloading previous cache
-
-            launcher = '${{ runner.os != 'Windows' && 'ccache' || 'sccache' }}'
-
-            core.exportVariable('CACHE_PROGRAM', launcher)
-            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', launcher);
-            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', launcher);
-            core.exportVariable('CMAKE_BUILD_TYPE', 'Release');
-
-            if (launcher == 'ccache') {
-              // CCACHE (LINUX AND MACOS)
-              core.exportVariable('CCACHE_CONFIGPATH', String.raw`${{ github.workspace }}/ccache.conf`);
-              core.exportVariable('CCACHE_DIR', String.raw`${{ github.workspace }}/.ccache`);
-              core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache_debug`);
-              core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
-              core.exportVariable('CACHE_MAXSIZE', '500M')
-            } else if (launcher == 'sccache') {
-              // SCCACHE (WINDOWS)
-              core.exportVariable('SCCACHE_CONF', String.raw`${{ github.workspace }}/sccache.conf`);
-              core.exportVariable('SCCACHE_ERROR_LOG', String.raw`${{ github.workspace }}/sccache.log`);
-              core.exportVariable('SCCACHE_DIR', String.raw`${{ github.workspace }}/.sccache`);
-              core.exportVariable('SCCACHE_DIRECT', 'true');
-              core.exportVariable('SCCACHE_LOCAL_RW_MODE', 'READ_WRITE');
-              core.exportVariable('SCCACHE_LOG', 'debug');
-              core.exportVariable('CACHE_MAXSIZE', '800M')
-            } else {
-              throw new Error("Launcher error")
-            }
-
-      - name: Install cache program
-        id: install_cache
-        uses: hendrikmuhs/ccache-action@v1.2
-        if: env.CACHE
-        with:
-          create-symlink: false  # Don't create symlinks, otherwise clang will not be selected for MacOS
-          variant: ${{ env.CACHE_PROGRAM }}
-          key: ${{ matrix.os }}-${{ matrix.python-minor }}
-          verbose: 2
-          max-size: ${{ env.CACHE_MAXSIZE }}
 
       - name: Get cmake
         if: runner.os == 'macOS' || runner.os == 'Windows'
@@ -127,6 +79,14 @@ jobs:
       - name: Patch source tree
         shell: bash
         run: source $GITHUB_WORKSPACE/scripts/patch_source_tree.sh
+
+      - name: Retrieve cached dependencies
+        id: retrieve-cache-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: conan_cache
+          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
+          restore-keys: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
 
       # Build wheel
       - name: Build wheels
@@ -158,11 +118,13 @@ jobs:
             CCACHE_DEPEND
             CACHE
             PYTHON_MINOR
+            SCCACHE_GHA_ENABLED
           CIBW_BEFORE_ALL_LINUX: |
-            if [[ ${{ env.CACHE }} ]]; then
-              # install ccache
-              source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
-            fi
+            # TODO
+            #if [[ ${{ env.CACHE }} ]]; then
+              ## install ccache
+              #source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
+            #fi
             # install others
             dnf install -y ninja-build bison flex wget
             wget https://github.com/mozilla/sccache/releases/download/v0.8.2/sccache-v0.8.2-x86_64-unknown-linux-musl.tar.gz -O - | tar -xz
@@ -188,22 +150,22 @@ jobs:
               # Only for Intel
               pyluxcoretest
             fi
+          CIBW_CONTAINER_ENGINE: >
+            docker;
+            create_args: --mount type=bind,source=${{ github.workspace }}/conan_cache,target=/conan_cache
         with:
             package-dir: .
             output-dir: wheelhouse
             config-file: "{package}/pyproject.toml"
 
-      - name: Download cache from Docker (Linux only)
-        if: runner.os == 'Linux' && env.CACHE
-        # hack until https://github.com/pypa/cibuildwheel/issues/1030 is fixed
-        run: |
-          env
-          ccache -s
-          HOST_CCACHE_DIR="$(ccache -k cache_dir)"
-          rm -rf $HOST_CCACHE_DIR
-          mv ./wheelhouse/.ccache $HOST_CCACHE_DIR
-          ls -la $HOST_CCACHE_DIR
-          ccache -s -v
+
+      - name: Save dependency cache
+        if: always()
+        id: cache-deps-save
+        uses: actions/cache/save@v4
+        with:
+          path: conan_cache
+          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-${{ hashFiles('**/conan_cache') }}
 
       #- name: Setup tmate session
         #uses: mxschmitt/action-tmate@v3
@@ -215,21 +177,7 @@ jobs:
           name: sccache-${{ matrix.os }}-${{ matrix.python-minor }}
           path: ${{ env.SCCACHE_ERROR_LOG }}
 
-      # Upload ccache log (debug)
-      - uses: actions/upload-artifact@v4
-        if: env.CCACHE_LOGFILE != '' && env.CACHE
-        with:
-          name: ccache_log-${{ matrix.os }}-${{ matrix.python-minor }}
-          path: ${{ env.CCACHE_LOGFILE }}
-
-      # Upload cache debug (debug)
-      - uses: actions/upload-artifact@v4
-        if: env.CCACHE_DEBUGDIR != '' && env.CACHE
-        with:
-          name: ccache_debug-${{ matrix.os }}-${{ matrix.python-minor }}
-          path: ${{ env.CCACHE_DEBUGDIR }}
-
-      #- name: Setup tmate session
+      #- name: Setup tmate session (debug)
         #if: ${{ failure() }}
         #uses: mxschmitt/action-tmate@v3
 
