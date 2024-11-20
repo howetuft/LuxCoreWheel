@@ -13,5 +13,5 @@ tools.build:verbosity=verbose
 tools.system.package_manager:mode=install
 tools.deployer:symlinks=True
 tools.build:verbosity=verbose
-tools.build:cxxflags*=["-g"]
-tools.build:cflags*=["-g"]
+tools.build:cxxflags=["-g"]
+tools.build:cflags=["-g"]
