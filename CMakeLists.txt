@@ -14,6 +14,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 #TODO
 #add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
 #add_link_options(-fsanitize=address)
+add_compile_options(-g)
 
 set(LUXRAYS_ENABLE_OPENCL TRUE)
 set(LUXRAYS_ENABLE_CUDA TRUE)
