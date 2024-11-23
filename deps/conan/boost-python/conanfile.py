@@ -261,8 +261,6 @@ int dtype::get_itemsize() const { return reinterpret_cast<PyArray_Descr*>(ptr())
         )
 
     def package_info(self):
-        self.cpp_info.bindirs = []
-        self.cpp_info.libdirs = []
         # self.cpp_info.libs = [f"boost_{self.module}"]
         self.cpp_info.set_property("cmake_file_name", "Boost_python")
         self.cpp_info.set_property("cmake_target_name", "Boost::python")
