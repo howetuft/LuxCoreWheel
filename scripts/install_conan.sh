@@ -71,6 +71,11 @@ echo "::endgroup::"
     #conan source ${embree3} &
 #fi
 
+if [[ $RUNNER_OS == "Windows" ]]; then
+  DEPLOY_PATH=$(cygpath "C:\\Users\\runneradmin")
+else
+  DEPLOY_PATH=$WORKSPACE
+fi
 
 echo "::group::CIBW_BEFORE_BUILD: LuxCore"
 conan remove -c "luxcorewheels/*"  # TODO
@@ -86,7 +91,7 @@ conan install $WORKSPACE \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=missing \
   --deployer=full_deploy \
-  --deployer-folder=$WORKSPACE \
+  --deployer-folder=$DEPLOY_PATH \
   -vverbose \
   -s build_type=Release
 

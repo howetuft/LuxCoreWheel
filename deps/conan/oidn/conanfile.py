@@ -33,6 +33,11 @@ class OidnConan(ConanFile):
         "libtbbmalloc_proxy.so.2",
     ]
 
+    _libs_windows = [
+        "OpenImageDenoise_core",
+        "OpenImageDenoise",
+    ]
+
     # TODO
     # def layout(self):
         # build_type = self.settings.get_safe("build_type", default="Release")
@@ -83,99 +88,81 @@ class OidnConan(ConanFile):
                 "oneapi-tbb-2021.12.0",
             )
 
-        copy(
-            self,
-             "*",
-             src=os.path.join(base_oidn, "include"),
-             dst=os.path.join(self.package_folder, "include"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "bin"),
-            dst=os.path.join(self.package_folder, "bin"),
-        )
-        copy(
-            self,
-            "*.so*",
-            src=os.path.join(base_oidn, "lib"),
-            dst=os.path.join(self.package_folder, "lib"),
-        )
+            # Oidn
+            copy(
+                self,
+                 "*",
+                 src=os.path.join(base_oidn, "include"),
+                 dst=os.path.join(self.package_folder, "include"),
+            )
+            copy(
+                self,
+                "*",
+                src=os.path.join(base_oidn, "bin"),
+                dst=os.path.join(self.package_folder, "bin"),
+            )
+            copy(
+                self,
+                "*.so*",
+                src=os.path.join(base_oidn, "lib"),
+                dst=os.path.join(self.package_folder, "lib"),
+            )
 
-        copy(
-            self,
-            "*.so*",
-            src=os.path.join(base_tbb, "lib", "intel64", "gcc4.8"),
-            dst=os.path.join(self.package_folder, "lib"),
-        )
+            # Tbb
+            copy(
+                self,
+                "*.so*",
+                src=os.path.join(base_tbb, "lib", "intel64", "gcc4.8"),
+                dst=os.path.join(self.package_folder, "lib"),
+            )
 
-        rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
+            rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
+
+        elif self.settings.os == "Windows":
+            base_oidn = os.path.join(
+                self.build_folder,
+                f"oidn-{self.version}.x64.windows",
+            )
+            # Oidn
+            copy(
+                self,
+                 "*",
+                 src=os.path.join(base_oidn, "include"),
+                 dst=os.path.join(self.package_folder, "include"),
+            )
+            copy(
+                self,
+                "*",
+                src=os.path.join(base_oidn, "bin"),
+                dst=os.path.join(self.package_folder, "bin"),
+            )
+            copy(
+                self,
+                "*.lib",
+                src=os.path.join(base_oidn, "lib"),
+                dst=os.path.join(self.package_folder, "lib"),
+            )
+            rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
 
     def package_info(self):
         if self.settings.os == "Linux":
             self.cpp_info.libs = self._libs_linux
+        elif self.settings.os == "Windows":
+            self.cpp_info.libs = self._libs_windows
+
 
         self.cpp_info.includedirs = ['include']  # Ordered list of include paths
         self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
         self.cpp_info.bindirs = ['bin']  # Directories where executables and shared libs can be found
-
-    # def _swap(self, lib1, lib2):
-        # path1 = os.path.join(self.build_folder, lib1)
-        # path2 = os.path.join(self.build_folder, lib2)
-        # temp = os.path.join(self.build_folder, "__temp__")
-
-        # copy(path1, temp)
-        # rename(path1, path2)
-        # rename(path2, temp)
-        # rm(temp)
-
-    # def _lib_path(self, name):
-        # return os.path.join(
-            # self.build_folder,
-            # f"oidn-{self.version}.x86_64.linux",
-            # "lib",
-            # name,
-        # )
-
-    # def _link(self, libname):
-        # rename(
-            # self,
-            # self._lib_path(f"{libname}.{self.version}"),
-            # self._lib_path(libname),
-        # )
-        # os.symlink(
-            # self._lib_path(libname),
-            # self._lib_path(f"{libname}.{self.version}"),
-        # )
 
 
     def build(self):
         if self.settings.os == "Linux":
             url_oidn = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x86_64.linux.tar.gz"
             url_tbb = f"https://github.com/oneapi-src/oneTBB/releases/download/v2021.12.0/oneapi-tbb-2021.12.0-lin.tgz"
+            get(self, url_oidn)
+            get(self, url_tbb)
 
-        get(self, url_oidn)
-        # rm(
-            # self,
-            # "libOpenImageDenoise.so",
-            # os.path.join(self.build_folder, f"oidn-{self.version}.x86_64.linux", "lib"),
-        # )
-        # self._link("libOpenImageDenoise_core.so")
-        # self._link("libOpenImageDenoise_device_cpu.so")
-        # self._link("libOpenImageDenoise.so")
-        # rename(
-            # self,
-            # self._lib_path(f"libOpenImageDenoise_core.so.{self.version}"),
-            # self._lib_path("libOpenImageDenoise_core.so"),
-        # )
-        # os.symlink(
-            # self._lib_path("libOpenImageDenoise_core.so"),
-            # self._lib_path(f"libOpenImageDenoise_core.so.{self.version}"),
-        # )
-        # absolute_to_relative_symlinks(
-            # self,
-            # os.path.join(self.build_folder, f"oidn-{self.version}.x86_64.linux", "lib"),
-        # )
-
-
-        get(self, url_tbb)
+        elif self.settings.os == "Windows":
+            url = f"https://github.com/RenderKit/oidn/releases/download/v{self.version}/oidn-{self.version}.x64.windows.zip"
+            get(self, url)

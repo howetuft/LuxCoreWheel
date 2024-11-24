@@ -143,3 +143,8 @@ class LuxCore(ConanFile):
                 "libOpenImageDenoise_device_cpu.so.2.3.0",
                 "libOpenImageDenoise.so.2",
             ]
+        elif self.settings.os == "Windows":
+            self.cpp_info.libs = [
+                "pyluxcore.pyd",
+                "tbb12.dll",
+            ]
