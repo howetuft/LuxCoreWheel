@@ -54,7 +54,6 @@ conan_create_install openimageio $OIIO_VERSION
 echo "::endgroup::"
 
 echo "::group::CIBW_BEFORE_BUILD: OIDN"
-conan remove -c "oidn_linux_x64/*"  # TODO
 #conan_create_install oidn_${RUNNER_OS}_${RUNNER_ARCH} $OIDN_VERSION  # TODO
 conan_create_install oidn $OIDN_VERSION
 #oidn=$WORKSPACE/deps/conan/oidn_${RUNNER_OS}_${RUNNER_ARCH}
@@ -86,7 +85,7 @@ conan create $WORKSPACE \
   -s build_type=Release
 
 # We use full deployer to get rid of the "strange" paths that Conan uses in
-# the cache. Caveat: order between runtime and full matters
+# its cache and that hamper ccache.
 conan install $WORKSPACE \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   --build=missing \

@@ -83,4 +83,15 @@ hosted in a Docker container. To address it, we may follow the tip provided
 here: https://github.com/pypa/cibuildwheel/issues/1030 (many thanks to the
 author).
 
+# Conan Settings & Conf
+## MacOS 13 (notes)
+`compiler.cppstd` must be greater or equal than 17 (aka C++17), for
+`llvm-openmp` to compile.
+`os.version` is the minimal version for the target to be compatible with. We
+tried to have it minimal and it's 10.13. For the delocation to succeed, we also
+have to set `MACOSX_DEPLOYMENT_TARGET` environment variable to 10.13.
+
+
+
+we 
 

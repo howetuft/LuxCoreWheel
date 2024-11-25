@@ -25,7 +25,7 @@ jobs:
         python-minor: [8, 9, 10, 11, 12, 13]
         #os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         #python-minor: [9]
-        os: [windows-latest]
+        os: [macos-13]
     env:
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
@@ -70,13 +70,19 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Configure clang
+      - name: Configure MacOS run
         if: runner.os == 'macOS'
         uses: actions/github-script@v7
         with:
           script: |
             core.exportVariable('CXX', 'clang++');
             core.exportVariable('CC', 'clang');
+            if ('${{ runner.arch }}' == 'X64') {
+              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '10.13')
+            }
+            if ('${{ runner.arch }}' == 'ARM64') {
+              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '10.13')
+            }
 
       - name: Patch source tree
         shell: bash
@@ -104,13 +110,13 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset conan-release;-G Ninja;--log-level=VERBOSE'
             BOOST_INSTALL_LAYOUT=system
             SPDLOG_FMT_EXTERNAL=on
-            MACOSX_DEPLOYMENT_TARGET=11.3
             BOOST_VERSION=1.84.0
             OIIO_VERSION=2.5.16.0
             OCIO_VERSION=2.3.1
             OIDN_VERSION=2.3.0
             TBB_VERSION=2021.12.0
             OPENEXR_VERSION=3.2.3
+            SCCACHE_GHA_ENABLED=on
           CIBW_ENVIRONMENT_PASS_LINUX: |
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
@@ -125,12 +131,6 @@ jobs:
             PYTHON_MINOR
             SCCACHE_GHA_ENABLED
           CIBW_BEFORE_ALL_LINUX: |
-            # TODO
-            #if [[ ${{ env.CACHE }} ]]; then
-              ## install ccache
-              #source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
-            #fi
-            # install others
             dnf install -y ninja-build bison flex wget perl-IPC-Cmd perl-Digest-SHA
             wget https://github.com/mozilla/sccache/releases/download/v0.8.2/sccache-v0.8.2-x86_64-unknown-linux-musl.tar.gz -O - | tar -xz
             mv sccache-v0.8.2-x86_64-unknown-linux-musl/sccache /usr/bin
@@ -148,7 +148,7 @@ jobs:
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
             cp {wheel} ${{ env.WORKSPACE }}
-            export DYLD_LIBRARY_PATH=${{ env.WORKSPACE }}/libs
+            export DYLD_LIBRARY_PATH=${{ env.WORKSPACE }}/full_deploy/host/onetbb/${TBB_VERSION}/Release/x86_64/lib:${{ env.WORKSPACE }}/full_deploy/host/oidn/${OIDN_VERSION}/Release/x86_64/lib
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_TEST_COMMAND_LINUX: pyluxcoretest
           CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest
