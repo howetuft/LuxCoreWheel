@@ -25,7 +25,10 @@ jobs:
         python-minor: [8, 9, 10, 11, 12, 13]
         #os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         #python-minor: [9]
-        os: [macos-13]
+        os: [macos-14]
+        exclude:
+          - os: macos-14
+            python-minor: 8
     env:
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
@@ -79,14 +82,29 @@ jobs:
             core.exportVariable('CC', 'clang');
             if ('${{ runner.arch }}' == 'X64') {
               core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '10.13')
+              core.exportVariable('PKG_ARCH', 'x86_64')
             }
             if ('${{ runner.arch }}' == 'ARM64') {
-              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '10.13')
+              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '11.0')
+              core.exportVariable('PKG_ARCH', 'armv8')
             }
 
       - name: Patch source tree
         shell: bash
         run: source $GITHUB_WORKSPACE/scripts/patch_source_tree.sh
+
+      - name: Set deps variables
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('BOOST_INSTALL_LAYOUT', 'system')
+            core.exportVariable('SPDLOG_FMT_EXTERNAL', 'on')
+            core.exportVariable('BOOST_VERSION', '1.84.0')
+            core.exportVariable('OIIO_VERSION', '2.5.16.0')
+            core.exportVariable('OCIO_VERSION', '2.3.1')
+            core.exportVariable('OIDN_VERSION', '2.3.0')
+            core.exportVariable('TBB_VERSION', '2021.12.0')
+            core.exportVariable('OPENEXR_VERSION', '3.2.3')
 
       - name: Retrieve cached dependencies
         id: retrieve-cache-deps
@@ -108,15 +126,6 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_ENVIRONMENT: >
             SKBUILD_CMAKE_ARGS='--preset conan-release;-G Ninja;--log-level=VERBOSE'
-            BOOST_INSTALL_LAYOUT=system
-            SPDLOG_FMT_EXTERNAL=on
-            BOOST_VERSION=1.84.0
-            OIIO_VERSION=2.5.16.0
-            OCIO_VERSION=2.3.1
-            OIDN_VERSION=2.3.0
-            TBB_VERSION=2021.12.0
-            OPENEXR_VERSION=3.2.3
-            SCCACHE_GHA_ENABLED=on
           CIBW_ENVIRONMENT_PASS_LINUX: |
             ACTIONS_CACHE_URL
             ACTIONS_RUNTIME_TOKEN
@@ -125,11 +134,16 @@ jobs:
             WORKSPACE
             CMAKE_CXX_COMPILER_LAUNCHER
             CMAKE_C_COMPILER_LAUNCHER
-            CCACHE_DIRECT
-            CCACHE_DEPEND
-            CACHE
             PYTHON_MINOR
             SCCACHE_GHA_ENABLED
+            BOOST_INSTALL_LAYOUT
+            SPDLOG_FMT_EXTERNAL
+            BOOST_VERSION
+            OIIO_VERSION
+            OCIO_VERSION
+            OIDN_VERSION
+            TBB_VERSION
+            OPENEXR_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf install -y ninja-build bison flex wget perl-IPC-Cmd perl-Digest-SHA
             wget https://github.com/mozilla/sccache/releases/download/v0.8.2/sccache-v0.8.2-x86_64-unknown-linux-musl.tar.gz -O - | tar -xz
@@ -148,7 +162,10 @@ jobs:
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
             cp {wheel} ${{ env.WORKSPACE }}
-            export DYLD_LIBRARY_PATH=${{ env.WORKSPACE }}/full_deploy/host/onetbb/${TBB_VERSION}/Release/x86_64/lib:${{ env.WORKSPACE }}/full_deploy/host/oidn/${OIDN_VERSION}/Release/x86_64/lib
+            BASE=${{ env.WORKSPACE }}/full_deploy/host
+            TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            export DYLD_LIBRARY_PATH=$TBB:$OIDN
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_TEST_COMMAND_LINUX: pyluxcoretest
           CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest

@@ -47,7 +47,14 @@ class OidnConan(ConanFile):
         f"OpenImageDenoise_device_cpu.{_oidn_version}",
     ]
 
-    _libs_macos14 = []  # TODO
+    _libs_macos14 = [
+        f"OpenImageDenoise.{_oidn_version}",
+        "OpenImageDenoise.2",
+        "OpenImageDenoise",
+        f"OpenImageDenoise_core.{_oidn_version}",
+        f"OpenImageDenoise_device_cpu.{_oidn_version}",
+        f"OpenImageDenoise_device_metal.{_oidn_version}",
+    ]
 
     # https://docs.conan.io/2/tutorial/creating_packages/other_types_of_packages/package_prebuilt_binaries.html
 
@@ -141,7 +148,29 @@ class OidnConan(ConanFile):
         rm(self, "libtbb.12.12.dylib", os.path.join(self.package_folder, "lib"))
 
     def _package_macos14(self):
-        pass  # TODO
+        base_oidn = os.path.join(
+            self.build_folder,
+            f"oidn-{self.version}.arm64.macos",
+        )
+        copy(
+            self,
+             "*",
+             src=os.path.join(base_oidn, "include"),
+             dst=os.path.join(self.package_folder, "include"),
+        )
+        copy(
+            self,
+            "*",
+            src=os.path.join(base_oidn, "bin"),
+            dst=os.path.join(self.package_folder, "bin"),
+        )
+        copy(
+            self,
+            "*",
+            src=os.path.join(base_oidn, "lib"),
+            dst=os.path.join(self.package_folder, "lib"),
+        )
+        rm(self, "libtbb.12.12.dylib", os.path.join(self.package_folder, "lib"))
 
     def package(self):
         os_ = self.settings.os  # Beware: potential name collision with module os
@@ -190,7 +219,7 @@ class OidnConan(ConanFile):
         elif os_ == "Macos" and arch == "x86_64":
             url = f"{base}/v{version}/oidn-{version}.x86_64.macos.tar.gz"
         elif os_ == "Macos" and arch == "armv8":
-            pass  # TODO
+            url = f"{base}/v{version}/oidn-{version}.arm64.macos.tar.gz"
         else:
             raise ValueError("Unhandled os/arch")
 
