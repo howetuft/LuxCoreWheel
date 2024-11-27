@@ -85,5 +85,6 @@ echo "::endgroup::"
 
 echo "::group::Saving dependencies in ${cache_dir}"
 conan cache clean "*"  # Clean non essential files
+conan remove -c -vverbose "*/*#!latest"  # Keep only latest version of each package
 conan cache save -vverbose --file $cache_dir/conan_cache_save.tgz "*/*:*"
 echo "::endgroup::"
