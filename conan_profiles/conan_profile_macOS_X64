@@ -16,3 +16,9 @@ tools.system.package_manager:mode=install
 [options]
 minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
+
+[platform_tool_requires]
+cmake/*
+meson/*
+ninja/*
+pkgconf/*

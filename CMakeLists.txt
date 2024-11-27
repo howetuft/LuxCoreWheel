@@ -9,6 +9,9 @@ enable_language(C)
 enable_language(CXX)
 
 include(CMakePrintHelpers)
+cmake_print_variables(CMAKE_BUILD_TYPE)
+cmake_print_variables(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT)
+cmake_print_variables(CMAKE_CXX_FLAGS)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,6 +19,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(BUILD_LUXCORE_DLL 1)
 set(LUXRAYS_ENABLE_OPENCL TRUE)
 set(LUXRAYS_ENABLE_CUDA TRUE)
 set(LUXRAYS_ENABLE_OPTIX TRUE)
@@ -56,10 +61,6 @@ set(EMBREE_FOUND TRUE)
 set(OIDN_FOUND TRUE)
 set(BLOSC_FOUND TRUE)
 
-# For caching with MSVC
-SET(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT Embedded)
-CMAKE_POLICY(SET CMP0141 NEW)
-
 if(APPLE)
   # OpenMP
   find_package(OpenMP REQUIRED)
@@ -69,6 +70,20 @@ endif(APPLE)
 if(LINUX)
   set(OpenGL_GL_PREFERENCE "LEGACY")
 endif(LINUX)
+
+if(MSVC)
+  # Minimizes Windows header files
+  #ADD_DEFINITIONS(-DWIN32_LEAN_AND_MEAN)
+  # Do not define MIN and MAX macros
+  ADD_DEFINITIONS(-DNOMINMAX)
+  # Do not warn about standard but insecure functions
+  ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
+  # Enable Unicode
+  ADD_DEFINITIONS(-D_UNICODE)
+  # Enable SSE2/SSE/MMX
+  ADD_DEFINITIONS(-D__SSE2__ -D__SSE__ -D__MMX__)
+  add_link_options("/INCREMENTAL:NO" "/PDBALTPATH:%_PDB%")
+endif(MSVC)
 
 # Add LuxCore
 add_subdirectory(LuxCore)
@@ -115,7 +130,5 @@ if(APPLE)
   target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 endif(APPLE)
-
-
 
 INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)

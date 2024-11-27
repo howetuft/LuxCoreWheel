@@ -11,4 +11,10 @@ os=Windows
 tools.cmake.cmaketoolchain:generator=Ninja
 tools.env.virtualenv:powershell=False
 tools.build:verbosity=verbose
-tools.build:cxxflags=["/openmp", "/MP", "/DEBUG:FASTLINK"]
+tools.build:cxxflags=["/openmp", "/MP", "/DEBUG:NONE"]
+
+[platform_tool_requires]
+cmake/*
+meson/*
+ninja/*
+pkgconf/*

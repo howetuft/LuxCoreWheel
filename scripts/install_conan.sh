@@ -86,5 +86,17 @@ echo "::endgroup::"
 echo "::group::Saving dependencies in ${cache_dir}"
 conan cache clean "*"  # Clean non essential files
 conan remove -c -vverbose "*/*#!latest"  # Keep only latest version of each package
-conan cache save -vverbose --file $cache_dir/conan_cache_save.tgz "*/*:*"
+conan graph info . \
+  --format=json \
+  --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+  -s build_type=Release \
+  > graph.json
+# TODO
+#echo "graph.json"
+#cat graph.json
+#conan cache save -vverbose --file $cache_dir/conan_cache_save.tgz "*/*:*"
+conan list --graph=graph.json --format=json --graph-binaries=Cache > list.json
+#echo "list.json:"
+#cat list.json
+conan cache save -vverbose --file=$cache_dir/conan_cache_save.tgz --list=list.json
 echo "::endgroup::"

@@ -40,13 +40,13 @@ class LuxCore(ConanFile):
         "openvdb/9.1.0",
         "eigen/3.4.0",
         "embree3/3.13.1",
+        "tsl-robin-map/1.2.1",
     ]
 
     default_options = {
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
         "openimageio/*:with_ffmpeg": False,
-        "openimageio/*:with_ptex": False,
         "embree3/*:neon": True,
     }
 
@@ -69,11 +69,6 @@ class LuxCore(ConanFile):
             self.tool_requires("winflexbison/2.5.25")
 
         self.requires(f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels")
-        # TODO
-        # if self.settings.os == "Macos" and self.settings.arch == "armv8":
-            # self.requires("embree3/3.13.1@luxcorewheels/luxcorewheels")
-        # else:
-            # self.requires("embree3/3.13.1")
 
 
     def generate(self):

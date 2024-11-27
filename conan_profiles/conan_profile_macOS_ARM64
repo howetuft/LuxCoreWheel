@@ -18,3 +18,9 @@ minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
 boost/*:without_stacktrace=True
 boost/*:without_locale=True
+
+[platform_tool_requires]
+cmake/*
+meson/*
+ninja/*
+pkgconf/*

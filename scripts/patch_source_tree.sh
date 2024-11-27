@@ -125,13 +125,18 @@ $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/ocl
 
 
 echo "Macos - Remove Platform Specifics and Configuration"
-if [[ $RUNNER_OS == "macOS" ]]; then
-  remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
-  remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
-fi
+# TODO
+#if [[ $RUNNER_OS == "macOS" ]]; then
+  #remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
+  #remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
+#fi
+remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
+remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
 
 
-echo "Windows - Remove /TP compiler flag"
+echo "Windows - Remove various compiler flags"
 if [[ $RUNNER_OS == "Windows" ]]; then
   $SED -i "s/\/TP//g" cmake/PlatformSpecific.cmake
+  $SED -i "s/\/Zc:wchar_t//g" cmake/PlatformSpecific.cmake
+  $SED -i "s/\/Zc:forScope//g" cmake/PlatformSpecific.cmake
 fi
