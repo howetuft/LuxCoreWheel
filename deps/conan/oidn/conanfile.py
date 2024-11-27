@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024 Howetuft
+#
+# SPDX-License-Identifier: Apache-2.0
+
 import os
 import shutil
 from conan.tools.files import get, copy, rmdir, rename, rm
@@ -65,7 +69,7 @@ class OidnConan(ConanFile):
         )
         base_tbb = os.path.join(
             self.build_folder,
-            "oneapi-tbb-2021.12.0",
+            f"oneapi-tbb-{_tbb_version}",
         )
 
         # Oidn

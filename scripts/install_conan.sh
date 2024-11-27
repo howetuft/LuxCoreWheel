@@ -54,21 +54,8 @@ conan_create_install openimageio $OIIO_VERSION
 echo "::endgroup::"
 
 echo "::group::CIBW_BEFORE_BUILD: OIDN"
-#conan_create_install oidn_${RUNNER_OS}_${RUNNER_ARCH} $OIDN_VERSION  # TODO
 conan_create_install oidn $OIDN_VERSION
-#oidn=$WORKSPACE/deps/conan/oidn_${RUNNER_OS}_${RUNNER_ARCH}
-#conan editable add ${oidn}
-#conan source ${oidn}
 echo "::endgroup::"
-
-
-# TODO
-#if [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
-    #echo "CIBW_BEFORE_BUILD: EMBREE3"
-    #embree3=$conan_path/embree3
-    #conan editable add ${embree3}
-    #conan source ${embree3} &
-#fi
 
 if [[ $RUNNER_OS == "Windows" ]]; then
   DEPLOY_PATH=$(cygpath "C:\\Users\\runneradmin")
@@ -94,49 +81,7 @@ conan install $WORKSPACE \
   -vverbose \
   -s build_type=Release
 
-# TODO
-#conan install --requires=luxcorewheels/2.6.0@luxcorewheels/luxcorewheels \
-  #--profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
-  #--build=missing \
-  #--output-folder $WORKSPACE \
-  #--deployer=full_deploy \
-  #--deployer-folder=$WORKSPACE \
-  #-vverbose \
-  #-s build_type=Release
-#conan editable add $WORKSPACE --name=LuxCoreWheels --version=2.6.0 --user=LuxCoreWheels --channel=LuxCoreWheels
-#conan install \
-  #--requires=LuxCoreWheels/2.6.0@LuxCoreWheels/LuxCoreWheels \
-  #--profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
-  #--build=editable \
-  #--build=missing \
-  #--deployer=runtime_deploy \
-  #--deployer-folder=$WORKSPACE/libs \
-  #-s build_type=Release
-
 echo "::endgroup::"
-
-#echo "::group::Installing oidn"
-#if [[ $RUNNER_OS == "Linux" ]]; then
-    #oidn_version=2.3.0
-    #cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/bin/. $WORKSPACE/libs/
-    #cp -rv $oidn/oidn-${oidn_version}.x86_64.linux/lib/. $WORKSPACE/libs/
-    #cp -rv $oidn/oneapi-tbb-2021.12.0/lib/intel64/gcc4.8/. $WORKSPACE/libs/
-#elif [[ $RUNNER_OS == "Windows" ]]; then
-    #oidn_version=2.3.0
-    #cp -rv $oidn/oidn-${oidn_version}.x64.windows/bin/. $WORKSPACE/libs/
-#elif [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "X64" ]]; then
-    #oidn_version=2.3.0
-    #cp -rv $oidn/oidn-${oidn_version}.x86_64.macos/bin/. $WORKSPACE/libs/
-    #cp -rv $oidn/oidn-${oidn_version}.x86_64.macos/lib/. $WORKSPACE/libs/
-#elif [[ $RUNNER_OS == "macOS" && $RUNNER_ARCH == "ARM64" ]]; then
-      #oidn_version=2.3.0
-      #cp -rv $oidn/oidn-${oidn_version}.arm64.macos/bin/. $WORKSPACE/libs/
-      #cp -rv $oidn/oidn-${oidn_version}.arm64.macos/lib/. $WORKSPACE/libs/
-#else
-      #echo "ERROR: unhandled runner os/arch '${RUNNER_OS}/${RUNNER_ARCH}'"
-      #exit 64
-#fi
-#echo "::endgroup::"
 
 echo "::group::Saving dependencies in ${cache_dir}"
 conan cache clean "*"  # Clean non essential files

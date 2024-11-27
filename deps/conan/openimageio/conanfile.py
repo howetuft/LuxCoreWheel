@@ -143,35 +143,6 @@ class OpenImageIOConan(ConanFile):
 
     def layout(self):
         cmake_layout(self)
-        # TODO
-        # build_type = self.settings.get_safe("build_type", default="Release")
-        # cmake_layout(self)
-        # print("OIIO LAYOUT")
-
-        # # Set folders
-        # self.folders.source = "."
-        # self.folders.build = PurePosixPath("build", build_type)
-        # self.folders.generators = PurePosixPath("build", build_type, "generators")
-
-        # # Main
-        # self.cpp.package.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        # self.cpp.package.includedirs = [PurePosixPath("src", "include")] # maps to ./include
-        # self.cpp.package.libdirs += [
-            # self.folders.build,
-            # PurePosixPath(self.folders.build, "lib"),
-        # ]
-
-        # # Describe what changes between package and editable
-        # #
-        # # cpp.source and cpp.build information is specifically designed for
-        # # editable packages:
-        # # this information is relative to the source folder that is '.'
-        # self.cpp.source.includedirs = [PurePosixPath("src", "include")]
-
-        # # this information is relative to the build folder that is
-        # # './build/<build_type>', so it will map to ./build/<build_type> for libdirs
-        # self.cpp.build.libdirs = ["lib"]
-        # self.cpp.build.includedirs = ["include"]
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
@@ -329,17 +300,6 @@ class OpenImageIOConan(ConanFile):
         return component
 
     def package_info(self):
-        # TODO
-        # self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
-        # self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
-
-        # self.cpp_info.set_property("cmake_target_name", "openimageio::openimageio")
-
-        # self.cpp_info.names["cmake_find_package"] = "OpenImageIO"
-        # self.cpp_info.names["cmake_find_package_multi"] = "OpenImageIO"
-
-        # self.cpp_info.libs = ["OpenImageIO", "OpenImageIO_Util"]
-        # self.cpp_info.libdirs = [os.path.join("build", "Release", "lib")]
         self.cpp_info.set_property("cmake_file_name", "OpenImageIO")
         self.cpp_info.set_property("pkg_config_name", "OpenImageIO")
 
