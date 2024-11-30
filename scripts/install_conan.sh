@@ -91,12 +91,6 @@ conan graph info . \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
   -s build_type=Release \
   > graph.json
-# TODO
-#echo "graph.json"
-#cat graph.json
-#conan cache save -vverbose --file $cache_dir/conan_cache_save.tgz "*/*:*"
 conan list --graph=graph.json --format=json --graph-binaries=Cache > list.json
-#echo "list.json:"
-#cat list.json
 conan cache save -vverbose --file=$cache_dir/conan_cache_save.tgz --list=list.json
 echo "::endgroup::"

@@ -39,11 +39,6 @@ else
 fi
 
 
-echo "Bump version"
-replace_anywhere "LUXCORE_VERSION_MINOR 6" "LUXCORE_VERSION_MINOR 9a1"
-replace_anywhere "LUXRAYS_VERSION_MINOR 6" "LUXRAYS_VERSION_MINOR 9a1"
-
-
 echo "Remove all local Find*.cmake"
 rm -vf $GITHUB_WORKSPACE/LuxCore/cmake/Packages/Find*.cmake
 

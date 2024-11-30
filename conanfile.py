@@ -8,12 +8,10 @@ from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 from conan.tools.system.package_manager import Brew, Yum
 from conan.tools.env import VirtualBuildEnv
 from conan.tools.files import get, copy, rmdir, rename, rm, save
-import random
-
-random.seed(0)
 
 import os
 import io
+import shutil
 
 _boost_version = os.environ["BOOST_VERSION"]
 _ocio_version = os.environ["OCIO_VERSION"]
@@ -23,7 +21,7 @@ _openexr_version = os.environ["OPENEXR_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
-    version = "2.6.0"
+    version = "2.9alpha1"
     user = "luxcorewheels"
     channel = "luxcorewheels"
 

@@ -25,7 +25,7 @@ jobs:
         python-minor: [8, 9, 10, 11, 12, 13]
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
         #python-minor: [9]
-        #os: [ubuntu-latest]
+        #os: [macos-14]
         exclude:
           - os: macos-14
             python-minor: 8
@@ -35,11 +35,16 @@ jobs:
 
     steps:
 
-      - name: Checkout repository and submodule(s)
+      - name: Checkout main repository (LuxCoreWheel)
+        uses: actions/checkout@v4
+
+      - name: Checkout LuxCoreRender
         uses: actions/checkout@v4
         with:
+          repository: LuxCoreRender/LuxCore
+          path: LuxCore
           submodules: recursive
-          fetch-depth: 1
+          ref: luxcorerender-v2.9alpha1
 
       - name: Find workspace
         shell: bash
