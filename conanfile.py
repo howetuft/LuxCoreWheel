@@ -18,6 +18,7 @@ _ocio_version = os.environ["OCIO_VERSION"]
 _oiio_version = os.environ["OIIO_VERSION"]
 _oidn_version = os.environ["OIDN_VERSION"]
 _openexr_version = os.environ["OPENEXR_VERSION"]
+_blender_version = os.environ["BLENDER_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -39,6 +40,7 @@ class LuxCore(ConanFile):
         "eigen/3.4.0",
         "embree3/3.13.1",
         "tsl-robin-map/1.2.1",
+        f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels"
     ]
 
     default_options = {

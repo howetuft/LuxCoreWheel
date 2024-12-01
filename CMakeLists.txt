@@ -45,6 +45,7 @@ find_package(Boost REQUIRED)
 find_package(OpenVDB REQUIRED)
 find_package(Imath REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(blender-types REQUIRED)
 
 # Bison/Flex
 find_package(BISON REQUIRED)
@@ -122,7 +123,9 @@ target_link_libraries(pyluxcore PRIVATE
     Boost::python
     boost::boost
     Python::Module
+    blender-types
 )
+set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
 
 if(APPLE)
   target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)

@@ -42,6 +42,11 @@ echo "::group::CIBW_BEFORE_BUILD: restore conan cache"
 conan cache restore $cache_dir/conan_cache_save.tgz
 echo "::endgroup::"
 
+echo "::group::CIBW_BEFORE_BUILD: Blender types"
+# Private boost-python is patched to be compatible with numpy 2
+conan_create_install blender-types $BLENDER_VERSION
+echo "::endgroup::"
+
 echo "::group::CIBW_BEFORE_BUILD: Boost Python"
 # Private boost-python is patched to be compatible with numpy 2
 conan_create_install boost-python $BOOST_VERSION

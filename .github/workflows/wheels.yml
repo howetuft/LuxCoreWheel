@@ -112,6 +112,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            // TODO Move to job level
             core.exportVariable('BOOST_INSTALL_LAYOUT', 'system')
             core.exportVariable('SPDLOG_FMT_EXTERNAL', 'on')
             core.exportVariable('BOOST_VERSION', '1.84.0')
@@ -120,6 +121,7 @@ jobs:
             core.exportVariable('OIDN_VERSION', '2.3.0')
             core.exportVariable('TBB_VERSION', '2021.12.0')
             core.exportVariable('OPENEXR_VERSION', '3.2.3')
+            core.exportVariable('BLENDER_VERSION', '4.2.3')
 
       - name: Retrieve cached dependencies
         id: retrieve-cache-deps
@@ -156,6 +158,7 @@ jobs:
             OIDN_VERSION
             TBB_VERSION
             OPENEXR_VERSION
+            BLENDER_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release

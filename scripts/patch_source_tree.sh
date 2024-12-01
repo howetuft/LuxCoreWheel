@@ -118,6 +118,10 @@ echo "Adapt to Boost > 1.79"
 $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/cuda.cpp
 $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/ocl.cpp
 
+echo "Remove blender_types.h"
+rm include/luxcore/pyluxcore/blender_types.h
+$SED -i 's/"luxcore\/pyluxcore\/blender_types.h"/<blender_types.h>/g' src/luxcore/pyluxcoreforblender.cpp
+
 
 echo "Macos - Remove Platform Specifics and Configuration"
 # TODO
