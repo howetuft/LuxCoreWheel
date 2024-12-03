@@ -32,6 +32,15 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
+      BOOST_INSTALL_LAYOUT: system
+      SPDLOG_FMT_EXTERNAL: on
+      BOOST_VERSION: 1.84.0
+      OIIO_VERSION: 2.5.16.0
+      OCIO_VERSION: 2.3.1
+      OIDN_VERSION: 2.3.0
+      TBB_VERSION: 2021.12.0
+      OPENEXR_VERSION: 3.2.3
+      BLENDER_VERSION: 4.2.3
 
     steps:
 
@@ -68,7 +77,6 @@ jobs:
             core.exportVariable('CCACHE_DIR', String.raw`${{ github.workspace }}/.ccache`);
             core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache-debug`);
             core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
-            core.exportVariable('CACHE_MAXSIZE', '500M')
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2
@@ -107,21 +115,6 @@ jobs:
       - name: Patch source tree
         shell: bash
         run: source $GITHUB_WORKSPACE/scripts/patch_source_tree.sh
-
-      - name: Set deps versions and options
-        uses: actions/github-script@v7
-        with:
-          script: |
-            // TODO Move to job level
-            core.exportVariable('BOOST_INSTALL_LAYOUT', 'system')
-            core.exportVariable('SPDLOG_FMT_EXTERNAL', 'on')
-            core.exportVariable('BOOST_VERSION', '1.84.0')
-            core.exportVariable('OIIO_VERSION', '2.5.16.0')
-            core.exportVariable('OCIO_VERSION', '2.3.1')
-            core.exportVariable('OIDN_VERSION', '2.3.0')
-            core.exportVariable('TBB_VERSION', '2021.12.0')
-            core.exportVariable('OPENEXR_VERSION', '3.2.3')
-            core.exportVariable('BLENDER_VERSION', '4.2.3')
 
       - name: Retrieve cached dependencies
         id: retrieve-cache-deps

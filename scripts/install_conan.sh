@@ -69,7 +69,6 @@ else
 fi
 
 echo "::group::CIBW_BEFORE_BUILD: LuxCore"
-conan remove -c "luxcorewheels/*"  # TODO
 cd $WORKSPACE
 conan create $WORKSPACE \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
@@ -91,6 +90,7 @@ echo "::endgroup::"
 echo "::group::Saving dependencies in ${cache_dir}"
 conan cache clean "*"  # Clean non essential files
 conan remove -c -vverbose "*/*#!latest"  # Keep only latest version of each package
+# Save only dependencies of current target (otherwise cache gets bloated)
 conan graph info . \
   --format=json \
   --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \

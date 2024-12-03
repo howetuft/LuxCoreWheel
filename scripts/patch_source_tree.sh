@@ -124,11 +124,6 @@ $SED -i 's/"luxcore\/pyluxcore\/blender_types.h"/<blender_types.h>/g' src/luxcor
 
 
 echo "Macos - Remove Platform Specifics and Configuration"
-# TODO
-#if [[ $RUNNER_OS == "macOS" ]]; then
-  #remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
-  #remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
-#fi
 remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
 remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
 
