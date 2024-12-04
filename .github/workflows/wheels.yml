@@ -34,6 +34,7 @@ jobs:
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
       SPDLOG_FMT_EXTERNAL: on
+      CXX_VERSION: 17
       BOOST_VERSION: 1.84.0
       OIIO_VERSION: 2.5.16.0
       OCIO_VERSION: 2.3.1
@@ -41,6 +42,8 @@ jobs:
       TBB_VERSION: 2021.12.0
       OPENEXR_VERSION: 3.2.3
       BLENDER_VERSION: 4.2.3
+      OPENVDB_VERSION: 11.0.0
+      SPDLOG_VERSION: 1.14.1
 
 
     steps:
@@ -146,6 +149,7 @@ jobs:
             PYTHON_MINOR
             BOOST_INSTALL_LAYOUT
             SPDLOG_FMT_EXTERNAL
+            CXX_VERSION
             BOOST_VERSION
             OIIO_VERSION
             OCIO_VERSION
@@ -153,6 +157,8 @@ jobs:
             TBB_VERSION
             OPENEXR_VERSION
             BLENDER_VERSION
+            OPENVDB_VERSION
+            SPDLOG_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release

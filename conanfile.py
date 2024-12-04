@@ -19,6 +19,9 @@ _oiio_version = os.environ["OIIO_VERSION"]
 _oidn_version = os.environ["OIDN_VERSION"]
 _openexr_version = os.environ["OPENEXR_VERSION"]
 _blender_version = os.environ["BLENDER_VERSION"]
+_openvdb_version = os.environ["OPENVDB_VERSION"]
+_tbb_version = os.environ["TBB_VERSION"]
+_spdlog_version = os.environ["SPDLOG_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -31,12 +34,12 @@ class LuxCore(ConanFile):
         f"opencolorio/{_ocio_version}",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
-        "spdlog/1.14.1",
+        f"spdlog/{_spdlog_version}",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
-        "openvdb/9.1.0",
+        f"openvdb/{_openvdb_version}",
         "eigen/3.4.0",
         "embree3/3.13.1",
         "tsl-robin-map/1.2.1",
@@ -55,7 +58,7 @@ class LuxCore(ConanFile):
 
     def requirements(self):
         self.requires(
-            "onetbb/2021.12.0",
+            f"onetbb/{_tbb_version}",
             override=True,
             libs=True,
             transitive_libs=True,
