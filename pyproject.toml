@@ -8,7 +8,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "pyluxcore"
-version = "2.9a1.post4"
+version = "2.9a1.post5"
 dependencies = [
   "numpy >= 2; python_version > '3.8'",
   "numpy < 2; python_version <= '3.8'",
@@ -52,19 +52,6 @@ logging.level = "DEBUG"
 build.verbose = true
 cmake.source-dir = "."
 build.targets = ["pyluxcore"]
-cmake.build-type = "Release"
 wheel.cmake = true
 wheel.packages = ["src/pyluxcore", "src/pyluxcoretest"]
 build-dir = "build"
-
-# Defines
-[tool.scikit-build.cmake.define]
-CMAKE_VERBOSE_MAKEFILE = "ON"
-OpenGL_GL_PREFERENCE = "LEGACY"
-
-[[tool.scikit-build.overrides]]
-if.platform-system = "win32"
-inherit.cmake.define = "append"
-cmake.define.BUILD_LUXCORE_DLL = "1"
-cmake.define.CMAKE_BUILD_PARALLEL_LEVEL='4'
-# For convenience, all cibuildwheel settings are located in github workflow

@@ -104,7 +104,7 @@ int dtype::get_itemsize() const { return reinterpret_cast<PyArray_Descr*>(ptr())
 
         # Another replacement for numpy >= 2.0
         numpy2_replacement = """  return a == b;\n"""
-        # Nota: do not remove trailing space
+        # Nota: DO NOT remove trailing space
         numpy2_replaced = """\
     // On Windows x64, the behaviour described on 
     // http://docs.scipy.org/doc/numpy/reference/c-api.array.html for
@@ -261,8 +261,6 @@ int dtype::get_itemsize() const { return reinterpret_cast<PyArray_Descr*>(ptr())
         )
 
     def package_info(self):
-        self.cpp_info.bindirs = []
-        self.cpp_info.libdirs = []
         # self.cpp_info.libs = [f"boost_{self.module}"]
         self.cpp_info.set_property("cmake_file_name", "Boost_python")
         self.cpp_info.set_property("cmake_target_name", "Boost::python")

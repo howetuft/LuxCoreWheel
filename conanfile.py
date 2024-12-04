@@ -7,18 +7,24 @@ from conan import ConanFile
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
 from conan.tools.system.package_manager import Brew, Yum
 from conan.tools.env import VirtualBuildEnv
-import random
-
-random.seed(0)
+from conan.tools.files import get, copy, rmdir, rename, rm, save
 
 import os
 import io
+import shutil
 
 _boost_version = os.environ["BOOST_VERSION"]
 _ocio_version = os.environ["OCIO_VERSION"]
+_oiio_version = os.environ["OIIO_VERSION"]
+_oidn_version = os.environ["OIDN_VERSION"]
+_openexr_version = os.environ["OPENEXR_VERSION"]
+_blender_version = os.environ["BLENDER_VERSION"]
 
 class LuxCore(ConanFile):
-    name = "LuxCoreWheels"
+    name = "luxcorewheels"
+    version = "2.9alpha1"
+    user = "luxcorewheels"
+    channel = "luxcorewheels"
 
 
     requires = [
@@ -26,23 +32,21 @@ class LuxCore(ConanFile):
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
         "spdlog/1.14.1",
-        # "openimageio/2.2.13.1@luxcorewheels/luxcorewheels",  # TODO
-        "openimageio/2.5.16.0@luxcorewheels/luxcorewheels",
+        f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
         "openvdb/9.1.0",
-        "oidn/2.3.0@luxcorewheels/luxcorewheels",
         "eigen/3.4.0",
+        "embree3/3.13.1",
+        "tsl-robin-map/1.2.1",
+        f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels"
     ]
 
     default_options = {
-        # TODO
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
-        # "spdlog/*:use_std_fmt": True,
         "openimageio/*:with_ffmpeg": False,
-        "openimageio/*:with_ptex": False,
         "embree3/*:neon": True,
     }
 
@@ -57,7 +61,6 @@ class LuxCore(ConanFile):
             transitive_libs=True,
         )  # For oidn
         self.requires("imath/3.1.9", override=True)
-        self.requires("openexr/3.1.9", override=True)
 
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")
@@ -65,10 +68,7 @@ class LuxCore(ConanFile):
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
 
-        if self.settings.os == "Macos" and self.settings.arch == "armv8":
-            self.requires("embree3/3.13.1@luxcorewheels/luxcorewheels")
-        else:
-            self.requires("embree3/3.13.1")
+        self.requires(f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels")
 
 
     def generate(self):
@@ -117,6 +117,11 @@ class LuxCore(ConanFile):
                 "libtbbmalloc.so.2",
             ]
 
+
+    def package(self):
+        # Just to ensure package is not empty
+        save(self, os.path.join(self.package_folder, "dummy.txt"), "Hello World")
+
     def package_info(self):
         self.conf_info.define("cmake.build:verbosity", "debug")
 
@@ -126,11 +131,15 @@ class LuxCore(ConanFile):
         if self.settings.os == "Linux":
             self.cpp_info.libs = [
                 "pyluxcore",
-                "libtbb.so.12",
                 "libtbbmalloc_proxy.so.2",
                 "libtbbmalloc.so.2",
+                "libtbb.so.12",
+                "libOpenImageDenoise_core.so.2.3.0",
+                "libOpenImageDenoise_device_cpu.so.2.3.0",
+                "libOpenImageDenoise.so.2",
             ]
-
-    def package_id(self):
-        # We clear everything in order to have a constant package_id and use the cache
-        self.info.clear()
+        elif self.settings.os == "Windows":
+            self.cpp_info.libs = [
+                "pyluxcore.pyd",
+                "tbb12.dll",
+            ]

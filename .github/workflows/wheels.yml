@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - work
+      - cache
   workflow_dispatch:
   release:
     types:
@@ -21,20 +22,39 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: ['8', '9', '10', '11', '12', '13']
+        python-minor: [8, 9, 10, 11, 12, 13]
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        #python-minor: [9]
+        #os: [macos-14]
+        exclude:
+          - os: macos-14
+            python-minor: 8
     env:
       GH_TOKEN: ${{ github.token }}
-      CACHE: True
       PYTHON_MINOR: ${{ matrix.python-minor }}
+      BOOST_INSTALL_LAYOUT: system
+      SPDLOG_FMT_EXTERNAL: on
+      BOOST_VERSION: 1.84.0
+      OIIO_VERSION: 2.5.16.0
+      OCIO_VERSION: 2.3.1
+      OIDN_VERSION: 2.3.0
+      TBB_VERSION: 2021.12.0
+      OPENEXR_VERSION: 3.2.3
+      BLENDER_VERSION: 4.2.3
+
 
     steps:
 
-      - name: Checkout repository and submodule(s)
+      - name: Checkout main repository (LuxCoreWheel)
+        uses: actions/checkout@v4
+
+      - name: Checkout LuxCoreRender
         uses: actions/checkout@v4
         with:
+          repository: LuxCoreRender/LuxCore
+          path: LuxCore
           submodules: recursive
-          fetch-depth: 1
+          ref: luxcorerender-v2.9alpha1
 
       - name: Find workspace
         shell: bash
@@ -47,66 +67,27 @@ jobs:
           esac
           echo "WORKSPACE=${_workspace}" >> "$GITHUB_ENV"
 
-      - name: Configure sccache
+      - name: Configure ccache
         uses: actions/github-script@v7
         with:
           script: |
-            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
-            core.exportVariable('SCCACHE_GHA_ENABLED', 'on');
-            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', 'sccache');
-            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', 'sccache');
+            core.exportVariable('cache-variant', 'ccache')
+            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', 'ccache');
+            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', 'ccache');
+            core.exportVariable('CCACHE_CONFIGPATH', String.raw`${{ github.workspace }}/ccache.conf`);
+            core.exportVariable('CCACHE_DIR', String.raw`${{ github.workspace }}/.ccache`);
+            core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache-debug`);
+            core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
 
-      - name: Run sccache-cache
-        if: env.CACHE == false
-        uses: mozilla-actions/sccache-action@v0.0.6
-
-
-      - name: Configure ccache
-        uses: actions/github-script@v7  # Javascript
-        if: env.CACHE
-        with:
-          script: |
-            // Nota - Keep this script before ccache installation
-            // in order to set CCACHE_DIR before downloading previous cache
-
-            launcher = '${{ runner.os != 'Windows' && 'ccache' || 'sccache' }}'
-
-            core.exportVariable('CACHE_PROGRAM', launcher)
-            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', launcher);
-            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', launcher);
-            core.exportVariable('CMAKE_BUILD_TYPE', 'Release');
-
-            if (launcher == 'ccache') {
-              // CCACHE (LINUX AND MACOS)
-              core.exportVariable('CCACHE_CONFIGPATH', String.raw`${{ github.workspace }}/ccache.conf`);
-              core.exportVariable('CCACHE_DIR', String.raw`${{ github.workspace }}/.ccache`);
-              core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache_debug`);
-              core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
-              core.exportVariable('CACHE_MAXSIZE', '500M')
-            } else if (launcher == 'sccache') {
-              // SCCACHE (WINDOWS)
-              core.exportVariable('SCCACHE_CONF', String.raw`${{ github.workspace }}/sccache.conf`);
-              core.exportVariable('SCCACHE_ERROR_LOG', String.raw`${{ github.workspace }}/sccache.log`);
-              core.exportVariable('SCCACHE_DIR', String.raw`${{ github.workspace }}/.sccache`);
-              core.exportVariable('SCCACHE_DIRECT', 'true');
-              core.exportVariable('SCCACHE_LOCAL_RW_MODE', 'READ_WRITE');
-              core.exportVariable('SCCACHE_LOG', 'debug');
-              core.exportVariable('CACHE_MAXSIZE', '800M')
-            } else {
-              throw new Error("Launcher error")
-            }
-
-      - name: Install cache program
-        id: install_cache
+      - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2
-        if: env.CACHE
         with:
-          create-symlink: false  # Don't create symlinks, otherwise clang will not be selected for MacOS
-          variant: ${{ env.CACHE_PROGRAM }}
-          key: ${{ matrix.os }}-${{ matrix.python-minor }}
-          verbose: 2
-          max-size: ${{ env.CACHE_MAXSIZE }}
+          create-symlink: false
+          variant: ${{ env.cache-variant }}
+          key: cpl-${{ matrix.os }}-${{ matrix.python-minor}}
+          restore-keys: cpl-${{ matrix.os }}-${{ matrix.python-minor}}-
+          max-size: 5G
+          verbose: 1
 
       - name: Get cmake
         if: runner.os == 'macOS' || runner.os == 'Windows'
@@ -116,17 +97,33 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Configure clang
+      - name: Configure MacOS run
         if: runner.os == 'macOS'
         uses: actions/github-script@v7
         with:
           script: |
             core.exportVariable('CXX', 'clang++');
             core.exportVariable('CC', 'clang');
+            if ('${{ runner.arch }}' == 'X64') {
+              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '10.13')
+              core.exportVariable('PKG_ARCH', 'x86_64')
+            }
+            if ('${{ runner.arch }}' == 'ARM64') {
+              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '11.0')
+              core.exportVariable('PKG_ARCH', 'armv8')
+            }
 
       - name: Patch source tree
         shell: bash
         run: source $GITHUB_WORKSPACE/scripts/patch_source_tree.sh
+
+      - name: Retrieve cached dependencies
+        id: retrieve-cache-deps
+        uses: actions/cache/restore@v4
+        with:
+          path: conan_cache
+          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
+          restore-keys: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
 
       # Build wheel
       - name: Build wheels
@@ -139,39 +136,35 @@ jobs:
           CIBW_ARCHS: auto64
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_ENVIRONMENT: >
-            SKBUILD_CMAKE_ARGS='--preset=conan-release;-G Ninja;--log-level=VERBOSE'
-            BOOST_INSTALL_LAYOUT=system
-            SPDLOG_FMT_EXTERNAL=on
-            MACOSX_DEPLOYMENT_TARGET=11.3
-            BOOST_VERSION=1.84.0
-            OCIO_VERSION=2.3.1
-            TBB_VERSION=2021.12.0
+            SKBUILD_CMAKE_ARGS='--preset conan-release;-G Ninja;--log-level=VERBOSE'
           CIBW_ENVIRONMENT_PASS_LINUX: |
-            ACTIONS_CACHE_URL
-            ACTIONS_RUNTIME_TOKEN
             RUNNER_OS
             RUNNER_ARCH
             WORKSPACE
             CMAKE_CXX_COMPILER_LAUNCHER
             CMAKE_C_COMPILER_LAUNCHER
-            CCACHE_DIRECT
-            CCACHE_DEPEND
-            CACHE
             PYTHON_MINOR
+            BOOST_INSTALL_LAYOUT
+            SPDLOG_FMT_EXTERNAL
+            BOOST_VERSION
+            OIIO_VERSION
+            OCIO_VERSION
+            OIDN_VERSION
+            TBB_VERSION
+            OPENEXR_VERSION
+            BLENDER_VERSION
           CIBW_BEFORE_ALL_LINUX: |
-            if [[ ${{ env.CACHE }} ]]; then
-              # install ccache
-              source ${{ env.WORKSPACE }}/scripts/prepare_cache_linux.sh
-            fi
-            # install others
-            dnf install -y ninja-build bison flex wget
-            wget https://github.com/mozilla/sccache/releases/download/v0.8.2/sccache-v0.8.2-x86_64-unknown-linux-musl.tar.gz -O - | tar -xz
-            mv sccache-v0.8.2-x86_64-unknown-linux-musl/sccache /usr/bin
+            dnf config-manager --set-enabled powertools
+            dnf install -y epel-release
+            dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
+            ccache --show-config
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
-            LD_LIBRARY_PATH=$WORKSPACE/libs:$LD_LIBRARY_PATH
+            TBB=/project/full_deploy/host/onetbb/2021.12.0/Release/x86_64/lib
+            OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/Release/x86_64/lib
+            LD_LIBRARY_PATH=$OIDN:$TBB:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
             auditwheel --verbose repair -w {dest_dir} {wheel} --strip
@@ -179,7 +172,10 @@ jobs:
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
             cp {wheel} ${{ env.WORKSPACE }}
-            export DYLD_LIBRARY_PATH=${{ env.WORKSPACE }}/libs
+            BASE=${{ env.WORKSPACE }}/full_deploy/host
+            TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            export DYLD_LIBRARY_PATH=$TBB:$OIDN
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_TEST_COMMAND_LINUX: pyluxcoretest
           CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest
@@ -188,48 +184,30 @@ jobs:
               # Only for Intel
               pyluxcoretest
             fi
+          CIBW_CONTAINER_ENGINE: >
+            docker;
+            create_args:
+              --mount type=bind,source=${{ github.workspace }}/conan_cache,target=/conan_cache
+              --mount type=bind,source=${{ env.CCACHE_DIR }},target=/root/.ccache
+
         with:
             package-dir: .
             output-dir: wheelhouse
             config-file: "{package}/pyproject.toml"
 
-      - name: Download cache from Docker (Linux only)
-        if: runner.os == 'Linux' && env.CACHE
-        # hack until https://github.com/pypa/cibuildwheel/issues/1030 is fixed
-        run: |
-          env
-          ccache -s
-          HOST_CCACHE_DIR="$(ccache -k cache_dir)"
-          rm -rf $HOST_CCACHE_DIR
-          mv ./wheelhouse/.ccache $HOST_CCACHE_DIR
-          ls -la $HOST_CCACHE_DIR
-          ccache -s -v
+
+      - name: Save dependency cache
+        if: always()
+        id: cache-deps-save
+        uses: actions/cache/save@v4
+        with:
+          path: conan_cache
+          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-${{ hashFiles('**/conan_cache') }}
 
       #- name: Setup tmate session
         #uses: mxschmitt/action-tmate@v3
 
-      # Upload sccache log (debug)
-      - uses: actions/upload-artifact@v4
-        if: env.SCCACHE_ERROR_LOG != '' && env.CACHE
-        with:
-          name: sccache-${{ matrix.os }}-${{ matrix.python-minor }}
-          path: ${{ env.SCCACHE_ERROR_LOG }}
-
-      # Upload ccache log (debug)
-      - uses: actions/upload-artifact@v4
-        if: env.CCACHE_LOGFILE != '' && env.CACHE
-        with:
-          name: ccache_log-${{ matrix.os }}-${{ matrix.python-minor }}
-          path: ${{ env.CCACHE_LOGFILE }}
-
-      # Upload cache debug (debug)
-      - uses: actions/upload-artifact@v4
-        if: env.CCACHE_DEBUGDIR != '' && env.CACHE
-        with:
-          name: ccache_debug-${{ matrix.os }}-${{ matrix.python-minor }}
-          path: ${{ env.CCACHE_DEBUGDIR }}
-
-      #- name: Setup tmate session
+      #- name: Setup tmate session (debug)
         #if: ${{ failure() }}
         #uses: mxschmitt/action-tmate@v3
 

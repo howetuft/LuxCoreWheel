@@ -4,8 +4,9 @@ build_type=Release
 compiler=apple-clang
 compiler.cppstd=17
 compiler.libcxx=libc++
-compiler.version=13
+compiler.version=14.0
 os=Macos
+os.version=10.13
 
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
@@ -15,3 +16,9 @@ tools.system.package_manager:mode=install
 [options]
 minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
+
+[platform_tool_requires]
+cmake/*
+meson/*
+ninja/*
+pkgconf/*

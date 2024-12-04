@@ -2,8 +2,8 @@
 arch=x86_64
 build_type=Release
 compiler=gcc
-compiler.cppstd=gnu17
-compiler.version=11
+compiler.cppstd=14
+compiler.version=12
 compiler.libcxx=libstdc++11
 os=Linux
 
@@ -12,3 +12,9 @@ tools.cmake.cmaketoolchain:generator=Ninja
 tools.build:verbosity=verbose
 tools.system.package_manager:mode=install
 tools.deployer:symlinks=True
+
+[platform_tool_requires]
+cmake/*
+meson/*
+ninja/*
+pkgconf/*

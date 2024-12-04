@@ -39,11 +39,6 @@ else
 fi
 
 
-echo "Bump version"
-replace_anywhere "LUXCORE_VERSION_MINOR 6" "LUXCORE_VERSION_MINOR 9a1"
-replace_anywhere "LUXRAYS_VERSION_MINOR 6" "LUXRAYS_VERSION_MINOR 9a1"
-
-
 echo "Remove all local Find*.cmake"
 rm -vf $GITHUB_WORKSPACE/LuxCore/cmake/Packages/Find*.cmake
 
@@ -123,15 +118,19 @@ echo "Adapt to Boost > 1.79"
 $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/cuda.cpp
 $SED -i '1s/^/#include <boost\/filesystem\/fstream.hpp> /' src/luxrays/utils/ocl.cpp
 
+echo "Remove blender_types.h"
+rm include/luxcore/pyluxcore/blender_types.h
+$SED -i 's/"luxcore\/pyluxcore\/blender_types.h"/<blender_types.h>/g' src/luxcore/pyluxcoreforblender.cpp
+
 
 echo "Macos - Remove Platform Specifics and Configuration"
-if [[ $RUNNER_OS == "macOS" ]]; then
-  remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
-  remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
-fi
+remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
+remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
 
 
-echo "Windows - Remove /TP compiler flag"
+echo "Windows - Remove various compiler flags"
 if [[ $RUNNER_OS == "Windows" ]]; then
   $SED -i "s/\/TP//g" cmake/PlatformSpecific.cmake
+  $SED -i "s/\/Zc:wchar_t//g" cmake/PlatformSpecific.cmake
+  $SED -i "s/\/Zc:forScope//g" cmake/PlatformSpecific.cmake
 fi
