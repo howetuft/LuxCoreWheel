@@ -1,4 +1,4 @@
-include(common)
+include(conan-profile-common)
 
 [settings]
 os=Windows

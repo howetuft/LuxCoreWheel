@@ -134,4 +134,8 @@ if(APPLE)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 endif(APPLE)
 
+add_executable(oidn-denoise IMPORTED)
+set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
+
 INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
+INSTALL(IMPORTED_RUNTIME_ARTIFACTS oidn-denoise RUNTIME)

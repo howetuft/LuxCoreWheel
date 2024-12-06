@@ -43,7 +43,8 @@ class LuxCore(ConanFile):
         "eigen/3.4.0",
         "embree3/3.13.1",
         "tsl-robin-map/1.2.1",
-        f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels"
+        f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
+        f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {
@@ -71,15 +72,21 @@ class LuxCore(ConanFile):
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
 
-        self.requires(f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels")
-
-
     def generate(self):
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
         tc.preprocessor_definitions["OIIO_STATIC_DEFINE"] = True
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
+
+        # OIDN denoiser executable
+        oidn_bindir = self.dependencies["oidn"].cpp_info.bindirs[0]
+        if self.settings.os == "Windows":
+            denoise_path = os.path.join(oidn_bindir, "oidnDenoise.exe")
+            denoise_path = denoise_path.replace("\\", "/")
+        else:
+            denoise_path = os.path.join(oidn_bindir, "oidnDenoise")
+        tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path
 
         if self.settings.os == "Macos" and "arm" in self.settings.arch:
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
@@ -109,16 +116,17 @@ class LuxCore(ConanFile):
 
         cd.generate()
 
-    def layout(self):
-        cmake_layout(self)
+    # TODO
+    # def layout(self):
+        # cmake_layout(self)
 
-        if self.settings.os == "Linux":
-            self.cpp.package.libs = [
-                "pyluxcore",
-                "libtbb.so.12",
-                "libtbbmalloc_proxy.so.2",
-                "libtbbmalloc.so.2",
-            ]
+        # if self.settings.os == "Linux":
+            # self.cpp.package.libs = [
+                # "pyluxcore",
+                # "libtbb.so.12",
+                # "libtbbmalloc_proxy.so.2",
+                # "libtbbmalloc.so.2",
+            # ]
 
 
     def package(self):

@@ -1,14 +1,16 @@
-include(common)
+include(conan-profile-common)
 
 [settings]
 os=Macos
-os.version=10.13
-arch=x86_64
+os.version=11.0
+arch=armv8
 compiler=apple-clang
-compiler.version=14.0
+compiler.version=15
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
 compiler.libcxx=libc++
 
 [options]
 minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
+boost/*:without_stacktrace=True
+boost/*:without_locale=True

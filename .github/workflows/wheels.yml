@@ -124,7 +124,7 @@ jobs:
         id: retrieve-cache-deps
         uses: actions/cache/restore@v4
         with:
-          path: conan_cache
+          path: conan-cache
           key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
           restore-keys: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
 
@@ -193,7 +193,7 @@ jobs:
           CIBW_CONTAINER_ENGINE: >
             docker;
             create_args:
-              --mount type=bind,source=${{ github.workspace }}/conan_cache,target=/conan_cache
+              --mount type=bind,source=${{ github.workspace }}/conan-cache,target=/conan-cache
               --mount type=bind,source=${{ env.CCACHE_DIR }},target=/root/.ccache
 
         with:
@@ -207,8 +207,8 @@ jobs:
         id: cache-deps-save
         uses: actions/cache/save@v4
         with:
-          path: conan_cache
-          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-${{ hashFiles('**/conan_cache') }}
+          path: conan-cache
+          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-${{ hashFiles('**/conan-cache') }}
 
       #- name: Setup tmate session
         #uses: mxschmitt/action-tmate@v3
