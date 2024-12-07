@@ -88,7 +88,7 @@ class LuxCore(ConanFile):
             denoise_path = os.path.join(oidn_bindir, "oidnDenoise")
         tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path
 
-        if self.settings.os == "Macos" and "arm" in self.settings.arch:
+        if self.settings.os == "Macos" and self.settings.arch == "armv8":
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
 
         if self.settings.os == "Macos":

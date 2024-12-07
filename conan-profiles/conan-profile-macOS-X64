@@ -12,3 +12,7 @@ compiler.libcxx=libc++
 [options]
 minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
+
+[buildenv]
+CXX=clang++
+CC=clang

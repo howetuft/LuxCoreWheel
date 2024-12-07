@@ -12,3 +12,4 @@ cmake/*
 meson/*
 ninja/*
 pkgconf/*
+yasm/*
