@@ -138,4 +138,11 @@ add_executable(oidn-denoise IMPORTED)
 set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
 
 INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
-INSTALL(IMPORTED_RUNTIME_ARTIFACTS oidn-denoise RUNTIME)
+INSTALL(IMPORTED_RUNTIME_ARTIFACTS oidn-denoise DESTINATION pyluxcore)
+if(WIN32)
+  # Delvewheel doesn't handle executables, however we need to delocate oidnDenoise.
+  # Therefore we have to let Delvewheel believe oidnDenoise is a lib...
+  message(STATUS "oidnDenoise SUFFIX pyd")
+  INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore/oidnDenoise.exe\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore/oidnDenoise.pyd\")")
+  # This will be reverted after repairing
+endif(WIN32)
