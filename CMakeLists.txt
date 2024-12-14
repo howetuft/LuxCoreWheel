@@ -138,7 +138,14 @@ add_executable(oidn-denoise IMPORTED)
 set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
 
 INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
-INSTALL(IMPORTED_RUNTIME_ARTIFACTS oidn-denoise DESTINATION pyluxcore)
+INSTALL(
+  IMPORTED_RUNTIME_ARTIFACTS oidn-denoise
+  DESTINATION pyluxcore
+  PERMISSIONS
+    OWNER_WRITE OWNER_READ OWNER_EXECUTE
+    GROUP_READ GROUP_EXECUTE
+    WORLD_READ WORLD_EXECUTE
+)
 if(WIN32)
   # Delvewheel doesn't handle executables, however we need to delocate oidnDenoise.
   # Therefore we have to let Delvewheel believe oidnDenoise is a lib...
