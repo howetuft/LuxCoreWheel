@@ -1,0 +1,18 @@
+include(conan-profile-common)
+
+[settings]
+os=Macos
+os.version=10.13
+arch=x86_64
+compiler=apple-clang
+compiler.version=14.0
+compiler.cppstd={{ os.getenv("CXX_VERSION") }}
+compiler.libcxx=libc++
+
+[options]
+minizip-ng/*:with_zlib=True
+minizip-ng/*:with_libcomp=False
+
+[buildenv]
+CXX=clang++
+CC=clang

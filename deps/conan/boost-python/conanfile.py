@@ -9,6 +9,7 @@ from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 from conan.tools.files import get, copy, replace_in_file
 
+PYTHON_MINOR = os.environ["PYTHON_MINOR"]
 
 BOOST_VERSION = os.environ["BOOST_VERSION"]
 
@@ -216,6 +217,8 @@ int dtype::get_itemsize() const { return reinterpret_cast<PyArray_Descr*>(ptr())
         tc.preprocessor_definitions["BOOST_ALL_NO_LIB"] = None  # No automagic linking
         tc.preprocessor_definitions["BOOST_NO_CXX98_FUNCTION_BASE"] = None  # No deprecated functions (C++17)
         tc.preprocessor_definitions["BOOST_NO_AUTO_PTR"] = None  # No auto_ptr
+        # if PYTHON_MINOR == "8":
+            # tc.preprocessor_definitions["Py_LIMITED_API"] = True
         tc.generate()
 
     def build(self):

@@ -24,16 +24,12 @@ jobs:
       matrix:
         python-minor: [8, 9, 10, 11, 12, 13]
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-        #python-minor: [9]
-        #os: [macos-14]
-        exclude:
-          - os: macos-14
-            python-minor: 8
     env:
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
       SPDLOG_FMT_EXTERNAL: on
+      CXX_VERSION: 17
       BOOST_VERSION: 1.84.0
       OIIO_VERSION: 2.5.16.0
       OCIO_VERSION: 2.3.1
@@ -41,6 +37,8 @@ jobs:
       TBB_VERSION: 2021.12.0
       OPENEXR_VERSION: 3.2.3
       BLENDER_VERSION: 4.2.3
+      OPENVDB_VERSION: 11.0.0
+      SPDLOG_VERSION: 1.14.1
 
 
     steps:
@@ -97,21 +95,25 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Configure MacOS run
+      - name: Set MacOS deployment target
         if: runner.os == 'macOS'
         uses: actions/github-script@v7
         with:
           script: |
-            core.exportVariable('CXX', 'clang++');
-            core.exportVariable('CC', 'clang');
             if ('${{ runner.arch }}' == 'X64') {
-              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '10.13')
-              core.exportVariable('PKG_ARCH', 'x86_64')
+              target = '10.13';
+              arch='x86_64';
             }
-            if ('${{ runner.arch }}' == 'ARM64') {
-              core.exportVariable('MACOSX_DEPLOYMENT_TARGET', '11.0')
-              core.exportVariable('PKG_ARCH', 'armv8')
+            else if ('${{ env.PYTHON_MINOR }}' != '8') {
+              target = '11.0';
+              arch='armv8';
             }
+            else {
+              target = '12.0';
+              arch='armv8';
+            }
+            core.exportVariable('MACOSX_DEPLOYMENT_TARGET', target);
+            core.exportVariable('PKG_ARCH', arch);
 
       - name: Patch source tree
         shell: bash
@@ -121,7 +123,7 @@ jobs:
         id: retrieve-cache-deps
         uses: actions/cache/restore@v4
         with:
-          path: conan_cache
+          path: conan-cache
           key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
           restore-keys: deps-${{ matrix.os }}-${{ matrix.python-minor}}-
 
@@ -146,6 +148,7 @@ jobs:
             PYTHON_MINOR
             BOOST_INSTALL_LAYOUT
             SPDLOG_FMT_EXTERNAL
+            CXX_VERSION
             BOOST_VERSION
             OIIO_VERSION
             OCIO_VERSION
@@ -153,6 +156,8 @@ jobs:
             TBB_VERSION
             OPENEXR_VERSION
             BLENDER_VERSION
+            OPENVDB_VERSION
+            SPDLOG_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release
@@ -187,7 +192,7 @@ jobs:
           CIBW_CONTAINER_ENGINE: >
             docker;
             create_args:
-              --mount type=bind,source=${{ github.workspace }}/conan_cache,target=/conan_cache
+              --mount type=bind,source=${{ github.workspace }}/conan-cache,target=/conan-cache
               --mount type=bind,source=${{ env.CCACHE_DIR }},target=/root/.ccache
 
         with:
@@ -201,8 +206,8 @@ jobs:
         id: cache-deps-save
         uses: actions/cache/save@v4
         with:
-          path: conan_cache
-          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-${{ hashFiles('**/conan_cache') }}
+          path: conan-cache
+          key: deps-${{ matrix.os }}-${{ matrix.python-minor}}-${{ hashFiles('**/conan-cache') }}
 
       #- name: Setup tmate session
         #uses: mxschmitt/action-tmate@v3

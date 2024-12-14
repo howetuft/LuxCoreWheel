@@ -1,0 +1,2 @@
+This is a dummy file, so that the folder is never empty and conan-cache is not
+being skipped by checkout

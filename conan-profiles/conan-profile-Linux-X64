@@ -1,0 +1,12 @@
+include(conan-profile-common)
+
+[settings]
+os=Linux
+arch=x86_64
+compiler=gcc
+compiler.version=12
+compiler.cppstd={{ os.getenv("CXX_VERSION") }}
+compiler.libcxx=libstdc++11
+
+[conf]
+openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }

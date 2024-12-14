@@ -2,16 +2,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+CONAN_PROFILE=$WORKSPACE/conan-profiles/conan-profile-${RUNNER_OS}-${RUNNER_ARCH}
+
 function conan_create_install() {
   name=$(echo "$1" | tr '[:upper:]' '[:lower:]')  # Package name in lowercase
   version=$2
 
   conan create $WORKSPACE/deps/conan/$name \
-    --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+    --profile:all=$CONAN_PROFILE \
     --build=missing \
     -s build_type=Release
   conan install --requires=$name/$version@luxcorewheels/luxcorewheels \
-    --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+    --profile:all=$CONAN_PROFILE \
     --build=missing \
     -vverbose \
     -s build_type=Release
@@ -22,9 +24,9 @@ function conan_create_install() {
 
 set -o pipefail
 if [[ $RUNNER_OS == "Linux" ]]; then
-  cache_dir=/conan_cache
+  cache_dir=/conan-cache
 else
-  cache_dir=$WORKSPACE/conan_cache
+  cache_dir=$WORKSPACE/conan-cache
 fi
 
 echo "::group::CIBW_BEFORE_BUILD: pip"
@@ -39,11 +41,10 @@ echo "::endgroup::"
 
 echo "::group::CIBW_BEFORE_BUILD: restore conan cache"
 # Restore conan cache (add -vverbose to debug)
-conan cache restore $cache_dir/conan_cache_save.tgz
+conan cache restore $cache_dir/conan-cache-save.tgz
 echo "::endgroup::"
 
 echo "::group::CIBW_BEFORE_BUILD: Blender types"
-# Private boost-python is patched to be compatible with numpy 2
 conan_create_install blender-types $BLENDER_VERSION
 echo "::endgroup::"
 
@@ -71,14 +72,14 @@ fi
 echo "::group::CIBW_BEFORE_BUILD: LuxCore"
 cd $WORKSPACE
 conan create $WORKSPACE \
-  --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+  --profile:all=$CONAN_PROFILE \
   --build=missing \
   -s build_type=Release
 
 # We use full deployer to get rid of the "strange" paths that Conan uses in
 # its cache and that hamper ccache.
 conan install $WORKSPACE \
-  --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+  --profile:all=$CONAN_PROFILE \
   --build=missing \
   --deployer=full_deploy \
   --deployer-folder=$DEPLOY_PATH \
@@ -93,9 +94,9 @@ conan remove -c -vverbose "*/*#!latest"  # Keep only latest version of each pack
 # Save only dependencies of current target (otherwise cache gets bloated)
 conan graph info . \
   --format=json \
-  --profile:all=$WORKSPACE/conan_profiles/conan_profile_${RUNNER_OS}_${RUNNER_ARCH} \
+  --profile:all=$CONAN_PROFILE \
   -s build_type=Release \
   > graph.json
 conan list --graph=graph.json --format=json --graph-binaries=Cache > list.json
-conan cache save -vverbose --file=$cache_dir/conan_cache_save.tgz --list=list.json
+conan cache save -vverbose --file=$cache_dir/conan-cache-save.tgz --list=list.json
 echo "::endgroup::"

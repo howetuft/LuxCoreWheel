@@ -19,6 +19,9 @@ _oiio_version = os.environ["OIIO_VERSION"]
 _oidn_version = os.environ["OIDN_VERSION"]
 _openexr_version = os.environ["OPENEXR_VERSION"]
 _blender_version = os.environ["BLENDER_VERSION"]
+_openvdb_version = os.environ["OPENVDB_VERSION"]
+_tbb_version = os.environ["TBB_VERSION"]
+_spdlog_version = os.environ["SPDLOG_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -31,16 +34,17 @@ class LuxCore(ConanFile):
         f"opencolorio/{_ocio_version}",
         "minizip-ng/4.0.3",
         "libpng/1.6.42",
-        "spdlog/1.14.1",
+        f"spdlog/{_spdlog_version}",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         "c-blosc/1.21.5",
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
-        "openvdb/9.1.0",
+        f"openvdb/{_openvdb_version}",
         "eigen/3.4.0",
         "embree3/3.13.1",
         "tsl-robin-map/1.2.1",
-        f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels"
+        f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
+        f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
     ]
 
     default_options = {
@@ -55,7 +59,7 @@ class LuxCore(ConanFile):
 
     def requirements(self):
         self.requires(
-            "onetbb/2021.12.0",
+            f"onetbb/{_tbb_version}",
             override=True,
             libs=True,
             transitive_libs=True,
@@ -68,9 +72,6 @@ class LuxCore(ConanFile):
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
 
-        self.requires(f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels")
-
-
     def generate(self):
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
@@ -78,7 +79,16 @@ class LuxCore(ConanFile):
         tc.preprocessor_definitions["SPDLOG_FMT_EXTERNAL"] = True
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
 
-        if self.settings.os == "Macos" and "arm" in self.settings.arch:
+        # OIDN denoiser executable
+        oidn_bindir = self.dependencies["oidn"].cpp_info.bindirs[0]
+        if self.settings.os == "Windows":
+            denoise_path = os.path.join(oidn_bindir, "oidnDenoise.exe")
+            denoise_path = denoise_path.replace("\\", "/")
+        else:
+            denoise_path = os.path.join(oidn_bindir, "oidnDenoise")
+        tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path
+
+        if self.settings.os == "Macos" and self.settings.arch == "armv8":
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
 
         if self.settings.os == "Macos":
@@ -106,16 +116,17 @@ class LuxCore(ConanFile):
 
         cd.generate()
 
-    def layout(self):
-        cmake_layout(self)
+    # TODO
+    # def layout(self):
+        # cmake_layout(self)
 
-        if self.settings.os == "Linux":
-            self.cpp.package.libs = [
-                "pyluxcore",
-                "libtbb.so.12",
-                "libtbbmalloc_proxy.so.2",
-                "libtbbmalloc.so.2",
-            ]
+        # if self.settings.os == "Linux":
+            # self.cpp.package.libs = [
+                # "pyluxcore",
+                # "libtbb.so.12",
+                # "libtbbmalloc_proxy.so.2",
+                # "libtbbmalloc.so.2",
+            # ]
 
 
     def package(self):

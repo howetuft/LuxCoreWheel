@@ -1,0 +1,38 @@
+include(conan-profile-common)
+
+{% if os.getenv("PYTHON_MINOR") != "8" %}
+
+[settings]
+os=Macos
+os.version=11.0
+arch=armv8
+compiler=apple-clang
+compiler.version=15
+compiler.cppstd={{ os.getenv("CXX_VERSION") }}
+compiler.libcxx=libc++
+
+[options]
+boost/*:without_stacktrace=True
+boost/*:without_locale=True
+minizip-ng/*:with_zlib=True
+minizip-ng/*:with_libcomp=False
+
+{% else %}
+
+[settings]
+os=Macos
+arch=armv8
+compiler=apple-clang
+compiler.version=13
+compiler.cppstd=17
+compiler.libcxx=libc++
+
+[options]
+minizip-ng/*:with_zlib=True
+minizip-ng/*:with_libcomp=False
+
+{% endif %}
+
+[buildenv]
+CXX=clang++
+CC=clang

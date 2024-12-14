@@ -29,3 +29,13 @@ delvewheel repair -v \
   --add-path="C:/Users/runneradmin/full_deploy/host/oidn/${OIDN_VERSION}/Release/x86_64/bin" \
   -w "${dest_dir}" \
   "${wheel}"
+
+# Rename oidnDenoise
+pip install wheel
+dest_dir2=$(cygpath "${dest_dir}")
+files=$(ls -1 ${dest_dir2}/*.whl)
+# There should be only one wheel, but strictly speaking, we need a loop
+for filename in $files;
+do
+  python $GITHUB_WORKSPACE/scripts/recompose_wheel_windows.py -- ${filename}
+done

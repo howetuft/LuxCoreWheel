@@ -1,0 +1,13 @@
+include(conan-profile-common)
+
+[settings]
+os=Windows
+arch=x86_64
+compiler=msvc
+compiler.version=194
+compiler.cppstd={{ os.getenv("CXX_VERSION") }}
+compiler.runtime=dynamic
+
+[conf]
+tools.env.virtualenv:powershell=False
+tools.build:cxxflags=["/openmp", "/MP", "/DEBUG:NONE"]

@@ -208,6 +208,9 @@ class OidnConan(ConanFile):
         self.cpp_info.includedirs = ['include']  # Ordered list of include paths
         self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
         self.cpp_info.bindirs = ['bin']  # Directories where executables and shared libs can be found
+        bin_path = os.path.join(self.package_folder, "bin")
+        self.output.info("Appending PATH environment variable: {}".format(bin_path))
+        self.env_info.PATH.append(bin_path)
 
     def build(self):
         os_ = self.settings.os  # Beware: potential name collision with module os

@@ -13,7 +13,7 @@ cmake_print_variables(CMAKE_BUILD_TYPE)
 cmake_print_variables(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT)
 cmake_print_variables(CMAKE_CXX_FLAGS)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD $ENV{CXX_VERSION})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
@@ -65,7 +65,7 @@ set(BLOSC_FOUND TRUE)
 if(APPLE)
   # OpenMP
   find_package(OpenMP REQUIRED)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fopenmp")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fopenmp -Wno-register")
 endif(APPLE)
 
 if(LINUX)
@@ -134,4 +134,15 @@ if(APPLE)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 endif(APPLE)
 
+add_executable(oidn-denoise IMPORTED)
+set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
+
 INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
+INSTALL(IMPORTED_RUNTIME_ARTIFACTS oidn-denoise DESTINATION pyluxcore)
+if(WIN32)
+  # Delvewheel doesn't handle executables, however we need to delocate oidnDenoise.
+  # Therefore we have to let Delvewheel believe oidnDenoise is a lib...
+  message(STATUS "oidnDenoise SUFFIX pyd")
+  INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore/oidnDenoise.exe\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore/oidnDenoise.pyd\")")
+  # This will be reverted after repairing
+endif(WIN32)
