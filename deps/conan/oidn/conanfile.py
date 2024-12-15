@@ -25,8 +25,25 @@ class OidnConan(ConanFile):
         f"libOpenImageDenoise_core.so.{_oidn_version}",
         f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
         f"libOpenImageDenoise.so.{_oidn_version}",
+        f"libOpenImageDenoise_device_cuda.so.{_oidn_version}",
+        f"libOpenImageDenoise_device_hip.so.{_oidn_version}",
+        f"libOpenImageDenoise_device_sycl.so.{_oidn_version}",
+
         "libOpenImageDenoise.so",
         "libOpenImageDenoise.so.2",
+        f"libOpenImageDenoise.so.{_oidn_version}",
+
+        "libpi_level_zero.so",
+        "libsycl.so.7",
+        "libsycl.so.7.1.0-8",
+
+        "libtbbbind_2_0.so.3",
+        "libtbbbind_2_0.so.3.12",
+        "libtbbbind_2_5.so.3",
+        "libtbbbind_2_5.so.3.12",
+        "libtbbbind.so.3",
+        "libtbbbind.so.3.12",
+
         "libtbb.so.12.12",
         "libtbbmalloc.so.2.12",
         "libtbbmalloc_proxy.so.2.12",
