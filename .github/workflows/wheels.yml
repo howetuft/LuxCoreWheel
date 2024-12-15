@@ -179,10 +179,11 @@ jobs:
             ls $TBB
             ls $LEVEL_ZERO
 
-            auditwheel --verbose repair -w {dest_dir} {wheel} \
-              --strip \
+            auditwheel \
+              --verbose repair -w {dest_dir} {wheel} \
               --exclude libcuda.so.1 \
               --exclude libamdhip64.so.5 \
+              --strip
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
