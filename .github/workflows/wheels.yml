@@ -175,9 +175,9 @@ jobs:
             dnf install -y dnf-plugin-config-manager
             crb enable
             usermod -a -G render,video $LOGNAME # Add the current user to the render and video groups
-            dnf install -y https://repo.radeon.com/amdgpu-install/6.3/rhel/8.10/amdgpu-install-6.3.60300-1.el8.noarch.rpm
+            dnf install -y https://repo.radeon.com/amdgpu-install/5.7.3/rhel/8.8/amdgpu-install-5.7.50703-1.el8.noarch.rpm
             dnf clean all -y
-            dnf install -y amdgpu-dkms rocm
+            dnf install -y -v rocm-hip-libraries
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
