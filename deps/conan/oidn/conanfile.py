@@ -19,14 +19,13 @@ class OidnConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     package_type = "unknown"
     package_id_unknown_mode = "revision_mode"
-    requires = [ "level-zero/1.17.39" ]
 
     _libs_linux = [
         f"libOpenImageDenoise_core.so.{_oidn_version}",
         f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
         f"libOpenImageDenoise.so.{_oidn_version}",
         f"libOpenImageDenoise_device_cuda.so.{_oidn_version}",
-        f"libOpenImageDenoise_device_hip.so.{_oidn_version}",
+        # f"libOpenImageDenoise_device_hip.so.{_oidn_version}",
         f"libOpenImageDenoise_device_sycl.so.{_oidn_version}",
 
         "libOpenImageDenoise.so",
@@ -76,6 +75,10 @@ class OidnConan(ConanFile):
         f"OpenImageDenoise_device_cpu.{_oidn_version}",
         f"OpenImageDenoise_device_metal.{_oidn_version}",
     ]
+
+    def requirements(self):
+        if self.settings.os == "Linux":
+            self.requires("level-zero/1.17.39")
 
     # https://docs.conan.io/2/tutorial/creating_packages/other_types_of_packages/package_prebuilt_binaries.html
 

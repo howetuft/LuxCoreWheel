@@ -170,14 +170,6 @@ jobs:
             subscription-manager repos --enable "codeready-builder-for-rhel-8-$(uname -m)-rpms"
             dnf install -y xorg-x11-drv-nvidia-470xx-cuda-libs
 
-            # Install AMD
-            # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html
-            dnf install -y dnf-plugin-config-manager
-            crb enable
-            usermod -a -G render,video $LOGNAME # Add the current user to the render and video groups
-            dnf install -y https://repo.radeon.com/amdgpu/5.7.3/rhel/8.8/main/x86_64/amdgpu-install-5.7.50703-1697730.el8.noarch.rpm
-            dnf clean all -y
-            dnf install -y -v amdgpu rocm-hip-libraries
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
