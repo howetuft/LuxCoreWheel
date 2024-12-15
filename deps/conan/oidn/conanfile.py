@@ -20,7 +20,6 @@ class OidnConan(ConanFile):
     package_type = "unknown"
     package_id_unknown_mode = "revision_mode"
 
-    # Nota: do not embed tbbbind: useless for CPU
     _libs_linux = [
         f"libOpenImageDenoise_core.so.{_oidn_version}",
         f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",

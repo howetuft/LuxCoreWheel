@@ -162,8 +162,6 @@ jobs:
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release
             dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
-            # For oidnDenoise...
-            dnf install -y xorg-x11-drv-nvidia-390xx-cuda-libs
             ccache --show-config
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
@@ -179,7 +177,10 @@ jobs:
             ls $HWLOC
             ls $TBB
 
-            auditwheel --verbose repair -w {dest_dir} {wheel} --strip
+            auditwheel --verbose repair -w {dest_dir} {wheel} \
+              --strip \
+              --exclude libcuda.so.1 \
+              --exclude libamdhip64.so.5 \
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
