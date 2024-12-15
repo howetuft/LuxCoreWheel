@@ -162,8 +162,13 @@ jobs:
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release
             dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
-            dnf install -y xorg-x11-drv-nvidia-470xx-cuda-libs
             ccache --show-config
+
+            # Install Cuda
+            sudo dnf install --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
+            sudo dnf install --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
+            sudo subscription-manager repos --enable "codeready-builder-for-rhel-8-$(uname -m)-rpms"
+            dnf install -y xorg-x11-drv-nvidia-470xx-cuda-libs
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
