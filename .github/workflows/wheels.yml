@@ -162,7 +162,7 @@ jobs:
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release
             dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
-            dnf install -y xorg-x11-drv-nvidia-340xx-cuda
+            dnf install -y xorg-x11-drv-nvidia-470xx-cuda-libs
             ccache --show-config
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
@@ -172,7 +172,7 @@ jobs:
             OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/Release/x86_64/lib
             HWLOC=/project/full_deploy/host/hwloc/2.9.3/Release/x86_64/lib
             LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/Release/x86_64/lib
-            CUDA=/usr/lib64/nvidia-340xx
+            LIB64=/usr/lib64
             LD_LIBRARY_PATH=$TBB:$OIDN:$HWLOC:$LEVEL_ZERO:$CUDA:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
