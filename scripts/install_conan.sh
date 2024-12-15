@@ -10,13 +10,11 @@ function conan_create_install() {
 
   conan create $WORKSPACE/deps/conan/$name \
     --profile:all=$CONAN_PROFILE \
-    --build=missing \
-    -s build_type=Release
+    --build=missing
   conan install --requires=$name/$version@luxcorewheels/luxcorewheels \
     --profile:all=$CONAN_PROFILE \
     --build=missing \
-    -vverbose \
-    -s build_type=Release
+    -vverbose
 }
 
 
@@ -39,9 +37,20 @@ else
 fi
 echo "::endgroup::"
 
+if [[ $RUNNER_OS == "Linux" ]]; then
+  # ispc
+  echo "::group::CIBW_BEFORE_BUILD: ispc"
+  source /opt/intel/oneapi/ispc/latest/env/vars.sh
+  echo "::endgroup::"
+fi
+
 echo "::group::CIBW_BEFORE_BUILD: restore conan cache"
 # Restore conan cache (add -vverbose to debug)
 conan cache restore $cache_dir/conan-cache-save.tgz
+echo "::endgroup::"
+
+echo "::group::CIBW_BEFORE_BUILD: OIDN"
+conan_create_install oidn $OIDN_VERSION
 echo "::endgroup::"
 
 echo "::group::CIBW_BEFORE_BUILD: Blender types"
@@ -59,10 +68,6 @@ unset CI  # Otherwise OIIO passes -Werror to compiler (MacOS)!
 conan_create_install openimageio $OIIO_VERSION
 echo "::endgroup::"
 
-echo "::group::CIBW_BEFORE_BUILD: OIDN"
-conan_create_install oidn $OIDN_VERSION
-echo "::endgroup::"
-
 if [[ $RUNNER_OS == "Windows" ]]; then
   DEPLOY_PATH=$(cygpath "C:\\Users\\runneradmin")
 else
@@ -73,8 +78,7 @@ echo "::group::CIBW_BEFORE_BUILD: LuxCore"
 cd $WORKSPACE
 conan create $WORKSPACE \
   --profile:all=$CONAN_PROFILE \
-  --build=missing \
-  -s build_type=Release
+  --build=missing
 
 # We use full deployer to get rid of the "strange" paths that Conan uses in
 # its cache and that hamper ccache.
@@ -83,8 +87,7 @@ conan install $WORKSPACE \
   --build=missing \
   --deployer=full_deploy \
   --deployer-folder=$DEPLOY_PATH \
-  -vverbose \
-  -s build_type=Release
+  -vverbose
 
 echo "::endgroup::"
 
@@ -95,7 +98,6 @@ conan remove -c -vverbose "*/*#!latest"  # Keep only latest version of each pack
 conan graph info . \
   --format=json \
   --profile:all=$CONAN_PROFILE \
-  -s build_type=Release \
   > graph.json
 conan list --graph=graph.json --format=json --graph-binaries=Cache > list.json
 conan cache save -vverbose --file=$cache_dir/conan-cache-save.tgz --list=list.json

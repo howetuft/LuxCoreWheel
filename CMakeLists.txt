@@ -123,6 +123,7 @@ target_link_libraries(pyluxcore PRIVATE
     Boost::python
     boost::boost
     Python::Module
+    onetbb::onetbb
     blender-types
 )
 set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
@@ -134,10 +135,10 @@ if(APPLE)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 endif(APPLE)
 
+INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
+
 add_executable(oidn-denoise IMPORTED)
 set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
-
-INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
 INSTALL(
   IMPORTED_RUNTIME_ARTIFACTS oidn-denoise
   DESTINATION pyluxcore
@@ -146,6 +147,39 @@ INSTALL(
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE
 )
+
+# TODO
+#if(LINUX)
+  #add_library(oidn-denoise-cpu SHARED IMPORTED)
+  #set_property(
+    #TARGET oidn-denoise-cpu
+    #PROPERTY IMPORTED_LOCATION
+    #"${LUX_OIDN_DENOISE_LIBS}/libOpenImageDenoise_device_cpu.so.${LUX_OIDN_VERSION}"
+  #)
+  #INSTALL(
+    #IMPORTED_RUNTIME_ARTIFACTS oidn-denoise-cpu
+    #DESTINATION pyluxcore.libs
+    #PERMISSIONS
+      #OWNER_WRITE OWNER_READ OWNER_EXECUTE
+      #GROUP_READ GROUP_EXECUTE
+      #WORLD_READ WORLD_EXECUTE
+  #)
+  #add_library(oidn-denoise-core SHARED IMPORTED)
+  #set_property(
+    #TARGET oidn-denoise-core
+    #PROPERTY IMPORTED_LOCATION
+    #"${LUX_OIDN_DENOISE_LIBS}/libOpenImageDenoise_core.so.${LUX_OIDN_VERSION}"
+  #)
+  #INSTALL(
+    #IMPORTED_RUNTIME_ARTIFACTS oidn-denoise-core
+    #DESTINATION pyluxcore.libs
+    #PERMISSIONS
+      #OWNER_WRITE OWNER_READ OWNER_EXECUTE
+      #GROUP_READ GROUP_EXECUTE
+      #WORLD_READ WORLD_EXECUTE
+  #)
+#endif()
+
 if(WIN32)
   # Delvewheel doesn't handle executables, however we need to delocate oidnDenoise.
   # Therefore we have to let Delvewheel believe oidnDenoise is a lib...

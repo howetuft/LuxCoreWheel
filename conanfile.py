@@ -12,6 +12,7 @@ from conan.tools.files import get, copy, rmdir, rename, rm, save
 import os
 import io
 import shutil
+from pathlib import Path
 
 _boost_version = os.environ["BOOST_VERSION"]
 _ocio_version = os.environ["OCIO_VERSION"]
@@ -56,6 +57,7 @@ class LuxCore(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
 
+    # Note: LuxCoreRender is sourced by Github action (see Checkout LuxCoreRender)
 
     def requirements(self):
         self.requires(
@@ -80,13 +82,20 @@ class LuxCore(ConanFile):
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
 
         # OIDN denoiser executable
-        oidn_bindir = self.dependencies["oidn"].cpp_info.bindirs[0]
+        oidn_info = self.dependencies["oidn"].cpp_info
+        oidn_bindir = Path(oidn_info.bindirs[0])
         if self.settings.os == "Windows":
-            denoise_path = os.path.join(oidn_bindir, "oidnDenoise.exe")
-            denoise_path = denoise_path.replace("\\", "/")
+            denoise_path = oidn_bindir / "oidnDenoise.exe"
         else:
-            denoise_path = os.path.join(oidn_bindir, "oidnDenoise")
-        tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path
+            denoise_path = oidn_bindir / "oidnDenoise"
+        tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path.as_posix()
+
+        # OIDN denoiser cpu (for Linux)
+        oidn_libdir = Path(oidn_info.libdirs[0])
+        tc.variables["LUX_OIDN_DENOISE_LIBS"] = oidn_libdir.as_posix()
+        tc.variables["LUX_OIDN_VERSION"] = _oidn_version
+        denoise_cpu = oidn_libdir / f"libOpenImageDenoise_device_cpu.so.{_oidn_version}"
+        tc.variables["LUX_OIDN_DENOISE_CPU"] = denoise_cpu.as_posix()
 
         if self.settings.os == "Macos" and self.settings.arch == "armv8":
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
@@ -115,19 +124,6 @@ class LuxCore(ConanFile):
         cd.set_property("c-blosc", "cmake_file_name", "Blosc")
 
         cd.generate()
-
-    # TODO
-    # def layout(self):
-        # cmake_layout(self)
-
-        # if self.settings.os == "Linux":
-            # self.cpp.package.libs = [
-                # "pyluxcore",
-                # "libtbb.so.12",
-                # "libtbbmalloc_proxy.so.2",
-                # "libtbbmalloc.so.2",
-            # ]
-
 
     def package(self):
         # Just to ensure package is not empty
