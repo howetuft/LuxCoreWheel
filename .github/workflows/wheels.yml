@@ -173,7 +173,7 @@ jobs:
             HWLOC=/project/full_deploy/host/hwloc/2.9.3/Release/x86_64/lib
             LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/Release/x86_64/lib
             CUDA=/usr/lib64/nvidia-340xx
-            LD_LIBRARY_PATH=$TBB:$OIDN:$HWLOC:$LEVEL_ZERO:$LIB64:$LD_LIBRARY_PATH
+            LD_LIBRARY_PATH=$TBB:$OIDN:$HWLOC:$LEVEL_ZERO:$CUDA:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
 
