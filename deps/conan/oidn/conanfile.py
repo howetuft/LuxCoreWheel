@@ -19,6 +19,7 @@ class OidnConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     package_type = "unknown"
     package_id_unknown_mode = "revision_mode"
+    requirements = [ "level-zero/1.17.39" ]
 
     _libs_linux = [
         f"libOpenImageDenoise_core.so.{_oidn_version}",

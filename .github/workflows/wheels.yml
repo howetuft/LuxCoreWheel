@@ -170,12 +170,14 @@ jobs:
             TBB=/project/full_deploy/host/onetbb/$TBB_VERSION/Release/x86_64/lib
             OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/Release/x86_64/lib
             HWLOC=/project/full_deploy/host/hwloc/2.9.3/Release/x86_64/lib
-            LD_LIBRARY_PATH=$OIDN:$TBB:$HWLOC:$LD_LIBRARY_PATH
+            LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/Release/x86_64/lib
+            LD_LIBRARY_PATH=$TBB:$OIDN:$HWLOC:LEVEL_ZERO:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
 
             ls $HWLOC
             ls $TBB
+            ls $LEVEL_ZERO
 
             auditwheel --verbose repair -w {dest_dir} {wheel} \
               --strip \
