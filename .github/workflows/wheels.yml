@@ -186,7 +186,7 @@ jobs:
               --verbose repair -w {dest_dir} {wheel} \
               --exclude libamdhip64.so.5 \
               --strip
-            WHEEL=$(ls -1 /tmp/cibuildwheel/{dest_dir}/*.whl)
+            WHEEL=$(ls -1 {dest_dir}/*.whl)
             python ${{ env.WORKSPACE }}/scripts/recompose_wheel_linux.py -- $WHEEL
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
