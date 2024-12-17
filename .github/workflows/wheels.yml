@@ -182,15 +182,11 @@ jobs:
             LD_LIBRARY_PATH=$TBB:$OIDN:$HWLOC:$LEVEL_ZERO:$CUDA:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
-
-            ls $HWLOC
-            ls $TBB
-            ls $LEVEL_ZERO
-
             auditwheel \
               --verbose repair -w {dest_dir} {wheel} \
               --exclude libamdhip64.so.5 \
               --strip
+            python -m script/linux_post_repair.py -- {dest_dir}
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
