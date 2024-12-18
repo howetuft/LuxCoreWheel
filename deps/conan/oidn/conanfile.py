@@ -35,22 +35,22 @@ class OidnConan(ConanFile):
         "libsycl.so.7",
         "libsycl.so.7.1.0-8",
 
-        "libtbbbind_2_0.so.3",
-        "libtbbbind_2_0.so.3.12",
-        "libtbbbind_2_5.so.3",
-        "libtbbbind_2_5.so.3.12",
-        # "libtbbbind.so.3",
-        # "libtbbbind.so.3.12",
+        # "libtbbbind_2_0.so.3",
+        # "libtbbbind_2_0.so.3.12",
+        # "libtbbbind_2_5.so.3",
+        # "libtbbbind_2_5.so.3.12",
+        # # "libtbbbind.so.3",
+        # # "libtbbbind.so.3.12",
 
-        "libtbb.so.12.12",
-        "libtbbmalloc.so.2.12",
-        "libtbbmalloc_proxy.so.2.12",
-        "libtbb.so",
-        "libtbb.so.12",
-        "libtbbmalloc.so",
-        "libtbbmalloc.so.2",
-        "libtbbmalloc_proxy.so",
-        "libtbbmalloc_proxy.so.2",
+        # "libtbb.so.12.12",
+        # "libtbbmalloc.so.2.12",
+        # "libtbbmalloc_proxy.so.2.12",
+        # "libtbb.so",
+        # "libtbb.so.12",
+        # "libtbbmalloc.so",
+        # "libtbbmalloc.so.2",
+        # "libtbbmalloc_proxy.so",
+        # "libtbbmalloc_proxy.so.2",
     ]
 
     _libs_windows = [
@@ -78,6 +78,7 @@ class OidnConan(ConanFile):
     def requirements(self):
         if self.settings.os == "Linux":
             self.requires("level-zero/1.17.39")
+            self.requires("onetbb/{_tbb_version}")
 
     # https://docs.conan.io/2/tutorial/creating_packages/other_types_of_packages/package_prebuilt_binaries.html
 
@@ -251,8 +252,8 @@ class OidnConan(ConanFile):
 
         get(self, url)
 
-        # For Linux: get tbb
-        if os_ == "Linux":
-            base = "https://github.com/oneapi-src/oneTBB/releases/download"
-            url_tbb = f"{base}/v{_tbb_version}/oneapi-tbb-{_tbb_version}-lin.tgz"
-            get(self, url_tbb)
+        # # For Linux: get tbb
+        # if os_ == "Linux":
+            # base = "https://github.com/oneapi-src/oneTBB/releases/download"
+            # url_tbb = f"{base}/v{_tbb_version}/oneapi-tbb-{_tbb_version}-lin.tgz"
+            # get(self, url_tbb)
