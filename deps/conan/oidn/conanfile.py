@@ -76,9 +76,9 @@ class OidnConan(ConanFile):
         f"OpenImageDenoise_device_metal.{_oidn_version}",
     ]
 
-    def requirements(self):
-        if self.settings.os == "Linux":
-            self.requires("level-zero/1.17.39")
+    # def requirements(self):
+        # if self.settings.os == "Linux":
+            # self.requires("level-zero/1.17.39")
 
     # https://docs.conan.io/2/tutorial/creating_packages/other_types_of_packages/package_prebuilt_binaries.html
 
