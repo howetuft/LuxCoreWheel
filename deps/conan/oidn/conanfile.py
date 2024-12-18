@@ -30,7 +30,6 @@ class OidnConan(ConanFile):
 
         "libOpenImageDenoise.so",
         "libOpenImageDenoise.so.2",
-        f"libOpenImageDenoise.so.{_oidn_version}",
 
         # "libpi_level_zero.so",
         # "libsycl.so.7",
