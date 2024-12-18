@@ -56,13 +56,10 @@ def main():
             unmangled_lib = f"libOpenImageDenoise_device_{dev}.so.{ver}"
 
             # Create symlink in libs location
-            target_path = (lib_path / lib).relative_to(lib_path, walk_up=True)
+            target_path = os.path.relpath(lib_path / lib, start=lib_path)
             dest_path = lib_path / unmangled_lib
             print(f"{dest_path} -> {target_path}")
             os.symlink(target_path, dest_path)
-            os.stat(dest_path, follow_symlinks=False)
-            os.stat(lib_path / lib, follow_symlinks=False)
-
 
         # Repack wheel
         pack(
