@@ -39,8 +39,8 @@ class OidnConan(ConanFile):
         "libtbbbind_2_0.so.3.12",
         "libtbbbind_2_5.so.3",
         "libtbbbind_2_5.so.3.12",
-        "libtbbbind.so.3",
-        "libtbbbind.so.3.12",
+        # "libtbbbind.so.3",
+        # "libtbbbind.so.3.12",
 
         "libtbb.so.12.12",
         "libtbbmalloc.so.2.12",
