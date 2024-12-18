@@ -24,23 +24,23 @@ class OidnConan(ConanFile):
         f"libOpenImageDenoise_core.so.{_oidn_version}",
         f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
         f"libOpenImageDenoise.so.{_oidn_version}",
-        # f"libOpenImageDenoise_device_cuda.so.{_oidn_version}",
+        f"libOpenImageDenoise_device_cuda.so.{_oidn_version}",
         # f"libOpenImageDenoise_device_hip.so.{_oidn_version}",
-        # f"libOpenImageDenoise_device_sycl.so.{_oidn_version}",
+        f"libOpenImageDenoise_device_sycl.so.{_oidn_version}",
 
         "libOpenImageDenoise.so",
         "libOpenImageDenoise.so.2",
 
-        # "libpi_level_zero.so",
-        # "libsycl.so.7",
-        # "libsycl.so.7.1.0-8",
+        "libpi_level_zero.so",
+        "libsycl.so.7",
+        "libsycl.so.7.1.0-8",
 
-        # "libtbbbind_2_0.so.3",
-        # "libtbbbind_2_0.so.3.12",
-        # "libtbbbind_2_5.so.3",
-        # "libtbbbind_2_5.so.3.12",
-        # "libtbbbind.so.3",
-        # "libtbbbind.so.3.12",
+        "libtbbbind_2_0.so.3",
+        "libtbbbind_2_0.so.3.12",
+        "libtbbbind_2_5.so.3",
+        "libtbbbind_2_5.so.3.12",
+        "libtbbbind.so.3",
+        "libtbbbind.so.3.12",
 
         "libtbb.so.12.12",
         "libtbbmalloc.so.2.12",
@@ -75,9 +75,9 @@ class OidnConan(ConanFile):
         f"OpenImageDenoise_device_metal.{_oidn_version}",
     ]
 
-    # def requirements(self):
-        # if self.settings.os == "Linux":
-            # self.requires("level-zero/1.17.39")
+    def requirements(self):
+        if self.settings.os == "Linux":
+            self.requires("level-zero/1.17.39")
 
     # https://docs.conan.io/2/tutorial/creating_packages/other_types_of_packages/package_prebuilt_binaries.html
 
