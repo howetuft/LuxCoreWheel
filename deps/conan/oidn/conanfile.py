@@ -35,22 +35,6 @@ class OidnConan(ConanFile):
         "libsycl.so.7",
         "libsycl.so.7.1.0-8",
 
-        # "libtbbbind_2_0.so.3",
-        # "libtbbbind_2_0.so.3.12",
-        # "libtbbbind_2_5.so.3",
-        # "libtbbbind_2_5.so.3.12",
-        # # "libtbbbind.so.3",
-        # # "libtbbbind.so.3.12",
-
-        # "libtbb.so.12.12",
-        # "libtbbmalloc.so.2.12",
-        # "libtbbmalloc_proxy.so.2.12",
-        # "libtbb.so",
-        # "libtbb.so.12",
-        # "libtbbmalloc.so",
-        # "libtbbmalloc.so.2",
-        # "libtbbmalloc_proxy.so",
-        # "libtbbmalloc_proxy.so.2",
     ]
 
     _libs_windows = [
