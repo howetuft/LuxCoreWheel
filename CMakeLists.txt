@@ -164,7 +164,7 @@ if(LINUX)
   )
   add_library(oidn-denoise-core SHARED IMPORTED)
   set_property(
-    TARGET oidn-denoise-cpu
+    TARGET oidn-denoise-core
     PROPERTY IMPORTED_LOCATION
     "${LUX_OIDN_DENOISE_LIBS}/libOpenImageDenoise_core.so.${LUX_OIDN_VERSION}"
   )
