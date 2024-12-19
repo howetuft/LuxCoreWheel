@@ -21,8 +21,6 @@ class OidnConan(ConanFile):
     package_id_unknown_mode = "revision_mode"
 
     _libs_linux = [
-        "libOpenImageDenoise.so",
-        "libOpenImageDenoise.so.2",
         f"libOpenImageDenoise.so.{_oidn_version}",
 
 
