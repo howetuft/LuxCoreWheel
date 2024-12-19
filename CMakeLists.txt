@@ -148,7 +148,7 @@ INSTALL(
 )
 
 if(LINUX)
-  add_library(oidn-denoise-cpu IMPORTED)
+  add_library(oidn-denoise-cpu IMPORTED SHARED)
   set_property(
     TARGET oidn-denoise-cpu
     PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_CPU}"

@@ -22,8 +22,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: [8, 9, 10, 11, 12, 13]
-        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        #python-minor: [8, 9, 10, 11, 12, 13]
+        #os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        python-minor: [ 12]
+        os: [ubuntu-latest]
     env:
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
@@ -164,11 +166,12 @@ jobs:
             dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
             ccache --show-config
 
-            # Install Cuda
-            dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
-            dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
-            subscription-manager repos --enable "codeready-builder-for-rhel-8-$(uname -m)-rpms"
-            dnf install -y xorg-x11-drv-nvidia-470xx-cuda-libs
+            # TODO
+            ## Install Cuda
+            #dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
+            #dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
+            #subscription-manager repos --enable "codeready-builder-for-rhel-8-$(uname -m)-rpms"
+            #dnf install -y xorg-x11-drv-nvidia-470xx-cuda-libs
 
           CIBW_BEFORE_ALL_MACOS: |
             brew install bison flex
