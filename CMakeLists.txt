@@ -146,6 +146,23 @@ INSTALL(
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE
 )
+
+if(LINUX)
+  add_library(oidn-denoise-cpu IMPORTED)
+  set_property(
+    TARGET oidn-denoise-cpu
+    PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_CPU}"
+  )
+  INSTALL(
+    IMPORTED_RUNTIME_ARTIFACTS oidn-denoise-cpu
+    DESTINATION pyluxcore.libs
+    PERMISSIONS
+      OWNER_WRITE OWNER_READ OWNER_EXECUTE
+      GROUP_READ GROUP_EXECUTE
+      WORLD_READ WORLD_EXECUTE
+  )
+endif()
+
 if(WIN32)
   # Delvewheel doesn't handle executables, however we need to delocate oidnDenoise.
   # Therefore we have to let Delvewheel believe oidnDenoise is a lib...

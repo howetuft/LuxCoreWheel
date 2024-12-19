@@ -88,6 +88,16 @@ class LuxCore(ConanFile):
             denoise_path = os.path.join(oidn_bindir, "oidnDenoise")
         tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path
 
+        # OIDN denoiser cpu (for Linux)
+        oidn_libdir = self.dependencies["oidn"].cpp_info.libdirs[0]
+        tc.variables["LUX_OIDN_DENOISE_CPU"] = os.path.join(oidn_libdir)
+        denoise_cpu = os.path.join(
+            oidn_libdir,
+            f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
+        )
+        tc.variables["LUX_OIDN_DENOISE_CPU"] = denoise_cpu
+
+
         if self.settings.os == "Macos" and self.settings.arch == "armv8":
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
 
