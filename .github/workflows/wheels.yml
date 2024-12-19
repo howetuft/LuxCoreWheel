@@ -185,8 +185,8 @@ jobs:
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
             auditwheel \
-              --verbose repair -w {dest_dir} {wheel} \
-              --strip
+              --verbose repair -w {dest_dir} {wheel}
+              #--strip  TODO
 
             #pip install wheel
             #WHEEL=$(ls -1 {dest_dir}/*.whl)
