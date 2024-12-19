@@ -90,7 +90,8 @@ class LuxCore(ConanFile):
 
         # OIDN denoiser cpu (for Linux)
         oidn_libdir = self.dependencies["oidn"].cpp_info.libdirs[0]
-        tc.variables["LUX_OIDN_DENOISE_CPU"] = os.path.join(oidn_libdir)
+        tc.variables["LUX_OIDN_DENOISE_LIBS"] = oidn_libdir
+        tc.variables["LUX_OIDN_VERSION"] = _oidn_version
         denoise_cpu = os.path.join(
             oidn_libdir,
             f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
