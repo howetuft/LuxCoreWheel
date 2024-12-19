@@ -21,21 +21,29 @@ class OidnConan(ConanFile):
     package_id_unknown_mode = "revision_mode"
 
     _libs_linux = [
-        f"libOpenImageDenoise_core.so.{_oidn_version}",
-        f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
-        f"libOpenImageDenoise.so.{_oidn_version}",
-        f"libOpenImageDenoise_device_cuda.so.{_oidn_version}",
-        # f"libOpenImageDenoise_device_hip.so.{_oidn_version}",
-        f"libOpenImageDenoise_device_sycl.so.{_oidn_version}",
-
         "libOpenImageDenoise.so",
         "libOpenImageDenoise.so.2",
+        f"libOpenImageDenoise.so.{_oidn_version}",
 
-        "libpi_level_zero.so",
-        "libsycl.so.7",
-        "libsycl.so.7.1.0-8",
 
     ]
+
+    # _libs_linux = [
+        # f"libOpenImageDenoise_core.so.{_oidn_version}",
+        # f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
+        # f"libOpenImageDenoise.so.{_oidn_version}",
+        # f"libOpenImageDenoise_device_cuda.so.{_oidn_version}",
+        # # f"libOpenImageDenoise_device_hip.so.{_oidn_version}",
+        # f"libOpenImageDenoise_device_sycl.so.{_oidn_version}",
+
+        # "libOpenImageDenoise.so",
+        # "libOpenImageDenoise.so.2",
+
+        # "libpi_level_zero.so",
+        # "libsycl.so.7",
+        # "libsycl.so.7.1.0-8",
+
+    # ]
 
     _libs_windows = [
         "OpenImageDenoise_core",
