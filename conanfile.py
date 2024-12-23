@@ -93,8 +93,12 @@ class LuxCore(ConanFile):
         # OIDN denoiser cpu (for Linux)
         oidn_libdir = Path(oidn_info.libdirs[0])
         tc.variables["LUX_OIDN_DENOISE_LIBS"] = oidn_libdir.as_posix()
+        tc.variables["LUX_OIDN_DENOISE_BINS"] = oidn_bindir.as_posix()
         tc.variables["LUX_OIDN_VERSION"] = _oidn_version
-        denoise_cpu = oidn_libdir / f"libOpenImageDenoise_device_cpu.so.{_oidn_version}"
+        if self.settings.os == "Linux":
+            denoise_cpu = oidn_libdir / f"libOpenImageDenoise_device_cpu.so.{_oidn_version}"
+        elif self.settings.os == "Windows":
+            denoise_cpu = oidn_bindir / f"OpenImageDenoise_device_cpu.dll"
         tc.variables["LUX_OIDN_DENOISE_CPU"] = denoise_cpu.as_posix()
 
         if self.settings.os == "Macos" and self.settings.arch == "armv8":

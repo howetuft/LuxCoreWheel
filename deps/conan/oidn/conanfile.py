@@ -108,14 +108,21 @@ class OidnConan(ConanFile):
 
     def package_info(self):
         if self.options.shared:
-            # TODO Not relevant for Windows
-            self.cpp_info.libs = [
-                "OpenImageDenoise",
-                f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
-                f"libOpenImageDenoise_core.so.{_oidn_version}",
-            ]
+            # Shared
+            if self.settings.os == "Linux":
+                self.cpp_info.libs = [
+                    "OpenImageDenoise",
+                    f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
+                    f"libOpenImageDenoise_core.so.{_oidn_version}",
+                ]
+            elif self.settings.os == "Windows":
+                self.cpp_info.libs = [
+                    "OpenImageDenoise",
+                    "OpenImageDenoise_core",
+                ]
         else:
-            # Warning: library order matters
+            # Static
+            # Warning: library order matters!
             self.cpp_info.libs = [
                 "OpenImageDenoise",
                 "OpenImageDenoise_device_cpu",

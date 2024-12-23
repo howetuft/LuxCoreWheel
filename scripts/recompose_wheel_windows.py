@@ -31,10 +31,17 @@ def main():
             unpacked_wheel_path = Path(tmpdir) / namever
 
         # Rename and move oidnDenoise
-        print("Rename oidnDenoise into .exe")
+        print("Rename oidnDenoise.pyd into oidnDenois.exe")
         shutil.move(
             unpacked_wheel_path / "pyluxcore" / "oidnDenoise.pyd",
             unpacked_wheel_path / "pyluxcore.libs" / "oidnDenoise.exe",
+        )
+
+        # Rename and move OpenImageDenoise_device_cpu
+        print("Rename OpenImageDenoise_device_cpu.pyd into OpenImageDenoise_device_cpu.dll")
+        shutil.move(
+            unpacked_wheel_path / "pyluxcore" / "OpenImageDenoise_device_cpu.pyd",
+            unpacked_wheel_path / "pyluxcore.libs" / "OpenImageDenoise_device_cpu.dll",
         )
 
         # Repack wheel

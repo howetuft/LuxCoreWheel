@@ -15,4 +15,4 @@ pkgconf/*
 yasm/*
 
 [options]
-oidn/*:shared=False
+oidn/*:shared=True

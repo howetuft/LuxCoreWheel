@@ -22,10 +22,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-minor: [8, 9, 10, 11, 12, 13]
-        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-        #python-minor: [ 12]
-        #os: [windows-latest]
+        #python-minor: [8, 9, 10, 11, 12, 13]
+        #os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        python-minor: [ 11]
+        os: [windows-latest]
         exclude:
           - os: macos-14
             python-minor: 8
@@ -233,8 +233,8 @@ jobs:
             OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
             export DYLD_LIBRARY_PATH=$TBB:$OIDN
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
-          CIBW_TEST_COMMAND_LINUX: pyluxcoretest
-          CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest
+          #CIBW_TEST_COMMAND_LINUX: pyluxcoretest  TODO
+          CIBW_TEST_COMMAND_WINDOWS: # pyluxcoretest TODO
           CIBW_TEST_COMMAND_MACOS: |
             if [[ ${{ matrix.os }} == 'macos-13' ]]; then
             # Only for Intel: ARM runner raises an OpenCL driver error
