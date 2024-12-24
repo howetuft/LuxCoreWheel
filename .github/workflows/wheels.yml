@@ -24,8 +24,8 @@ jobs:
       matrix:
         #python-minor: [8, 9, 10, 11, 12, 13]
         #os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-        python-minor: [ 11]
-        os: [windows-latest]
+        python-minor: [ 12]
+        os: [ubuntu-latest]
         exclude:
           - os: macos-14
             python-minor: 8
@@ -217,13 +217,14 @@ jobs:
             LD_LIBRARY_PATH=$TBB:$HWLOC:$LEVEL_ZERO:$OIDN:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
+
             auditwheel \
               --verbose repair -w {dest_dir} {wheel} \
               --strip
 
-            #pip install wheel
-            #WHEEL=$(ls -1 {dest_dir}/*.whl)
-            #python ${{ env.WORKSPACE }}/scripts/recompose_wheel_linux.py -- $WHEEL
+            pip install wheel
+            WHEEL=$(ls -1 {dest_dir}/*.whl)
+            python ${{ env.WORKSPACE }}/scripts/recompose_wheel_linux.py -- $WHEEL
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
@@ -233,8 +234,8 @@ jobs:
             OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
             export DYLD_LIBRARY_PATH=$TBB:$OIDN
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
-          #CIBW_TEST_COMMAND_LINUX: pyluxcoretest  TODO
-          CIBW_TEST_COMMAND_WINDOWS: # pyluxcoretest TODO
+          # CIBW_TEST_COMMAND_LINUX: pyluxcoretest  TODO
+          # CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest TODO
           CIBW_TEST_COMMAND_MACOS: |
             if [[ ${{ matrix.os }} == 'macos-13' ]]; then
             # Only for Intel: ARM runner raises an OpenCL driver error

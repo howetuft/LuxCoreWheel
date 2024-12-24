@@ -148,6 +148,7 @@ INSTALL(
     WORLD_READ WORLD_EXECUTE
 )
 
+# TODO Factorize
 if(WIN32)
   add_library(oidn-device-cpu SHARED IMPORTED)
   set_property(
@@ -167,20 +168,20 @@ endif()
 
 # TODO
 if(LINUX)
-  add_library(oidn-device-cpu SHARED IMPORTED)
-  set_property(
-    TARGET oidn-device-cpu
-    PROPERTY IMPORTED_LOCATION
-    "${LUX_OIDN_DENOISE_LIBS}/libOpenImageDenoise_device_cpu.so.${LUX_OIDN_VERSION}"
-  )
-  INSTALL(
-    IMPORTED_RUNTIME_ARTIFACTS oidn-device-cpu
-    DESTINATION pyluxcore.libs
-    PERMISSIONS
-      OWNER_WRITE OWNER_READ OWNER_EXECUTE
-      GROUP_READ GROUP_EXECUTE
-      WORLD_READ WORLD_EXECUTE
-  )
+  #add_library(oidn-device-cpu SHARED IMPORTED)
+  #set_property(
+    #TARGET oidn-device-cpu
+    #PROPERTY IMPORTED_LOCATION
+    #"${LUX_OIDN_DENOISE_LIBS}/libOpenImageDenoise_device_cpu.so.${LUX_OIDN_VERSION}"
+  #)
+  #INSTALL(
+    #IMPORTED_RUNTIME_ARTIFACTS oidn-device-cpu
+    #DESTINATION pyluxcore.libs
+    #PERMISSIONS
+      #OWNER_WRITE OWNER_READ OWNER_EXECUTE
+      #GROUP_READ GROUP_EXECUTE
+      #WORLD_READ WORLD_EXECUTE
+  #)
   #add_library(oidn-denoise-core SHARED IMPORTED)
   #set_property(
     #TARGET oidn-denoise-core
