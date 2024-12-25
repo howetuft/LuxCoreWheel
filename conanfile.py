@@ -98,7 +98,9 @@ class LuxCore(ConanFile):
         if self.settings.os == "Linux":
             denoise_cpu = oidn_libdir / f"libOpenImageDenoise_device_cpu.so.{_oidn_version}"
         elif self.settings.os == "Windows":
-            denoise_cpu = oidn_bindir / f"OpenImageDenoise_device_cpu.dll"
+            denoise_cpu = oidn_bindir / "OpenImageDenoise_device_cpu.dll"
+        elif self.settings.os == "Macos":
+            denoise_cpu = oidn_libdir / f"OpenImageDenoise_device_cpu.{_oidn_version}.pylib"
         tc.variables["LUX_OIDN_DENOISE_CPU"] = denoise_cpu.as_posix()
 
         if self.settings.os == "Macos" and self.settings.arch == "armv8":

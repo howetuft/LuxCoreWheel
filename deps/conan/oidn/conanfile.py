@@ -84,6 +84,7 @@ class OidnConan(ConanFile):
         tc.variables["OIDN_FILTER_RT"] = self.options.with_filter_rt
         tc.variables["OIDN_FILTER_RTLIGHTMAP"] = self.options.with_filter_rtlightmap
         tc.variables["OIDN_APPS"] = self.options.with_apps
+        tc.variables["CMAKE_BUILD_RPATH_USE_ORIGIN"] = True
         tc.generate()
 
         deps = CMakeDeps(self)
@@ -130,6 +131,12 @@ class OidnConan(ConanFile):
                 self.cpp_info.libs = [
                     "OpenImageDenoise",
                     "OpenImageDenoise_core",
+                ]
+            elif self.settings.os == "Macos":
+                self.cpp_info.libs = [
+                    f"OpenImageDenoise.{_oidn_version}",
+                    f"OpenImageDenoise_device_cpu.{_oidn_version}",
+                    f"OpenImageDenoise_core.{_oidn_version}",
                 ]
         else:
             # Static

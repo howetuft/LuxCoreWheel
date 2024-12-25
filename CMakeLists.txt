@@ -135,21 +135,34 @@ if(APPLE)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 endif(APPLE)
 
-INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
-
+# oidnDenoise
 add_executable(oidn-denoise IMPORTED)
 set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
+
+
+# Installation
+INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
+
+if(LINUX OR WIN32)
+  set(OIDN_DESTINATION "pyluxcore.libs")
+else()
+  # Macos
+  # Reminder: don't put it in pyluxcore/.dylibs, it would prevent other
+  # deps' relocation
+  set(OIDN_DESTINATION "pyluxcore")
+endif(LINUX OR WIN32)
+
 INSTALL(
   IMPORTED_RUNTIME_ARTIFACTS oidn-denoise
-  DESTINATION pyluxcore
+  DESTINATION ${OIDN_DESTINATION}
   PERMISSIONS
     OWNER_WRITE OWNER_READ OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE
 )
 
-# TODO Factorize
 if(WIN32)
+  # For Win32, we need to add device_cpu
   add_library(oidn-device-cpu SHARED IMPORTED)
   set_property(
     TARGET oidn-device-cpu
@@ -158,7 +171,7 @@ if(WIN32)
   )
   INSTALL(
     IMPORTED_RUNTIME_ARTIFACTS oidn-device-cpu
-    DESTINATION pyluxcore
+    DESTINATION pyluxcore.libs
     PERMISSIONS
       OWNER_WRITE OWNER_READ OWNER_EXECUTE
       GROUP_READ GROUP_EXECUTE
@@ -166,43 +179,11 @@ if(WIN32)
   )
 endif()
 
-# TODO
-if(LINUX)
-  #add_library(oidn-device-cpu SHARED IMPORTED)
-  #set_property(
-    #TARGET oidn-device-cpu
-    #PROPERTY IMPORTED_LOCATION
-    #"${LUX_OIDN_DENOISE_LIBS}/libOpenImageDenoise_device_cpu.so.${LUX_OIDN_VERSION}"
-  #)
-  #INSTALL(
-    #IMPORTED_RUNTIME_ARTIFACTS oidn-device-cpu
-    #DESTINATION pyluxcore.libs
-    #PERMISSIONS
-      #OWNER_WRITE OWNER_READ OWNER_EXECUTE
-      #GROUP_READ GROUP_EXECUTE
-      #WORLD_READ WORLD_EXECUTE
-  #)
-  #add_library(oidn-denoise-core SHARED IMPORTED)
-  #set_property(
-    #TARGET oidn-denoise-core
-    #PROPERTY IMPORTED_LOCATION
-    #"${LUX_OIDN_DENOISE_LIBS}/libOpenImageDenoise_core.so.${LUX_OIDN_VERSION}"
-  #)
-  #INSTALL(
-    #IMPORTED_RUNTIME_ARTIFACTS oidn-denoise-core
-    #DESTINATION pyluxcore.libs
-    #PERMISSIONS
-      #OWNER_WRITE OWNER_READ OWNER_EXECUTE
-      #GROUP_READ GROUP_EXECUTE
-      #WORLD_READ WORLD_EXECUTE
-  #)
-endif()
-
 if(WIN32)
   # Delvewheel doesn't handle executables, however we need to delocate oidnDenoise.
   # Therefore we have to let Delvewheel believe oidnDenoise is a lib...
   message(STATUS "oidnDenoise SUFFIX pyd")
-  INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore/oidnDenoise.exe\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore/oidnDenoise.pyd\")")
-  INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore/OpenImageDenoise_device_cpu.dll\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore/OpenImageDenoise_device_cpu.pyd\")")
+  INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/oidnDenoise.exe\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/oidnDenoise.pyd\")")
+  INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/OpenImageDenoise_device_cpu.dll\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/OpenImageDenoise_device_cpu.pyd\")")
   # This will be reverted after repairing
 endif(WIN32)

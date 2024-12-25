@@ -23,12 +23,6 @@ def create_link(wheel, target, linkname):
 
 def demangle_libname(libname):
     pattern = r"(?P<base>[A-Za-z_]*)-(?P<tag>.*)\.so\.(?P<version>[0-9]*\.[0-9]*\.[0-9]*)"
-    # TODO
-    # pattern = (
-        # r"(?P<base>[A-Za-z_]*)"
-        # r"-(?P<tag>?.*)\.so\."
-        # r"(?P<version>[0-9]*\.[0-9]*\.[0-9]*)"
-    # )
     match = re.fullmatch(pattern, libname)
     base = match["base"]
     tag = match["tag"]
@@ -62,7 +56,7 @@ def main():
 
     print(f"Recomposing {wheel_path}")
 
-    with tempfile.TemporaryDirectory(delete=False) as tmpdir:  # Working space
+    with tempfile.TemporaryDirectory() as tmpdir:  # Working space
         # Unpack wheel
         unpack(path=args.wheelpath, dest=tmpdir)
 
@@ -95,64 +89,6 @@ def main():
             dest_dir=wheel_folder,
             build_number=None
         )
-
-    # with WheelFile(args.wheelpath, mode="a") as wf:
-        # # Update core with device_cpu tag
-        # libs = [
-            # l.name
-            # for l in zipfile.Path(wf, at="pyluxcore.libs/").iterdir()
-            # if l.name.startswith("libOpenImageDenoise_device_")
-        # ]
-        # for lib in libs:
-            # create_link(
-                # wf,
-                # os.path.join(lib),
-                # os.path.join("pyluxcore.libs", unmangle_libname(lib)),
-            # )
-
-    # TODO
-    # with tempfile.TemporaryDirectory() as tmpdir:  # Working space
-        # # Unpack wheel
-        # unpack(path=args.wheelpath, dest=tmpdir)
-        # with WheelFile(args.wheelpath) as wf:
-            # namever = wf.parsed_filename.group("namever")
-            # unpacked_wheel_path = Path(tmpdir) / namever
-
-        # # Create links to libraries for oidnDenoise
-        # print("Create lib links for oidnDenoise")
-        # lib_path = unpacked_wheel_path / "pyluxcore.libs"
-        # libs = [
-            # l.name
-            # for l in os.scandir(lib_path)
-            # if l.name.startswith("libOpenImageDenoise_device_")
-        # ]
-        # oidn_path = unpacked_wheel_path / "pyluxcore"
-        # for lib in libs:
-            # # Unmangle lib
-            # pattern = (
-                # r"libOpenImageDenoise_device_"
-                # r"(?P<device>[a-z]*)"
-                # r"(?:-.*)"
-                # r"\.so\."
-                # r"(?P<version>[0-9]*\.[0-9]*\.[0-9]*)"
-            # )
-            # match = re.fullmatch(pattern, lib)
-            # dev = match["device"]
-            # ver = match["version"]
-            # unmangled_lib = f"libOpenImageDenoise_device_{dev}.so.{ver}"
-
-            # # Create symlink in libs location
-            # target_path = os.path.relpath(lib_path / lib, start=lib_path)
-            # dest_path = lib_path / unmangled_lib
-            # print(f"{dest_path} -> {target_path}")
-            # os.symlink(target_path, dest_path)
-
-        # # Repack wheel
-        # pack(
-            # directory=unpacked_wheel_path,
-            # dest_dir=wheel_folder,
-            # build_number=None
-        # )
 
 
 if __name__ == "__main__":

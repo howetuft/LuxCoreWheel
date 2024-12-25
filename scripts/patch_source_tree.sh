@@ -122,7 +122,6 @@ echo "Remove blender_types.h"
 rm include/luxcore/pyluxcore/blender_types.h
 $SED -i 's/"luxcore\/pyluxcore\/blender_types.h"/<blender_types.h>/g' src/luxcore/pyluxcoreforblender.cpp
 
-# TODO
 echo "Oidn"
 replace_anywhere \
   "oidn::DeviceRef device = oidn::newDevice(oidn::DeviceType::CPU);" \
