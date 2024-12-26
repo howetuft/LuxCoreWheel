@@ -858,22 +858,16 @@ def convert_folder_to_windows(folder, extension):
 
 def ExternalOidn():
     print("*** External denoiser test ***")
-    # # Find denoiser
-    # luxfolder = Path(pyluxcore.__file__).parent
-
-    # paths = {
-        # "Linux": (luxfolder / ".." / "pyluxcore.libs", "oidnDenoise"),
-        # "Windows": (luxfolder / ".." / "pyluxcore.libs", "oidnDenoise.exe"),
-        # "Darwin": (luxfolder, "oidnDenoise"),
-    # }
-
-    # path, executable = paths[platform.system()]
-
-    print(f"Looking for '{executable}' in '{path}'... ", end='')
+    print(f"Looking for oidnDenoiser... ", end='')
     denoiser_path = pyluxcore.which_oidn()
     assert denoiser_path
     print("Found!")
     os.chdir(os.path.dirname(denoiser_path))
+
+    if platform.system() == "Linux":
+        cmd = ["patchelf", denoiser_path, "--print-rpath"]
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        print("oidnDenoiser rpath:", result.stdout)
 
     print("Running external denoiser")
     image_path = Path(__file__).parent / "memorial.pfm"
@@ -887,6 +881,7 @@ def ExternalOidn():
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
+        env={"LD_DEBUG": "libs"},
     )
     with denoiser_process.stdout as d_out:
         if d_out:

@@ -136,11 +136,7 @@ class LuxCore(ConanFile):
         save(self, os.path.join(self.package_folder, "dummy.txt"), "Hello World")
 
     def package_info(self):
-        self.conf_info.define("cmake.build:verbosity", "debug")
 
-        self.conf_info.define("tools.build:sharedlinkflags", ["-VERBOSE"])
-        self.conf_info.define("tools.build:exelinkflags", ["-VERBOSE"])
-        self.conf_info.define("tools.build:verbosity", "verbose")
         if self.settings.os == "Linux":
             self.cpp_info.libs = [
                 "pyluxcore",

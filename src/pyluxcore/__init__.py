@@ -25,15 +25,13 @@ from .pyluxcore import *
 _LUXFOLDER = Path(pyluxcore.__file__).parent
 
 _OIDN_PATHS = {
-    "Linux": (_LUXFOLDER / ".." / "pyluxcore.libs", "oidnDenoise"),
+    "Linux": (_LUXFOLDER / ".." / "pyluxcore.oidn", "oidnDenoise"),
     "Windows": (_LUXFOLDER / ".." / "pyluxcore.libs", "oidnDenoise.exe"),
-    "Darwin": (_LUXFOLDER, "oidnDenoise"),
+    "Darwin": (_LUXFOLDER / ".." / "pyluxcore.oidn", "oidnDenoise"),
 }
 
 def which_oidn():
     """Retrieve external oidn path."""
     path, executable = _OIDN_PATHS[platform.system()]
     denoiser_path = shutil.which(executable, path=path)
-    assert denoiser_path
     return denoiser_path
-

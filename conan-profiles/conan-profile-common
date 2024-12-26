@@ -3,7 +3,6 @@ build_type=Release
 
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
-tools.cmake.cmaketoolchain:extra_variables={'CMAKE_BUILD_RPATH_USE_ORIGIN': True}
 tools.build:verbosity=verbose
 tools.system.package_manager:mode=install
 tools.deployer:symlinks=True
