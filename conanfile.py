@@ -12,6 +12,7 @@ from conan.tools.files import get, copy, rmdir, rename, rm, save
 import os
 import io
 import shutil
+from pathlib import Path
 
 _boost_version = os.environ["BOOST_VERSION"]
 _ocio_version = os.environ["OCIO_VERSION"]
@@ -22,6 +23,8 @@ _blender_version = os.environ["BLENDER_VERSION"]
 _openvdb_version = os.environ["OPENVDB_VERSION"]
 _tbb_version = os.environ["TBB_VERSION"]
 _spdlog_version = os.environ["SPDLOG_VERSION"]
+_embree3_version = os.environ["EMBREE3_VERSION"]
+_fmt_version = os.environ["FMT_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -41,7 +44,7 @@ class LuxCore(ConanFile):
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
         f"openvdb/{_openvdb_version}",
         "eigen/3.4.0",
-        "embree3/3.13.1",
+        f"embree3/{_embree3_version}",
         "tsl-robin-map/1.2.1",
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
@@ -56,6 +59,7 @@ class LuxCore(ConanFile):
 
     settings = "os", "compiler", "build_type", "arch"
 
+    # Note: LuxCoreRender is sourced by Github action (see Checkout LuxCoreRender)
 
     def requirements(self):
         self.requires(
@@ -65,6 +69,7 @@ class LuxCore(ConanFile):
             transitive_libs=True,
         )  # For oidn
         self.requires("imath/3.1.9", override=True)
+        self.requires(f"fmt/{_fmt_version}", override=True)
 
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")
@@ -80,13 +85,26 @@ class LuxCore(ConanFile):
         tc.variables["CMAKE_COMPILE_WARNING_AS_ERROR"] = False
 
         # OIDN denoiser executable
-        oidn_bindir = self.dependencies["oidn"].cpp_info.bindirs[0]
+        oidn_info = self.dependencies["oidn"].cpp_info
+        oidn_bindir = Path(oidn_info.bindirs[0])
         if self.settings.os == "Windows":
-            denoise_path = os.path.join(oidn_bindir, "oidnDenoise.exe")
-            denoise_path = denoise_path.replace("\\", "/")
+            denoise_path = oidn_bindir / "oidnDenoise.exe"
         else:
-            denoise_path = os.path.join(oidn_bindir, "oidnDenoise")
-        tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path
+            denoise_path = oidn_bindir / "oidnDenoise"
+        tc.variables["LUX_OIDN_DENOISE_PATH"] = denoise_path.as_posix()
+
+        # OIDN denoiser cpu (for Linux)
+        oidn_libdir = Path(oidn_info.libdirs[0])
+        tc.variables["LUX_OIDN_DENOISE_LIBS"] = oidn_libdir.as_posix()
+        tc.variables["LUX_OIDN_DENOISE_BINS"] = oidn_bindir.as_posix()
+        tc.variables["LUX_OIDN_VERSION"] = _oidn_version
+        if self.settings.os == "Linux":
+            denoise_cpu = oidn_libdir / f"libOpenImageDenoise_device_cpu.so.{_oidn_version}"
+        elif self.settings.os == "Windows":
+            denoise_cpu = oidn_bindir / "OpenImageDenoise_device_cpu.dll"
+        elif self.settings.os == "Macos":
+            denoise_cpu = oidn_libdir / f"OpenImageDenoise_device_cpu.{_oidn_version}.pylib"
+        tc.variables["LUX_OIDN_DENOISE_CPU"] = denoise_cpu.as_posix()
 
         if self.settings.os == "Macos" and self.settings.arch == "armv8":
             tc.cache_variables["CMAKE_OSX_ARCHITECTURES"] = "arm64"
@@ -116,29 +134,12 @@ class LuxCore(ConanFile):
 
         cd.generate()
 
-    # TODO
-    # def layout(self):
-        # cmake_layout(self)
-
-        # if self.settings.os == "Linux":
-            # self.cpp.package.libs = [
-                # "pyluxcore",
-                # "libtbb.so.12",
-                # "libtbbmalloc_proxy.so.2",
-                # "libtbbmalloc.so.2",
-            # ]
-
-
     def package(self):
         # Just to ensure package is not empty
         save(self, os.path.join(self.package_folder, "dummy.txt"), "Hello World")
 
     def package_info(self):
-        self.conf_info.define("cmake.build:verbosity", "debug")
 
-        self.conf_info.define("tools.build:sharedlinkflags", ["-VERBOSE"])
-        self.conf_info.define("tools.build:exelinkflags", ["-VERBOSE"])
-        self.conf_info.define("tools.build:verbosity", "verbose")
         if self.settings.os == "Linux":
             self.cpp_info.libs = [
                 "pyluxcore",

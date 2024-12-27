@@ -24,24 +24,38 @@ jobs:
       matrix:
         python-minor: [8, 9, 10, 11, 12, 13]
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        #python-minor: [ 12]
+        #os: [ubuntu-latest]
+        exclude:
+          - os: macos-14
+            python-minor: 8
     env:
+      # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
       SPDLOG_FMT_EXTERNAL: on
+      # Versions
       CXX_VERSION: 17
       BOOST_VERSION: 1.84.0
       OIIO_VERSION: 2.5.16.0
-      OCIO_VERSION: 2.3.1
-      OIDN_VERSION: 2.3.0
+      OCIO_VERSION: 2.4.0
+      OIDN_VERSION: 2.3.1
       TBB_VERSION: 2021.12.0
-      OPENEXR_VERSION: 3.2.3
+      OPENEXR_VERSION: 3.3.2
       BLENDER_VERSION: 4.2.3
       OPENVDB_VERSION: 11.0.0
-      SPDLOG_VERSION: 1.14.1
+      SPDLOG_VERSION: 1.15.0
+      EMBREE3_VERSION: 3.13.5
+      FMT_VERSION: 11.0.2
 
 
     steps:
+
+      - name: Configure git for long paths
+        shell: bash
+        if: runner.os == 'Windows'
+        run: git config --system core.longpaths true
 
       - name: Checkout main repository (LuxCoreWheel)
         uses: actions/checkout@v4
@@ -90,6 +104,10 @@ jobs:
       - name: Get cmake
         if: runner.os == 'macOS' || runner.os == 'Windows'
         uses: lukka/get-cmake@latest
+
+      - name: Install ISPC
+        if: runner.os == 'macOS' || runner.os == 'Windows'
+        uses: ispc/install-ispc-action@main
 
       - name: Prepare msvc
         if: runner.os == 'Windows'
@@ -158,21 +176,60 @@ jobs:
             BLENDER_VERSION
             OPENVDB_VERSION
             SPDLOG_VERSION
+            EMBREE3_VERSION
+            FMT_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release
             dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
             ccache --show-config
+
+            # Install git-lfs
+            curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
+            dnf install -y git-lfs
+
+            # Install ispc
+            # https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2023-0/yum-dnf-zypper.html
+            tee > /tmp/oneAPI.repo << EOF
+            [oneAPI]
+            name=Intel® oneAPI repository
+            baseurl=https://yum.repos.intel.com/oneapi
+            enabled=1
+            gpgcheck=1
+            repo_gpgcheck=1
+            gpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+            EOF
+            mv /tmp/oneAPI.repo /etc/yum.repos.d
+
+            dnf install -y intel-oneapi-ispc
+            source /opt/intel/oneapi/ispc/latest/env/vars.sh
+
+            # TODO
+            ## Install Cuda
+            #dnf install -y --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
+            #dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm
+            #subscription-manager repos --enable "codeready-builder-for-rhel-8-$(uname -m)-rpms"
+            #dnf install -y xorg-x11-drv-nvidia-470xx-cuda-libs
+
           CIBW_BEFORE_ALL_MACOS: |
-            brew install bison flex
+            brew install bison flex ispc
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
-            TBB=/project/full_deploy/host/onetbb/2021.12.0/Release/x86_64/lib
+            TBB=/project/full_deploy/host/onetbb/$TBB_VERSION/Release/x86_64/lib
             OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/Release/x86_64/lib
-            LD_LIBRARY_PATH=$OIDN:$TBB:$LD_LIBRARY_PATH
+            HWLOC=/project/full_deploy/host/hwloc/2.9.3/Release/x86_64/lib
+            LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/Release/x86_64/lib
+            LD_LIBRARY_PATH=$TBB:$HWLOC:$LEVEL_ZERO:$OIDN:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
-            auditwheel --verbose repair -w {dest_dir} {wheel} --strip
+
+            auditwheel \
+              --verbose repair -w {dest_dir} {wheel} \
+              --strip
+
+            pip install wheel
+            WHEEL=$(ls -1 {dest_dir}/*.whl)
+            python ${{ env.WORKSPACE }}/scripts/recompose_wheel_linux.py -- $WHEEL
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
@@ -180,13 +237,15 @@ jobs:
             BASE=${{ env.WORKSPACE }}/full_deploy/host
             TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
             OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
-            export DYLD_LIBRARY_PATH=$TBB:$OIDN
+            EMBREE3=$BASE/embree3/${{ env.EMBREE3_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            export DYLD_LIBRARY_PATH=$TBB:$OIDN:$EMBREE3
+            delocate-listdeps -v {wheel}
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_TEST_COMMAND_LINUX: pyluxcoretest
           CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest
           CIBW_TEST_COMMAND_MACOS: |
             if [[ ${{ matrix.os }} == 'macos-13' ]]; then
-              # Only for Intel
+              # Only for Intel: ARM runner raises an OpenCL driver error
               pyluxcoretest
             fi
           CIBW_CONTAINER_ENGINE: >

@@ -30,6 +30,7 @@ compiler.libcxx=libc++
 [options]
 minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
+embree3/*:neon2x=True
 
 {% endif %}
 

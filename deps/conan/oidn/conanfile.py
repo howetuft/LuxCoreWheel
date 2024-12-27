@@ -4,9 +4,11 @@
 
 import os
 import shutil
-from conan.tools.files import get, copy, rmdir, rename, rm
-from conan.tools.files.symlinks import absolute_to_relative_symlinks
+from pathlib import Path
+from conan.tools.files import get, copy, rmdir, rename, rm, replace_in_file
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps, cmake_layout
 from conan import ConanFile
+from conan.tools.scm import Git
 
 _oidn_version = os.environ["OIDN_VERSION"]
 _tbb_version = os.environ["TBB_VERSION"]
@@ -17,223 +19,135 @@ class OidnConan(ConanFile):
     user = "luxcorewheels"
     channel = "luxcorewheels"
     settings = "os", "arch", "compiler", "build_type"
-    package_type = "unknown"
-    package_id_unknown_mode = "revision_mode"
+    package_type = "library"
 
-    # Nota: do not embed tbbbind: useless for CPU
-    _libs_linux = [
-        f"libOpenImageDenoise_core.so.{_oidn_version}",
-        f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
-        f"libOpenImageDenoise.so.{_oidn_version}",
-        "libOpenImageDenoise.so",
-        "libOpenImageDenoise.so.2",
-        "libtbb.so.12.12",
-        "libtbbmalloc.so.2.12",
-        "libtbbmalloc_proxy.so.2.12",
-        "libtbb.so",
-        "libtbb.so.12",
-        "libtbbmalloc.so",
-        "libtbbmalloc.so.2",
-        "libtbbmalloc_proxy.so",
-        "libtbbmalloc_proxy.so.2",
-    ]
+    options = {
+        "shared": [True, False],
+        "fPIC": [True, False],
+        "with_device_cpu": [True, False],
+        "with_device_sycl": [True, False],
+        "with_device_sycl_aot": [True, False],
+        "with_device_cuda": [True, False],
+        "device_cuda_api": ["Driver", "RuntimeStatic", "RuntimeShared"],
+        "with_device_hip": [True, False],
+        "with_device_metal": [True, False],
+        "with_filter_rt": [True, False],
+        "with_filter_rtlightmap": [True, False],
+        "with_apps": [True, False],
+    }
+    default_options = {
+        "shared": True,
+        "fPIC": True,
+        "with_device_cpu": True,
+        "with_device_sycl": False,
+        "with_device_sycl_aot": True,
+        "with_device_cuda": False,
+        "device_cuda_api": "Driver",
+        "with_device_hip": False,
+        "with_device_metal": False,
+        "with_filter_rt": True,
+        "with_filter_rtlightmap": True,
+        "with_apps": True,
+    }
 
-    _libs_windows = [
-        "OpenImageDenoise_core",
-        "OpenImageDenoise",
-    ]
+    def requirements(self):
+        # TODO
+        # if self.settings.os == "Linux":
+            # self.requires("level-zero/1.17.39")
+        self.requires(f"onetbb/{_tbb_version}")
 
-    _libs_macos13 = [
-        f"OpenImageDenoise.{_oidn_version}",
-        "OpenImageDenoise.2",
-        "OpenImageDenoise",
-        f"OpenImageDenoise_core.{_oidn_version}",
-        f"OpenImageDenoise_device_cpu.{_oidn_version}",
-    ]
-
-    _libs_macos14 = [
-        f"OpenImageDenoise.{_oidn_version}",
-        "OpenImageDenoise.2",
-        "OpenImageDenoise",
-        f"OpenImageDenoise_core.{_oidn_version}",
-        f"OpenImageDenoise_device_cpu.{_oidn_version}",
-        f"OpenImageDenoise_device_metal.{_oidn_version}",
-    ]
-
-    # https://docs.conan.io/2/tutorial/creating_packages/other_types_of_packages/package_prebuilt_binaries.html
-
-    def _package_linux(self):
-        base_oidn = os.path.join(
-            self.build_folder,
-            f"oidn-{self.version}.x86_64.linux",
-        )
-        base_tbb = os.path.join(
-            self.build_folder,
-            f"oneapi-tbb-{_tbb_version}",
-        )
-
-        # Oidn
-        copy(
-            self,
-             "*",
-             src=os.path.join(base_oidn, "include"),
-             dst=os.path.join(self.package_folder, "include"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "bin"),
-            dst=os.path.join(self.package_folder, "bin"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "lib"),
-            dst=os.path.join(self.package_folder, "lib"),
-        )
-
-        # Tbb
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_tbb, "lib", "intel64", "gcc4.8"),
-            dst=os.path.join(self.package_folder, "lib"),
+    def source(self):
+        git = Git(self)
+        res = git.run("lfs install")
+        print(res)
+        git.clone(
+            "https://github.com/OpenImageDenoise/oidn.git",
+            args=["--recursive", f"--branch v{_oidn_version}"],
+            target=Path(self.source_folder) / "oidn"
         )
 
 
-    def _package_windows(self):
-        base_oidn = os.path.join(
-            self.build_folder,
-            f"oidn-{self.version}.x64.windows",
-        )
-        # Oidn
-        copy(
-            self,
-             "*",
-             src=os.path.join(base_oidn, "include"),
-             dst=os.path.join(self.package_folder, "include"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "bin"),
-            dst=os.path.join(self.package_folder, "bin"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "lib"),
-            dst=os.path.join(self.package_folder, "lib"),
-        )
+    def layout(self):
+        cmake_layout(self)
 
-    def _package_macos13(self):
-        base_oidn = os.path.join(
-            self.build_folder,
-            f"oidn-{self.version}.x86_64.macos",
-        )
-        copy(
-            self,
-             "*",
-             src=os.path.join(base_oidn, "include"),
-             dst=os.path.join(self.package_folder, "include"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "bin"),
-            dst=os.path.join(self.package_folder, "bin"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "lib"),
-            dst=os.path.join(self.package_folder, "lib"),
-        )
-        rm(self, "libtbb.12.12.dylib", os.path.join(self.package_folder, "lib"))
+    def generate(self):
+        tc = CMakeToolchain(self)
+        tc.variables["OIDN_STATIC_LIB"] = not self.options.shared
 
-    def _package_macos14(self):
-        base_oidn = os.path.join(
-            self.build_folder,
-            f"oidn-{self.version}.arm64.macos",
-        )
-        copy(
-            self,
-             "*",
-             src=os.path.join(base_oidn, "include"),
-             dst=os.path.join(self.package_folder, "include"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "bin"),
-            dst=os.path.join(self.package_folder, "bin"),
-        )
-        copy(
-            self,
-            "*",
-            src=os.path.join(base_oidn, "lib"),
-            dst=os.path.join(self.package_folder, "lib"),
-        )
-        rm(self, "libtbb.12.12.dylib", os.path.join(self.package_folder, "lib"))
+        tc.variables["OIDN_DEVICE_CPU"] = self.options.with_device_cpu
+        tc.variables["OIDN_DEVICE_SYCL"] = self.options.with_device_sycl
+        tc.variables["OIDN_DEVICE_SYCL_AOT"] = self.options.with_device_sycl_aot
+        tc.variables["OIDN_DEVICE_CUDA"] = self.options.with_device_cuda
+        tc.variables["OIDN_DEVICE_CUDA_API"] = self.options.device_cuda_api
+        tc.variables["OIDN_DEVICE_HIP"] = self.options.with_device_hip
+        tc.variables["OIDN_DEVICE_METAL"] = self.options.with_device_metal
+        tc.variables["OIDN_FILTER_RT"] = self.options.with_filter_rt
+        tc.variables["OIDN_FILTER_RTLIGHTMAP"] = self.options.with_filter_rtlightmap
+        tc.variables["OIDN_APPS"] = self.options.with_apps
+        if self.settings.os == "Linux":
+            tc.cache_variables["CMAKE_SKIP_RPATH"] = True
+            tc.cache_variables["CMAKE_INSTALL_RPATH"] = "\\\\\${ORIGIN}/."
+        if self.settings.os == "Macos":
+            tc.cache_variables["CMAKE_SKIP_RPATH"] = True
+            tc.cache_variables["CMAKE_INSTALL_RPATH"] = "\\\\\${ORIGIN}/."
+        tc.generate()
 
-    def package(self):
-        os_ = self.settings.os  # Beware: potential name collision with module os
-        arch = self.settings.arch
-        if os_ == "Linux":
-            self._package_linux()
-        elif os_ == "Windows":
-            self._package_windows()
-        elif os_ == "Macos" and arch == "x86_64":
-            self._package_macos13()
-        elif os_ == "Macos" and arch == "armv8":
-            self._package_macos14()
-        else:
-            raise ValueError("Unhandled os/arch")
-        rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
-
-    def package_info(self):
-        os_ = self.settings.os  # Beware: potential name collision with module os
-        arch = self.settings.arch
-        if os_ == "Linux":
-            self.cpp_info.libs = self._libs_linux
-        elif os_ == "Windows":
-            self.cpp_info.libs = self._libs_windows
-        elif os_ == "Macos" and arch == "x86_64":
-            self.cpp_info.libs = self._libs_macos13
-        elif os_ == "Macos" and arch == "armv8":
-            self.cpp_info.libs = self._libs_macos14
-        else:
-            raise ValueError("Unhandled os/arch")
-
-        self.cpp_info.includedirs = ['include']  # Ordered list of include paths
-        self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
-        self.cpp_info.bindirs = ['bin']  # Directories where executables and shared libs can be found
-        bin_path = os.path.join(self.package_folder, "bin")
-        self.output.info("Appending PATH environment variable: {}".format(bin_path))
-        self.env_info.PATH.append(bin_path)
+        deps = CMakeDeps(self)
+        deps.generate()
 
     def build(self):
-        os_ = self.settings.os  # Beware: potential name collision with module os
-        arch = self.settings.arch
-        version = self.version
-        base = "https://github.com/RenderKit/oidn/releases/download"
+        if self.settings.os == "Linux":
+            # Add a reserved tag in dynamically loaded library name
+            # We'll fill it later, with the hash generated by repairing
+            replace_in_file(
+                self,
+                Path(self.source_folder) / "oidn" / "core" / "module.cpp",
+                '".so"',
+                '"-reserved.so"',
+            )
 
-        # For all: get oidn
-        if os_ == "Linux":
-            url = f"{base}/v{version}/oidn-{version}.x86_64.linux.tar.gz"
-        elif os_ == "Windows":
-            url = f"{base}/v{version}/oidn-{version}.x64.windows.zip"
-        elif os_ == "Macos" and arch == "x86_64":
-            url = f"{base}/v{version}/oidn-{version}.x86_64.macos.tar.gz"
-        elif os_ == "Macos" and arch == "armv8":
-            url = f"{base}/v{version}/oidn-{version}.arm64.macos.tar.gz"
+        cmake = CMake(self)
+        cmake.configure(cli_args=[], build_script_folder=Path(self.folders.source) / "oidn")
+        cmake.build(cli_args=["--verbose", "--clean-first"])
+
+    def package(self):
+        copy(
+            self,
+            "LICENSE.txt",
+            src=self.source_folder,
+            dst=os.path.join(self.package_folder, "licenses"),
+        )
+        cmake = CMake(self)
+        cmake.install()
+        rmdir(self, os.path.join(self.package_folder, "cmake"))
+        rmdir(self, os.path.join(self.package_folder, "lib", "cmake"))
+        rmdir(self, os.path.join(self.package_folder, "share"))
+
+    def package_info(self):
+        if self.options.shared:
+            # Shared
+            if self.settings.os == "Linux":
+                self.cpp_info.libs = [
+                    "OpenImageDenoise",
+                    f"libOpenImageDenoise_device_cpu.so.{_oidn_version}",
+                    f"libOpenImageDenoise_core.so.{_oidn_version}",
+                ]
+            elif self.settings.os == "Windows":
+                self.cpp_info.libs = [
+                    "OpenImageDenoise",
+                    "OpenImageDenoise_core",
+                ]
+            elif self.settings.os == "Macos":
+                self.cpp_info.libs = [
+                    f"OpenImageDenoise.{_oidn_version}",
+                    f"OpenImageDenoise_device_cpu.{_oidn_version}",
+                    f"OpenImageDenoise_core.{_oidn_version}",
+                ]
         else:
-            raise ValueError("Unhandled os/arch")
-
-        get(self, url)
-
-        # For Linux: get tbb
-        if os_ == "Linux":
-            base = "https://github.com/oneapi-src/oneTBB/releases/download"
-            url_tbb = f"{base}/v{_tbb_version}/oneapi-tbb-{_tbb_version}-lin.tgz"
-            get(self, url_tbb)
+            # Static
+            # Warning: library order matters!
+            self.cpp_info.libs = [
+                "OpenImageDenoise",
+                "OpenImageDenoise_device_cpu",
+                "OpenImageDenoise_core",
+            ]

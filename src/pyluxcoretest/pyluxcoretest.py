@@ -26,6 +26,8 @@ from array import *
 from pathlib import Path
 import tempfile
 import shutil
+import subprocess
+import platform
 
 # sys.path.append("./lib")
 
@@ -829,7 +831,7 @@ def SaveResumeRenderingS():
     )
     session.Stop()
 
-    print("Done.", flush=True)
+    print("Done.\n", flush=True)
 
 
 ################################################################################
@@ -854,10 +856,47 @@ def convert_folder_to_windows(folder, extension):
 
         # print(path_in_str, flush=True)
 
+def ExternalOidn():
+    print("*** External denoiser test ***")
+    print(f"Looking for oidnDenoiser... ", end='')
+    denoiser_path = pyluxcore.which_oidn()
+    assert denoiser_path
+    print("Found!")
+    os.chdir(os.path.dirname(denoiser_path))
+
+    if platform.system() == "Linux":
+        cmd = ["patchelf", denoiser_path, "--print-rpath"]
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        print("oidnDenoiser rpath:", result.stdout)
+
+    print("Running external denoiser")
+    image_path = Path(__file__).parent / "memorial.pfm"
+    args = [
+        denoiser_path,
+        "-hdr",
+        image_path,
+    ]
+    denoiser_process = subprocess.Popen(
+        args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        env={"LD_DEBUG": "libs"},
+    )
+    with denoiser_process.stdout as d_out:
+        if d_out:
+            print("Denoiser output:")
+            for line in d_out:
+                print(line, end='')
+    denoiser_process.wait()
+    returncode = denoiser_process.returncode
+    print("Denoiser return code:", returncode)
+    assert returncode is not None and returncode == 0
+    print()
 
 
 def main():
-
+    """Entry point."""
     print("STARTING LUXCORETEST", flush=True)
     global PATH_TO_SCENE
     current_path = os.getcwd()
@@ -887,6 +926,7 @@ def main():
         ImagePipelineEdit()
         SaveResumeRenderingM()
         SaveResumeRenderingS()
+        ExternalOidn()
 
         print("Copying results", flush=True)
 

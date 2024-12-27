@@ -122,11 +122,26 @@ echo "Remove blender_types.h"
 rm include/luxcore/pyluxcore/blender_types.h
 $SED -i 's/"luxcore\/pyluxcore\/blender_types.h"/<blender_types.h>/g' src/luxcore/pyluxcoreforblender.cpp
 
+echo "Oidn"
+replace_anywhere \
+  "oidn::DeviceRef device = oidn::newDevice(oidn::DeviceType::CPU);" \
+  'oidn::DeviceRef device = oidn::newDevice(oidn::DeviceType::CPU);
+   const char* errorMessage2;
+   if (device.getError(errorMessage2) != oidn::Error::None)
+     throw std::runtime_error(errorMessage2);
+   device.setErrorFunction(errorCallback);
+   device.set("verbose", 3);'
+snippet="void errorCallback(void* userPtr, oidn::Error error, const char* message) { throw std::runtime_error(message); } "
+$SED -i "37s/^/$snippet/" src/slg/film/imagepipeline/plugins/intel_oidn.cpp
+replace_anywhere "vector<float> albedoBuffer;" "vector<float> albedoBuffer(3 \* pixelCount);"
+replace_anywhere "vector<float> normalBuffer;" "vector<float> normalBuffer(3 \* pixelCount);"
+
+
+# Per platform
 
 echo "Macos - Remove Platform Specifics and Configuration"
 remove_containing_line "INCLUDE(PlatformSpecific)" CMakeLists.txt
 remove_containing_line "INCLUDE(Configuration)" CMakeLists.txt
-
 
 echo "Windows - Remove various compiler flags"
 if [[ $RUNNER_OS == "Windows" ]]; then

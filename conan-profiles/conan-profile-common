@@ -13,3 +13,6 @@ meson/*
 ninja/*
 pkgconf/*
 yasm/*
+
+[options]
+oidn/*:shared=True
