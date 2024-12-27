@@ -30,20 +30,24 @@ jobs:
           - os: macos-14
             python-minor: 8
     env:
+      # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
       SPDLOG_FMT_EXTERNAL: on
+      # Versions
       CXX_VERSION: 17
       BOOST_VERSION: 1.84.0
       OIIO_VERSION: 2.5.16.0
-      OCIO_VERSION: 2.3.1
-      OIDN_VERSION: 2.3.0
+      OCIO_VERSION: 2.4.0
+      OIDN_VERSION: 2.3.1
       TBB_VERSION: 2021.12.0
-      OPENEXR_VERSION: 3.2.3
+      OPENEXR_VERSION: 3.3.2
       BLENDER_VERSION: 4.2.3
       OPENVDB_VERSION: 11.0.0
-      SPDLOG_VERSION: 1.14.1
+      SPDLOG_VERSION: 1.15.0
+      EMBREE3_VERSION: 3.13.5
+      FMT_VERSION: 11.0.2
 
 
     steps:
@@ -172,6 +176,8 @@ jobs:
             BLENDER_VERSION
             OPENVDB_VERSION
             SPDLOG_VERSION
+            EMBREE3_VERSION
+            FMT_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf config-manager --set-enabled powertools
             dnf install -y epel-release
@@ -231,7 +237,8 @@ jobs:
             BASE=${{ env.WORKSPACE }}/full_deploy/host
             TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
             OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
-            export DYLD_LIBRARY_PATH=$TBB:$OIDN
+            EMBREE3=$BASE/embree3/${{ env.EMBREE3_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            export DYLD_LIBRARY_PATH=$TBB:$OIDN:$EMBREE3
             delocate-listdeps -v {wheel}
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
           CIBW_TEST_COMMAND_LINUX: pyluxcoretest

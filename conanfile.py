@@ -23,6 +23,8 @@ _blender_version = os.environ["BLENDER_VERSION"]
 _openvdb_version = os.environ["OPENVDB_VERSION"]
 _tbb_version = os.environ["TBB_VERSION"]
 _spdlog_version = os.environ["SPDLOG_VERSION"]
+_embree3_version = os.environ["EMBREE3_VERSION"]
+_fmt_version = os.environ["FMT_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -42,7 +44,7 @@ class LuxCore(ConanFile):
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
         f"openvdb/{_openvdb_version}",
         "eigen/3.4.0",
-        "embree3/3.13.1",
+        f"embree3/{_embree3_version}",
         "tsl-robin-map/1.2.1",
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
@@ -67,6 +69,7 @@ class LuxCore(ConanFile):
             transitive_libs=True,
         )  # For oidn
         self.requires("imath/3.1.9", override=True)
+        self.requires(f"fmt/{_fmt_version}", override=True)
 
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")

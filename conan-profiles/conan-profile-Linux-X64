@@ -10,3 +10,7 @@ compiler.libcxx=libstdc++11
 
 [conf]
 openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }
+
+[options]
+openvdb/*:simd=AVX
+embree3/*:avx512=True
