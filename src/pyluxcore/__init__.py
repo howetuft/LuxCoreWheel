@@ -31,7 +31,19 @@ _OIDN_PATHS = {
 }
 
 def which_oidn():
-    """Retrieve external oidn path."""
+    """Retrieve external oidn path (applying which).
+
+    Returns path only if oidn is there and executable, None otherwise.
+    """
     path, executable = _OIDN_PATHS[platform.system()]
     denoiser_path = shutil.which(executable, path=path)
     return denoiser_path
+
+def path_to_oidn():
+    """Retrieve external oidn path.
+
+    Just return theoretical path, do not check if oidn is there, nor if
+    it is executable.
+    """
+    path, executable = _OIDN_PATHS[platform.system()]
+    return path / executable
