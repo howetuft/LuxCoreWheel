@@ -125,7 +125,8 @@ $SED -i 's/"luxcore\/pyluxcore\/blender_types.h"/<blender_types.h>/g' src/luxcor
 echo "Oidn"
 replace_anywhere \
   "oidn::DeviceRef device = oidn::newDevice(oidn::DeviceType::CPU);" \
-  'oidn::DeviceRef device = oidn::newDevice(oidn::DeviceType::CPU);
+  'oidn::DeviceRef device = oidn::newDevice();
+   printf("%p %p %p %p ", srcBuffer, dstBuffer, albedoBuffer, normalBuffer);
    const char* errorMessage2;
    if (device.getError(errorMessage2) != oidn::Error::None)
      throw std::runtime_error(errorMessage2);
@@ -134,7 +135,9 @@ replace_anywhere \
 snippet="void errorCallback(void* userPtr, oidn::Error error, const char* message) { throw std::runtime_error(message); } "
 $SED -i "37s/^/$snippet/" src/slg/film/imagepipeline/plugins/intel_oidn.cpp
 replace_anywhere "vector<float> albedoBuffer;" "vector<float> albedoBuffer(3 \* pixelCount);"
-replace_anywhere "vector<float> normalBuffer;" "vector<float> normalBuffer(3 \* pixelCount);"
+replace_anywhere "vector<float> normalBuffer;" "vector<float> normalBuffer(3 \* pixelCount), dummy1(3 \* pixelCount), dummy2(3 \* pixelCount); "
+replace_anywhere "nullptr, nullptr, width, height, false);" "\&dummy1[0], \&dummy2[0], width, height, false);"
+cat src/slg/film/imagepipeline/plugins/intel_oidn.cpp  # TODO
 
 
 # Per platform
