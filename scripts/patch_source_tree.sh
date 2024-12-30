@@ -125,8 +125,7 @@ $SED -i 's/"luxcore\/pyluxcore\/blender_types.h"/<blender_types.h>/g' src/luxcor
 echo "Oidn"
 replace_anywhere \
   "oidn::DeviceRef device = oidn::newDevice(oidn::DeviceType::CPU);" \
-  'oidn::DeviceRef device = oidn::newDevice();
-   printf("%p %p %p %p ", srcBuffer, dstBuffer, albedoBuffer, normalBuffer);
+  'oidn::DeviceRef device = oidn::newDevice(oidn::DeviceType::CPU);
    const char* errorMessage2;
    if (device.getError(errorMessage2) != oidn::Error::None)
      throw std::runtime_error(errorMessage2);
