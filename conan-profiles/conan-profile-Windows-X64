@@ -10,7 +10,7 @@ compiler.runtime=dynamic
 
 [conf]
 tools.env.virtualenv:powershell=False
-tools.build:cxxflags+=["/openmp", "/MP", "/DEBUG:NONE", "/arch:AVX2"]
+tools.build:cxxflags+=["/openmp", "/MP", "/DEBUG:NONE", "/arch:AVX"]
 
 [options]
 openvdb/*:simd=AVX
