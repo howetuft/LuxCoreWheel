@@ -15,10 +15,14 @@ minizip-ng/*:with_libcomp=False
 openvdb/*:simd=AVX
 embree3/*:avx512=True
 embree3/*:shared=True
+embree3/*:with_tbb=True
 
 [buildenv]
 CXX=clang++
 CC=clang
 
 [conf]
-tools.build:cxxflags+=["-ftree-vectorize", "-march=x86-64-v4"]
+tools.build:cxxflags=["-ftree-vectorize", "-march=x86-64-v4"]
+tools.build:cflags=["-ftree-vectorize", "-march=x86-64-v4"]
+lcms/*:tools.build:cxxflags=[]
+lcms/*:tools.build:cflags=[]

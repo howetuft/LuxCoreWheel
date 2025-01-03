@@ -11,6 +11,7 @@ compiler.libcxx=libstdc++11
 [options]
 openvdb/*:simd=AVX
 embree3/*:avx512=True
+embree3/*:with_tbb=True
 
 [conf]
 tools.build:cflags+=["-ftree-vectorize", "-march=x86-64-v3"]

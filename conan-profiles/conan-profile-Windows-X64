@@ -12,7 +12,8 @@ compiler.runtime=dynamic
 tools.env.virtualenv:powershell=False
 tools.build:cxxflags=["/openmp", "/MP", "/DEBUG:NONE", "/arch:AVX"]
 embree3/*:tools.build:cxxflags=["/openmp", "/MP", "/DEBUG:NONE"]
+embree3/*:with_tbb=True
 
 [options]
 openvdb/*:simd=AVX
-embree3/*:avx=True
+embree3/*:avx512=True
