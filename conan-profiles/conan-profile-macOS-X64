@@ -19,3 +19,7 @@ embree3/*:shared=True
 [buildenv]
 CXX=clang++
 CC=clang
+
+[conf]
+tools.build:cflags+=["-ftree-vectorize", "-march=x86-64-v4"]
+tools.build:cxxflags+=["-ftree-vectorize", "-march=x86-64-v4"]
