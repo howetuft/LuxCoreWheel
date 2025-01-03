@@ -37,3 +37,4 @@ embree3/*:neon2x=True
 [buildenv]
 CXX=clang++
 CC=clang
+&:tools.build:cxxflags=["-O3"]

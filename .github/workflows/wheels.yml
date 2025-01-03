@@ -28,6 +28,8 @@ jobs:
         #os: [ubuntu-latest]
         #python-minor: [ 11]
         #os: [windows-latest]
+        #python-minor: [ 11]
+        #os: [macos-13]
         exclude:
           - os: macos-14
             python-minor: 8
