@@ -95,6 +95,13 @@ jobs:
             core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache-debug`);
             core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
 
+
+      - name: Update apt (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          apt-get update -y
+
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2
         with:
