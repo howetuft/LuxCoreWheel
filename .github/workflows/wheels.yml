@@ -100,7 +100,7 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          apt-get update -y
+          sudo apt-get update -y
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2

@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# ccache
+.ccache/
+
+# conan-cache content
+conan-cache/*
+
 # Distribution / packaging
 .Python
 build/
