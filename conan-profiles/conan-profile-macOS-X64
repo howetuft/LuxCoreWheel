@@ -15,7 +15,6 @@ minizip-ng/*:with_libcomp=False
 openvdb/*:simd=AVX
 embree3/*:avx512=True
 embree3/*:shared=True
-embree3/*:with_tbb=True
 
 [buildenv]
 CXX=clang++
