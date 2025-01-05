@@ -16,7 +16,9 @@ yasm/*
 
 [options]
 oidn/*:shared=True
-embree3/*:with_tbb=False
+embree3/*:with_tbb=True
+embree3/*:shared=True
+
 
 # boost/*:without_atomic=True
 boost/*:without_charconv=True

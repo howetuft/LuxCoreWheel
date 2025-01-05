@@ -228,9 +228,10 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
             TBB=/project/full_deploy/host/onetbb/$TBB_VERSION/Release/x86_64/lib
             OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/Release/x86_64/lib
+            EMBREE3=/project/full_deploy/host/embree3/$EMBREE3_VERSION/Release/x86_64/lib
             HWLOC=/project/full_deploy/host/hwloc/2.9.3/Release/x86_64/lib
             LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/Release/x86_64/lib
-            LD_LIBRARY_PATH=$TBB:$HWLOC:$LEVEL_ZERO:$OIDN:$LD_LIBRARY_PATH
+            LD_LIBRARY_PATH=$TBB:$HWLOC:$LEVEL_ZERO:$OIDN:$EMBREE3:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
 
