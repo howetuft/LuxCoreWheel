@@ -27,6 +27,7 @@ delvewheel repair -v \
   --add-path="${redist_paths}" \
   --add-path="C:/Users/runneradmin/full_deploy/host/onetbb/${TBB_VERSION}/Release/x86_64/bin" \
   --add-path="C:/Users/runneradmin/full_deploy/host/oidn/${OIDN_VERSION}/Release/x86_64/bin" \
+  --add-path="C:/Users/runneradmin/full_deploy/host/embree3/${EMBREE3_VERSION}/Release/x86_64/bin" \
   -w "${dest_dir}" \
   "${wheel}"
 

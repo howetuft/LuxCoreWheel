@@ -13,9 +13,11 @@ compiler.libcxx=libc++
 minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
 openvdb/*:simd=AVX
-embree3/*:avx512=True
-embree3/*:shared=True
 
 [buildenv]
 CXX=clang++
 CC=clang
+
+[conf]
+&:tools.build:cxxflags+=["-ftree-vectorize", "-march=x86-64-v3", "-O3", "-mno-avx2"]
+# NB: Github MacOS X64 runner does not support avx2 nor avx512

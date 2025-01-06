@@ -91,7 +91,12 @@ author).
 tried to have it minimal and it's 10.13. For the delocation to succeed, we also
 have to set `MACOSX_DEPLOYMENT_TARGET` environment variable to 10.13.
 
+## Vectorization
+For Intel, we stick to x86-64-v3 (Haswell, 2013), no more. For all platform
+except MacOS Intel, we rely on "-O" option.
+For MacOS Intel: Github runner is not standard, we have to deactivate avx2
+extensions. Otherwise `pyluxcore.so` cannot be tested ("Illegal instruction").
+See https://github.com/ggerganov/whisper.cpp/issues/358 and `sysctl -a
+machdep.cpu`
 
-
-we 
 

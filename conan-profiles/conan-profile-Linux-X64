@@ -8,9 +8,12 @@ compiler.version=12
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
 compiler.libcxx=libstdc++11
 
-[conf]
-openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }
-
 [options]
 openvdb/*:simd=AVX
+embree3/*:avx2=True
 embree3/*:avx512=True
+
+[conf]
+tools.build:cflags+=["-ftree-vectorize", "-march=x86-64-v3", "-O3"]
+tools.build:cxxflags+=["-ftree-vectorize", "-march=x86-64-v3", "-O3"]
+openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }
