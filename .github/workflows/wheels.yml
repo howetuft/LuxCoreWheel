@@ -95,7 +95,6 @@ jobs:
             core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache-debug`);
             core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
 
-
       - name: Update apt (Linux)
         if: runner.os == 'Linux'
         shell: bash
@@ -303,7 +302,6 @@ jobs:
       id-token: write
       attestations: write
       contents: read
-
     runs-on: ubuntu-latest
     if: ${{ github.ref_name }} == 'work'
     steps:
@@ -330,7 +328,6 @@ jobs:
       id-token: write
       attestations: write
       contents: read
-
     runs-on: ubuntu-latest
     if: github.event_name == 'release' && github.event.action == 'published'
     steps:
