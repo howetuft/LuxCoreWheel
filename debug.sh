@@ -11,6 +11,11 @@
 #export CIBW_DEBUG_KEEP_CONTAINER=TRUE
 act \
   --action-offline-mode \
+  --job build_wheels \
   -s GITHUB_TOKEN="$(gh auth token)" \
-  --matrix os:ubuntu-latest --matrix python-minor:'12' \
-  --artifact-server-path /tmp/artifacts
+  --matrix os:ubuntu-latest --matrix python-minor:'13' \
+  --artifact-server-path /tmp/pyluxcore
+
+cd /tmp/pyluxcore/1/cibw-wheels-ubuntu-latest-13
+unzip cibw-wheels-ubuntu-latest-13.zip
+
