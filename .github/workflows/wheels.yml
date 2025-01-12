@@ -171,7 +171,7 @@ jobs:
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
-          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux_2_34_x86_64
           CIBW_ENVIRONMENT: >
             SKBUILD_CMAKE_ARGS='--preset ${{ env.CONAN_PRESET }};-G Ninja;--log-level=VERBOSE'
             SKBUILD_CMAKE_BUILD_TYPE='${{ env.BUILD_TYPE }}'
@@ -243,12 +243,16 @@ jobs:
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
 
-            auditwheel \
-              --verbose repair -w {dest_dir} {wheel}
 
             pip install wheel
             WHEEL=$(ls -1 {dest_dir}/*.whl)
             python ${{ env.WORKSPACE }}/scripts/recompose_wheel_linux.py -- $WHEEL
+            auditwheel \
+              --verbose repair -w {dest_dir} \
+              --plat manylinux_2_34_x86_64 \
+              --only-plat \
+              {wheel}
+              #--strip TODO
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
