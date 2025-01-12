@@ -35,6 +35,7 @@ jobs:
             python-minor: 8
     env:
       # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
+      BUILD_TYPE: Debug
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
@@ -82,6 +83,12 @@ jobs:
             *) echo "Unhandled os ${{ runner.os }}";exit 64;;
           esac
           echo "WORKSPACE=${_workspace}" >> "$GITHUB_ENV"
+
+      - name: Set conan preset
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('CONAN_PRESET', String.raw`conan-${{ env.BUILD_TYPE }}`.toLowerCase())
 
       - name: Configure ccache
         uses: actions/github-script@v7
@@ -166,8 +173,10 @@ jobs:
           CIBW_ARCHS: auto64
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
           CIBW_ENVIRONMENT: >
-            SKBUILD_CMAKE_ARGS='--preset conan-release;-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_ARGS='--preset ${{ env.CONAN_PRESET }};-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_BUILD_TYPE='${{ env.BUILD_TYPE }}'
           CIBW_ENVIRONMENT_PASS_LINUX: |
+            BUILD_TYPE
             RUNNER_OS
             RUNNER_ARCH
             WORKSPACE
@@ -225,18 +234,17 @@ jobs:
             brew install bison flex ispc
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
-            TBB=/project/full_deploy/host/onetbb/$TBB_VERSION/Release/x86_64/lib
-            OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/Release/x86_64/lib
-            EMBREE3=/project/full_deploy/host/embree3/$EMBREE3_VERSION/Release/x86_64/lib
-            HWLOC=/project/full_deploy/host/hwloc/2.9.3/Release/x86_64/lib
-            LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/Release/x86_64/lib
+            TBB=/project/full_deploy/host/onetbb/$TBB_VERSION/${BUILD_TYPE}/x86_64/lib
+            OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/${BUILD_TYPE}/x86_64/lib
+            EMBREE3=/project/full_deploy/host/embree3/$EMBREE3_VERSION/${BUILD_TYPE}/x86_64/lib
+            HWLOC=/project/full_deploy/host/hwloc/2.9.3/${BUILD_TYPE}/x86_64/lib
+            LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/${BUILD_TYPE}/x86_64/lib
             LD_LIBRARY_PATH=$TBB:$HWLOC:$LEVEL_ZERO:$OIDN:$EMBREE3:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
 
             auditwheel \
-              --verbose repair -w {dest_dir} {wheel} \
-              --strip
+              --verbose repair -w {dest_dir} {wheel}
 
             pip install wheel
             WHEEL=$(ls -1 {dest_dir}/*.whl)
@@ -246,9 +254,9 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
             cp {wheel} ${{ env.WORKSPACE }}
             BASE=${{ env.WORKSPACE }}/full_deploy/host
-            TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
-            OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
-            EMBREE3=$BASE/embree3/${{ env.EMBREE3_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/${BUILD_TYPE}/${{ env.PKG_ARCH }}/lib
+            OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/${BUILD_TYPE}/${{ env.PKG_ARCH }}/lib
+            EMBREE3=$BASE/embree3/${{ env.EMBREE3_VERSION }}/${BUILD_TYPE}/${{ env.PKG_ARCH }}/lib
             export DYLD_LIBRARY_PATH=$TBB:$OIDN:$EMBREE3
             delocate-listdeps -v {wheel}
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}

@@ -1,5 +1,5 @@
 [settings]
-build_type=Release
+build_type={{ os.getenv("BUILD_TYPE") }}
 
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja
