@@ -9,8 +9,6 @@ compiler.version=14
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
 compiler.libcxx=libstdc++11
 
-pkgconf/*:build_type=Release
-
 [options]
 openvdb/*:simd=AVX
 embree3/*:shared=False

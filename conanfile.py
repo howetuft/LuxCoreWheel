@@ -77,6 +77,13 @@ class LuxCore(ConanFile):
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
 
+    def build_requirements(self):
+       self.tool_requires("cmake/*")
+       self.tool_requires("meson/*")
+       self.tool_requires("ninja/*")
+       self.tool_requires("pkgconf/*")
+       self.tool_requires("yasm/*")
+
     def generate(self):
         tc = CMakeToolchain(self)
         tc.absolute_paths = True
