@@ -251,15 +251,12 @@ jobs:
             unzip {wheel} -d /tmp/wheel
             readelf --string-dump .comment /tmp/wheel/pyluxcore/pyluxcore.so
 
-            pip install wheel
-            WHEEL=$(ls -1 {dest_dir}/*.whl)
-            python ${{ env.WORKSPACE }}/scripts/recompose_wheel_linux.py -- $WHEEL
             auditwheel \
               --verbose repair -w {dest_dir} \
               --plat manylinux_2_34_x86_64 \
               --only-plat \
+              ${{ env.BUILD_TYPE == 'Release' && '--strip' || '' }} \
               {wheel}
-              #--strip TODO
 
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
