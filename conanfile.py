@@ -69,6 +69,12 @@ class LuxCore(ConanFile):
             libs=True,
             transitive_libs=True,
         )  # For oidn
+        self.requires(
+            f"libdeflate/1.22",
+            force=True,
+            libs=True,
+            transitive_libs=True,
+        )
         self.requires("imath/3.1.9", override=True)
         self.requires(f"fmt/{_fmt_version}", override=True)
 

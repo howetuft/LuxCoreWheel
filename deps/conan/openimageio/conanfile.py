@@ -130,6 +130,12 @@ class OpenImageIOConan(ConanFile):
             self.requires("ptex/2.4.2")
         if self.options.with_libwebp:
             self.requires("libwebp/1.3.2")
+        self.requires(
+            f"libdeflate/1.22",
+            override=True,
+            libs=True,
+            transitive_libs=True,
+        )
         # TODO: R3DSDK dependency
         # TODO: Nuke dependency
 
