@@ -160,14 +160,3 @@ if [[ $RUNNER_OS == "Windows" ]]; then
   $SED -i "s/\/Zc:wchar_t//g" cmake/PlatformSpecific.cmake
   $SED -i "s/\/Zc:forScope//g" cmake/PlatformSpecific.cmake
 fi
-
-echo "Linux - isnan/isinf"
-if [[ $RUNNER_OS == "Linux" ]]; then
-  replace_anywhere_filter_ext "isnan" "std::isnan" \*.cpp
-  replace_anywhere_filter_ext "isnan" "std::isnan" \*.h
-  replace_anywhere_filter_ext "isinf" "std::isinf" \*.cpp
-  replace_anywhere_filter_ext "isinf" "std::isinf" \*.h
-  replace_anywhere "register float" "float"
-  replace_anywhere "register int" "int"
-  $SED -i "s/-O3//g" cmake/PlatformSpecific.cmake
-fi
