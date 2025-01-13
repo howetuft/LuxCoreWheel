@@ -198,9 +198,11 @@ jobs:
             EMBREE3_VERSION
             FMT_VERSION
           CIBW_BEFORE_ALL_LINUX: |
-            dnf config-manager --set-enabled powertools
             dnf install -y epel-release
-            dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
+            dnf install -y almalinux-release-devel
+            dnf install -y ninja-build bison flex wget ccache
+            dnf install -y perl-IPC-Cmd perl-Digest-SHA perl-FindBin perl-lib
+
             ccache --show-config
 
             # Install git-lfs
@@ -243,6 +245,9 @@ jobs:
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
 
+            ## Check build data
+            unzip {wheel} -d /tmp/wheel
+            readelf --string-dump .comment /tmp/wheel/pyluxcore/pyluxcore.so
 
             pip install wheel
             WHEEL=$(ls -1 {dest_dir}/*.whl)
@@ -253,6 +258,7 @@ jobs:
               --only-plat \
               {wheel}
               #--strip TODO
+
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |

@@ -4,7 +4,8 @@ include(conan-profile-common)
 os=Linux
 arch=x86_64
 compiler=gcc
-compiler.version=12
+# TODO
+compiler.version=14
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
 compiler.libcxx=libstdc++11
 
@@ -24,3 +25,7 @@ embree3/*:avx512=False
 tools.build:cflags=["-march=x86-64-v3"]
 tools.build:cxxflags+=["-march=x86-64-v3"]
 openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }
+
+[buildenv]
+CXX=/opt/rh/gcc-toolset-14/root/usr/bin/g++
+CC=/opt/rh/gcc-toolset-14/root/usr/bin/gcc
