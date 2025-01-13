@@ -23,8 +23,28 @@ embree3/*:avx512=False
 
 [conf]
 tools.build:cflags=["-march=x86-64-v3"]
-tools.build:cxxflags+=["-march=x86-64-v3"]
-openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }
+tools.build:cxxflags=["-march=x86-64-v3"]
+
+tools.build:cflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
+tools.build:cxxflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
+
+#tools.build:compiler_executables={"c":"clang", "cpp":"clang++"}
+
+# TODO
+tools.build:sharedlinkflags=["-fsanitize=address"]
+#tools.build:exelinkflags=["-fsanitize=address", "-shared-libasan"]
+tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON' }
+openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON', 'USE_CCACHE':'OFF' }
+
+#hwloc/*:tools.build:sharedlinkflags=["-fsanitize=address", "-static-libsan"]
+#libiconv/*:tools.build:sharedlinkflags=["-fsanitize=address", "-static-libsan"]
+#libjpeg/*:tools.build:sharedlinkflags=["-fsanitize=address", "-static-libsan"]
+#xz_utils/*:tools.build:sharedlinkflags=["-fsanitize=address", "-static-libsan"]
+#lcms/*:tools.build:sharedlinkflags=["-fsanitize=address", "-static-libsan"]
+#freetype/*:tools.build:sharedlinkflags=["-fsanitize=address", "-static-libsan"]
+
+onetbb/*:tools.cmake.cmaketoolchain:extra_variables={ 'CMAKE_VERBOSE_MAKEFILE': 'ON' }
+#pyluxcore/*:tools.cmake.cmaketoolchain:extra_variables={ 'LLVM_ENABLE_RUNTIMES': 'compiler-rt' }
 
 [buildenv]
 CXX=/opt/rh/gcc-toolset-14/root/usr/bin/g++

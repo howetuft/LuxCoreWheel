@@ -209,6 +209,8 @@ jobs:
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
             dnf install -y git-lfs
 
+            dnf install -y gcc-toolset-14-libasan-devel
+
             # Install ispc
             # https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2023-0/yum-dnf-zypper.html
             tee > /tmp/oneAPI.repo << EOF

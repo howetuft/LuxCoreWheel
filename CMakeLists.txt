@@ -89,6 +89,9 @@ endif(MSVC)
 # Add LuxCore
 add_subdirectory(LuxCore)
 
+# sanitize
+
+
 # Add deps targets to LuxCore libs
 target_link_libraries(luxrays embree openimageio::openimageio boost::boost)
 target_link_libraries(opensubdiv PRIVATE boost::boost)
@@ -111,7 +114,15 @@ target_link_libraries(slg-film PRIVATE
     openimageio::openimageio
 )
 
+# TODO
+add_library(asan SHARED IMPORTED)
+set_property(TARGET asan PROPERTY
+  IMPORTED_LOCATION
+    "/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/libasan.so"
+)
+
 target_link_libraries(pyluxcore PRIVATE
+    asan
     slg-core
     slg-film
     slg-kernels
@@ -127,6 +138,7 @@ target_link_libraries(pyluxcore PRIVATE
     blender-types
 )
 set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
+target_link_options(pyluxcore PRIVATE "-fsanitize=address")
 
 if(APPLE)
   target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)
