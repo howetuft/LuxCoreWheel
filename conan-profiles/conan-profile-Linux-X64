@@ -35,7 +35,3 @@ tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON
 openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON', 'USE_CCACHE':'OFF' }
 
 onetbb/*:tools.cmake.cmaketoolchain:extra_variables={ 'CMAKE_VERBOSE_MAKEFILE': 'ON' }
-
-[buildenv]
-CXX=/opt/rh/gcc-toolset-14/root/usr/bin/g++
-CC=/opt/rh/gcc-toolset-14/root/usr/bin/gcc

@@ -130,6 +130,14 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Prepare Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run:
+          TOOLSET_ROOT=/opt/rh/gcc-toolset-14/root
+          echo "CXX=${TOOLSET_ROOT}/usr/bin/g++" >> $GITHUB_ENV
+          echo "CC=${TOOLSET_ROOT}/usr/bin/gcc" >> $GITHUB_ENV
+
       - name: Set MacOS deployment target
         if: runner.os == 'macOS'
         uses: actions/github-script@v7
