@@ -174,6 +174,10 @@ if(LINUX)
     TARGET oidn-denoise
     PROPERTY INSTALL_RPATH "\\\${ORIGIN}/../pyluxcore.libs"
   )
+  install(
+    PROGRAMS "${LUX_OIDN_DENOISE_CPU}"
+    DESTINATION "pyluxcore.libs"
+  )
 endif(LINUX)
 
 if(APPLE)

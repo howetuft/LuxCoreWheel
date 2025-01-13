@@ -138,18 +138,13 @@ class LuxCore(ConanFile):
         # Just to ensure package is not empty
         save(self, os.path.join(self.package_folder, "dummy.txt"), "Hello World")
 
+    def layout(self):
+        cmake_layout(self)
+
     def package_info(self):
 
         if self.settings.os == "Linux":
-            self.cpp_info.libs = [
-                "pyluxcore",
-                "libtbbmalloc_proxy.so.2",
-                "libtbbmalloc.so.2",
-                "libtbb.so.12",
-                "libOpenImageDenoise_core.so.2.3.0",
-                "libOpenImageDenoise_device_cpu.so.2.3.0",
-                "libOpenImageDenoise.so.2",
-            ]
+            self.cpp_info.libs = ["pyluxcore"]
         elif self.settings.os == "Windows":
             self.cpp_info.libs = [
                 "pyluxcore.pyd",
