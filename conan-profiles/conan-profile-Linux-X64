@@ -18,6 +18,8 @@ embree3/*:sse42=False
 embree3/*:avx=False
 embree3/*:avx2=True
 embree3/*:avx512=False
+openimageio/*:with_libheif=False
+
 
 [conf]
 tools.build:cflags=["-march=x86-64-v3"]

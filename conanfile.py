@@ -54,6 +54,7 @@ class LuxCore(ConanFile):
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
         "openimageio/*:with_ffmpeg": False,
+        "openimageio/*:with_libheif": False,
         "embree3/*:neon": True,
     }
 

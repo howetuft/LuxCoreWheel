@@ -61,7 +61,7 @@ class OpenImageIOConan(ConanFile):
         "with_dicom": False,  # Heavy dependency, disabled by default
         "with_ffmpeg": False,
         "with_giflib": True,
-        "with_libheif": True,
+        "with_libheif": False,
         "with_raw": False,  # libraw is available under CDDL-1.0 or LGPL-2.1, for this reason it is disabled by default
         "with_openjpeg": True,
         "with_openvdb": False,  # FIXME: broken on M1
