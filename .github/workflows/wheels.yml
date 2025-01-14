@@ -36,6 +36,8 @@ jobs:
     env:
       # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
       BUILD_TYPE: Debug
+      SANITIZE: true
+      GCC_VERSION: 14
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
@@ -133,10 +135,14 @@ jobs:
       - name: Prepare Linux
         if: runner.os == 'Linux'
         shell: bash
-        run:
-          TOOLSET_ROOT=/opt/rh/gcc-toolset-14/root
-          echo "CXX=${TOOLSET_ROOT}/usr/bin/g++" >> $GITHUB_ENV
-          echo "CC=${TOOLSET_ROOT}/usr/bin/gcc" >> $GITHUB_ENV
+        run: |
+          _V=${{ env.GCC_VERSION }}
+          _T=/opt/rh/gcc-toolset-${_V}/root
+
+          echo "TOOLSET_ROOT=${_T}" >> $GITHUB_ENV
+          echo "CXX=${_T}/usr/bin/g++" >> $GITHUB_ENV
+          echo "CC=${_T}/usr/bin/gcc" >> $GITHUB_ENV
+          echo "ASAN_PATH=${_T}/usr/lib/gcc/x86_64-redhat-linux/${_V}/libasan.so" >> $GITHUB_ENV
 
       - name: Set MacOS deployment target
         if: runner.os == 'macOS'
@@ -184,7 +190,11 @@ jobs:
             SKBUILD_CMAKE_ARGS='--preset ${{ env.CONAN_PRESET }};-G Ninja;--log-level=VERBOSE'
             SKBUILD_CMAKE_BUILD_TYPE='${{ env.BUILD_TYPE }}'
           CIBW_ENVIRONMENT_PASS_LINUX: |
+            CC
+            CXX
             BUILD_TYPE
+            SANITIZE
+            ASAN_PATH
             RUNNER_OS
             RUNNER_ARCH
             WORKSPACE
@@ -217,7 +227,9 @@ jobs:
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
             dnf install -y git-lfs
 
-            dnf install -y gcc-toolset-14-libasan-devel
+            if [[ "${SANITIZE}" = true ]]; then
+              dnf install -y gcc-toolset-14-libasan-devel
+            fi
 
             # Install ispc
             # https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2023-0/yum-dnf-zypper.html

@@ -4,7 +4,6 @@ include(conan-profile-common)
 os=Linux
 arch=x86_64
 compiler=gcc
-# TODO
 compiler.version=14
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
 compiler.libcxx=libstdc++11
@@ -25,13 +24,13 @@ openimageio/*:with_libheif=False
 tools.build:cflags=["-march=x86-64-v3"]
 tools.build:cxxflags=["-march=x86-64-v3"]
 
+{% if os.getenv("SANITIZE") -%}
 tools.build:cflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
 tools.build:cxxflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
 
-
-# TODO
 tools.build:sharedlinkflags=["-fsanitize=address"]
 tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON' }
 openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON', 'USE_CCACHE':'OFF' }
+{% endif %}
 
 onetbb/*:tools.cmake.cmaketoolchain:extra_variables={ 'CMAKE_VERBOSE_MAKEFILE': 'ON' }

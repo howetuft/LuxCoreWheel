@@ -114,12 +114,14 @@ target_link_libraries(slg-film PRIVATE
     openimageio::openimageio
 )
 
-# TODO
-add_library(asan SHARED IMPORTED)
-set_property(TARGET asan PROPERTY
-  IMPORTED_LOCATION
-    "/opt/rh/gcc-toolset-14/root/usr/lib/gcc/x86_64-redhat-linux/14/libasan.so"
-)
+if ($ENV{SANITIZE} AND LINUX)
+  message(STATUS "Linking with asan")
+  add_library(asan SHARED IMPORTED)
+  set_property(TARGET asan PROPERTY
+    IMPORTED_LOCATION
+    $ENV{ASAN_PATH}
+  )
+endif()
 
 target_link_libraries(pyluxcore PRIVATE
     asan
