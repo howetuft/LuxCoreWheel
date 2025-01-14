@@ -35,7 +35,7 @@ jobs:
             python-minor: 8
     env:
       # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
-      BUILD_TYPE: Debug
+      BUILD_TYPE: Release
       # SANITIZE: true # uncomment to sanitize
       GCC_VERSION: 14
       GH_TOKEN: ${{ github.token }}
