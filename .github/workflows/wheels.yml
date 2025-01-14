@@ -36,7 +36,7 @@ jobs:
     env:
       # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
       BUILD_TYPE: Debug
-      SANITIZE: true
+      # SANITIZE: true # uncomment to sanitize
       GCC_VERSION: 14
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
@@ -227,8 +227,10 @@ jobs:
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
             dnf install -y git-lfs
 
-            if [[ "${SANITIZE}" = true ]]; then
-              dnf install -y gcc-toolset-14-libasan-devel
+            if [[ -z ${SANITIZE+x} ]]; then
+              echo "No sanitizing";
+            else
+              dnf install -y gcc-toolset-14-libasan-devel;
             fi
 
             # Install ispc

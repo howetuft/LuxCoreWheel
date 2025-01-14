@@ -24,7 +24,7 @@ openimageio/*:with_libheif=False
 tools.build:cflags=["-march=x86-64-v3"]
 tools.build:cxxflags=["-march=x86-64-v3"]
 
-{% if os.getenv("SANITIZE") -%}
+{% if 'SANITIZE' in os.environ -%}
 tools.build:cflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
 tools.build:cxxflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
 

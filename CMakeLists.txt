@@ -114,17 +114,18 @@ target_link_libraries(slg-film PRIVATE
     openimageio::openimageio
 )
 
-if ($ENV{SANITIZE} AND LINUX)
+if ((DEFINED ENV{SANITIZE}) AND LINUX)
   message(STATUS "Linking with asan")
   add_library(asan SHARED IMPORTED)
   set_property(TARGET asan PROPERTY
     IMPORTED_LOCATION
     $ENV{ASAN_PATH}
   )
+  set(HAVE_SANITIZER TRUE)
 endif()
 
 target_link_libraries(pyluxcore PRIVATE
-    asan
+    $<$<BOOL:${HAVE_SANITIZER}>:asan>
     slg-core
     slg-film
     slg-kernels
@@ -140,7 +141,8 @@ target_link_libraries(pyluxcore PRIVATE
     blender-types
 )
 set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
-target_link_options(pyluxcore PRIVATE "-fsanitize=address")
+
+target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
 
 if(APPLE)
   target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)
