@@ -4,7 +4,7 @@ include(conan-profile-common)
 os=Linux
 arch=x86_64
 compiler=gcc
-compiler.version=14
+compiler.version={{ os.getenv("GCC_VERSION") }}
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
 compiler.libcxx=libstdc++11
 

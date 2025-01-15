@@ -38,6 +38,7 @@ jobs:
       BUILD_TYPE: Release
       # SANITIZE: true # uncomment to sanitize
       GCC_VERSION: 14
+      GLIBC_VERSION: 2_28
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
@@ -185,7 +186,7 @@ jobs:
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
-          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux_2_34_x86_64
+          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux_${{ env.GLIBC_VERSION }}_x86_64
           CIBW_ENVIRONMENT: >
             SKBUILD_CMAKE_ARGS='--preset ${{ env.CONAN_PRESET }};-G Ninja;--log-level=VERBOSE'
             SKBUILD_CMAKE_BUILD_TYPE='${{ env.BUILD_TYPE }}'
@@ -193,6 +194,7 @@ jobs:
             CC
             CXX
             BUILD_TYPE
+            GCC_VERSION
             SANITIZE
             ASAN_PATH
             RUNNER_OS
@@ -219,7 +221,11 @@ jobs:
             dnf install -y epel-release
             dnf install -y almalinux-release-devel
             dnf install -y ninja-build bison flex wget ccache
-            dnf install -y perl-IPC-Cmd perl-Digest-SHA perl-FindBin perl-lib
+            dnf install -y perl-IPC-Cmd perl-Digest-SHA
+
+            if [[ GLIBC_VERSION != '2_28' ]]; then
+              dnf install -y perl-FindBin perl-lib
+            fi
 
             ccache --show-config
 
@@ -275,7 +281,7 @@ jobs:
 
             auditwheel \
               --verbose repair -w {dest_dir} \
-              --plat manylinux_2_34_x86_64 \
+              --plat manylinux_${{ env.GLIBC_VERSION }}_x86_64 \
               --only-plat \
               ${{ env.BUILD_TYPE == 'Release' && '--strip' || '' }} \
               {wheel}
