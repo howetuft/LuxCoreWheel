@@ -25,12 +25,18 @@ tools.build:cflags=["-march=x86-64-v3"]
 tools.build:cxxflags=["-march=x86-64-v3"]
 
 {% if 'SANITIZE' in os.environ -%}
+
 tools.build:cflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
 tools.build:cxxflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
 
 tools.build:sharedlinkflags=["-fsanitize=address"]
 tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON' }
 openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON', 'USE_CCACHE':'OFF' }
+
+{% else -%}
+
+openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }
+
 {% endif %}
 
 onetbb/*:tools.cmake.cmaketoolchain:extra_variables={ 'CMAKE_VERBOSE_MAKEFILE': 'ON' }
