@@ -143,6 +143,9 @@ jobs:
           echo "TOOLSET_ROOT=${_T}" >> $GITHUB_ENV
           echo "CXX=${_T}/usr/bin/g++" >> $GITHUB_ENV
           echo "CC=${_T}/usr/bin/gcc" >> $GITHUB_ENV
+          echo "AR=${_T}/usr/bin/ar" >> $GITHUB_ENV
+          echo "RANLIB=${_T}/usr/bin/ranlib" >> $GITHUB_ENV
+
           echo "ASAN_PATH=${_T}/usr/lib/gcc/x86_64-redhat-linux/${_V}/libasan.so" >> $GITHUB_ENV
 
       - name: Set MacOS deployment target
