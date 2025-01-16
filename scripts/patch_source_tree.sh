@@ -15,6 +15,16 @@ function replace_anywhere() {
   grep -rl "${1}" . --exclude-dir=.git | xargs $SED -i "s/${search}/${replace}/g"
 }
 
+function replace_anywhere_filter_ext() {
+  # Replace a string by another in all files of the tree
+  # Arg #1: string to search
+  # Arg #2: string to replace with
+  # Arg #3: extension
+  local search=$(escape_sed "${1}")
+  local replace=$(escape_sed "${2}")
+  grep -rl "${1}" . --include=${3} --exclude-dir=.git | xargs $SED -i "s/${search}/${replace}/g"
+}
+
 function remove_containing_line() {
   # Remove all lines containing a string from a given file
   # Arg #1: string to search
@@ -136,7 +146,6 @@ $SED -i "37s/^/$snippet/" src/slg/film/imagepipeline/plugins/intel_oidn.cpp
 replace_anywhere "vector<float> albedoBuffer;" "vector<float> albedoBuffer(3 \* pixelCount);"
 replace_anywhere "vector<float> normalBuffer;" "vector<float> normalBuffer(3 \* pixelCount), dummy1(3 \* pixelCount), dummy2(3 \* pixelCount); "
 replace_anywhere "nullptr, nullptr, width, height, false);" "\&dummy1[0], \&dummy2[0], width, height, false);"
-cat src/slg/film/imagepipeline/plugins/intel_oidn.cpp  # TODO
 
 
 # Per platform

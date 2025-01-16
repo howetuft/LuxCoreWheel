@@ -1,5 +1,14 @@
 [settings]
-build_type=Release
+build_type={{ os.getenv("BUILD_TYPE") }}
+
+# For tools, we'll always use release version
+# (directly downloaded from cache)
+b2/*:build_type=Release
+cmake/*:build_type=Release
+meson/*:build_type=Release
+ninja/*:build_type=Release
+pkgconf/*:build_type=Release
+yasm/*:build_type=Release
 
 [conf]
 tools.cmake.cmaketoolchain:generator=Ninja

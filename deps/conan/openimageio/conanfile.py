@@ -61,7 +61,7 @@ class OpenImageIOConan(ConanFile):
         "with_dicom": False,  # Heavy dependency, disabled by default
         "with_ffmpeg": False,
         "with_giflib": True,
-        "with_libheif": True,
+        "with_libheif": False,
         "with_raw": False,  # libraw is available under CDDL-1.0 or LGPL-2.1, for this reason it is disabled by default
         "with_openjpeg": True,
         "with_openvdb": False,  # FIXME: broken on M1
@@ -130,6 +130,12 @@ class OpenImageIOConan(ConanFile):
             self.requires("ptex/2.4.2")
         if self.options.with_libwebp:
             self.requires("libwebp/1.3.2")
+        self.requires(
+            f"libdeflate/1.22",
+            override=True,
+            libs=True,
+            transitive_libs=True,
+        )
         # TODO: R3DSDK dependency
         # TODO: Nuke dependency
 

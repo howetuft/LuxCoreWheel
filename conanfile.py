@@ -54,6 +54,7 @@ class LuxCore(ConanFile):
         "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
         "openimageio/*:with_ffmpeg": False,
+        "openimageio/*:with_libheif": False,
         "embree3/*:neon": True,
     }
 
@@ -68,6 +69,12 @@ class LuxCore(ConanFile):
             libs=True,
             transitive_libs=True,
         )  # For oidn
+        self.requires(
+            f"libdeflate/1.22",
+            force=True,
+            libs=True,
+            transitive_libs=True,
+        )
         self.requires("imath/3.1.9", override=True)
         self.requires(f"fmt/{_fmt_version}", override=True)
 
@@ -76,6 +83,13 @@ class LuxCore(ConanFile):
 
         if self.settings.os == "Windows":
             self.tool_requires("winflexbison/2.5.25")
+
+    def build_requirements(self):
+       self.tool_requires("cmake/*")
+       self.tool_requires("meson/*")
+       self.tool_requires("ninja/*")
+       self.tool_requires("pkgconf/*")
+       self.tool_requires("yasm/*")
 
     def generate(self):
         tc = CMakeToolchain(self)
@@ -138,18 +152,13 @@ class LuxCore(ConanFile):
         # Just to ensure package is not empty
         save(self, os.path.join(self.package_folder, "dummy.txt"), "Hello World")
 
+    def layout(self):
+        cmake_layout(self)
+
     def package_info(self):
 
         if self.settings.os == "Linux":
-            self.cpp_info.libs = [
-                "pyluxcore",
-                "libtbbmalloc_proxy.so.2",
-                "libtbbmalloc.so.2",
-                "libtbb.so.12",
-                "libOpenImageDenoise_core.so.2.3.0",
-                "libOpenImageDenoise_device_cpu.so.2.3.0",
-                "libOpenImageDenoise.so.2",
-            ]
+            self.cpp_info.libs = ["pyluxcore"]
         elif self.settings.os == "Windows":
             self.cpp_info.libs = [
                 "pyluxcore.pyd",

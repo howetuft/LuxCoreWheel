@@ -4,21 +4,39 @@ include(conan-profile-common)
 os=Linux
 arch=x86_64
 compiler=gcc
-compiler.version=12
+compiler.version={{ os.getenv("GCC_VERSION") }}
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
 compiler.libcxx=libstdc++11
 
 [options]
 openvdb/*:simd=AVX
-embree3/*:shared=False
-embree3/*:with_tbb=False
-embree3/*:sse2=False
-embree3/*:sse42=False
-embree3/*:avx=False
+embree3/*:shared=True
+embree3/*:with_tbb=True
+embree3/*:sse2=True
+embree3/*:sse42=True
+embree3/*:avx=True
 embree3/*:avx2=True
 embree3/*:avx512=False
+openimageio/*:with_libheif=False
+
 
 [conf]
-tools.build:cflags+=["-march=x86-64-v3", "-O3"]
-tools.build:cxxflags+=["-march=x86-64-v3", "-O3"]
+tools.build:cflags=["-march=x86-64-v3"]
+tools.build:cxxflags=["-march=x86-64-v3"]
+
+{% if 'SANITIZE' in os.environ -%}
+
+tools.build:cflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
+tools.build:cxxflags+=["-fsanitize=address", "-fno-omit-frame-pointer"]
+
+tools.build:sharedlinkflags=["-fsanitize=address"]
+tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON' }
+openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'COMPILER_RT_BUILD_SHARED_ASAN':'ON', 'USE_CCACHE':'OFF' }
+
+{% else -%}
+
 openvdb/*:tools.cmake.cmaketoolchain:extra_variables={ 'USE_CCACHE':'OFF' }
+
+{% endif %}
+
+onetbb/*:tools.cmake.cmaketoolchain:extra_variables={ 'CMAKE_VERBOSE_MAKEFILE': 'ON' }

@@ -89,6 +89,9 @@ endif(MSVC)
 # Add LuxCore
 add_subdirectory(LuxCore)
 
+# sanitize
+
+
 # Add deps targets to LuxCore libs
 target_link_libraries(luxrays embree openimageio::openimageio boost::boost)
 target_link_libraries(opensubdiv PRIVATE boost::boost)
@@ -111,7 +114,18 @@ target_link_libraries(slg-film PRIVATE
     openimageio::openimageio
 )
 
+if ((DEFINED ENV{SANITIZE}) AND LINUX)
+  message(STATUS "Linking with asan")
+  add_library(asan SHARED IMPORTED)
+  set_property(TARGET asan PROPERTY
+    IMPORTED_LOCATION
+    $ENV{ASAN_PATH}
+  )
+  set(HAVE_SANITIZER TRUE)
+endif()
+
 target_link_libraries(pyluxcore PRIVATE
+    $<$<BOOL:${HAVE_SANITIZER}>:asan>
     slg-core
     slg-film
     slg-kernels
@@ -127,6 +141,8 @@ target_link_libraries(pyluxcore PRIVATE
     blender-types
 )
 set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
+
+target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
 
 if(APPLE)
   target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)
@@ -161,6 +177,10 @@ if(LINUX)
   set_property(
     TARGET oidn-denoise
     PROPERTY INSTALL_RPATH "\\\${ORIGIN}/../pyluxcore.libs"
+  )
+  install(
+    PROGRAMS "${LUX_OIDN_DENOISE_CPU}"
+    DESTINATION "pyluxcore.libs"
   )
 endif(LINUX)
 

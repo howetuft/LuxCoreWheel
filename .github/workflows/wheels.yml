@@ -35,6 +35,10 @@ jobs:
             python-minor: 8
     env:
       # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
+      BUILD_TYPE: Release
+      # SANITIZE: true # uncomment to sanitize
+      GCC_VERSION: 14
+      GLIBC_VERSION: 2_28
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
@@ -83,6 +87,12 @@ jobs:
           esac
           echo "WORKSPACE=${_workspace}" >> "$GITHUB_ENV"
 
+      - name: Set conan preset
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('CONAN_PRESET', String.raw`conan-${{ env.BUILD_TYPE }}`.toLowerCase())
+
       - name: Configure ccache
         uses: actions/github-script@v7
         with:
@@ -123,6 +133,21 @@ jobs:
         if: runner.os == 'Windows'
         uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Prepare Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          _V=${{ env.GCC_VERSION }}
+          _T=/opt/rh/gcc-toolset-${_V}/root
+
+          echo "TOOLSET_ROOT=${_T}" >> $GITHUB_ENV
+          echo "CXX=${_T}/usr/bin/g++" >> $GITHUB_ENV
+          echo "CC=${_T}/usr/bin/gcc" >> $GITHUB_ENV
+          echo "AR=${_T}/usr/bin/ar" >> $GITHUB_ENV
+          echo "RANLIB=${_T}/usr/bin/ranlib" >> $GITHUB_ENV
+
+          echo "ASAN_PATH=${_T}/usr/lib/gcc/x86_64-redhat-linux/${_V}/libasan.so" >> $GITHUB_ENV
+
       - name: Set MacOS deployment target
         if: runner.os == 'macOS'
         uses: actions/github-script@v7
@@ -157,17 +182,24 @@ jobs:
 
       # Build wheel
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.21.3
+        uses: pypa/cibuildwheel@v2.22.0
         env:
           CIBW_BUILD_FRONTEND: build
           CIBW_BUILD_VERBOSITY: 1
           CIBW_BUILD: cp3${{ matrix.python-minor }}-*
           CIBW_SKIP: "*musllinux*"
           CIBW_ARCHS: auto64
-          CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
+          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux_${{ env.GLIBC_VERSION }}_x86_64
           CIBW_ENVIRONMENT: >
-            SKBUILD_CMAKE_ARGS='--preset conan-release;-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_ARGS='--preset ${{ env.CONAN_PRESET }};-G Ninja;--log-level=VERBOSE'
+            SKBUILD_CMAKE_BUILD_TYPE='${{ env.BUILD_TYPE }}'
           CIBW_ENVIRONMENT_PASS_LINUX: |
+            CC
+            CXX
+            BUILD_TYPE
+            GCC_VERSION
+            SANITIZE
+            ASAN_PATH
             RUNNER_OS
             RUNNER_ARCH
             WORKSPACE
@@ -189,14 +221,26 @@ jobs:
             EMBREE3_VERSION
             FMT_VERSION
           CIBW_BEFORE_ALL_LINUX: |
-            dnf config-manager --set-enabled powertools
             dnf install -y epel-release
-            dnf install -y ninja-build bison flex wget ccache perl-IPC-Cmd perl-Digest-SHA
+            dnf install -y almalinux-release-devel
+            dnf install -y ninja-build bison flex wget ccache
+            dnf install -y perl-IPC-Cmd perl-Digest-SHA
+
+            if [[ GLIBC_VERSION != '2_28' ]]; then
+              dnf install -y perl-FindBin perl-lib
+            fi
+
             ccache --show-config
 
             # Install git-lfs
             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
             dnf install -y git-lfs
+
+            if [[ -z ${SANITIZE+x} ]]; then
+              echo "No sanitizing";
+            else
+              dnf install -y gcc-toolset-14-libasan-devel;
+            fi
 
             # Install ispc
             # https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2023-0/yum-dnf-zypper.html
@@ -225,30 +269,34 @@ jobs:
             brew install bison flex ispc
           CIBW_BEFORE_BUILD: bash ${{ env.WORKSPACE }}/scripts/install_conan.sh
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: |
-            TBB=/project/full_deploy/host/onetbb/$TBB_VERSION/Release/x86_64/lib
-            OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/Release/x86_64/lib
-            EMBREE3=/project/full_deploy/host/embree3/$EMBREE3_VERSION/Release/x86_64/lib
-            HWLOC=/project/full_deploy/host/hwloc/2.9.3/Release/x86_64/lib
-            LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/Release/x86_64/lib
+            TBB=/project/full_deploy/host/onetbb/$TBB_VERSION/${BUILD_TYPE}/x86_64/lib
+            OIDN=/project/full_deploy/host/oidn/$OIDN_VERSION/${BUILD_TYPE}/x86_64/lib
+            EMBREE3=/project/full_deploy/host/embree3/$EMBREE3_VERSION/${BUILD_TYPE}/x86_64/lib
+            HWLOC=/project/full_deploy/host/hwloc/2.9.3/${BUILD_TYPE}/x86_64/lib
+            LEVEL_ZERO=/project/full_deploy/host/level-zero/1.17.39/${BUILD_TYPE}/x86_64/lib
             LD_LIBRARY_PATH=$TBB:$HWLOC:$LEVEL_ZERO:$OIDN:$EMBREE3:$LD_LIBRARY_PATH
             echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
             export LD_LIBRARY_PATH
 
-            auditwheel \
-              --verbose repair -w {dest_dir} {wheel} \
-              --strip
+            ## Check build data
+            unzip {wheel} -d /tmp/wheel
+            readelf --string-dump .comment /tmp/wheel/pyluxcore/pyluxcore.so
 
-            pip install wheel
-            WHEEL=$(ls -1 {dest_dir}/*.whl)
-            python ${{ env.WORKSPACE }}/scripts/recompose_wheel_linux.py -- $WHEEL
+            auditwheel \
+              --verbose repair -w {dest_dir} \
+              --plat manylinux_${{ env.GLIBC_VERSION }}_x86_64 \
+              --only-plat \
+              ${{ env.BUILD_TYPE == 'Release' && '--strip' || '' }} \
+              {wheel}
+
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: |
             bash.exe ${{ env.WORKSPACE }}/scripts/repair_wheel_windows.sh '{wheel}' '{dest_dir}' '%VCToolsRedistDir%%Platform%'
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: |
             cp {wheel} ${{ env.WORKSPACE }}
             BASE=${{ env.WORKSPACE }}/full_deploy/host
-            TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
-            OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
-            EMBREE3=$BASE/embree3/${{ env.EMBREE3_VERSION }}/Release/${{ env.PKG_ARCH }}/lib
+            TBB=$BASE/onetbb/${{ env.TBB_VERSION }}/${BUILD_TYPE}/${{ env.PKG_ARCH }}/lib
+            OIDN=$BASE/oidn/${{ env.OIDN_VERSION }}/${BUILD_TYPE}/${{ env.PKG_ARCH }}/lib
+            EMBREE3=$BASE/embree3/${{ env.EMBREE3_VERSION }}/${BUILD_TYPE}/${{ env.PKG_ARCH }}/lib
             export DYLD_LIBRARY_PATH=$TBB:$OIDN:$EMBREE3
             delocate-listdeps -v {wheel}
             delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}
