@@ -245,7 +245,7 @@ jobs:
             dnf install -y ninja-build bison flex wget ccache
             dnf install -y perl-IPC-Cmd perl-Digest-SHA
 
-            if [[ GLIBC_VERSION != '2_28' ]]; then
+            if [[ ${{ env.GLIBC_VERSION }} != 2_28 ]]; then
               dnf install -y perl-FindBin perl-lib
             fi
 
@@ -323,7 +323,7 @@ jobs:
           CIBW_TEST_COMMAND_WINDOWS: pyluxcoretest
           CIBW_TEST_COMMAND_MACOS: |
             if [[ ${{ matrix.os }} == 'macos-13' ]]; then
-              # Only for Intel: ARM runner raises an OpenCL driver error
+              # Only for Intel: ARM runner raises an OpenCL driver issue
               pyluxcoretest
             fi
           CIBW_CONTAINER_ENGINE: >
