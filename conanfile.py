@@ -27,6 +27,7 @@ _embree3_version = os.environ["EMBREE3_VERSION"]
 _fmt_version = os.environ["FMT_VERSION"]
 _opensubdiv_version = os.environ["OPENSUBDIV_VERSION"]
 _json_version = os.environ["JSON_VERSION"]
+_eigen_version = os.environ["EIGEN_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -45,7 +46,7 @@ class LuxCore(ConanFile):
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
         f"openvdb/{_openvdb_version}",
-        "eigen/3.4.0",
+        f"eigen/{_eigen_version}",
         f"embree3/{_embree3_version}",
         "tsl-robin-map/1.2.1",
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
