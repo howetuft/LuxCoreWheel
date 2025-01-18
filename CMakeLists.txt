@@ -46,6 +46,7 @@ find_package(OpenVDB REQUIRED)
 find_package(Imath REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(blender-types REQUIRED)
+find_package(OpenSubdiv REQUIRED)
 
 # Bison/Flex
 find_package(BISON REQUIRED)
@@ -94,13 +95,13 @@ add_subdirectory(LuxCore)
 
 # Add deps targets to LuxCore libs
 target_link_libraries(luxrays embree openimageio::openimageio boost::boost)
-target_link_libraries(opensubdiv PRIVATE boost::boost)
 target_link_libraries(bcd PRIVATE boost::boost Eigen3::Eigen)
 target_link_libraries(slg-core PRIVATE
     boost::boost
     OpenColorIO::OpenColorIO
     OpenVDB::openvdb
     openexr::openexr
+    opensubdiv::opensubdiv
     Imath::Imath
     embree
     openimageio::openimageio
@@ -131,7 +132,6 @@ target_link_libraries(pyluxcore PRIVATE
     slg-kernels
     luxrays
     bcd
-    opensubdiv
     OpenVDB::openvdb
     spdlog::spdlog_header_only
     Boost::python

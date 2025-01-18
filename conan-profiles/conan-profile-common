@@ -30,6 +30,7 @@ embree3/*:with_tbb=True
 embree3/*:sse2=True
 embree3/*:sse42=True
 embree3/*:avx=True
+opensubdiv/*:with_omp=True
 
 
 # boost/*:without_atomic=True

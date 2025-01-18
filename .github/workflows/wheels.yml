@@ -65,6 +65,7 @@ jobs:
       SPDLOG_VERSION: 1.15.0
       EMBREE3_VERSION: 3.13.5
       FMT_VERSION: 11.0.2
+      OPENSUBDIV_VERSION: 3.6.0
 
 
     steps:
@@ -229,6 +230,7 @@ jobs:
             SPDLOG_VERSION
             EMBREE3_VERSION
             FMT_VERSION
+            OPENSUBDIV_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf install -y epel-release
             dnf install -y almalinux-release-devel

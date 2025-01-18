@@ -71,7 +71,7 @@ done
 
 
 echo "Remove duplicate embedded libraries"
-for lib in opencolorio yaml expat spdlog openvdb eigen
+for lib in opencolorio yaml expat spdlog openvdb eigen opensubdiv
 do
   echo "LuxCoreWheel - Removing '${lib}'"
   remove_containing_line "deps/${lib}" src/slg/CMakeLists.txt

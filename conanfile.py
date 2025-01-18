@@ -25,6 +25,7 @@ _tbb_version = os.environ["TBB_VERSION"]
 _spdlog_version = os.environ["SPDLOG_VERSION"]
 _embree3_version = os.environ["EMBREE3_VERSION"]
 _fmt_version = os.environ["FMT_VERSION"]
+_opensubdiv_version = os.environ["OPENSUBDIV_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -48,6 +49,7 @@ class LuxCore(ConanFile):
         "tsl-robin-map/1.2.1",
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
+        f"opensubdiv/{_opensubdiv_version}"
     ]
 
     default_options = {
