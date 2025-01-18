@@ -26,6 +26,7 @@ _spdlog_version = os.environ["SPDLOG_VERSION"]
 _embree3_version = os.environ["EMBREE3_VERSION"]
 _fmt_version = os.environ["FMT_VERSION"]
 _opensubdiv_version = os.environ["OPENSUBDIV_VERSION"]
+_json_version = os.environ["JSON_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -50,6 +51,7 @@ class LuxCore(ConanFile):
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
         f"opensubdiv/{_opensubdiv_version}"
+        f"nlohmann_json/{_json_version}",
     ]
 
     default_options = {

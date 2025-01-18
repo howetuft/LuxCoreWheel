@@ -66,6 +66,7 @@ jobs:
       EMBREE3_VERSION: 3.13.5
       FMT_VERSION: 11.0.2
       OPENSUBDIV_VERSION: 3.6.0
+      JSON_VERSION: 3.11.3
 
 
     steps:
@@ -231,6 +232,7 @@ jobs:
             EMBREE3_VERSION
             FMT_VERSION
             OPENSUBDIV_VERSION
+            JSON_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf install -y epel-release
             dnf install -y almalinux-release-devel
