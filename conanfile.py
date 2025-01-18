@@ -29,6 +29,7 @@ _opensubdiv_version = os.environ["OPENSUBDIV_VERSION"]
 _json_version = os.environ["JSON_VERSION"]
 _eigen_version = os.environ["EIGEN_VERSION"]
 _robinhood_version = os.environ["ROBINHOOD_VERSION"]
+_minizip_version = os.environ["MINIZIP_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -39,7 +40,7 @@ class LuxCore(ConanFile):
 
     requires = [
         f"opencolorio/{_ocio_version}",
-        "minizip-ng/4.0.3",
+        f"minizip-ng/{_minizip_version}",
         "libpng/1.6.42",
         f"spdlog/{_spdlog_version}",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",

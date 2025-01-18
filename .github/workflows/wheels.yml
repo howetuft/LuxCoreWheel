@@ -69,6 +69,7 @@ jobs:
       JSON_VERSION: 3.11.3
       EIGEN_VERSION: 3.4.0
       ROBINHOOD_VERSION: 3.11.5
+      MINIZIP_VERSION: 4.0.3
 
 
     steps:
@@ -237,6 +238,7 @@ jobs:
             JSON_VERSION
             EIGEN_VERSION
             ROBINHOOD_VERSION
+            MINIZIP_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf install -y epel-release
             dnf install -y almalinux-release-devel
