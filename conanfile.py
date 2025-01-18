@@ -50,7 +50,7 @@ class LuxCore(ConanFile):
         "tsl-robin-map/1.2.1",
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
-        f"opensubdiv/{_opensubdiv_version}"
+        f"opensubdiv/{_opensubdiv_version}",
         f"nlohmann_json/{_json_version}",
     ]
 
