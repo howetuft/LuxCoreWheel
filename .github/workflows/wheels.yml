@@ -11,6 +11,13 @@ on:
       - work
       - cache
   workflow_dispatch:
+    inputs:
+      luxcore_repo:
+        description: 'LuxCore repository to checkout (default: LuxCoreRender/LuxCore)'
+        type: string
+      luxcore_ref:
+        description: 'LuxCore branch/tag to checkout (default: luxcorerender-v2.9alpha1)'
+        type: string
   release:
     types:
       - published
@@ -43,6 +50,8 @@ jobs:
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
       SPDLOG_FMT_EXTERNAL: on
+      LUXCORE_REPO: ${{ inputs.luxcore_repo != '' && inputs.luxcore_repo || 'LuxCoreRender/LuxCore' }}
+      LUXCORE_REF: ${{ inputs.luxcore_ref != '' && inputs.luxcore_ref || 'luxcorerender-v2.9alpha1' }}
       # Versions
       CXX_VERSION: 17
       BOOST_VERSION: 1.84.0
@@ -71,10 +80,10 @@ jobs:
       - name: Checkout LuxCoreRender
         uses: actions/checkout@v4
         with:
-          repository: LuxCoreRender/LuxCore
+          repository: ${{ env.LUXCORE_REPO }}
           path: LuxCore
           submodules: recursive
-          ref: luxcorerender-v2.9alpha1
+          ref: ${{ env.LUXCORE_REF }}
 
       - name: Find workspace
         shell: bash
