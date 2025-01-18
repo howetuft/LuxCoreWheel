@@ -41,7 +41,6 @@ class LuxCore(ConanFile):
     requires = [
         f"opencolorio/{_ocio_version}",
         f"minizip-ng/{_minizip_version}",
-        "libpng/1.6.42",
         f"spdlog/{_spdlog_version}",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         f"boost/{_boost_version}",
