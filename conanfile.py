@@ -44,7 +44,6 @@ class LuxCore(ConanFile):
         "libpng/1.6.42",
         f"spdlog/{_spdlog_version}",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
-        "c-blosc/1.21.5",
         f"boost/{_boost_version}",
         f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
         f"openvdb/{_openvdb_version}",
