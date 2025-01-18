@@ -49,37 +49,38 @@ else
 fi
 
 
-echo "Remove all local Find*.cmake"
-rm -vf $GITHUB_WORKSPACE/LuxCore/cmake/Packages/Find*.cmake
+# TODO
+#echo "Remove all local Find*.cmake"
+#rm -vf $GITHUB_WORKSPACE/LuxCore/cmake/Packages/Find*.cmake
 
 
-echo "Remove Demos, Tests and Samples targets"
-useless_targets=(
-  luxcoredemo
-  luxcorescenedemo
-  luxcoreimplserializationdemo
-  luxcoreconsole
-  luxcoreui
-  pyunittests
-  samples
-)
-for target in "${useless_targets[@]}"
-do
-  echo "Removing ${target}"
-  remove_containing_line "${target}" CMakeLists.txt
-done
+#echo "Remove Demos, Tests and Samples targets"
+#useless_targets=(
+  #luxcoredemo
+  #luxcorescenedemo
+  #luxcoreimplserializationdemo
+  #luxcoreconsole
+  #luxcoreui
+  #pyunittests
+  #samples
+#)
+#for target in "${useless_targets[@]}"
+#do
+  #echo "Removing ${target}"
+  #remove_containing_line "${target}" CMakeLists.txt
+#done
 
 
-echo "Remove duplicate embedded libraries"
-for lib in opencolorio yaml expat spdlog openvdb eigen opensubdiv
-do
-  echo "LuxCoreWheel - Removing '${lib}'"
-  remove_containing_line "deps/${lib}" src/slg/CMakeLists.txt
-  remove_containing_line "add_library(${lib}" src/slg/CMakeLists.txt
-  remove_containing_line "target_compile_definitions(${lib}" src/slg/CMakeLists.txt
-  remove_containing_line "deps/${lib}" CMakeLists.txt
-  rm -rf deps/${lib}*
-done
+#echo "Remove duplicate embedded libraries"
+#for lib in opencolorio yaml expat spdlog openvdb eigen opensubdiv
+#do
+  #echo "LuxCoreWheel - Removing '${lib}'"
+  #remove_containing_line "deps/${lib}" src/slg/CMakeLists.txt
+  #remove_containing_line "add_library(${lib}" src/slg/CMakeLists.txt
+  #remove_containing_line "target_compile_definitions(${lib}" src/slg/CMakeLists.txt
+  #remove_containing_line "deps/${lib}" CMakeLists.txt
+  #rm -rf deps/${lib}*
+#done
 
 
 echo "OpenEXR 3.x (replace OpenEXR/half.h by Imath/half.h)"
@@ -102,8 +103,8 @@ echo "Switch CMAKE_SOURCE_DIR to PROJECT_SOURCE_DIR"
 replace_anywhere "CMAKE_SOURCE_DIR" "PROJECT_SOURCE_DIR"
 
 
-echo "Remove CMAKE_CXX_STANDARD from CMakeLists.txt"
-remove_containing_line "CMAKE_CXX_STANDARD" CMakeLists.txt
+#echo "Remove CMAKE_CXX_STANDARD from CMakeLists.txt"
+#remove_containing_line "CMAKE_CXX_STANDARD" CMakeLists.txt
 
 
 echo "Add missing code for {fmt} Camera"
