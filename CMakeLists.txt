@@ -48,6 +48,7 @@ find_package(Eigen3 REQUIRED)
 find_package(blender-types REQUIRED)
 find_package(OpenSubdiv REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(robin_hood REQUIRED)
 
 # Bison/Flex
 find_package(BISON REQUIRED)
@@ -107,6 +108,7 @@ target_link_libraries(slg-core PRIVATE
     embree
     openimageio::openimageio
     nlohmann_json::nlohmann_json
+    robin_hood::robin_hood
 )
 target_link_libraries(slg-kernels PRIVATE boost::boost)
 target_link_libraries(slg-film PRIVATE
@@ -141,6 +143,7 @@ target_link_libraries(pyluxcore PRIVATE
     Python::Module
     onetbb::onetbb
     blender-types
+    robin_hood::robin_hood
 )
 set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
 

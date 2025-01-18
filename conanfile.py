@@ -28,6 +28,7 @@ _fmt_version = os.environ["FMT_VERSION"]
 _opensubdiv_version = os.environ["OPENSUBDIV_VERSION"]
 _json_version = os.environ["JSON_VERSION"]
 _eigen_version = os.environ["EIGEN_VERSION"]
+_robinhood_version = os.environ["ROBINHOOD_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -48,7 +49,7 @@ class LuxCore(ConanFile):
         f"openvdb/{_openvdb_version}",
         f"eigen/{_eigen_version}",
         f"embree3/{_embree3_version}",
-        "tsl-robin-map/1.2.1",
+        f"robin-hood-hashing/{_robinhood_version}",
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
         f"opensubdiv/{_opensubdiv_version}",
