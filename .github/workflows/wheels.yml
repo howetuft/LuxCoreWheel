@@ -9,7 +9,7 @@ on:
   push:
     branches:
       - work
-      - cache
+      - for_v2.10
   workflow_dispatch:
     inputs:
       luxcore_repo:
@@ -31,6 +31,7 @@ jobs:
       matrix:
         python-minor: [8, 9, 10, 11, 12, 13]
         os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        #python-minor: [ 9 ]
         #python-minor: [ 12]
         #os: [ubuntu-latest]
         #python-minor: [ 11]
@@ -135,9 +136,9 @@ jobs:
           max-size: 5G
           verbose: 1
 
-      - name: Get cmake
-        if: runner.os == 'macOS' || runner.os == 'Windows'
-        uses: lukka/get-cmake@latest
+      #- name: Get cmake
+        #if: runner.os == 'macOS' || runner.os == 'Windows'
+        #uses: lukka/get-cmake@latest
 
       - name: Install ISPC
         if: runner.os == 'macOS' || runner.os == 'Windows'
@@ -239,6 +240,7 @@ jobs:
             EIGEN_VERSION
             ROBINHOOD_VERSION
             MINIZIP_VERSION
+            OPENSUBDIV_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf install -y epel-release
             dnf install -y almalinux-release-devel

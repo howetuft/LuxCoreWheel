@@ -51,7 +51,7 @@ class LuxCore(ConanFile):
         f"robin-hood-hashing/{_robinhood_version}",
         f"blender-types/{_blender_version}@luxcorewheels/luxcorewheels",
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
-        f"opensubdiv/{_opensubdiv_version}",
+        f"opensubdiv/{_opensubdiv_version}@luxcorewheels/luxcorewheels",
         f"nlohmann_json/{_json_version}",
     ]
 
@@ -143,6 +143,7 @@ class LuxCore(ConanFile):
 
             buildenv.generate()
             tc.presets_build_environment = buildenv.environment()
+
 
         tc.generate()
 

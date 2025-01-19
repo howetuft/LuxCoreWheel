@@ -30,6 +30,7 @@ unset(LUXRAYS_DISABLE_OPTIX)
 cmake_policy(SET CMP0074 NEW)  # *_ROOT variable
 
 message(STATUS "LuxCoreWheel - Add conan targets")
+find_package(OpenMP REQUIRED)  # TODO
 find_package(TBB REQUIRED)
 find_package(minizip REQUIRED)
 find_package(spdlog REQUIRED)
@@ -150,7 +151,8 @@ set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
 target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
 
 if(APPLE)
-  target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)
+  # TODO
+  #target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(bcd PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
