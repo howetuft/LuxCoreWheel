@@ -194,10 +194,6 @@ jobs:
             core.exportVariable('MACOSX_DEPLOYMENT_TARGET', target);
             core.exportVariable('PKG_ARCH', arch);
 
-      - name: Patch source tree
-        shell: bash
-        run: source $GITHUB_WORKSPACE/scripts/patch_source_tree.sh
-
       - name: Retrieve cached dependencies
         id: retrieve-cache-deps
         uses: actions/cache/restore@v4
