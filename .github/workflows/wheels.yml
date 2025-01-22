@@ -106,19 +106,30 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            core.exportVariable('CONAN_PRESET', String.raw`conan-${{ env.BUILD_TYPE }}`.toLowerCase())
+            core.exportVariable(
+              'CONAN_PRESET',
+              String.raw`conan-${{ env.BUILD_TYPE }}`.toLowerCase()
+            )
 
       - name: Configure ccache
         uses: actions/github-script@v7
         with:
           script: |
-            core.exportVariable('cache-variant', 'ccache')
-            core.exportVariable('CMAKE_CXX_COMPILER_LAUNCHER', 'ccache');
-            core.exportVariable('CMAKE_C_COMPILER_LAUNCHER', 'ccache');
-            core.exportVariable('CCACHE_CONFIGPATH', String.raw`${{ github.workspace }}/ccache.conf`);
-            core.exportVariable('CCACHE_DIR', String.raw`${{ github.workspace }}/.ccache`);
-            core.exportVariable('CCACHE_DEBUGDIR', String.raw`${{ github.workspace }}/ccache-debug`);
-            core.exportVariable('CCACHE_LOGFILE', String.raw`${{ github.workspace }}/ccache.log`);
+            const workspace = String.raw`${{ github.workspace }}`;
+
+            const envVariables = {
+                'cache-variant': String.raw`ccache`,
+                'CMAKE_CXX_COMPILER_LAUNCHER': String.raw`ccache`,
+                'CMAKE_C_COMPILER_LAUNCHER': String.raw`ccache`,
+                'CCACHE_CONFIGPATH': String.raw`${workspace}/ccache.conf`,
+                'CCACHE_DIR': String.raw`${workspace}/.ccache`,
+                'CCACHE_DEBUGDIR': String.raw`${workspace}/ccache-debug`,
+                'CCACHE_LOGFILE': String.raw`${workspace}/ccache.log`
+            };
+
+            for (const [key, value] of Object.entries(envVariables)) {
+                core.exportVariable(key, value);
+            }
 
       - name: Update apt (Linux)
         if: runner.os == 'Linux'
