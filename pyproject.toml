@@ -8,7 +8,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "pyluxcore"
-version = "2.9a1.post15"
+version = "2.9a1.post16"
 dependencies = [
   "numpy >= 2; python_version > '3.8'",
   "numpy < 2; python_version <= '3.8'",
