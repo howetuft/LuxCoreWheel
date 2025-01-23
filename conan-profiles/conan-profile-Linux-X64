@@ -10,8 +10,8 @@ compiler.libcxx=libstdc++11
 
 [options]
 openvdb/*:simd=AVX
-embree3/*:shared=True
-embree3/*:with_tbb=True
+embree3/*:shared=False
+embree3/*:with_tbb=False
 embree3/*:sse2=True
 embree3/*:sse42=True
 embree3/*:avx=True
