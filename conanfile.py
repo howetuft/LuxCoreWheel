@@ -30,6 +30,7 @@ _json_version = os.environ["JSON_VERSION"]
 _eigen_version = os.environ["EIGEN_VERSION"]
 _robinhood_version = os.environ["ROBINHOOD_VERSION"]
 _minizip_version = os.environ["MINIZIP_VERSION"]
+_pybind11_version = os.environ["PYBIND11_VERSION"]
 
 class LuxCore(ConanFile):
     name = "luxcorewheels"
@@ -44,7 +45,7 @@ class LuxCore(ConanFile):
         f"spdlog/{_spdlog_version}",
         f"openimageio/{_oiio_version}@luxcorewheels/luxcorewheels",
         f"boost/{_boost_version}",
-        f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",
+        # f"boost-python/{_boost_version}@luxcorewheels/luxcorewheels",  # TODO
         f"openvdb/{_openvdb_version}",
         f"eigen/{_eigen_version}",
         f"embree3/{_embree3_version}",
@@ -53,6 +54,7 @@ class LuxCore(ConanFile):
         f"oidn/{_oidn_version}@luxcorewheels/luxcorewheels",
         f"opensubdiv/{_opensubdiv_version}@luxcorewheels/luxcorewheels",
         f"nlohmann_json/{_json_version}",
+        f"pybind11/{_pybind11_version}",
     ]
 
     default_options = {

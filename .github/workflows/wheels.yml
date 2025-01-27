@@ -71,6 +71,7 @@ jobs:
       EIGEN_VERSION: 3.4.0
       ROBINHOOD_VERSION: 3.11.5
       MINIZIP_VERSION: 4.0.3
+      PYBIND11_VERSION: 2.13.6
 
 
     steps:
@@ -249,7 +250,7 @@ jobs:
             EIGEN_VERSION
             ROBINHOOD_VERSION
             MINIZIP_VERSION
-            OPENSUBDIV_VERSION
+            PYBIND11_VERSION
           CIBW_BEFORE_ALL_LINUX: |
             dnf install -y epel-release
             dnf install -y almalinux-release-devel

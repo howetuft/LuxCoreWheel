@@ -29,6 +29,10 @@ unset(LUXRAYS_DISABLE_CUDA)
 unset(LUXRAYS_DISABLE_OPTIX)
 cmake_policy(SET CMP0074 NEW)  # *_ROOT variable
 
+# Python
+MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
+find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
+
 message(STATUS "LuxCoreWheel - Add conan targets")
 find_package(OpenMP REQUIRED)  # TODO
 find_package(TBB REQUIRED)
@@ -41,7 +45,7 @@ find_package(OpenEXR REQUIRED)
 find_package(embree REQUIRED)
 find_package(Blosc REQUIRED)
 find_package(oidn REQUIRED)
-find_package(Boost_python REQUIRED)
+#find_package(Boost_python REQUIRED)  # TODO
 find_package(Boost REQUIRED)
 find_package(OpenVDB REQUIRED)
 find_package(Imath REQUIRED)
@@ -50,14 +54,11 @@ find_package(blender-types REQUIRED)
 find_package(OpenSubdiv REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(robin_hood REQUIRED)
+find_package(pybind11 CONFIG REQUIRED)
 
 # Bison/Flex
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
-
-# Python
-MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
-find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 
 # If we are here, it means we have found all dependencies
 # So let's tell LuxCore all is ok
@@ -139,9 +140,9 @@ target_link_libraries(pyluxcore PRIVATE
     bcd
     OpenVDB::openvdb
     spdlog::spdlog_header_only
-    Boost::python
-    boost::boost
+    pybind11::pybind11
     Python::Module
+    boost::boost
     onetbb::onetbb
     blender-types
     robin_hood::robin_hood

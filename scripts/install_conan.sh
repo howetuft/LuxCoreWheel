@@ -30,12 +30,12 @@ fi
 echo "::group::CIBW_BEFORE_BUILD: pip"
 pip install conan
 pip install ninja
+# TODO Remove
 if [[ $PYTHON_MINOR == "8" ]]; then
   pip install "numpy < 2"
 else
   pip install "numpy >= 2"
 fi
-pip install pywin32  # TODO
 echo "::endgroup::"
 
 if [[ $RUNNER_OS == "Linux" ]]; then
@@ -60,11 +60,6 @@ echo "::endgroup::"
 
 echo "::group::CIBW_BEFORE_BUILD: Blender types"
 conan_create_install blender-types $BLENDER_VERSION
-echo "::endgroup::"
-
-echo "::group::CIBW_BEFORE_BUILD: Boost Python"
-# Private boost-python is patched to be compatible with numpy 2
-conan_create_install boost-python $BOOST_VERSION
 echo "::endgroup::"
 
 echo "::group::CIBW_BEFORE_BUILD: OIIO"
