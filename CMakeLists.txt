@@ -147,7 +147,8 @@ target_link_libraries(pyluxcore PRIVATE
     blender-types
     robin_hood::robin_hood
 )
-set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
+# TODO
+#set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
 
 target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
 

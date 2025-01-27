@@ -45,6 +45,7 @@ jobs:
       # Reminder: report all variables here to CIBW_ENVIRONMENT_PASS_LINUX
       BUILD_TYPE: Release
       # SANITIZE: true # uncomment to sanitize
+      CXX_VERSION: 20
       GCC_VERSION: 14
       GLIBC_VERSION: 2_28
       GH_TOKEN: ${{ github.token }}
@@ -54,7 +55,6 @@ jobs:
       LUXCORE_REPO: ${{ inputs.luxcore_repo != '' && inputs.luxcore_repo || 'Howetuft/LuxCore' }}  # TODO
       LUXCORE_REF: ${{ inputs.luxcore_ref != '' && inputs.luxcore_ref || 'for_v2.10' }}
       # Versions
-      CXX_VERSION: 17
       BOOST_VERSION: 1.84.0
       OIIO_VERSION: 2.5.16.0
       OCIO_VERSION: 2.4.0
