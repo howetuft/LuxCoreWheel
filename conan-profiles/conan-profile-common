@@ -24,6 +24,8 @@ pkgconf/*
 yasm/*
 
 [options]
+spdlog/*:use_std_fmt=True
+spdlog/*:header_only=True
 oidn/*:shared=True
 embree3/*:shared=True
 embree3/*:with_tbb=True

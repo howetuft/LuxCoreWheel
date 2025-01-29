@@ -51,7 +51,6 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       PYTHON_MINOR: ${{ matrix.python-minor }}
       BOOST_INSTALL_LAYOUT: system
-      SPDLOG_FMT_EXTERNAL: on
       LUXCORE_REPO: ${{ inputs.luxcore_repo != '' && inputs.luxcore_repo || 'Howetuft/LuxCore' }}  # TODO
       LUXCORE_REF: ${{ inputs.luxcore_ref != '' && inputs.luxcore_ref || 'for_v2.10' }}
       # Versions
@@ -65,7 +64,6 @@ jobs:
       OPENVDB_VERSION: 11.0.0
       SPDLOG_VERSION: 1.15.0
       EMBREE3_VERSION: 3.13.5
-      FMT_VERSION: 11.0.2
       OPENSUBDIV_VERSION: 3.6.0
       JSON_VERSION: 3.11.3
       EIGEN_VERSION: 3.4.0
@@ -101,7 +99,7 @@ jobs:
             macOS) _workspace="$GITHUB_WORKSPACE";;
             *) echo "Unhandled os ${{ runner.os }}";exit 64;;
           esac
-          echo "WORKSPACE=${_workspace}" >> "$GITHUB_ENV"
+          echo "WORKSPACE=${_workspace}" >> $GITHUB_ENV
 
       - name: Set conan preset
         uses: actions/github-script@v7
@@ -177,25 +175,24 @@ jobs:
 
           echo "ASAN_PATH=${_T}/usr/lib/gcc/x86_64-redhat-linux/${_V}/libasan.so" >> $GITHUB_ENV
 
-      - name: Set MacOS deployment target
+      - name: Prepare MacOS
         if: runner.os == 'macOS'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            if ('${{ runner.arch }}' == 'X64') {
-              target = '10.13';
-              arch='x86_64';
-            }
-            else if ('${{ env.PYTHON_MINOR }}' != '8') {
-              target = '11.0';
-              arch='armv8';
-            }
-            else {
-              target = '12.0';
-              arch='armv8';
-            }
-            core.exportVariable('MACOSX_DEPLOYMENT_TARGET', target);
-            core.exportVariable('PKG_ARCH', arch);
+        shell: bash
+        run: |
+          if [[ '${{ runner.arch }}' == 'X64' ]]; then
+            echo "PKG_ARCH=x86_64" >> $GITHUB_ENV
+            brew install llvm@16
+            echo "CC=$(brew --prefix llvm@16)/bin/clang" >> $GITHUB_ENV
+            echo "CXX=$(brew --prefix llvm@16)/bin/clang++" >> $GITHUB_ENV
+            echo "CPLUS_INCLUDE_PATH=" >> $GITHUB_ENV
+            #sudo xcodes install 15.3
+            #sudo xcode-select -switch /Applications/Xcode_15.3.app
+          else
+            echo "PKG_ARCH=armv8" >> $GITHUB_ENV
+            sudo xcode-select -switch /Applications/Xcode_16.2.app
+          fi
+
+          echo "MACOSX_DEPLOYMENT_TARGET=13.13" >> "$GITHUB_ENV"
 
       - name: Retrieve cached dependencies
         id: retrieve-cache-deps
@@ -232,7 +229,6 @@ jobs:
             CMAKE_C_COMPILER_LAUNCHER
             PYTHON_MINOR
             BOOST_INSTALL_LAYOUT
-            SPDLOG_FMT_EXTERNAL
             CXX_VERSION
             BOOST_VERSION
             OIIO_VERSION
@@ -244,7 +240,6 @@ jobs:
             OPENVDB_VERSION
             SPDLOG_VERSION
             EMBREE3_VERSION
-            FMT_VERSION
             OPENSUBDIV_VERSION
             JSON_VERSION
             EIGEN_VERSION
