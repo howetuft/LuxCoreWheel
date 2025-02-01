@@ -18,6 +18,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_FIND_PACKAGE_TARGETS_GLOBAL ON)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(BUILD_LUXCORE_DLL 1)
@@ -131,26 +132,26 @@ if ((DEFINED ENV{SANITIZE}) AND LINUX)
   set(HAVE_SANITIZER TRUE)
 endif()
 
-target_link_libraries(pyluxcore PRIVATE
-    $<$<BOOL:${HAVE_SANITIZER}>:asan>
-    slg-core
-    slg-film
-    slg-kernels
-    luxrays
-    bcd
-    OpenVDB::openvdb
-    spdlog::spdlog_header_only
-    pybind11::pybind11
-    Python::Module
-    boost::boost
-    onetbb::onetbb
-    blender-types
-    robin_hood::robin_hood
-)
+#target_link_libraries(pyluxcore PRIVATE
+    #$<$<BOOL:${HAVE_SANITIZER}>:asan>
+    #slg-core
+    #slg-film
+    #slg-kernels
+    #luxrays
+    #bcd
+    #OpenVDB::openvdb
+    #spdlog::spdlog_header_only
+    #pybind11::pybind11
+    #Python::Module
+    #boost::boost
+    #onetbb::onetbb
+    #blender-types
+    #robin_hood::robin_hood
+#)
 # TODO
 #set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
 
-target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
+#target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
 
 if(APPLE)
   # TODO
