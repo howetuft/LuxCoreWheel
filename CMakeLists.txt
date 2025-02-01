@@ -158,7 +158,10 @@ if(APPLE)
   target_link_libraries(bcd PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
+else()
+  target_link_libraries(bcd PRIVATE OpenMP::OpenMP_CXX)
 endif(APPLE)
+
 
 # oidnDenoise
 add_executable(oidn-denoise IMPORTED)
