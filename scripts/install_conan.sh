@@ -30,12 +30,6 @@ fi
 echo "::group::CIBW_BEFORE_BUILD: pip"
 pip install conan
 pip install ninja
-# TODO Remove
-if [[ $PYTHON_MINOR == "8" ]]; then
-  pip install "numpy < 2"
-else
-  pip install "numpy >= 2"
-fi
 echo "::endgroup::"
 
 if [[ $RUNNER_OS == "Linux" ]]; then
