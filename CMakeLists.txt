@@ -13,8 +13,6 @@ cmake_print_variables(CMAKE_BUILD_TYPE)
 cmake_print_variables(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT)
 cmake_print_variables(CMAKE_CXX_FLAGS)
 
-set(CMAKE_CXX_STANDARD $ENV{CXX_VERSION})
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
 set(BUILD_LUXCORE_DLL 1)
@@ -24,69 +22,7 @@ set(LUXRAYS_ENABLE_OPTIX TRUE)
 unset(LUXRAYS_DISABLE_OPENCL)
 unset(LUXRAYS_DISABLE_CUDA)
 unset(LUXRAYS_DISABLE_OPTIX)
-cmake_policy(SET CMP0074 NEW)  # *_ROOT variable
 
-## Python
-#MESSAGE(STATUS "LuxCoreWheel - Python_ROOT_DIR: ${Python_ROOT_DIR}")
-#find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
-
-#message(STATUS "LuxCoreWheel - Add conan targets")
-#find_package(OpenMP REQUIRED)  # TODO
-#find_package(TBB REQUIRED)
-#find_package(minizip REQUIRED)
-#find_package(spdlog REQUIRED)
-#find_package(OpenImageIO REQUIRED)
-#find_package(PNG REQUIRED)
-#find_package(OpenColorIO REQUIRED)
-#find_package(OpenEXR REQUIRED)
-#find_package(embree REQUIRED)
-#find_package(Blosc REQUIRED)
-#find_package(oidn REQUIRED)
-##find_package(Boost_python REQUIRED)  # TODO
-#find_package(Boost REQUIRED)
-#find_package(OpenVDB REQUIRED)
-#find_package(Imath REQUIRED)
-#find_package(Eigen3 REQUIRED)
-#find_package(blender-types REQUIRED)
-#find_package(OpenSubdiv REQUIRED)
-#find_package(nlohmann_json REQUIRED)
-#find_package(robin_hood REQUIRED)
-#find_package(pybind11 CONFIG REQUIRED)
-
-## Bison/Flex
-#find_package(BISON REQUIRED)
-#find_package(FLEX REQUIRED)
-
-## If we are here, it means we have found all dependencies
-## So let's tell LuxCore all is ok
-#set(OPENIMAGEIO_FOUND TRUE)
-#set(EMBREE_FOUND TRUE)
-#set(OIDN_FOUND TRUE)
-#set(BLOSC_FOUND TRUE)
-
-#if(APPLE)
-  ## OpenMP
-  #find_package(OpenMP REQUIRED)
-  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -fopenmp -Wno-register")
-#endif(APPLE)
-
-#if(LINUX)
-  #set(OpenGL_GL_PREFERENCE "LEGACY")
-#endif(LINUX)
-
-#if(MSVC)
-  ## Minimizes Windows header files
-  ##ADD_DEFINITIONS(-DWIN32_LEAN_AND_MEAN)
-  ## Do not define MIN and MAX macros
-  #ADD_DEFINITIONS(-DNOMINMAX)
-  ## Do not warn about standard but insecure functions
-  #ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS)
-  ## Enable Unicode
-  #ADD_DEFINITIONS(-D_UNICODE)
-  ## Enable SSE2/SSE/MMX
-  #ADD_DEFINITIONS(-D__SSE2__ -D__SSE__ -D__MMX__)
-  #add_link_options("/INCREMENTAL:NO" "/PDBALTPATH:%_PDB%")
-#endif(MSVC)
 
 # Add LuxCore
 add_subdirectory(LuxCore)
@@ -128,30 +64,8 @@ if ((DEFINED ENV{SANITIZE}) AND LINUX)
   set(HAVE_SANITIZER TRUE)
 endif()
 
-#target_link_libraries(pyluxcore PRIVATE
-    #$<$<BOOL:${HAVE_SANITIZER}>:asan>
-    #slg-core
-    #slg-film
-    #slg-kernels
-    #luxrays
-    #bcd
-    #OpenVDB::openvdb
-    #spdlog::spdlog_header_only
-    #pybind11::pybind11
-    #Python::Module
-    #boost::boost
-    #onetbb::onetbb
-    #blender-types
-    #robin_hood::robin_hood
-#)
-# TODO
-#set_property(TARGET pyluxcore PROPERTY CXX_STANDARD 17)
-
-#target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
 
 if(APPLE)
-  # TODO
-  #target_link_libraries(opensubdiv PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(bcd PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
