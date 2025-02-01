@@ -2,20 +2,22 @@ include(conan-profile-common)
 
 [settings]
 os=Macos
-os.version=13.3
+os.version=10.13
 arch=x86_64
-compiler=clang
-compiler.version=16
+compiler=apple-clang
+compiler.version=14.0
 compiler.cppstd={{ os.getenv("CXX_VERSION") }}
-compiler.libcxx=libstdc++11
+compiler.libcxx=libc++
 
 [options]
 minizip-ng/*:with_zlib=True
 minizip-ng/*:with_libcomp=False
 openvdb/*:simd=AVX
 
+[buildenv]
+CXX=clang++
+CC=clang
+
 [conf]
-&:tools.build:cxxflags+=["-ftree-vectorize", "-march=x86-64-v3", "-O3", "-mno-avx2", "-I/usr/local/opt/llvm@16/include"]
-&:tools.build:exelinkflags+=['-L/usr/local/opt/llvm@16/lib/c++ -Wl,-rpath,/usr/local/opt/llvm@16/lib/c++"]
-&:tools.build:sharedlinkflags+=['-L/usr/local/opt/llvm@16/lib/c++ -Wl,-rpath,/usr/local/opt/llvm@16/lib/c++"]
+&:tools.build:cxxflags+=["-ftree-vectorize", "-march=x86-64-v3", "-O3", "-mno-avx2"]
 # NB: Github MacOS X64 runner does not support avx2 nor avx512

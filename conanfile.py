@@ -24,6 +24,7 @@ _openvdb_version = os.environ["OPENVDB_VERSION"]
 _tbb_version = os.environ["TBB_VERSION"]
 _spdlog_version = os.environ["SPDLOG_VERSION"]
 _embree3_version = os.environ["EMBREE3_VERSION"]
+_fmt_version = os.environ["FMT_VERSION"]
 _opensubdiv_version = os.environ["OPENSUBDIV_VERSION"]
 _json_version = os.environ["JSON_VERSION"]
 _eigen_version = os.environ["EIGEN_VERSION"]
@@ -57,7 +58,7 @@ class LuxCore(ConanFile):
     ]
 
     default_options = {
-        # "fmt/*:header_only": True,  # TODO
+        "fmt/*:header_only": True,
         "spdlog/*:header_only": True,
         "openimageio/*:with_ffmpeg": False,
         "openimageio/*:with_libheif": False,
@@ -82,7 +83,7 @@ class LuxCore(ConanFile):
             transitive_libs=True,
         )
         self.requires("imath/3.1.9", override=True)
-        # self.requires(f"fmt/{_fmt_version}", override=True)  # TODO
+        self.requires(f"fmt/{_fmt_version}", override=True)
 
         if self.settings.os == "Macos":
             self.requires("llvm-openmp/18.1.8")

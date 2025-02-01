@@ -4,7 +4,7 @@ include(conan-profile-common)
 
 [settings]
 os=Macos
-os.version=13.3
+os.version=11.0
 arch=armv8
 compiler=apple-clang
 compiler.version=15
@@ -37,3 +37,8 @@ embree3/*:avx2=False
 embree3/*:neon2x=True
 
 {% endif %}
+
+[buildenv]
+CXX=clang++
+CC=clang
+&:tools.build:cxxflags=["-O3"]
