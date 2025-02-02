@@ -5,9 +5,6 @@
 cmake_minimum_required(VERSION 3.30.0)
 project(luxcore_wrapper)
 
-enable_language(C)
-enable_language(CXX)
-
 include(CMakePrintHelpers)
 cmake_print_variables(CMAKE_BUILD_TYPE)
 cmake_print_variables(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT)
@@ -28,31 +25,6 @@ unset(LUXRAYS_DISABLE_OPTIX)
 add_subdirectory(LuxCore)
 
 
-
-# Add deps targets to LuxCore libs
-#target_link_libraries(luxrays embree openimageio::openimageio boost::boost)
-#target_link_libraries(bcd PRIVATE boost::boost Eigen3::Eigen)
-#target_link_libraries(slg-core PRIVATE
-    #boost::boost
-    #OpenColorIO::OpenColorIO
-    #OpenVDB::openvdb
-    #openexr::openexr
-    #opensubdiv::opensubdiv
-    #Imath::Imath
-    #embree
-    #openimageio::openimageio
-    #nlohmann_json::nlohmann_json
-    #robin_hood::robin_hood
-#)
-#target_link_libraries(slg-kernels PRIVATE boost::boost)
-#target_link_libraries(slg-film PRIVATE
-    #boost::boost
-    #OpenColorIO::OpenColorIO
-    #embree
-    #oidn::oidn
-    #openimageio::openimageio
-#)
-
 # sanitize
 if ((DEFINED ENV{SANITIZE}) AND LINUX)
   message(STATUS "Linking with asan")
@@ -66,8 +38,6 @@ endif()
 
 
 if(APPLE)
-  #target_link_libraries(bcd PRIVATE llvm-openmp::llvm-openmp)
-  #target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 else()
   #target_link_libraries(bcd PRIVATE OpenMP::OpenMP_CXX)
