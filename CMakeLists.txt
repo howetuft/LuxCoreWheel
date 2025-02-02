@@ -5,6 +5,9 @@
 cmake_minimum_required(VERSION 3.30.0)
 project(luxcore_wrapper NONE)
 
+enable_language(C)
+enable_language(CXX)
+
 include(CMakePrintHelpers)
 cmake_print_variables(CMAKE_BUILD_TYPE)
 cmake_print_variables(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT)
@@ -14,7 +17,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
 
 # Set options
-set(BUILD_LUXCORE_DLL ON)
 set(LUXCORE_PYLUXCORE ON)
 set(LUXRAYS_ENABLE_OPENCL TRUE)
 set(LUXRAYS_ENABLE_CUDA TRUE)
