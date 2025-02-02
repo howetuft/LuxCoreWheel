@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 cmake_minimum_required(VERSION 3.30.0)
-project(luxcore_wrapper)
+project(luxcore_wrapper NONE)
 
 include(CMakePrintHelpers)
 cmake_print_variables(CMAKE_BUILD_TYPE)
@@ -12,20 +12,20 @@ cmake_print_variables(CMAKE_CXX_FLAGS)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 set(CMAKE_INSTALL_NAME_DIR "$ENV{CMAKE_INSTALL_NAME_DIR}")
-set(BUILD_LUXCORE_DLL 1)
+
+# Set options
+set(BUILD_LUXCORE_DLL ON)
+set(LUXCORE_PYLUXCORE ON)
 set(LUXRAYS_ENABLE_OPENCL TRUE)
 set(LUXRAYS_ENABLE_CUDA TRUE)
 set(LUXRAYS_ENABLE_OPTIX TRUE)
-unset(LUXRAYS_DISABLE_OPENCL)
-unset(LUXRAYS_DISABLE_CUDA)
-unset(LUXRAYS_DISABLE_OPTIX)
 
 
 # Add LuxCore
 add_subdirectory(LuxCore)
 
 
-# sanitize
+# Add sanitizer (optional - only for Linux)
 if ((DEFINED ENV{SANITIZE}) AND LINUX)
   message(STATUS "Linking with asan")
   add_library(asan SHARED IMPORTED)
@@ -36,13 +36,8 @@ if ((DEFINED ENV{SANITIZE}) AND LINUX)
   set(HAVE_SANITIZER TRUE)
 endif()
 
-
-if(APPLE)
-  target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
-else()
-  #target_link_libraries(bcd PRIVATE OpenMP::OpenMP_CXX)
-endif(APPLE)
-
+target_link_libraries(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:asan>)
+target_link_options(pyluxcore PRIVATE $<$<BOOL:${HAVE_SANITIZER}>:-fsanitize=address>)
 
 # Installation
 
