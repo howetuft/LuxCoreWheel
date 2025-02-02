@@ -27,33 +27,33 @@ unset(LUXRAYS_DISABLE_OPTIX)
 # Add LuxCore
 add_subdirectory(LuxCore)
 
-# sanitize
 
 
 # Add deps targets to LuxCore libs
-target_link_libraries(luxrays embree openimageio::openimageio boost::boost)
-target_link_libraries(bcd PRIVATE boost::boost Eigen3::Eigen)
-target_link_libraries(slg-core PRIVATE
-    boost::boost
-    OpenColorIO::OpenColorIO
-    OpenVDB::openvdb
-    openexr::openexr
-    opensubdiv::opensubdiv
-    Imath::Imath
-    embree
-    openimageio::openimageio
-    nlohmann_json::nlohmann_json
-    robin_hood::robin_hood
-)
-target_link_libraries(slg-kernels PRIVATE boost::boost)
-target_link_libraries(slg-film PRIVATE
-    boost::boost
-    OpenColorIO::OpenColorIO
-    embree
-    oidn::oidn
-    openimageio::openimageio
-)
+#target_link_libraries(luxrays embree openimageio::openimageio boost::boost)
+#target_link_libraries(bcd PRIVATE boost::boost Eigen3::Eigen)
+#target_link_libraries(slg-core PRIVATE
+    #boost::boost
+    #OpenColorIO::OpenColorIO
+    #OpenVDB::openvdb
+    #openexr::openexr
+    #opensubdiv::opensubdiv
+    #Imath::Imath
+    #embree
+    #openimageio::openimageio
+    #nlohmann_json::nlohmann_json
+    #robin_hood::robin_hood
+#)
+#target_link_libraries(slg-kernels PRIVATE boost::boost)
+#target_link_libraries(slg-film PRIVATE
+    #boost::boost
+    #OpenColorIO::OpenColorIO
+    #embree
+    #oidn::oidn
+    #openimageio::openimageio
+#)
 
+# sanitize
 if ((DEFINED ENV{SANITIZE}) AND LINUX)
   message(STATUS "Linking with asan")
   add_library(asan SHARED IMPORTED)
@@ -66,17 +66,12 @@ endif()
 
 
 if(APPLE)
-  target_link_libraries(bcd PRIVATE llvm-openmp::llvm-openmp)
-  target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
+  #target_link_libraries(bcd PRIVATE llvm-openmp::llvm-openmp)
+  #target_link_libraries(slg-core PRIVATE llvm-openmp::llvm-openmp)
   target_link_libraries(pyluxcore PRIVATE llvm-openmp::llvm-openmp)
 else()
-  target_link_libraries(bcd PRIVATE OpenMP::OpenMP_CXX)
+  #target_link_libraries(bcd PRIVATE OpenMP::OpenMP_CXX)
 endif(APPLE)
-
-
-# oidnDenoise
-add_executable(oidn-denoise IMPORTED)
-set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
 
 
 # Installation
@@ -86,6 +81,9 @@ INSTALL(TARGETS pyluxcore DESTINATION pyluxcore)
 
 
 # oidnDenoise (much more work...)
+add_executable(oidn-denoise IMPORTED)
+set_property(TARGET oidn-denoise PROPERTY IMPORTED_LOCATION "${LUX_OIDN_DENOISE_PATH}")
+
 if(WIN32)
   # Windows lacks rpath system, so we have to put oidnDenoise in the same
   # folder as the dlls...
@@ -134,21 +132,6 @@ if(WIN32)
     DESTINATION "pyluxcore.libs"
     RENAME "OpenImageDenoise_device_cpu.pyd"
   )
-  # TODO
-  #add_library(oidn-device-cpu SHARED IMPORTED)
-  #set_target_properties(
-    #oidn-device-cpu PROPERTIES
-    #IMPORTED_LOCATION "${LUX_OIDN_DENOISE_BINS}/OpenImageDenoise_device_cpu.dll"
-    #OUTPUT_NAME "OpenImageDenoise_device_cpu.pyd"
-  #)
-  #INSTALL(
-    #IMPORTED_RUNTIME_ARTIFACTS oidn-device-cpu
-    #DESTINATION "pyluxcore.libs"
-    #PERMISSIONS
-      #OWNER_WRITE OWNER_READ OWNER_EXECUTE
-      #GROUP_READ GROUP_EXECUTE
-      #WORLD_READ WORLD_EXECUTE
-  #)
 
   # Delvewheel doesn't handle executables, however we need to delocate oidnDenoise.
   # Therefore we had to let Delvewheel believe oidnDenoise is a lib, and now
@@ -156,8 +139,4 @@ if(WIN32)
   message(STATUS "oidnDenoise suffix back to pyd")
   INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/oidnDenoise.exe\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/oidnDenoise.pyd\")")
 
-  # TODO
-  # device_cpu should have a pyd extension
-  #INSTALL(CODE "file(RENAME \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/OpenImageDenoise_device_cpu.dll\" \"${CMAKE_INSTALL_PREFIX}/pyluxcore.libs/OpenImageDenoise_device_cpu.pyd\")")
-  # This will be reverted after repairing
 endif(WIN32)
